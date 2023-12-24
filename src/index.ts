@@ -1,34 +1,45 @@
-import Quill, { DeltaOperation } from "quill";
-import MainToolbar from "./toolbar/main/MainToolbar";
-import AbstractElement from "./ui/AbstractElement";
-import IElement from "./ui/IElement";
+import Quill from "quill";
+import Toolbar from "./toolbar/main/Toolbar.ts";
+import View from "./ui/View.ts";
+import IView from "./ui/IView.ts";
+import Formatter from "./formatter/Formatter.ts";
+import Header from "./formats/Heading.ts";
 
 import { ScrollBlot } from "parchment"
 import { Blot } from "parchment/dist/typings/blot/abstract/blot"
 
+
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
-class Document extends AbstractElement {
+
+class Document extends View {
 
   protected editorElement: HTMLDivElement
 
-  protected toolbarElement: IElement
+  protected toolbarElement: IView
 
-  protected quill?: Quill
+  protected _quill: Quill
 
   protected contents: string
+
+  protected formatter: Formatter
 
   constructor(contents: string) {
     const element = document.createElement("div")
     super(element)
 
     this.contents = contents
-
     element.className = "ntr-doc"
 
+    Header.registerBlot()
+
     this.editorElement = document.createElement("div")
-    this.toolbarElement = MainToolbar.simple()
+    this._quill = new Quill(this.editorElement)
+
+    this.formatter = new Formatter(this._quill)
+
+    this.toolbarElement = Toolbar.simple(this.formatter)
     this.setupEditorElement()
   }
 
@@ -36,31 +47,19 @@ class Document extends AbstractElement {
 
     this.addElement(this.toolbarElement)
     this.addNode(this.editorElement)
-    
-    this.quill = new Quill(this.editorElement)
 
-    const text = this.quill.clipboard.convert(this.contents)
-    this.quill.setContents(text)
+    const text = this._quill.clipboard.convert({html: this.contents})
+    this._quill.setContents(text)
+    this._quill?.focus()
 
-    this.quill.insertText(this.quill.getLength(), "Line")
-
-
-    this.quill.root.addEventListener("mousemove", this.onMouseMove.bind(this))
-    this.quill.on("editor-change", this.onEditorChange.bind(this))
-
-    setTimeout(() => {
-      const p = document.querySelectorAll(".ql-editor p")[1]
-
-      this.quill?.insertText(this.nextLineByNode(p), "test new line\n")
-
-    }, 1000)
-    
+    this._quill.root.addEventListener("mousemove", this.onMouseMove.bind(this))
+    // this.quill.on("editor-change", this.onEditorChange.bind(this))
 
     return this.element
   }
 
   protected get scroll(): ScrollBlot {
-    return this.quill!.scroll as unknown as ScrollBlot
+    return this._quill!.scroll as unknown as ScrollBlot
   }
 
   protected findBlot(dom: Node): Blot | undefined {
@@ -85,7 +84,7 @@ class Document extends AbstractElement {
   }
 
   protected nextLine(blot: Blot) {
-    const index = this.quill!.getIndex(blot)
+    const index = this._quill!.getIndex(blot)
     return index + blot.length() 
   }
 
@@ -93,7 +92,7 @@ class Document extends AbstractElement {
     this.editorElement.className = "ntr-editor"
   }
 
-  protected onMouseMove(event: MouseEvent) {
+  protected onMouseMove(_event: MouseEvent) {
     // const element = event.target as HTMLElement
     // const rect = element.getBoundingClientRect()
 
@@ -105,14 +104,20 @@ class Document extends AbstractElement {
   protected onEditorChange(name: string, delta: any) {
     console.debug(name, delta)
   }
+
+  public get quill(): Quill {
+    return this._quill
+  }
 }
 
 
 
-export default function (element: string | HTMLElement, contents?: string) {
+export default function (element: string | HTMLElement, contents?: string): Document {
   const doc = new Document(contents ?? "")
   const docEle = doc.render()
 
   if (element instanceof HTMLElement)
     element.append(docEle as HTMLElement)
+
+  return doc
 }

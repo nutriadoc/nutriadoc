@@ -15,16 +15,16 @@
 // const binding = new QuillBinding(text, editor)
 // const websocket = new WebsocketProvider("ws://localhost:1234", "quill-demo", ydoc)
 
-import MainToolbar from './toolbar/main/MainToolbar'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+// import MainToolbar from './toolbar/main/MainToolbar'
+// import 'bootstrap-icons/font/bootstrap-icons.css'
 
-const app = document.getElementById("app")
-var toolbar = MainToolbar.simple()
-app?.appendChild(toolbar.render() as Node)
-
-const insert = toolbar.findItem("insert")!
-const helloworld = document.createElement("div")
-helloworld.innerHTML = "Hello World"
-// const menu = new ContextualMenu(insert.element, ContextualMenuPosition.BottomLeft, [new AbstractElement(helloworld)])
+// const app = document.getElementById("app")
+// var toolbar = MainToolbar.simple()
+// app?.appendChild(toolbar.render() as Node)
+//
+// const insert = toolbar.findItem("insert")!
+// const helloworld = document.createElement("div")
+// helloworld.innerHTML = "Hello World"
+// const menu = new Floating(insert.element, FloatingPosition.BottomLeft, [new AbstractElement(helloworld)])
 // toolbar.addElement(menu)
 // toolbar.active("insert")
