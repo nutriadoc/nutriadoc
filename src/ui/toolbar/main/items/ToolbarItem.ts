@@ -107,6 +107,11 @@ export default class ToolbarItem extends View implements IView {
     this._element.classList.add("active")
   }
 
+  public deactive(): void {
+    this._isActived = false
+    this._element.classList.remove("active")
+  }
+
   public enableOrDisableColor() {
     return this._isEnabled ? ENTABLE_COLOR : DISABLE_COLOR
   }

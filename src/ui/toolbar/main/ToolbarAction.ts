@@ -58,6 +58,11 @@ export default class ToolbarAction {
         this.setFontSize(e.type, e.menu, e.menuItem)
         break
       }
+      default: {
+        const format = keyToFormat(e.type)
+        this.formatter.format(format)
+        break
+      }
     }
   }
 
