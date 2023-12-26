@@ -2,6 +2,7 @@ import { StringMap } from "quill";
 import AbstractFormatter from "./AbstractFormatter.ts";
 import Format from "./Format.ts";
 import MenuItem from "../../ui/menu/MenuItem.ts";
+import i18n from "../../i18n";
 
 export default class FontSizeFormatter extends AbstractFormatter {
   public select(formats: StringMap): void {
@@ -13,7 +14,8 @@ export default class FontSizeFormatter extends AbstractFormatter {
     const [fontSize] = fontSizes
 
     const item = this.toolbar.findItem("font-size")
-    item?.setLabel(fontSize)
+    item?.setLabel(fontSize ?? i18n.t("menu.fontSize"))
+
     const menu = this.toolbar.findMenu("font-size")
     menu?.active(fontSize)
   }
@@ -23,11 +25,10 @@ export default class FontSizeFormatter extends AbstractFormatter {
     if (format != Format.FontSize) return
 
     const item = params[0] as MenuItem
-    const delta = this.quill.format(
+    this.quill.format(
       "size",
       item.key
     )
-    console.debug(delta)
   }
 
 }
