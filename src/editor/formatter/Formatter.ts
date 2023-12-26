@@ -1,42 +1,34 @@
 import Quill, {RangeStatic, Sources} from "quill";
-import Format from "./Format";
+import Format from "./Format.ts";
 import StylesFormatter from "./StylesFormatter.ts";
-import ToolbarAction from "../toolbar/main/ToolbarAction.ts";
+import ToolbarAction from "../../ui/toolbar/main/ToolbarAction.ts";
+import FontFamilyFormatter from "./FontFamilyFormatter.ts";
+import AbstractFormatter from "./AbstractFormatter.ts";
 
 export default class Formatter {
 
   protected quill: Quill
 
-  protected stylesFormatter: StylesFormatter
+  protected formatterClasses = [ StylesFormatter, FontFamilyFormatter]
+
+  protected formatters: AbstractFormatter[]
 
   protected _toolbarAction?: ToolbarAction
 
   public constructor(quill: Quill) {
     this.quill = quill
-    this.stylesFormatter = new StylesFormatter(this.quill)
+    this.formatters = this.formatterClasses.map(cls => new cls(this.quill))
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))
     this.quill.root.addEventListener('mouseup', this.onMouseUp.bind(this))
   }
 
-  format(format: Format) {
+  format(format: Format, ...params: any[]) {
     const range = this.quill.getSelection()
     if (range == null) return
 
-    switch (format) {
-      case Format.Heading1:
-      case Format.Heading2:
-      case Format.Heading3:
-      case Format.Heading4:
-      case Format.Heading5:
-      case Format.Heading6:
-      case Format.Heading7:
-      case Format.Title:
-      case Format.Subtitle:
-        this.stylesFormatter.format(format)
-        break;
-    }
+    this.formatters.forEach(formatter => formatter.format(format, ...params))
   }
 
   /**
@@ -49,16 +41,17 @@ export default class Formatter {
   textChange(_delta: any, _oldDelta: any, source: Sources) {
     const range = this.quill.getSelection()
     if (range == null) return
-    this.stylesFormatter.select(range, range, source)
+    this.select(range, range, source)
   }
 
-  select(range: RangeStatic, oldRange: RangeStatic, source: Sources) {
-    console.debug("selection-change", range, oldRange, source)
-    this.stylesFormatter.select(range, oldRange, source)
+  select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
+    const format = this.quill.getFormat(range)
+    this.formatters.forEach(formatter => formatter.select(format))
   }
 
   public set toolbarAction(value: ToolbarAction) {
     this._toolbarAction = value
-    this.stylesFormatter.toolbarAction = value
+
+    this.formatters.forEach(formatter => formatter.toolbarAction = value)
   }
 }

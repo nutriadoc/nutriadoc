@@ -1,4 +1,4 @@
-import i18n from "../../../i18n";
+import i18n from "../../../../i18n";
 import ToolbarItem from "./ToolbarItem.ts";
 import ToolbarItemIcon from "./ToolbarItemIcon.ts";
 import { ToolbarSeparatorItem } from "./ToolbarSeparatorItem.ts";
@@ -48,11 +48,16 @@ export default class ToolbarItemFactory {
   }
 
   public font(): ToolbarItem {
-    return this.createItem({
+    const font = this.createItem({
       key: "font",
       name: i18n.t("menu.font"),
       canExpand: true,
     })
+    const element = font.nameElement as HTMLElement
+    element.style.width = "100px"
+    element.style.overflowX = "hidden"
+    element.style.whiteSpace = "nowrap"
+    return font
   }
 
   public fontSize(): ToolbarItem {

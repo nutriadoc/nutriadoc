@@ -1,13 +1,15 @@
-import FloatingPosition from "../../ui/floating/FloatingPosition.ts";
-import InsertMenu from "../components/insert/InsertMenu";
-import MenuItemEvent from "../components/menu/MenuItemEvent";
-import StylesMenu from "../components/styles/StylesMenu";
+import FloatingPosition from "../../floating/FloatingPosition.ts";
+import InsertMenu from "../components/insert/InsertMenu.ts";
+import MenuItemEvent from "../../menu/MenuItemEvent.ts";
+import StylesMenu from "../components/styles/StylesMenu.ts";
 import Toolbar from "./Toolbar.ts";
 import ToolbarItem from "./items/ToolbarItem.ts";
 import ToolbarItemEvent from "./events/ToolbarItemEvent.ts";
-import Formatter from "../../formatter/Formatter.ts";
-import Format from "../../formatter/Format.ts";
-import i18n from "../../i18n";
+import Formatter from "../../../editor/formatter/Formatter.ts";
+import Format, {keyToFormat} from "../../../editor/formatter/Format.ts";
+import i18n from "../../../i18n";
+import FontMenu from "../components/font/FontMenu.ts";
+import {FontMenuEvent} from "../components/font/FontMenuEvent.ts";
 
 export default class ToolbarAction {
 
@@ -16,6 +18,8 @@ export default class ToolbarAction {
   protected insertMenu?: InsertMenu
 
   protected stylesMenu?: StylesMenu
+
+  protected fontMenu?: FontMenu
 
   protected listener: Map<string, Function> = new Map<string, Function>()
 
@@ -32,6 +36,7 @@ export default class ToolbarAction {
   registerToolbarItemListener() {
     this.listener.set("insert", this.onInsertMenuClick.bind(this))
     this.listener.set("styles", this.onStylesMenuClick.bind(this))
+    this.listener.set("font", this.onFontMenuClick.bind(this))
   }
 
   setupToolbarItemListener() {
@@ -70,37 +75,8 @@ export default class ToolbarAction {
   protected onStylesMenuItemSelect(event: Event) {
     const e = event as MenuItemEvent
     const key = e.item.key
-    let format:Format = Format.Heading1
 
-
-    switch (key) {
-      case "heading1":
-        format = Format.Heading1
-        break;
-      case "heading2":
-        format = Format.Heading2
-        break;
-      case "heading3":
-        format = Format.Heading3
-        break;
-      case "heading4":
-        format = Format.Heading4
-        break;
-      case "heading5":
-        format = Format.Heading5
-        break;
-      case "heading6":
-        format = Format.Heading6
-        break;
-      case "title":
-        format = Format.Title
-        break;
-      case "subtitle":
-        format = Format.Subtitle
-        break;
-    }
-
-    this.formatter.format(format)
+    this.formatter.format(keyToFormat(key))
   }
 
   public activeStyles(format: Format) {
@@ -127,5 +103,27 @@ export default class ToolbarAction {
 
     const item = this.toolbar.findItem("styles")
     item?.setLabel(label)
+  }
+
+  protected onFontMenuClick(item: ToolbarItem) {
+    if (!this.fontMenu) {
+      this.fontMenu = new FontMenu(item.element, FloatingPosition.BottomLeft)
+      this.fontMenu.addEventListener('select', this.onFontMenuItemSelect.bind(this))
+      this.toolbar.addElement(this.fontMenu)
+    }
+
+    this.fontMenu.visible()
+  }
+
+  protected onFontMenuItemSelect(event: Event) {
+    const e = event as FontMenuEvent
+
+    this.formatter.format(Format.FontFamily, e.font.name)
+  }
+
+  public activeFont(font: string) {
+    const item = this.toolbar.findItem("font")
+    item?.setLabel(font)
+    this.fontMenu?.active(font)
   }
 }

@@ -1,4 +1,4 @@
-import View from "../../../ui/View.ts";
+import View from "../View.ts";
 import MenuItemEvent from "./MenuItemEvent.ts";
 
 import "./MenuItem.scss"
@@ -13,7 +13,9 @@ export default class MenuItem extends View {
 
   protected _icon?: string
 
-  protected nameElement: Node
+  protected _isActivated: boolean = false
+
+  protected _nameElement: Node
 
   protected iconElement?: Node
 
@@ -36,7 +38,7 @@ export default class MenuItem extends View {
     const nameElement = document.createElement('span')
     nameElement.classList.add("name")
     nameElement.textContent = name
-    this.nameElement = nameElement
+    this._nameElement = nameElement
 
     if (icon) {
       const iconElement = document.createElement('span')
@@ -55,7 +57,7 @@ export default class MenuItem extends View {
     }
 
     if (this.iconElement) this._element.appendChild(this.iconElement)
-    this._element.appendChild(this.nameElement)
+    this._element.appendChild(this._nameElement)
     if (this.expandIcon) this._element.appendChild(this.expandIcon)
   }
 
@@ -64,6 +66,7 @@ export default class MenuItem extends View {
   }
 
   protected onMouseLeave(): void {
+    if (this._isActivated) return
     this.element.classList.remove("active")
   }
 
@@ -73,8 +76,22 @@ export default class MenuItem extends View {
     this.dispatchEvent(event)
   }
 
-  public get key(): string {
-    return this._key
+  public isActivated(): boolean {
+    return this._isActivated
+  }
+
+  public active() {
+    this._isActivated = true
+    this.element.classList.add("active")
+  }
+
+  public deactive() {
+    this._isActivated = false
+    this.element.classList.remove("active")
+  }
+
+  public get nameElement(): Node {
+    return this._nameElement
   }
 
   public render(): Node | Node[] {

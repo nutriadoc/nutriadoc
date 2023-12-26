@@ -1,7 +1,7 @@
-import Floating from "../../../ui/floating/Floating.ts"
-import i18n from "../../../i18n"
-import FloatingPosition from "../../../ui/floating/FloatingPosition.ts"
-import MenuItem from "../menu/MenuItem.ts";
+import Floating from "../../../floating/Floating.ts"
+import i18n from "../../../../i18n"
+import FloatingPosition from "../../../floating/FloatingPosition.ts"
+import MenuItem from "../../../menu/MenuItem.ts";
 
 import "./InsertMenu.scss"
 

@@ -1,8 +1,8 @@
-import i18n from "../../../i18n";
-import Floating from "../../../ui/floating/Floating.ts";
-import FloatingPosition from "../../../ui/floating/FloatingPosition.ts";
-import MenuItem from "../menu/MenuItem.ts";
-import MenuItemEvent from "../menu/MenuItemEvent.ts";
+import i18n from "../../../../i18n";
+import Floating from "../../../floating/Floating.ts";
+import FloatingPosition from "../../../floating/FloatingPosition.ts";
+import MenuItem from "../../../menu/MenuItem.ts";
+import MenuItemEvent from "../../../menu/MenuItemEvent.ts";
 import StylesMenuItem from "./StylesMenuItem.ts";
 
 export default class StylesMenu extends Floating {

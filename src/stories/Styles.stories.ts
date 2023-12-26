@@ -10,13 +10,16 @@ const meta = {
     root.className = "root"
     const doc = Editor(root)
 
-    doc.quill.insertText(doc.quill.getLength() + 1, "Hello friend", { header: "title" }, 'user')
-    doc.quill.insertText(doc.quill.getLength() + 1, "Hello friend", { header: "subtitle" }, 'user')
+    doc.quill.insertText(0, "Hello friend\n", { header: 1, title: true }, 'user')
+    doc.quill.insertText(doc.quill.getLength() - 1, "Hello friend\n", { header: 2, subtitle: true }, 'user')
 
     for (let i  = 1; i < 7; i++) {
-      const start = doc.quill.getLength() + 1
-      doc.quill.insertText(start, "Hello friend", { header: i }, 'user')
+      const start = doc.quill.getLength() - 1
+      doc.quill.insertText(start, "Hello friend\n", { header: i }, 'user')
     }
+
+
+    console.debug("delta", doc.quill.getContents())
 
     return root
   },

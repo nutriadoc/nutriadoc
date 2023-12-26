@@ -1,11 +1,11 @@
-import View from "../../ui/View.ts"
+import View from "../../View.ts"
 import ToolbarLayout from "./ToolbarLayout.ts"
 import ToolbarItem from "./items/ToolbarItem.ts"
-import InsertMenu from "../components/insert/InsertMenu"
+import InsertMenu from "../components/insert/InsertMenu.ts"
 
 import "./Toolbar.scss"
-import ToolbarAction from "./ToolbarAction"
-import Formatter from "../../formatter/Formatter.ts";
+import ToolbarAction from "./ToolbarAction.ts"
+import Formatter from "../../../editor/formatter/Formatter.ts";
 
 
 export default class Toolbar extends View {

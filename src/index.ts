@@ -1,17 +1,17 @@
 import Quill from "quill";
-import Toolbar from "./toolbar/main/Toolbar.ts";
+import Toolbar from "./ui/toolbar/main/Toolbar.ts";
 import View from "./ui/View.ts";
 import IView from "./ui/IView.ts";
-import Formatter from "./formatter/Formatter.ts";
-import Header from "./formats/Heading.ts";
+import Formatter from "./editor/formatter/Formatter.ts";
+import Title from "./editor/formats/Title.ts";
 
 import { ScrollBlot } from "parchment"
 import { Blot } from "parchment/dist/typings/blot/abstract/blot"
-
+import {FontFamilyClass, FontFamily} from "./editor/formats/FontFamily.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-
+import Subitle from "./editor/formats/Subitle.ts";
 
 class Document extends View {
 
@@ -32,7 +32,7 @@ class Document extends View {
     this.contents = contents
     element.className = "ntr-doc"
 
-    Header.registerBlot()
+    this.registerModules()
 
     this.editorElement = document.createElement("div")
     this._quill = new Quill(this.editorElement)
@@ -41,6 +41,22 @@ class Document extends View {
 
     this.toolbarElement = Toolbar.simple(this.formatter)
     this.setupEditorElement()
+  }
+
+  protected registerModules() {
+    Quill.register({
+      "attributors/class/font": FontFamilyClass,
+      "attributors/style/font": FontFamily,
+    },true)
+
+    Quill.register({
+      "formats/font": FontFamily,
+    }, true)
+
+    Quill.register({
+      "formats/title": Title,
+      "formats/subtitle": Subitle
+    })
   }
 
   public render(): Node | Node[] {

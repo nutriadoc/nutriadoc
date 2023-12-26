@@ -1,5 +1,5 @@
-import View from "../../../ui/View.ts"
-import IView from "../../../ui/IView.ts"
+import View from "../../../View.ts"
+import IView from "../../../IView.ts"
 import ToolbarItemIcon from "./ToolbarItemIcon.ts"
 import ToolbarItemEvent from "../events/ToolbarItemEvent.ts"
 
@@ -20,7 +20,7 @@ export default class ToolbarItem extends View implements IView {
 
   protected rendered: boolean = false
 
-  protected nameElement: Node
+  protected _nameElement: Node
 
   protected _icon?: ToolbarItemIcon
 
@@ -44,7 +44,7 @@ export default class ToolbarItem extends View implements IView {
     let nameNode = document.createElement('span')
     nameNode.classList.add("name")
     
-    this.nameElement = nameNode
+    this._nameElement = nameNode
   }
 
   protected onMouseEnter() {
@@ -67,7 +67,7 @@ export default class ToolbarItem extends View implements IView {
 
     this.renderIcon()
 
-    this._element.append(this.nameElement)
+    this._element.append(this._nameElement)
     this.renderName()
 
     this.renderExpand()
@@ -76,7 +76,7 @@ export default class ToolbarItem extends View implements IView {
   }
 
   public renderName() {
-    this.nameElement.textContent = this._name
+    this._nameElement.textContent = this._name
   }
 
   public renderIcon(): void {
@@ -88,7 +88,7 @@ export default class ToolbarItem extends View implements IView {
   }
 
   public setLabel(value: string) {
-    this.nameElement.textContent = value
+    this._nameElement.textContent = value
   }
 
   public renderExpand(): void {
@@ -129,5 +129,9 @@ export default class ToolbarItem extends View implements IView {
 
   public get isActive(): boolean {
     return this._isActived
+  }
+
+  public get nameElement(): Node {
+    return this._nameElement
   }
 }

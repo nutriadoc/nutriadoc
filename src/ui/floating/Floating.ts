@@ -16,6 +16,9 @@ export default class Floating extends View implements IView {
     const element = document.createElement("div")
     super(element)
 
+    element.style.maxHeight = "70%"
+    element.style.overflowY = "auto";
+
     this._relative = relative
     this._relativePosition = relativePosition ?? FloatingPosition.BottomLeft
     this._children = children ?? []

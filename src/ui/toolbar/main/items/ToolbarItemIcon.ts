@@ -1,5 +1,5 @@
-import View from "../../../ui/View.ts"
-import IView from "../../../ui/IView.ts"
+import View from "../../../View.ts"
+import IView from "../../../IView.ts"
 
 const DEFAULT_COLOR = "#464D5A"
 

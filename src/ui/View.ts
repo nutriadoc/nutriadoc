@@ -6,6 +6,8 @@ export default class View extends EventTarget implements IView {
 
   protected _children: IView[] = []
 
+  protected _key: string = ""
+
   public constructor(element: HTMLElement) {
     super()
     this._element = element
@@ -36,6 +38,18 @@ export default class View extends EventTarget implements IView {
 
   public get children(): IView[] {
     return this._children
+  }
+
+  public get key(): string {
+    return this._key
+  }
+
+  public set key(value: string) {
+    this._key = value
+  }
+
+  public find(key: string): IView | undefined {
+    return this._children.find(child => child.key === key)
   }
 
   render(): Node | Node[] {
