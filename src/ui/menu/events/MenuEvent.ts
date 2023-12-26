@@ -20,4 +20,8 @@ export default class MenuEvent extends Event {
   public get menuItem(): MenuItem {
     return this._menuItem
   }
+
+  public get type(): string {
+    return this._menu.key
+  }
 }

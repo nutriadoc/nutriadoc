@@ -1,3 +1,4 @@
+
 const en: number[] = [
   8,
   9,
@@ -20,6 +21,37 @@ export default interface FontSize {
   name: string
 
   size: number
+}
+
+export class FontSizeManager {
+
+  protected sizes: FontSize[] = []
+
+  public static readonly shared: FontSizeManager = new FontSizeManager(fontSizes())
+
+  public constructor(sizes: FontSize[]) {
+    this.sizes = sizes
+  }
+
+  public next(size: number): FontSize | undefined {
+    const index: number = this.sizes.findIndex(fontSize => fontSize.size === size)
+
+    if (index === -1) {
+      return undefined
+    }
+
+    return this.sizes[index + 1]
+  }
+
+public previous(size: number): FontSize | undefined {
+    const index: number = this.sizes.findIndex(fontSize => fontSize.size === size)
+
+    if (index === -1) {
+      return undefined
+    }
+
+    return this.sizes[index - 1]
+  }
 }
 
 export function fontSizes(): FontSize[] {

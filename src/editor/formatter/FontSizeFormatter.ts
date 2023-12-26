@@ -1,13 +1,18 @@
 import { StringMap } from "quill";
 import AbstractFormatter from "./AbstractFormatter.ts";
 import Format from "./Format.ts";
-import MenuItem from "../../ui/menu/MenuItem.ts";
 import i18n from "../../i18n";
 
 export default class FontSizeFormatter extends AbstractFormatter {
   public select(formats: StringMap): void {
-    let fontSizes: string [] = Array.isArray(formats["size"]) ? formats["size"] : [formats["size"]] ?? ["11"]
+    this.setFontSize(formats)
+  }
 
+
+  protected setFontSize(formats: StringMap): void {
+    const formatFontSize = formats["size"] ?? "11"
+
+    let fontSizes: string [] = Array.isArray(formatFontSize) ? formatFontSize: [formatFontSize] ?? ["11"]
     if (fontSizes.length > 1)
       fontSizes = [""]
 
@@ -24,10 +29,10 @@ export default class FontSizeFormatter extends AbstractFormatter {
 
     if (format != Format.FontSize) return
 
-    const item = params[0] as MenuItem
+    const size = params[0]
     this.quill.format(
       "size",
-      item.key
+      size.toString(),
     )
   }
 

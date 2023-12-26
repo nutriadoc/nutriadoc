@@ -41,4 +41,8 @@ export default class Menu extends Floating {
     })
   }
 
+  public findActive(): MenuItem | undefined {
+    return this.items.find(item => item.isActivated())
+  }
+
 }

@@ -83,7 +83,7 @@ export default class ToolbarItemFactory {
 
   public increaseFontSize(): ToolbarItem {
     return this.createItem({
-      key: "increaseFontSize",
+      key: "increase-font-size",
       icon: {
         name: "plus-lg",
       },
@@ -92,7 +92,7 @@ export default class ToolbarItemFactory {
 
   public decreaseFontSize(): ToolbarItem {
     return this.createItem({
-      key: "decreaseFontSize",
+      key: "decrease-font-size",
       icon: {
         name: "dash-lg",
       },

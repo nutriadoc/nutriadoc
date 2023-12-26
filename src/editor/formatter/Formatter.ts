@@ -1,7 +1,6 @@
 import Quill, {RangeStatic, Sources} from "quill";
 import Format from "./Format.ts";
 import StylesFormatter from "./StylesFormatter.ts";
-import ToolbarAction from "../../ui/toolbar/main/ToolbarAction.ts";
 import FontFamilyFormatter from "./FontFamilyFormatter.ts";
 import AbstractFormatter from "./AbstractFormatter.ts";
 import Toolbar from "../../ui/toolbar/main/Toolbar.ts";
@@ -18,8 +17,6 @@ export default class Formatter {
   ]
 
   protected formatters: AbstractFormatter[]
-
-  protected _toolbarAction?: ToolbarAction
 
   protected toolbar: Toolbar
 
@@ -58,11 +55,5 @@ export default class Formatter {
     console.debug("on select", range)
     const format = this.quill.getFormat(range)
     this.formatters.forEach(formatter => formatter.select(format))
-  }
-
-  public set toolbarAction(value: ToolbarAction) {
-    this._toolbarAction = value
-
-    this.formatters.forEach(formatter => formatter.toolbarAction = value)
   }
 }
