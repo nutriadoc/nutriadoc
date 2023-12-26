@@ -26,6 +26,10 @@ export default class Attributor extends parchment.StyleAttributor {
     return node.getAttribute(this.getKey());
   }
 
+  public remove(node: HTMLElement): void {
+    node.removeAttribute(this.getKey())
+  }
+
   protected getKey(): string {
     return `data-${this.keyName}`
   }

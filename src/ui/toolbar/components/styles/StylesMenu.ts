@@ -1,34 +1,16 @@
-import i18n from "../../../../i18n";
-import Floating from "../../../floating/Floating.ts";
-import FloatingPosition from "../../../floating/FloatingPosition.ts";
-import MenuItem from "../../../menu/MenuItem.ts";
-import MenuItemEvent from "../../../menu/MenuItemEvent.ts";
-import StylesMenuItem from "./StylesMenuItem.ts";
+import i18n from "../../../../i18n"
+import FloatingPosition from "../../../floating/FloatingPosition.ts"
+import MenuItem from "../../../menu/MenuItem.ts"
+import StylesMenuItem from "./StylesMenuItem.ts"
+import Menu from "../../../menu/Menu.ts"
 
-export default class StylesMenu extends Floating {
+export default class StylesMenu extends Menu {
 
   protected items: MenuItem[] = []
 
-  public constructor(relative: HTMLElement, relativePosition: FloatingPosition) {
-    super(relative, relativePosition)
+  public constructor(relativePosition: FloatingPosition) {
+    super("styles", relativePosition, StylesMenu.items())
     this._element.classList.add("insert-menu")
-
-    this.items = StylesMenu.items()
-    this.setupItemsListener()
-    this.addElement(this.items)
-  }
-
-  protected setupItemsListener() {
-    this.items.forEach(item => {
-      item.addEventListener("select", this.onMenuItemSelect.bind(this))
-    })
-  }
-
-  protected onMenuItemSelect(event: Event) {
-    const e = event as MenuItemEvent
-    this.dispatchEvent(new MenuItemEvent(e.type, e.item))
-
-    this.hidden()
   }
 
   public static items(): StylesMenuItem[] {
@@ -39,6 +21,10 @@ export default class StylesMenu extends Floating {
     }))
 
     return [
+      {
+        key: "normalText",
+        name: i18n.t("menu.styles.normalText")
+      },
       {
         key: "title",
         name: i18n.t("menu.styles.title"),

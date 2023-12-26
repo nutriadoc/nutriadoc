@@ -4,6 +4,7 @@ import StylesFormatter from "./StylesFormatter.ts";
 import ToolbarAction from "../../ui/toolbar/main/ToolbarAction.ts";
 import FontFamilyFormatter from "./FontFamilyFormatter.ts";
 import AbstractFormatter from "./AbstractFormatter.ts";
+import Toolbar from "../../ui/toolbar/main/Toolbar.ts";
 
 export default class Formatter {
 
@@ -15,9 +16,13 @@ export default class Formatter {
 
   protected _toolbarAction?: ToolbarAction
 
-  public constructor(quill: Quill) {
+  protected toolbar: Toolbar
+
+  public constructor(quill: Quill, toolbar: Toolbar) {
     this.quill = quill
-    this.formatters = this.formatterClasses.map(cls => new cls(this.quill))
+    this.toolbar = toolbar
+
+    this.formatters = this.formatterClasses.map(cls => new cls(this.quill, toolbar))
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))
@@ -45,6 +50,7 @@ export default class Formatter {
   }
 
   select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
+    console.debug("on select", range)
     const format = this.quill.getFormat(range)
     this.formatters.forEach(formatter => formatter.select(format))
   }

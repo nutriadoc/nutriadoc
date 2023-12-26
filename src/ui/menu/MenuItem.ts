@@ -1,5 +1,5 @@
 import View from "../View.ts";
-import MenuItemEvent from "./MenuItemEvent.ts";
+import MenuItemEvent from "./events/MenuItemEvent.ts";
 
 import "./MenuItem.scss"
 

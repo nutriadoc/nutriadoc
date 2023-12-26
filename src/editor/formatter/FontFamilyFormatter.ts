@@ -38,7 +38,15 @@ export default class FontFamilyFormatter extends AbstractFormatter {
     if (!family)
       family = i18n.t("menu.font")
 
-    this.toolbarAction?.activeFont?.(family!)
+    this.activeFont(family!)
+  }
+
+  public activeFont(font: string) {
+    const item = this.toolbar.findItem("font")
+    item?.setLabel(font)
+
+    const menu = this.toolbar.findMenu("font")
+    menu?.active(font)
   }
 
 }

@@ -1,53 +1,19 @@
-import Floating from "../../../floating/Floating.ts";
 import FloatingPosition from "../../../floating/FloatingPosition.ts";
 import MenuItem from "../../../menu/MenuItem.ts";
 import Fonts from "../../../../editor/font/DefaultFonts.ts";
-import MenuItemEvent from "../../../menu/MenuItemEvent.ts";
-import {FontMenuEvent} from "./FontMenuEvent.ts";
+import Menu from "../../../menu/Menu.ts";
 
-export default class FontMenu extends Floating {
+export default class FontMenu extends Menu {
 
   protected items: MenuItem[] = []
 
   protected family: Map<string, string> = new Map()
 
-  public constructor(relative: HTMLElement, relativePosition: FloatingPosition) {
-    super(relative, relativePosition)
-    this._element.classList.add("insert-menu")
+  public constructor(relativePosition: FloatingPosition) {
+    super('font', relativePosition, FontMenu.items())
 
     Fonts.forEach(font => {
       this.family.set(font.name, font.family)
-    })
-
-    this.items = FontMenu.items()
-    this.setupItemsListener()
-    this.addElement(this.items)
-  }
-
-  protected setupItemsListener() {
-    this.items.forEach(item => {
-      item.addEventListener("select", this.onMenuItemSelect.bind(this))
-    })
-  }
-
-  protected onMenuItemSelect(event: Event) {
-    const e = event as MenuItemEvent
-    const family = this.family.get(e.item.key)
-    this.dispatchEvent(new FontMenuEvent("select", { name: e.item.key, family }))
-
-    this.hidden()
-  }
-
-  public active(key: string) {
-    this.items.forEach(item => {
-      if (item.key === key) {
-        debugger
-        item.active()
-      } else {
-        if (item.isActivated()) {
-          item.deactive()
-        }
-      }
     })
   }
 

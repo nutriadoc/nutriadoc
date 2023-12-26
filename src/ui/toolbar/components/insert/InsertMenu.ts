@@ -1,18 +1,15 @@
-import Floating from "../../../floating/Floating.ts"
 import i18n from "../../../../i18n"
 import FloatingPosition from "../../../floating/FloatingPosition.ts"
 import MenuItem from "../../../menu/MenuItem.ts";
+import Menu from "../../../menu/Menu.ts";
 
 import "./InsertMenu.scss"
 
+export default class InsertMenu extends Menu {
 
-export default class InsertMenu extends Floating {
-
-  public constructor(relative: HTMLElement, relativePosition: FloatingPosition) {
-    super(relative, relativePosition)
+  public constructor(relativePosition: FloatingPosition) {
+    super("insert", relativePosition, InsertMenu.items())
     this._element.classList.add("insert-menu")
-
-    this.addElement(InsertMenu.items())
   }
 
   public static items(): MenuItem[] {

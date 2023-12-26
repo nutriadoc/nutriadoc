@@ -40,11 +40,16 @@ export default class ToolbarItemFactory {
   }
 
   public styles(): ToolbarItem {
-    return this.createItem({
+    const styles = this.createItem({
       key: "styles",
       name: i18n.t("toolbar.styles"),
       canExpand: true,
     })
+    const element = styles.nameElement as HTMLElement
+    element.style.width = "70px"
+    element.style.overflowX = "hidden"
+    element.style.whiteSpace = "nowrap"
+    return styles
   }
 
   public font(): ToolbarItem {

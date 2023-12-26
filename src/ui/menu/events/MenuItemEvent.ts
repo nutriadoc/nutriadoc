@@ -1,4 +1,4 @@
-import MenuItem from "./MenuItem.ts";
+import MenuItem from "../MenuItem.ts";
 
 export default class MenuItemEvent extends Event {
 

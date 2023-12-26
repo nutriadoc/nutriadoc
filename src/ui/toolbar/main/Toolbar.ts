@@ -2,28 +2,47 @@ import View from "../../View.ts"
 import ToolbarLayout from "./ToolbarLayout.ts"
 import ToolbarItem from "./items/ToolbarItem.ts"
 import InsertMenu from "../components/insert/InsertMenu.ts"
+import ToolbarAction from "./ToolbarAction.ts"
+import StylesMenu from "../components/styles/StylesMenu.ts";
+import FontMenu from "../components/font/FontMenu.ts";
+import Menu from "../../menu/Menu.ts";
 
 import "./Toolbar.scss"
-import ToolbarAction from "./ToolbarAction.ts"
-import Formatter from "../../../editor/formatter/Formatter.ts";
-
 
 export default class Toolbar extends View {
 
   protected _layouts: ToolbarLayout[]
 
-  protected insertMenu?: InsertMenu
+  public action?: ToolbarAction
 
-  protected action: ToolbarAction
+  protected _menus: Menu[] = []
 
-  public constructor(layout: ToolbarLayout[], formatter: Formatter) {
+  protected menuClasses: any[] = [
+    InsertMenu,
+    StylesMenu,
+    FontMenu
+  ]
+
+  public constructor(layout: ToolbarLayout[]) {
     const element = document.createElement("div")
     element.classList.add("ntr-main-toolbar")
     super(element)
     this._layouts = layout
 
-    this.action = new ToolbarAction(this, formatter)
-    formatter.toolbarAction = this.action
+    this.setupMenus()
+  }
+
+  protected setupMenus() {
+    this._menus = this.menuClasses.map(menuClass => {
+      const menu = new menuClass()
+      this.addElement(menu)
+      menu.addEventListener("select", this.onMenuItemSelect.bind(this))
+      return menu
+    })
+  }
+
+  protected onMenuItemSelect(event: Event) {
+    this.action?.selectMenuItem(event)
   }
 
   public active(key: string): void {
@@ -61,7 +80,11 @@ export default class Toolbar extends View {
     return this._element
   }
 
-  public static simple(formatter: Formatter): Toolbar {
-    return new Toolbar([ToolbarLayout.simple()], formatter)
+  public findMenu(key: string): Menu | undefined {
+    return this._menus.find(menu => menu.key === key)
+  }
+
+  public static simple(): Toolbar {
+    return new Toolbar([ToolbarLayout.simple()])
   }
 }

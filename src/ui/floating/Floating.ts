@@ -12,14 +12,13 @@ export default class Floating extends View implements IView {
 
   protected attachedEvent: boolean = false
 
-  constructor(relative?: HTMLElement, relativePosition?: FloatingPosition, children?: IView[]) {
+  constructor(relativePosition?: FloatingPosition, children?: IView[]) {
     const element = document.createElement("div")
     super(element)
 
     element.style.maxHeight = "70%"
     element.style.overflowY = "auto";
 
-    this._relative = relative
     this._relativePosition = relativePosition ?? FloatingPosition.BottomLeft
     this._children = children ?? []
 
@@ -100,6 +99,10 @@ export default class Floating extends View implements IView {
     this.hidden()
   }
 
+  public set relative(value: HTMLElement) {
+    this._relative = value
+  }
+
   protected pin() {
     this._element.style.left = `${this.x}px`
     this._element.style.top = `${this.y}px`
@@ -107,14 +110,14 @@ export default class Floating extends View implements IView {
 
   public visible() {
     this._visible = true
-    this._element.style.display = "block"
+    this._element.style.visibility = "visible"
     this.pin()
 
     this.setupDismiss()
   }
 
   public hidden() {
-    this._element.style.display = "none"
+    this._element.style.visibility = "hidden"
   
   }
 } 

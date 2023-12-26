@@ -1,29 +1,27 @@
 import Quill from "quill";
 import Toolbar from "./ui/toolbar/main/Toolbar.ts";
 import View from "./ui/View.ts";
-import IView from "./ui/IView.ts";
 import Formatter from "./editor/formatter/Formatter.ts";
 import Title from "./editor/formats/Title.ts";
 
-import { ScrollBlot } from "parchment"
-import { Blot } from "parchment/dist/typings/blot/abstract/blot"
-import {FontFamilyClass, FontFamily} from "./editor/formats/FontFamily.ts";
+import {ScrollBlot} from "parchment"
+import {Blot} from "parchment/dist/typings/blot/abstract/blot"
+import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Subitle from "./editor/formats/Subitle.ts";
+import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
 
 class Document extends View {
 
   protected editorElement: HTMLDivElement
 
-  protected toolbarElement: IView
+  protected toolbar: Toolbar
 
   protected _quill: Quill
 
   protected contents: string
-
-  protected formatter: Formatter
 
   constructor(contents: string) {
     const element = document.createElement("div")
@@ -37,9 +35,10 @@ class Document extends View {
     this.editorElement = document.createElement("div")
     this._quill = new Quill(this.editorElement)
 
-    this.formatter = new Formatter(this._quill)
+    this.toolbar = Toolbar.simple()
+    const formatter = new Formatter(this._quill, this.toolbar)
+    this.toolbar.action = new ToolbarAction(this.toolbar, formatter)
 
-    this.toolbarElement = Toolbar.simple(this.formatter)
     this.setupEditorElement()
   }
 
@@ -61,7 +60,7 @@ class Document extends View {
 
   public render(): Node | Node[] {
 
-    this.addElement(this.toolbarElement)
+    this.addElement(this.toolbar)
     this.addNode(this.editorElement)
 
     const text = this._quill.clipboard.convert({html: this.contents})

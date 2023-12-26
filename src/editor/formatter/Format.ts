@@ -19,6 +19,9 @@ export function formatToHeadingLevel(format: Format): number | undefined {
   let key = formatToKey(format)
 
   switch (format) {
+    case Format.NormalText:
+      level = undefined
+      break
     case Format.Title:
       level = 1
       break;
@@ -35,7 +38,7 @@ export function formatToHeadingLevel(format: Format): number | undefined {
 }
 
 export function toStyles(level: number, isTitle?: boolean, isSubtitle?: boolean): Format | undefined {
-  if (!level && !isTitle && !isSubtitle) return undefined
+  if (!level && !isTitle && !isSubtitle) return Format.NormalText
 
   let format: Format
   if (isTitle) {
