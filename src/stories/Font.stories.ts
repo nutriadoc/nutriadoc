@@ -29,8 +29,9 @@ const meta = {
     console.debug("text2", text2)
 
     doc.quill.formatText(6, 1, { bold: true })
-    const delta = doc.quill.formatText(7, 1, { italic: true })
-    console.debug("delta", delta)
+    doc.quill.formatText(7, 1, { italic: true })
+
+    doc.quill.insertText(doc.quill.getLength(), "Text3\n", { size: 24 }, 'user')
 
 
     return root

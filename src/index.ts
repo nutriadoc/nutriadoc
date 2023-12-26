@@ -7,11 +7,13 @@ import Title from "./editor/formats/Title.ts";
 import {ScrollBlot} from "parchment"
 import {Blot} from "parchment/dist/typings/blot/abstract/blot"
 import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
+import Subtitle from "./editor/formats/Subtitle.ts";
+import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
+import FontSize from "./editor/formats/FontSize.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import Subitle from "./editor/formats/Subitle.ts";
-import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
+
 
 class Document extends View {
 
@@ -54,7 +56,8 @@ class Document extends View {
 
     Quill.register({
       "formats/title": Title,
-      "formats/subtitle": Subitle
+      "formats/subtitle": Subtitle,
+      "formats/font-size": FontSize,
     })
   }
 

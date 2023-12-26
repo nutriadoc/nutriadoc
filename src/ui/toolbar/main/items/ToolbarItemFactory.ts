@@ -66,11 +66,19 @@ export default class ToolbarItemFactory {
   }
 
   public fontSize(): ToolbarItem {
-    return this.createItem({
-      key: "fontSize",
+    const size = this.createItem({
+      key: "font-size",
       name: i18n.t("menu.fontSize"),
       canExpand: true,
     })
+
+    const element = size.nameElement as HTMLElement
+    element.style.width = "30px"
+    element.style.overflowX = "hidden"
+    element.style.whiteSpace = "nowrap"
+    element.style.textAlign= "center"
+
+    return size
   }
 
   public increaseFontSize(): ToolbarItem {

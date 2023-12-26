@@ -10,6 +10,7 @@ enum Format {
   Heading7,
   NormalText,
   FontFamily,
+  FontSize,
   Bold,
   I,
 }

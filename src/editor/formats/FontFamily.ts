@@ -23,7 +23,6 @@ class FontFamilyAttributor extends parchment.Attributor {
   protected font: Font = Font.shared
 
   add(node: HTMLElement, value: string) {
-    console.debug({node, value})
 
     let family = this.font.item(value)?.family
     if (!family)

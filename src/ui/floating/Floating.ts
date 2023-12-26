@@ -106,6 +106,8 @@ export default class Floating extends View implements IView {
   protected pin() {
     this._element.style.left = `${this.x}px`
     this._element.style.top = `${this.y}px`
+
+    // debugger
   }
 
   public visible() {

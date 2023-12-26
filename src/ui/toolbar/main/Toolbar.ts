@@ -5,9 +5,11 @@ import InsertMenu from "../components/insert/InsertMenu.ts"
 import ToolbarAction from "./ToolbarAction.ts"
 import StylesMenu from "../components/styles/StylesMenu.ts";
 import FontMenu from "../components/font/FontMenu.ts";
+import FontSizeMenu from "../components/font_size/FontSizeMenu.ts"
 import Menu from "../../menu/Menu.ts";
 
 import "./Toolbar.scss"
+
 
 export default class Toolbar extends View {
 
@@ -20,7 +22,8 @@ export default class Toolbar extends View {
   protected menuClasses: any[] = [
     InsertMenu,
     StylesMenu,
-    FontMenu
+    FontMenu,
+    FontSizeMenu
   ]
 
   public constructor(layout: ToolbarLayout[]) {

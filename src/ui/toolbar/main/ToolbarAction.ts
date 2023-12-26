@@ -9,7 +9,6 @@ export default class ToolbarAction {
 
   protected toolbar: Toolbar
 
-
   protected formatter: Formatter
 
   constructor(toolbar: Toolbar, formatter: Formatter) {
@@ -46,6 +45,10 @@ export default class ToolbarAction {
       }
       case "font": {
         this.onFontMenuItemSelect(e)
+        break
+      }
+      case "font-size": {
+        this.formatter.format(Format.FontSize, e.menuItem)
         break
       }
     }

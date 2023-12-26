@@ -5,12 +5,17 @@ import ToolbarAction from "../../ui/toolbar/main/ToolbarAction.ts";
 import FontFamilyFormatter from "./FontFamilyFormatter.ts";
 import AbstractFormatter from "./AbstractFormatter.ts";
 import Toolbar from "../../ui/toolbar/main/Toolbar.ts";
+import FontSizeFormatter from "./FontSizeFormatter.ts";
 
 export default class Formatter {
 
   protected quill: Quill
 
-  protected formatterClasses = [ StylesFormatter, FontFamilyFormatter]
+  protected formatterClasses = [
+    StylesFormatter,
+    FontFamilyFormatter,
+    FontSizeFormatter
+  ]
 
   protected formatters: AbstractFormatter[]
 
