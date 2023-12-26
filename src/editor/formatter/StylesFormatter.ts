@@ -73,8 +73,7 @@ export default class StylesFormatter extends AbstractFormatter {
       }
     }
 
-    const item = this.toolbar.findItem("styles")
-    item?.setLabel(label)
+    this.active("styles", label)
   }
 
 }

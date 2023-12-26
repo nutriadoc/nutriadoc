@@ -38,7 +38,7 @@ class Document extends View {
     this._quill = new Quill(this.editorElement)
 
     this.toolbar = Toolbar.simple()
-    const formatter = new Formatter(this._quill, this.toolbar)
+    const formatter = new Formatter(this._quill, [this.toolbar])
     this.toolbar.action = new ToolbarAction(this.toolbar, formatter)
 
     this.setupEditorElement()

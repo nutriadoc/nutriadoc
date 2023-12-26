@@ -4,11 +4,10 @@ import Format from "./Format.ts";
 
 export default class BoldFormatter extends AbstractFormatter {
   public select(formats: StringMap): void {
-    const item = this.toolbar.findItem("bold")
     if (!formats["bold"])
-      item?.deactive()
+      super.deactive("bold")
     else
-      item?.active()
+      super.active("bold")
 
   }
   public format(format: Format, ..._params: any[]): void {

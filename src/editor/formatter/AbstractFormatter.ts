@@ -1,22 +1,30 @@
 import Quill, {StringMap} from "quill"
-import ToolbarAction from "../../ui/toolbar/main/ToolbarAction.ts"
-import Format from "./Format.ts";
-import Toolbar from "../../ui/toolbar/main/Toolbar.ts";
+import Format from "./Format.ts"
+import IToolbar from "../../ui/toolbar/IToolbar.ts"
 
 export default abstract class AbstractFormatter {
 
   protected quill: Quill
 
-  public toolbarAction?: ToolbarAction
+  public toolbars: IToolbar[] = []
 
-  public toolbar: Toolbar
-
-  public constructor(quill: Quill, toolbar: Toolbar) {
+  public constructor(quill: Quill, toolbars: IToolbar[]) {
     this.quill = quill
-    this.toolbar = toolbar
+    this.toolbars = toolbars
   }
 
   public abstract select(formats: StringMap): void
 
   public abstract format(format: Format, ...params: any[]): void
+
+  public active(key: string, label?: string) {
+    this.toolbars.forEach(toolbar => toolbar.activeItem(key))
+    if (label) {
+      this.toolbars.forEach(toolbar => toolbar.setItemLabel(key, label))
+    }
+  }
+
+  public deactive(key: string) {
+    this.toolbars.forEach(toolbar => toolbar.deactiveItem(key))
+  }
 }

@@ -3,9 +3,9 @@ import Format from "./Format.ts";
 import StylesFormatter from "./StylesFormatter.ts";
 import FontFamilyFormatter from "./FontFamilyFormatter.ts";
 import AbstractFormatter from "./AbstractFormatter.ts";
-import Toolbar from "../../ui/toolbar/main/Toolbar.ts";
 import FontSizeFormatter from "./FontSizeFormatter.ts";
 import BoldFormatter from "./BoldFormatter.ts";
+import IToolbar from "../../ui/toolbar/IToolbar.ts";
 
 export default class Formatter {
 
@@ -20,13 +20,13 @@ export default class Formatter {
 
   protected formatters: AbstractFormatter[]
 
-  protected toolbar: Toolbar
+  protected toolbars: IToolbar[]
 
-  public constructor(quill: Quill, toolbar: Toolbar) {
+  public constructor(quill: Quill, toolbars: IToolbar[]) {
     this.quill = quill
-    this.toolbar = toolbar
+    this.toolbars = toolbars
 
-    this.formatters = this.formatterClasses.map(cls => new cls(this.quill, toolbar))
+    this.formatters = this.formatterClasses.map(cls => new cls(this.quill, toolbars))
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))

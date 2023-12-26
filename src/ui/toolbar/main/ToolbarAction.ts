@@ -105,6 +105,7 @@ export default class ToolbarAction {
 
   protected onFontMenuItemSelect(event: Event) {
     const e = event as MenuEvent
+    if (!e?.menuItem) return
     this.formatter.format(Format.FontFamily, e.menuItem.key)
   }
 

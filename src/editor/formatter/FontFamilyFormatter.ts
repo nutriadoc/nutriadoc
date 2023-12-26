@@ -42,11 +42,7 @@ export default class FontFamilyFormatter extends AbstractFormatter {
   }
 
   public activeFont(font: string) {
-    const item = this.toolbar.findItem("font")
-    item?.setLabel(font)
-
-    const menu = this.toolbar.findMenu("font")
-    menu?.active(font)
+    this.active("font", font)
   }
 
 }

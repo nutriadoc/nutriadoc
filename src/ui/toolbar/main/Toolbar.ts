@@ -9,9 +9,10 @@ import FontSizeMenu from "../components/font_size/FontSizeMenu.ts"
 import Menu from "../../menu/Menu.ts";
 
 import "./Toolbar.scss"
+import IToolbar from "../IToolbar.ts";
 
 
-export default class Toolbar extends View {
+export default class Toolbar extends View implements IToolbar{
 
   protected _layouts: ToolbarLayout[]
 
@@ -33,6 +34,23 @@ export default class Toolbar extends View {
     this._layouts = layout
 
     this.setupMenus()
+  }
+
+  setItemLabel(key: string, label: string): void {
+    this.findItem(key)?.setLabel(label)
+    const menu = this.findMenu(key)
+
+    menu?.active(label)
+  }
+  activeItem(key: string): void {
+    const menu = this.findMenu(key)
+    if (!menu)
+      this.active(key)
+
+    menu?.active(key)
+  }
+  deactiveItem(key: string): void {
+    this.findItem(key)?.deactive()
   }
 
   protected setupMenus() {
