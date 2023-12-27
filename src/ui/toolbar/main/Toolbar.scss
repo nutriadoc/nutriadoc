@@ -22,7 +22,9 @@
       user-select: none;
       cursor: pointer;
 
-      .container {
+      border-radius: 5px;
+
+      .button {
         display: flex;
         flex-direction: row;
 
@@ -31,23 +33,29 @@
         justify-content: center;
         align-items: center;
 
-        border-radius: 6px;
-        padding: 6px 0px;
+        padding: 6px 6px;
+        gap: 6px;
 
         color: #666;
+
+        .icon {
+          margin-top: -3px;
+        }
       }
 
-      .icon-container {
+      .expand {
         display: flex;
-        height: 100%;
-
-        padding: 0px 4px 0px 4px;
-
-        justify-content: flex-end;
         align-items: center;
 
         .icon {
           display: flex;
+          height: 100%;
+
+          padding: 0px 4px 0px 4px;
+
+          justify-content: flex-end;
+          align-items: center;
+
         }
       }
 

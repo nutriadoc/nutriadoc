@@ -36,6 +36,14 @@ export default class Toolbar extends View implements IToolbar{
     this.setupMenus()
   }
 
+  public openMenu(key: string, element: HTMLElement) {
+    const menu = this.findMenu(key)
+    if (!menu) return
+
+    menu.relative = element
+    menu.visible()
+  }
+
   setItemLabel(key: string, label: string): void {
     this.findItem(key)?.setText(label)
     const menu = this.findMenu(key)

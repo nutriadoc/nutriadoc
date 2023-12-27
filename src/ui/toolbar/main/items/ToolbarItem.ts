@@ -1,16 +1,18 @@
-import View from "../../../View.ts"
 import IView from "../../../IView.ts"
 import ToolbarItemIcon from "./ToolbarItemIcon.ts"
 import ToolbarItemEvent from "../events/ToolbarItemEvent.ts"
+import ToolbarItemButton from "./ToolbarItemButton.ts";
+import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
+import ActivationView from "./ActivationView.ts";
 
-const ENABLE_COLOR = "#464D5A"
-const DISABLE_COLOR = "#B5B8BD"
+const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
+const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
 
-export default class ToolbarItem extends View implements IView {
+export default class ToolbarItem extends ActivationView implements IView {
 
   protected _key: string
 
-  protected _name: string
+  protected _text: string
 
   protected _canExpand: boolean = false
 
@@ -18,103 +20,67 @@ export default class ToolbarItem extends View implements IView {
 
   protected _isActivated: boolean = false
 
-  protected _isToggled: boolean = true
+  protected _isToggle: boolean = true
 
   protected rendered: boolean = false
 
-  protected _textElement: Node
+  protected expandButton: ToolbarItemExpandButton
 
-  protected _icon?: ToolbarItemIcon
-
-  protected expandIcon?: ToolbarItemIcon
-
-  protected container: HTMLElement
+  protected button: ToolbarItemButton
 
   public constructor(
     key: string,
     text: string,
     canExpand: boolean = false,
     icon?: ToolbarItemIcon,
-    enabled: boolean = true,
-    toggle: boolean = true) {
+    enabled?: boolean,
+    toggle?: boolean) {
 
     const element = document.createElement("div")
     element.classList.add("item")
-    super(element)
-
-    element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
-    element.addEventListener("mouseleave", this.onMouseLeaver.bind(this))
-    element.addEventListener("click", this.onClick.bind(this))
+    if (toggle === true)
+      element.setAttribute("data-toggle", "")
+    super(element, ACTIVE_BACKGROUND_COLOR)
 
     this._key = key
-    this._name = text
+    this._text = text
     this._canExpand = canExpand
-    this._icon = icon
-    this._isEnabled = enabled
-    this._isToggled = toggle
+    this._isEnabled = enabled === undefined ? true : enabled
+    this._isToggle = toggle == undefined ? !canExpand : toggle
 
-    const container = document.createElement("div")
-    container.classList.add("container")
-    this.container = container
-    this.addNode(this.container)
+    const activeColor = toggle === true ? ACTIVE_BACKGROUND_COLOR2 : undefined
+    this.button = new ToolbarItemButton(icon, activeColor)
+    this.text = text
+    this.expandButton = new ToolbarItemExpandButton(activeColor)
 
-    let textElement = document.createElement('span')
-    textElement.classList.add("name")
-    
-    this._textElement = textElement
+    this.setupEvents2()
   }
 
-  protected onMouseEnter() {
-    if (this._element.classList.contains("active")) return
-    this._element.classList.add("active")
-  }
+  protected setupEvents2() {
+    super.setupEvents()
 
-  protected onMouseLeaver() {
-    if (this._isActivated) return
-    this._element.classList.remove("active")
+    this.button.element.addEventListener("click", this.onClick.bind(this))
+    if (this._canExpand)
+      this.expandButton.element.addEventListener("click", this.onExpandClick.bind(this))
   }
 
   protected onClick() {
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 
+  protected onExpandClick() {
+    this.dispatchEvent(new ToolbarItemEvent(this._isToggle && this._canExpand ? "expand" : "click", this))
+  }
+
   public render(): Node | Node[] {
     if (this.rendered) return []
     this.rendered = true
 
-    this.renderIcon()
-    this.renderName()
-    this.renderExpand()
+    this.addElement(this.button)
+    if (this._canExpand)
+      this.addElement(this.expandButton)
 
     return this._element
-  }
-
-  public renderName() {
-    this._textElement.textContent = this._name
-    this.container.append(this._textElement)
-  }
-
-  public renderIcon(): void {
-    if (!this._icon)
-      return
-
-    this._icon.color = this.enableOrDisableColor()
-    this._icon.addTo(this.container)
-  }
-
-  public setText(value: string) {
-    this._textElement.textContent = value
-  }
-
-  public renderExpand(): void {
-    if (!this._canExpand)
-      return
-
-    if (this.expandIcon != undefined) return
-
-    this.expandIcon = new ToolbarItemIcon("chevron-down", "", "8px")
-    this.expandIcon.element.classList.add("expand")
-    this.addElement(this.expandIcon)
   }
 
   public active(): void {
@@ -127,22 +93,6 @@ export default class ToolbarItem extends View implements IView {
     this._element.classList.remove("active")
   }
 
-  public enableOrDisableColor() {
-    return this._isEnabled ? ENABLE_COLOR : DISABLE_COLOR
-  }
-
-  public enable(): void {
-    this._isEnabled = true
-    if (this._icon)
-      this._icon.color = this.enableOrDisableColor()
-  }
-
-  public disable(): void {
-    this._isEnabled = false
-    if (this._icon)
-      this._icon.color = this.enableOrDisableColor()
-  }
-
   public get key(): string {
     return this._key
   }
@@ -151,7 +101,27 @@ export default class ToolbarItem extends View implements IView {
     return this._isActivated
   }
 
-  public get textElement(): Node {
-    return this._textElement
+  public get canExpand(): boolean {
+    return this._canExpand
+  }
+
+  public get isToggle(): boolean {
+    return this._isToggle
+  }
+
+  public set text(value: string) {
+    this.button.text = value
+  }
+
+  public setText(value: string) {
+    this.text = value
+  }
+
+  public get text(): string {
+    return this.button.text
+  }
+
+  public set textWidth(width: number) {
+    this.button.textWidth = width
   }
 }

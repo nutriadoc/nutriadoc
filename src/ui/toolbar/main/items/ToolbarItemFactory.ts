@@ -45,10 +45,7 @@ export default class ToolbarItemFactory {
       name: i18n.t("toolbar.styles"),
       canExpand: true,
     })
-    const element = styles.textElement as HTMLElement
-    element.style.width = "70px"
-    element.style.overflowX = "hidden"
-    element.style.whiteSpace = "nowrap"
+    styles.textWidth = 70
     return styles
   }
 
@@ -58,10 +55,7 @@ export default class ToolbarItemFactory {
       name: i18n.t("menu.font"),
       canExpand: true,
     })
-    const element = font.textElement as HTMLElement
-    element.style.width = "100px"
-    element.style.overflowX = "hidden"
-    element.style.whiteSpace = "nowrap"
+    font.textWidth = 100
     return font
   }
 
@@ -72,11 +66,7 @@ export default class ToolbarItemFactory {
       canExpand: true,
     })
 
-    const element = size.textElement as HTMLElement
-    element.style.width = "30px"
-    element.style.overflowX = "hidden"
-    element.style.whiteSpace = "nowrap"
-    element.style.textAlign= "center"
+    size.textWidth = 30
 
     return size
   }
@@ -170,6 +160,7 @@ export default class ToolbarItemFactory {
         name: "list-ul",
       },
       canExpand: true,
+      toggle: true
     })
   }
 
@@ -276,7 +267,8 @@ export default class ToolbarItemFactory {
       item.name,
       item.canExpand,
       this.createIcon(item.icon),
-      item.enabled ?? true
+      item.enabled ?? true,
+      item.toggle,
     )
   }
 

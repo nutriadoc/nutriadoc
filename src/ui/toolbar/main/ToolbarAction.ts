@@ -26,6 +26,7 @@ export default class ToolbarAction {
   setupToolbarItemListener() {
     this.toolbar.items.forEach(item => {
       item.addEventListener("click", this.onToolbarItemClick.bind(this))
+      item.addEventListener("expand", this.onToolbarItemExpand.bind(this))
     })
   }
 
@@ -33,16 +34,19 @@ export default class ToolbarAction {
     const e = event as ToolbarItemEvent
     const item = e.target as ToolbarItem
 
-    this.selectMenuItem(new Event(item.key))
+    if (item.isToggle && !item.canExpand)
+      this.selectMenuItem(new Event(item.key))
 
-    const menu = this.toolbar.findMenu((item.key))
-    if (!menu) return
-    menu.relative = item.element
-    menu.visible()
+    this.toolbar.openMenu(item.key, item.element)
+  }
+
+  protected onToolbarItemExpand(event: Event) {
+    this.onToolbarItemClick(event)
   }
 
   public selectMenuItem(event: Event) {
     const e: MenuEvent | undefined = event as MenuEvent
+    console.debug("select menu item", e)
 
     switch (e.type) {
       case "styles": {
@@ -68,20 +72,11 @@ export default class ToolbarAction {
     }
   }
 
-  protected openForm(): void {
-
-  }
-
-  protected toggleFormat(format: Format, toggle: boolean) {
-
-  }
-
   protected setFontSize(type: string, _menu?: Menu, menuItem?: MenuItem) {
     let size: number
     let current = this.toolbar.findMenu("font-size")?.findActive()
     const toolbarItem = this.toolbar.findItem("font-size")
-    let currentSize: number = parseInt(current?.key ?? toolbarItem?.textElement?.textContent ?? "11")
-    // debugger
+    let currentSize: number = parseInt(current?.key ?? toolbarItem?.text ?? "11")
 
     switch (type) {
       case "font-size": {
