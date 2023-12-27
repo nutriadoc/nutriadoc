@@ -110,9 +110,15 @@ export default class Floating extends View implements IView {
     // debugger
   }
 
-  public visible() {
+  public visible(relatvie?: HTMLElement | View | undefined) {
     this._visible = true
     this._element.style.visibility = "visible"
+
+    if (relatvie instanceof HTMLElement)
+      this.relative = relatvie
+    if (relatvie instanceof View)
+      this.relative = relatvie.element
+
     this.pin()
 
     this.setupDismiss()

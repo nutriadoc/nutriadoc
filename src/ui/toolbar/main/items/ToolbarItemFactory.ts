@@ -90,12 +90,15 @@ export default class ToolbarItemFactory {
   }
 
   public bold(): ToolbarItem {
-    return this.createItem({
+    const bold = this.createItem({
       key: "bold",
       icon: {
         name: "type-bold",
       },
     })
+
+    bold.description = "加粗(CTRL + B）"
+    return bold
   }
 
   public italic(): ToolbarItem {

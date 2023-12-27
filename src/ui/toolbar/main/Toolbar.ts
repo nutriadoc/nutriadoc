@@ -7,10 +7,10 @@ import StylesMenu from "../components/styles/StylesMenu.ts";
 import FontMenu from "../components/font/FontMenu.ts";
 import FontSizeMenu from "../components/font_size/FontSizeMenu.ts"
 import Menu from "../../menu/Menu.ts";
-
-import "./Toolbar.scss"
 import IToolbar from "../IToolbar.ts";
 
+import "./Toolbar.scss"
+import Tooltip from "../../tooltip/Tooltip.ts";
 
 export default class Toolbar extends View implements IToolbar{
 
@@ -19,6 +19,8 @@ export default class Toolbar extends View implements IToolbar{
   public action?: ToolbarAction
 
   protected _menus: Menu[] = []
+
+  protected _tooltip: Tooltip
 
   protected menuClasses: any[] = [
     InsertMenu,
@@ -32,7 +34,7 @@ export default class Toolbar extends View implements IToolbar{
     element.classList.add("ntr-main-toolbar")
     super(element)
     this._layouts = layout
-
+    this._tooltip = new Tooltip("")
     this.setupMenus()
   }
 
@@ -105,12 +107,17 @@ export default class Toolbar extends View implements IToolbar{
 
   public render(): Node | Node[] {
     this.addElement(this._layouts)
+    this.addElement(this._tooltip)
 
     return this._element
   }
 
   public findMenu(key: string): Menu | undefined {
     return this._menus.find(menu => menu.key === key)
+  }
+
+  public get tooltip(): Tooltip {
+    return this._tooltip
   }
 
   public static simple(): Toolbar {

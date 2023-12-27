@@ -27,7 +27,28 @@ export default class ToolbarAction {
     this.toolbar.items.forEach(item => {
       item.addEventListener("click", this.onToolbarItemClick.bind(this))
       item.addEventListener("expand", this.onToolbarItemExpand.bind(this))
+
+      this.setupItemMouseEvent(item)
     })
+  }
+
+  protected setupItemMouseEvent(item: ToolbarItem): void {
+    item.element.addEventListener("mouseenter", () => {
+      this.onItemMouseEnter(item)
+    })
+
+    item.element.addEventListener("mouseleave", () => {
+      this.onItemMouseLeave(item)
+    })
+  }
+
+  protected onItemMouseEnter(item: ToolbarItem): void {
+    this.toolbar.tooltip.content = item.description
+    this.toolbar.tooltip.visible(item)
+  }
+
+  protected onItemMouseLeave(_: ToolbarItem): void {
+    this.toolbar.tooltip.hidden()
   }
 
   protected onToolbarItemClick(event: Event) {

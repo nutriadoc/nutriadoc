@@ -28,6 +28,8 @@ export default class ToolbarItem extends ActivationView implements IView {
 
   protected button: ToolbarItemButton
 
+  public description: string | undefined = undefined
+
   public constructor(
     key: string,
     text: string,
@@ -67,6 +69,14 @@ export default class ToolbarItem extends ActivationView implements IView {
   protected onClick() {
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
+
+  // protected onMouseEnter() {
+  //   super.onMouseEnter();
+  // }
+  //
+  // protected onMouseLeave() {
+  //   super.onMouseLeave();
+  // }
 
   protected onExpandClick() {
     this.dispatchEvent(new ToolbarItemEvent(this._isToggle && this._canExpand ? "expand" : "click", this))

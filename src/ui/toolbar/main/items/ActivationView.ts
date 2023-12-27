@@ -22,7 +22,7 @@ export default class ActivationView extends View {
 
   protected setupEvents() {
     this.element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
-    this.element.addEventListener("mouseleave", this.onMouseLeaver.bind(this))
+    this.element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
   }
 
   protected setupBorderRadius(isLeftBorderRadius: boolean | undefined = undefined) {
@@ -43,10 +43,9 @@ export default class ActivationView extends View {
       return
 
     this.element.style.backgroundColor = this.activatedBackgroundColor
-    debugger
   }
 
-  protected onMouseLeaver() {
+  protected onMouseLeave() {
     if (!this.activatedBackgroundColor)
       return
 
