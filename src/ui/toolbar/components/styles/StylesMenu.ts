@@ -1,12 +1,12 @@
 import i18n from "../../../../i18n"
 import FloatingPosition from "../../../floating/FloatingPosition.ts"
-import MenuItem from "../../../menu/MenuItem.ts"
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts"
 import StylesMenuItem from "./StylesMenuItem.ts"
 import Menu from "../../../menu/Menu.ts"
 
 export default class StylesMenu extends Menu {
 
-  protected items: MenuItem[] = []
+  protected items: DefaultMenuItem[] = []
 
   public constructor(relativePosition: FloatingPosition) {
     super("styles", relativePosition, StylesMenu.items())

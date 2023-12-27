@@ -1,5 +1,5 @@
-import MenuItem from "../../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 
-export default class StylesMenuItem extends MenuItem {
+export default class StylesMenuItem extends DefaultMenuItem {
   
 }

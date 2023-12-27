@@ -1,8 +1,8 @@
 import Floating from "../floating/Floating.ts";
 import FloatingPosition from "../floating/FloatingPosition.ts";
-import MenuItem from "./MenuItem.ts";
 import MenuItemEvent from "./events/MenuItemEvent.ts";
 import MenuEvent from "./events/MenuEvent.ts";
+import MenuItem from "./MenuItem.ts";
 
 export default class Menu extends Floating {
   protected items: MenuItem[] = []
@@ -35,7 +35,7 @@ export default class Menu extends Floating {
         item.active()
       } else {
         if (item.isActivated()) {
-          item.deactive()
+          item.deactivate()
         }
       }
     })

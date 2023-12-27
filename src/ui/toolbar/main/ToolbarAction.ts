@@ -1,22 +1,22 @@
 import Toolbar from "./Toolbar.ts";
 import ToolbarItem from "./items/ToolbarItem.ts";
 import ToolbarItemEvent from "./events/ToolbarItemEvent.ts";
-import Formatter from "../../../editor/formatter/Formatter.ts";
 import Format, {keyToFormat} from "../../../editor/formatter/Format.ts";
 import MenuEvent from "../../menu/events/MenuEvent.ts";
-import MenuItem from "../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../menu/DefaultMenuItem.ts";
 import Menu from "../../menu/Menu.ts";
 import {FontSizeManager} from "../../../editor/font/FontSize.ts";
+import IFormatter from "../../../editor/formatter/IFormatter.ts";
 
 export default class ToolbarAction {
 
   protected toolbar: Toolbar
 
-  protected formatter: Formatter
+  protected formatter: IFormatter
 
   protected fontSizeManager: FontSizeManager = FontSizeManager.shared
 
-  constructor(toolbar: Toolbar, formatter: Formatter) {
+  constructor(toolbar: Toolbar, formatter: IFormatter) {
     this.toolbar = toolbar
     this.formatter = formatter
 
@@ -93,7 +93,7 @@ export default class ToolbarAction {
     }
   }
 
-  protected setFontSize(type: string, _menu?: Menu, menuItem?: MenuItem) {
+  protected setFontSize(type: string, _menu?: Menu, menuItem?: DefaultMenuItem) {
     let size: number
     let current = this.toolbar.findMenu("font-size")?.findActive()
     const toolbarItem = this.toolbar.findItem("font-size")

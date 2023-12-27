@@ -135,6 +135,8 @@ export default class ToolbarItemFactory {
       icon: {
         name: "eyedropper",
       },
+      canExpand: true,
+      toggle: true,
     })
   }
 
@@ -144,6 +146,8 @@ export default class ToolbarItemFactory {
       icon: {
         name: "highlighter",
       },
+      canExpand: true,
+      toggle: true,
     })
   }
 

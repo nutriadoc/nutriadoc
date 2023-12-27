@@ -1,6 +1,6 @@
 import Menu from "../../../menu/Menu.ts";
 import FloatingPosition from "../../../floating/FloatingPosition.ts";
-import MenuItem from "../../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import {fontSizes} from "../../../../editor/font/FontSize.ts";
 
 export default class FontSizeMenu extends Menu {
@@ -12,7 +12,7 @@ export default class FontSizeMenu extends Menu {
 
   }
 
-  public static createItems(): MenuItem[] {
-    return fontSizes().map(size => new MenuItem(size.size.toString(), size.name))
+  public static createItems(): DefaultMenuItem[] {
+    return fontSizes().map(size => new DefaultMenuItem(size.size.toString(), size.name))
   }
 }

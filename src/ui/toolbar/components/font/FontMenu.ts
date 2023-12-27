@@ -1,11 +1,11 @@
 import FloatingPosition from "../../../floating/FloatingPosition.ts";
-import MenuItem from "../../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import Fonts from "../../../../editor/font/DefaultFonts.ts";
 import Menu from "../../../menu/Menu.ts";
 
 export default class FontMenu extends Menu {
 
-  protected items: MenuItem[] = []
+  protected items: DefaultMenuItem[] = []
 
   protected family: Map<string, string> = new Map()
 
@@ -17,15 +17,15 @@ export default class FontMenu extends Menu {
     })
   }
 
-  static items(): MenuItem[] {
+  static items(): DefaultMenuItem[] {
     return Fonts.map(font => (FontMenu.createItem(font)))
   }
 
-  public static createItem(item: {name: string, family: string}): MenuItem {
-    const menu = new MenuItem(item.name, item.name)
-    menu.key = item.name
-    const name = (menu.nameElement as HTMLElement)
+  public static createItem(item: {name: string, family: string}): DefaultMenuItem {
+    const menuItem = new DefaultMenuItem(item.name, item.name)
+    menuItem.key = item.name
+    const name = (menuItem.nameElement as HTMLElement)
     name.style.fontFamily = item.family
-    return menu
+    return menuItem
   }
 }

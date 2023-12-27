@@ -8,9 +8,10 @@ import FontMenu from "../components/font/FontMenu.ts";
 import FontSizeMenu from "../components/font_size/FontSizeMenu.ts"
 import Menu from "../../menu/Menu.ts";
 import IToolbar from "../IToolbar.ts";
+import Tooltip from "../../tooltip/Tooltip.ts";
+import FontColorMenu from "../components/font_color/FontColorMenu.ts";
 
 import "./Toolbar.scss"
-import Tooltip from "../../tooltip/Tooltip.ts";
 
 export default class Toolbar extends View implements IToolbar{
 
@@ -26,7 +27,8 @@ export default class Toolbar extends View implements IToolbar{
     InsertMenu,
     StylesMenu,
     FontMenu,
-    FontSizeMenu
+    FontSizeMenu,
+    FontColorMenu
   ]
 
   public constructor(layout: ToolbarLayout[]) {

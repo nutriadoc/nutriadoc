@@ -1,13 +1,13 @@
 import Menu from "../Menu.ts";
-import MenuItem from "../MenuItem.ts";
+import DefaultMenuItem from "../DefaultMenuItem.ts";
 
 export default class MenuEvent extends Event {
 
   protected _menu: Menu
 
-  protected _menuItem: MenuItem
+  protected _menuItem: DefaultMenuItem
 
-  public constructor(type: string, menu: Menu, menuItem: MenuItem) {
+  public constructor(type: string, menu: Menu, menuItem: DefaultMenuItem) {
     super(type);
     this._menu = menu
     this._menuItem = menuItem
@@ -17,7 +17,7 @@ export default class MenuEvent extends Event {
     return this._menu
   }
 
-  public get menuItem(): MenuItem {
+  public get menuItem(): DefaultMenuItem {
     return this._menuItem
   }
 

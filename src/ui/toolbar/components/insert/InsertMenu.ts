@@ -1,6 +1,6 @@
 import i18n from "../../../../i18n"
 import FloatingPosition from "../../../floating/FloatingPosition.ts"
-import MenuItem from "../../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import Menu from "../../../menu/Menu.ts";
 
 import "./InsertMenu.scss"
@@ -12,7 +12,7 @@ export default class InsertMenu extends Menu {
     this._element.classList.add("insert-menu")
   }
 
-  public static items(): MenuItem[] {
+  public static items(): DefaultMenuItem[] {
     return [
       {
         key: "image",
@@ -29,7 +29,7 @@ export default class InsertMenu extends Menu {
     ].map(item => this.createItem(item))
   }
 
-  public static createItem(item: any): MenuItem {
-    return new MenuItem(item.key, item.name, item.canExpand, item.icon)
+  public static createItem(item: any): DefaultMenuItem {
+    return new DefaultMenuItem(item.key, item.name, item.canExpand, item.icon)
   }
 }

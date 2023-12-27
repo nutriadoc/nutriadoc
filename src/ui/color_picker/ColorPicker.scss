@@ -1,0 +1,28 @@
+.color-picker {
+  display: flex;
+
+  .color-block {
+    display: flex;
+    flex-direction: row;
+    width: 15px;
+    height: 15px;
+  }
+
+  .color-one {
+    display: flex;
+    flex-direction: row;
+
+    gap: 2px;
+  }
+
+  .color-column {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+  }
+
+  .active {
+    border: 2px solid #000;
+  }
+}
