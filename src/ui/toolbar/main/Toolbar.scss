@@ -19,20 +19,36 @@
       display: flex;
       flex-direction: row;
 
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-
-      border-radius: 4px;
-      padding: 4px 4px;
-
-      color: #666;
-
       user-select: none;
       cursor: pointer;
 
-      .icon {
+      .container {
         display: flex;
+        flex-direction: row;
+
+        flex: 1 0 auto;
+
+        justify-content: center;
+        align-items: center;
+
+        border-radius: 6px;
+        padding: 6px 0px;
+
+        color: #666;
+      }
+
+      .icon-container {
+        display: flex;
+        height: 100%;
+
+        padding: 0px 4px 0px 4px;
+
+        justify-content: flex-end;
+        align-items: center;
+
+        .icon {
+          display: flex;
+        }
       }
 
     }

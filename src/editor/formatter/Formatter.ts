@@ -4,8 +4,8 @@ import StylesFormatter from "./StylesFormatter.ts";
 import FontFamilyFormatter from "./FontFamilyFormatter.ts";
 import AbstractFormatter from "./AbstractFormatter.ts";
 import FontSizeFormatter from "./FontSizeFormatter.ts";
-import BoldFormatter from "./BoldFormatter.ts";
 import IToolbar from "../../ui/toolbar/IToolbar.ts";
+import CommonFormatter from "./CommonFormatter.ts";
 
 export default class Formatter {
 
@@ -15,7 +15,7 @@ export default class Formatter {
     StylesFormatter,
     FontFamilyFormatter,
     FontSizeFormatter,
-    BoldFormatter
+    CommonFormatter
   ]
 
   protected formatters: AbstractFormatter[]

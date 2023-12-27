@@ -45,7 +45,7 @@ export default class ToolbarItemFactory {
       name: i18n.t("toolbar.styles"),
       canExpand: true,
     })
-    const element = styles.nameElement as HTMLElement
+    const element = styles.textElement as HTMLElement
     element.style.width = "70px"
     element.style.overflowX = "hidden"
     element.style.whiteSpace = "nowrap"
@@ -58,7 +58,7 @@ export default class ToolbarItemFactory {
       name: i18n.t("menu.font"),
       canExpand: true,
     })
-    const element = font.nameElement as HTMLElement
+    const element = font.textElement as HTMLElement
     element.style.width = "100px"
     element.style.overflowX = "hidden"
     element.style.whiteSpace = "nowrap"
@@ -72,7 +72,7 @@ export default class ToolbarItemFactory {
       canExpand: true,
     })
 
-    const element = size.nameElement as HTMLElement
+    const element = size.textElement as HTMLElement
     element.style.width = "30px"
     element.style.overflowX = "hidden"
     element.style.whiteSpace = "nowrap"
@@ -223,7 +223,7 @@ export default class ToolbarItemFactory {
 
   public quote(): ToolbarItem {
     return this.createItem({
-      key: "quote",
+      key: "blockquote",
       icon: {
         name: "quote",
       },

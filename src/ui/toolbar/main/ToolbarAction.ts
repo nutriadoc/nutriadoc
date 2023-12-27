@@ -34,6 +34,7 @@ export default class ToolbarAction {
     const item = e.target as ToolbarItem
 
     this.selectMenuItem(new Event(item.key))
+
     const menu = this.toolbar.findMenu((item.key))
     if (!menu) return
     menu.relative = item.element
@@ -60,17 +61,26 @@ export default class ToolbarAction {
       }
       default: {
         const format = keyToFormat(e.type)
-        this.formatter.format(format)
+        const toolbarItem = this.toolbar.findItem(e.type)
+        this.formatter.format(format, !toolbarItem?.isActive)
         break
       }
     }
+  }
+
+  protected openForm(): void {
+
+  }
+
+  protected toggleFormat(format: Format, toggle: boolean) {
+
   }
 
   protected setFontSize(type: string, _menu?: Menu, menuItem?: MenuItem) {
     let size: number
     let current = this.toolbar.findMenu("font-size")?.findActive()
     const toolbarItem = this.toolbar.findItem("font-size")
-    let currentSize: number = parseInt(current?.key ?? toolbarItem?.nameElement?.textContent ?? "11")
+    let currentSize: number = parseInt(current?.key ?? toolbarItem?.textElement?.textContent ?? "11")
     // debugger
 
     switch (type) {
@@ -98,7 +108,9 @@ export default class ToolbarAction {
 
   protected onStylesMenuItemSelect(event: Event) {
     const e = event as MenuEvent
-    const key = e.menuItem.key
+    const key = e.menuItem?.key
+    if (!key)
+      return
 
     this.formatter.format(keyToFormat(key))
   }

@@ -25,6 +25,7 @@ export default abstract class AbstractFormatter {
   }
 
   public deactive(key: string) {
+    console.debug("deactive", key)
     this.toolbars.forEach(toolbar => toolbar.deactiveItem(key))
   }
 }

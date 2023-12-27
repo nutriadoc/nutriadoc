@@ -37,7 +37,7 @@ export default class Toolbar extends View implements IToolbar{
   }
 
   setItemLabel(key: string, label: string): void {
-    this.findItem(key)?.setLabel(label)
+    this.findItem(key)?.setText(label)
     const menu = this.findMenu(key)
 
     menu?.active(label)
@@ -50,7 +50,7 @@ export default class Toolbar extends View implements IToolbar{
     menu?.active(key)
   }
   deactiveItem(key: string): void {
-    this.findItem(key)?.deactive()
+    this.findItem(key)?.deactivate()
   }
 
   protected setupMenus() {

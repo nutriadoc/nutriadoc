@@ -32,6 +32,10 @@ export default class View extends EventTarget implements IView {
     }
   }
 
+  public addTo(parent: HTMLElement): void {
+    parent.appendChild(this._element)
+  }
+
   public get element(): HTMLElement {
     return this._element
   }

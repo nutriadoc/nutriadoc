@@ -12,7 +12,10 @@ enum Format {
   FontFamily,
   FontSize,
   Bold,
-  I,
+  Italic,
+  Underline,
+  Strike,
+  BlockQuote,
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {
@@ -55,8 +58,9 @@ export function toStyles(level: number, isTitle?: boolean, isSubtitle?: boolean)
 }
 
 export function keyToFormat(key: string): Format {
-  const initial = key.charAt(0).toUpperCase()
-  key = initial + key.slice(1)
+
+  const keys = Object.keys(Format)
+  key = keys.find(k => k.toLowerCase() === key) ?? key
 
   return Format[key as keyof typeof Format]
 }

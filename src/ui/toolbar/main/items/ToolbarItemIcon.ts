@@ -11,16 +11,24 @@ export default class ToolbarItemIcon extends View implements IView {
 
   protected size: string = "12px"
 
+  protected icon: HTMLElement
+
   public constructor(name: string, color: string = DEFAULT_COLOR, size: string = "12px") {
     const element = document.createElement('div')
-    element.classList.add('icon')
-    element.classList.add('bi')
-    element.classList.add(`bi-${name}`)
     super(element)
 
-    element.style.fontSize = size
-    element.style.width = size
-    element.style.height = size
+    element.classList.add('icon-container')
+
+    const icon = document.createElement('div')
+    this.icon = icon
+    this.addNode(this.icon)
+
+    icon.classList.add('icon')
+    icon.classList.add('bi')
+    icon.classList.add(`bi-${name}`)
+    icon.style.fontSize = size
+    icon.style.width = size
+    icon.style.height = size
     this.size = size
 
     this.name = name

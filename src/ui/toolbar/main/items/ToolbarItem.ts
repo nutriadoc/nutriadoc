@@ -3,7 +3,7 @@ import IView from "../../../IView.ts"
 import ToolbarItemIcon from "./ToolbarItemIcon.ts"
 import ToolbarItemEvent from "../events/ToolbarItemEvent.ts"
 
-const ENTABLE_COLOR = "#464D5A"
+const ENABLE_COLOR = "#464D5A"
 const DISABLE_COLOR = "#B5B8BD"
 
 export default class ToolbarItem extends View implements IView {
@@ -16,17 +16,28 @@ export default class ToolbarItem extends View implements IView {
 
   protected _isEnabled: boolean = true
 
-  protected _isActived: boolean = false
+  protected _isActivated: boolean = false
+
+  protected _isToggled: boolean = true
 
   protected rendered: boolean = false
 
-  protected _nameElement: Node
+  protected _textElement: Node
 
   protected _icon?: ToolbarItemIcon
 
   protected expandIcon?: ToolbarItemIcon
 
-  public constructor(key: string, name: string, canExpand: boolean = false, icon?: ToolbarItemIcon, enabled: boolean = true) {
+  protected container: HTMLElement
+
+  public constructor(
+    key: string,
+    text: string,
+    canExpand: boolean = false,
+    icon?: ToolbarItemIcon,
+    enabled: boolean = true,
+    toggle: boolean = true) {
+
     const element = document.createElement("div")
     element.classList.add("item")
     super(element)
@@ -36,15 +47,21 @@ export default class ToolbarItem extends View implements IView {
     element.addEventListener("click", this.onClick.bind(this))
 
     this._key = key
-    this._name = name
+    this._name = text
     this._canExpand = canExpand
     this._icon = icon
     this._isEnabled = enabled
+    this._isToggled = toggle
 
-    let nameNode = document.createElement('span')
-    nameNode.classList.add("name")
+    const container = document.createElement("div")
+    container.classList.add("container")
+    this.container = container
+    this.addNode(this.container)
+
+    let textElement = document.createElement('span')
+    textElement.classList.add("name")
     
-    this._nameElement = nameNode
+    this._textElement = textElement
   }
 
   protected onMouseEnter() {
@@ -53,7 +70,7 @@ export default class ToolbarItem extends View implements IView {
   }
 
   protected onMouseLeaver() {
-    if (this._isActived) return
+    if (this._isActivated) return
     this._element.classList.remove("active")
   }
 
@@ -66,17 +83,15 @@ export default class ToolbarItem extends View implements IView {
     this.rendered = true
 
     this.renderIcon()
-
-    this._element.append(this._nameElement)
     this.renderName()
-
     this.renderExpand()
 
     return this._element
   }
 
   public renderName() {
-    this._nameElement.textContent = this._name
+    this._textElement.textContent = this._name
+    this.container.append(this._textElement)
   }
 
   public renderIcon(): void {
@@ -84,11 +99,11 @@ export default class ToolbarItem extends View implements IView {
       return
 
     this._icon.color = this.enableOrDisableColor()
-    this.addElement(this._icon)
+    this._icon.addTo(this.container)
   }
 
-  public setLabel(value: string) {
-    this._nameElement.textContent = value
+  public setText(value: string) {
+    this._textElement.textContent = value
   }
 
   public renderExpand(): void {
@@ -103,17 +118,17 @@ export default class ToolbarItem extends View implements IView {
   }
 
   public active(): void {
-    this._isActived = true
+    this._isActivated = true
     this._element.classList.add("active")
   }
 
-  public deactive(): void {
-    this._isActived = false
+  public deactivate(): void {
+    this._isActivated = false
     this._element.classList.remove("active")
   }
 
   public enableOrDisableColor() {
-    return this._isEnabled ? ENTABLE_COLOR : DISABLE_COLOR
+    return this._isEnabled ? ENABLE_COLOR : DISABLE_COLOR
   }
 
   public enable(): void {
@@ -133,10 +148,10 @@ export default class ToolbarItem extends View implements IView {
   }
 
   public get isActive(): boolean {
-    return this._isActived
+    return this._isActivated
   }
 
-  public get nameElement(): Node {
-    return this._nameElement
+  public get textElement(): Node {
+    return this._textElement
   }
 }
