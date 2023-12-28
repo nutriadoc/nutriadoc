@@ -174,12 +174,12 @@ export default class ToolbarItemFactory {
 
   public bulletList(): ToolbarItem {
     return this.createItem({
-      key: "bulletList",
+      key: "list",
       icon: {
         name: "list-ul",
       },
-      canExpand: true,
-      toggle: true
+      // canExpand: true,
+      // toggle: true
     })
   }
 
@@ -189,7 +189,7 @@ export default class ToolbarItemFactory {
       icon: {
         name: "list-ol",
       },
-      canExpand: true
+      // canExpand: true
     })
   }
 

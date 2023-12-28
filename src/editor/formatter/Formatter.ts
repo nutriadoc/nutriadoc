@@ -7,6 +7,7 @@ import FontSizeFormatter from "./FontSizeFormatter.ts";
 import IToolbar from "../../ui/toolbar/IToolbar.ts";
 import CommonFormatter from "./CommonFormatter.ts";
 import IFormatter from "./IFormatter.ts";
+import IndentationFormatter from "./IndentationFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -16,6 +17,7 @@ export default class Formatter implements IFormatter {
     StylesFormatter,
     FontFamilyFormatter,
     FontSizeFormatter,
+    IndentationFormatter,
     CommonFormatter
   ]
 

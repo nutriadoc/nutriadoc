@@ -17,7 +17,10 @@ enum Format {
   Strike,
   BlockQuote,
   Color,
-  Background
+  Background,
+  List,
+  Indent,
+  Outdent
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {
