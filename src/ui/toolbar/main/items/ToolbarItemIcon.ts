@@ -1,7 +1,7 @@
 import View from "../../../View.ts"
 import IView from "../../../IView.ts"
 
-const DEFAULT_COLOR = "#464D5A"
+export const DEFAULT_COLOR = "#464D5A"
 
 export default class ToolbarItemIcon extends View implements IView {
 

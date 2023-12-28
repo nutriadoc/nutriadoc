@@ -18,12 +18,6 @@ export default class FontSizeFormatter extends AbstractFormatter {
 
     const [fontSize] = fontSizes
 
-    // const item = this.toolbar.findItem("font-size")
-    // item?.setLabel(fontSize ?? i18n.t("menu.fontSize"))
-    //
-    // const menu = this.toolbar.findMenu("font-size")
-    // menu?.active(fontSize)
-
     this.active("font-size", fontSize ?? i18n.t("menu.fontSize"))
   }
 

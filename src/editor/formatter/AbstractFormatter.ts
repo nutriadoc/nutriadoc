@@ -18,11 +18,23 @@ export default abstract class AbstractFormatter implements IFormatter {
 
   public abstract format(format: Format, ...params: any[]): void
 
-  public active(key: string, label?: string) {
+  public active(key: string, value?: any) {
     this.toolbars.forEach(toolbar => toolbar.activeItem(key))
-    if (label) {
-      this.toolbars.forEach(toolbar => toolbar.setItemLabel(key, label))
+    if (value) {
+      this.toolbars.forEach(toolbar => toolbar.setToolbarItemText(key, value))
     }
+  }
+
+  protected activeToolbarItem(_key: string) {
+
+  }
+
+  protected changeToolbarItemText(key: string, value: string) {
+    this.toolbars.forEach(toolbar => toolbar.setToolbarItemText(key, value))
+  }
+
+  protected activeMenuItem(menuKey: string, itemKey: string) {
+    this.toolbars.forEach(toolbar => toolbar.activeMenuItem(menuKey, itemKey))
   }
 
   public deactive(key: string) {

@@ -35,8 +35,8 @@ export default class Formatter implements IFormatter {
   }
 
   format(format: Format, ...params: any[]) {
-    const range = this.quill.getSelection()
-    if (range == null) return
+    // const range = this.quill.getSelection()
+    // if (range == null) return
 
     this.formatters.forEach(formatter => formatter.format(format, ...params))
   }
@@ -55,8 +55,8 @@ export default class Formatter implements IFormatter {
   }
 
   select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
-    console.debug("on select", range)
     const format = this.quill.getFormat(range)
+    console.debug("on select", range, format)
     this.formatters.forEach(formatter => formatter.select(format))
   }
 

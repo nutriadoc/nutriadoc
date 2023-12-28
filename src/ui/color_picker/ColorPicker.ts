@@ -1,8 +1,6 @@
 import ColorBlock from "./ColorBlock.ts"
 import View from "../View.ts"
 import "./ColorPicker.scss"
-
-
 export default class ColorPicker extends View {
 
   public constructor() {
@@ -13,4 +11,5 @@ export default class ColorPicker extends View {
 
     element.append(ColorBlock.createOne(this))
   }
+
 }

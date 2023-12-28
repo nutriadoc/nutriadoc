@@ -1,13 +1,13 @@
-import ToolbarItemIcon from "./ToolbarItemIcon.ts"
 import ActivationView from "./ActivationView.ts"
+import IToolbarItemIcon from "./IToolbarItemIcon.ts";
 
 export default class ToolbarItemButton extends ActivationView {
 
-  protected _icon?: ToolbarItemIcon
+  protected _icon?: IToolbarItemIcon
 
   protected _textElement: HTMLElement
 
-  public constructor(icon?: ToolbarItemIcon, activatedBackgroundColor?: string) {
+  public constructor(icon?: IToolbarItemIcon, activatedBackgroundColor?: string) {
     const element = document.createElement("div")
     element.classList.add("button")
     if (activatedBackgroundColor)
@@ -27,8 +27,8 @@ export default class ToolbarItemButton extends ActivationView {
     return textElement
   }
 
-  public get textElement() {
-    return this._textElement
+  public get icon(): IToolbarItemIcon | undefined {
+    return this._icon
   }
 
   public set text(value: string) {
@@ -39,6 +39,10 @@ export default class ToolbarItemButton extends ActivationView {
     return this._textElement.textContent || ""
   }
 
+  public set value(value: any) {
+    this.text = value
+  }
+
   public set textWidth(width: number) {
     this._textElement.style.width = `${width}px`
     this._textElement.style.overflowX = "hidden"
@@ -47,6 +51,7 @@ export default class ToolbarItemButton extends ActivationView {
 
   public render(): Node | Node[] {
     if (this._icon) this.addElement(this._icon)
+    if ("" != this.text)
     this.addNode(this._textElement)
     return this._element
   }

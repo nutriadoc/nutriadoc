@@ -5,12 +5,10 @@ import Menu from "../../../menu/Menu.ts";
 
 export default class FontMenu extends Menu {
 
-  protected items: DefaultMenuItem[] = []
-
   protected family: Map<string, string> = new Map()
 
   public constructor(relativePosition: FloatingPosition) {
-    super('font', relativePosition, FontMenu.items())
+    super('fontFamily', relativePosition, FontMenu.items())
 
     Fonts.forEach(font => {
       this.family.set(font.name, font.family)

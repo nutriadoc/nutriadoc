@@ -24,14 +24,17 @@ export default class StylesFormatter extends AbstractFormatter {
   ]
 
   format(format: Format, ..._: object[]) {
+
+
+    if (!this.allowFormats.includes(format)) return
+
     const range = this.quill.getSelection()
     if (range == null) return
-    if (!this.allowFormats.includes(format)) return
+
     const level = formatToHeadingLevel(format)
 
     const title = titleAttributes.get(format)
     this.quill.format('header', level)
-
 
     const [blot] = this.quill.getLine(range.index)
     if (title !== undefined)
@@ -45,6 +48,7 @@ export default class StylesFormatter extends AbstractFormatter {
     const subtitle = formats["subtitle"]
 
     const format = toStyles(level, title, subtitle)
+
     if (format === undefined) return
 
     this.activeStyles(format)
@@ -57,23 +61,24 @@ export default class StylesFormatter extends AbstractFormatter {
     const n = parseInt(key.substring(7, 8))
 
     let i18nKey: string
-    let label: string
+    let text: string
     switch (key) {
       case "Title":
       case "Subtitle":
       case "NormalText": {
         i18nKey = `menu.styles.${camelCaseKey}`
-        label = i18n.t(i18nKey)
+        text = i18n.t(i18nKey)
         break;
       }
       default: {
         i18nKey = `menu.styles.heading`
-        label = `${i18n.t(i18nKey)} ${n}`
+        text = `${i18n.t(i18nKey)} ${n}`
         break;
       }
     }
 
-    this.active("styles", label)
+    this.changeToolbarItemText("header", text)
+    this.activeMenuItem("header", camelCaseKey)
   }
 
 }

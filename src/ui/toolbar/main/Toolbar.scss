@@ -39,7 +39,31 @@
         color: #666;
 
         .icon {
+          display: flex;
+
           margin-top: -3px;
+        }
+
+        .color-icon {
+          display: grid;
+          flex-direction: column;
+
+          justify-content: center;
+          align-items: center;
+
+          height: 16px;
+
+          .color-line-component {
+            display: flex;
+
+            align-self: flex-end;
+            justify-self: flex-end;
+
+
+            width: 14px;
+            height: 2px;
+            border: 1px solid #333;
+          }
         }
       }
 

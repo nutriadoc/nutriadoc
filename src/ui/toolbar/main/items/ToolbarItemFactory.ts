@@ -2,6 +2,16 @@ import i18n from "../../../../i18n";
 import ToolbarItem from "./ToolbarItem.ts";
 import ToolbarItemIcon from "./ToolbarItemIcon.ts";
 import { ToolbarSeparatorItem } from "./ToolbarSeparatorItem.ts";
+import ColorIcon from "./impls/ColorIcon.ts";
+import IToolbarItemIcon from "./IToolbarItemIcon.ts"
+import ToolbarColorItem from "./ToolbarColorItem.ts";
+
+interface IconOption {
+
+  name: string
+
+  color: string
+}
 
 export default class ToolbarItemFactory {
 
@@ -41,7 +51,7 @@ export default class ToolbarItemFactory {
 
   public styles(): ToolbarItem {
     const styles = this.createItem({
-      key: "styles",
+      key: "header",
       name: i18n.t("toolbar.styles"),
       canExpand: true,
     })
@@ -51,7 +61,7 @@ export default class ToolbarItemFactory {
 
   public font(): ToolbarItem {
     const font = this.createItem({
-      key: "font",
+      key: "fontFamily",
       name: i18n.t("menu.font"),
       canExpand: true,
     })
@@ -130,25 +140,27 @@ export default class ToolbarItemFactory {
   }
 
   public color(): ToolbarItem {
-    return this.createItem({
-      key: "color",
-      icon: {
-        name: "eyedropper",
-      },
-      canExpand: true,
-      toggle: true,
-    })
+    return this.createItem(
+      {
+        key: "color",
+        icon: new ColorIcon("fonts", "#FF0000"),
+        canExpand: true,
+        toggle: true,
+        },
+      ToolbarColorItem
+    )
   }
 
   public highlight(): ToolbarItem {
-    return this.createItem({
-      key: "highlight",
-      icon: {
-        name: "highlighter",
+    return this.createItem(
+      {
+        key: "background",
+        icon: new ColorIcon("highlighter", "#FFFF00", "10px"),
+        canExpand: true,
+        toggle: true,
       },
-      canExpand: true,
-      toggle: true,
-    })
+      ToolbarColorItem
+    )
   }
 
   public colorPicker(): ToolbarItem {
@@ -268,8 +280,8 @@ export default class ToolbarItemFactory {
     return new ToolbarSeparatorItem()
   }
 
-  createItem(item: any) {
-    return new ToolbarItem(
+  createItem(item: any, itemClass: typeof ToolbarItem | typeof ToolbarColorItem = ToolbarItem): ToolbarItem {
+    return new itemClass(
       item.key,
       item.name,
       item.canExpand,
@@ -279,8 +291,12 @@ export default class ToolbarItemFactory {
     )
   }
 
-  createIcon(icon?: {name: string, color: string}) {
+  createIcon(icon?: IconOption | IToolbarItemIcon | undefined): IToolbarItemIcon | undefined {
     if (!icon) return undefined
+
+    if ((icon as any)['name'] === undefined) return icon as IToolbarItemIcon
+
+    // @ts-ignore
     return new ToolbarItemIcon(icon.name, icon.color, "16px")
   }
 }

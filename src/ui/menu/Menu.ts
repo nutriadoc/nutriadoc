@@ -29,7 +29,7 @@ export default class Menu extends Floating {
     this.hidden()
   }
 
-  public active(key: string) {
+  public activeMenuItem(key: string) {
     this.items.forEach(item => {
       if (item.key === key) {
         item.active()

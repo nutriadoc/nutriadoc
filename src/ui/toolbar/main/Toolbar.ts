@@ -12,6 +12,7 @@ import Tooltip from "../../tooltip/Tooltip.ts";
 import FontColorMenu from "../components/font_color/FontColorMenu.ts";
 
 import "./Toolbar.scss"
+import HighlightMenu from "../components/hightlight/HighlightMenu.ts";
 
 export default class Toolbar extends View implements IToolbar{
 
@@ -28,7 +29,8 @@ export default class Toolbar extends View implements IToolbar{
     StylesMenu,
     FontMenu,
     FontSizeMenu,
-    FontColorMenu
+    FontColorMenu,
+    HighlightMenu,
   ]
 
   public constructor(layout: ToolbarLayout[]) {
@@ -48,19 +50,20 @@ export default class Toolbar extends View implements IToolbar{
     menu.visible()
   }
 
-  setItemLabel(key: string, label: string): void {
-    this.findItem(key)?.setText(label)
-    const menu = this.findMenu(key)
-
-    menu?.active(label)
+  setToolbarItemText(key: string, label: string): void {
+    const item = this.findItem(key)
+    if (!item) return
+    item.value = label
   }
+
   activeItem(key: string): void {
     const menu = this.findMenu(key)
     if (!menu)
-      this.active(key)
+      this.activeToolbarItem(key)
 
-    menu?.active(key)
+    menu?.activeMenuItem(key)
   }
+
   deactiveItem(key: string): void {
     this.findItem(key)?.deactivate()
   }
@@ -69,20 +72,19 @@ export default class Toolbar extends View implements IToolbar{
     this._menus = this.menuClasses.map(menuClass => {
       const menu = new menuClass()
       this.addElement(menu)
-      menu.addEventListener("select", this.onMenuItemSelect.bind(this))
       return menu
     })
   }
 
-  protected onMenuItemSelect(event: Event) {
-    this.action?.selectMenuItem(event)
-  }
-
-  public active(key: string): void {
+  public activeToolbarItem(key: string): void {
     const item = this.findItem(key)
     if (!item) return
 
     item.active()
+  }
+
+  public activeMenuItem(menuKey: string, itemKey: string): void {
+    this.findMenu(menuKey)?.activeMenuItem(itemKey)
   }
 
   public get items(): ToolbarItem[] {
@@ -92,6 +94,12 @@ export default class Toolbar extends View implements IToolbar{
     }
 
     return items
+  }
+
+  public set value(value: any) {
+    this.items.forEach(item => {
+      item.value = value
+    })
   }
 
   public findItem(key: string): ToolbarItem | undefined {
@@ -120,6 +128,10 @@ export default class Toolbar extends View implements IToolbar{
 
   public get tooltip(): Tooltip {
     return this._tooltip
+  }
+
+  public get menus(): Menu[] {
+    return this._menus
   }
 
   public static simple(): Toolbar {

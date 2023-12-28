@@ -1,19 +1,17 @@
 import i18n from "../../../../i18n"
 import FloatingPosition from "../../../floating/FloatingPosition.ts"
-import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts"
-import StylesMenuItem from "./StylesMenuItem.ts"
 import Menu from "../../../menu/Menu.ts"
+import MenuItem from "../../../menu/MenuItem.ts";
+import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 
 export default class StylesMenu extends Menu {
 
-  protected items: DefaultMenuItem[] = []
-
   public constructor(relativePosition: FloatingPosition) {
-    super("styles", relativePosition, StylesMenu.items())
+    super("header", relativePosition, StylesMenu.items())
     this._element.classList.add("insert-menu")
   }
 
-  public static items(): StylesMenuItem[] {
+  public static items(): MenuItem[] {
 
     const headlines = [1, 2, 3, 4, 5, 6].map((index) => ({
       key: "heading" + index,
@@ -37,7 +35,7 @@ export default class StylesMenu extends Menu {
     ].map(item => this.createItem(item))
   }
 
-  public static createItem(item: any): StylesMenuItem {
-    return new StylesMenuItem(item.key, item.name)
+  public static createItem(item: any): MenuItem {
+    return new DefaultMenuItem(item.key, item.name)
   }
 }

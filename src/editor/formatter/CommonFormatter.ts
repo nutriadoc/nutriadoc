@@ -10,19 +10,23 @@ export default class CommonFormatter extends AbstractFormatter {
     'underline',
     'strike',
     'blockquote',
+    'color'
   ]
 
   public select(formats: StringMap): void {
     this.supportedFormats.forEach(format => {
       if (formats[format])
-        super.active(format)
+        super.active(format, formats[format])
       else
         super.deactive(format)
     })
   }
 
   public format(format: Format, ..._params: any[]): void {
-    console.debug("format", format)
+    console.debug("format", format, _params)
+
+    // const range = this.quill.getSelection()
+
     const key = formatToKey(format).toLowerCase()
     this.quill.format(key, _params[0], "user")
   }

@@ -17,4 +17,6 @@ export default class InactiveMenuItem extends MenuItem {
 
   public active(): void {
   }
+
+
 }

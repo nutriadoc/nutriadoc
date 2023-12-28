@@ -12,5 +12,7 @@ export default interface IView {
 
   get element(): HTMLElement
 
+  get children(): IView[]
+
   find(key: string): IView | undefined
 }

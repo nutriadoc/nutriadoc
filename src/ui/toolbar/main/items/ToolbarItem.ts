@@ -1,9 +1,9 @@
 import IView from "../../../IView.ts"
-import ToolbarItemIcon from "./ToolbarItemIcon.ts"
 import ToolbarItemEvent from "../events/ToolbarItemEvent.ts"
 import ToolbarItemButton from "./ToolbarItemButton.ts";
 import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
 import ActivationView from "./ActivationView.ts";
+import IToolbarItemIcon from "./IToolbarItemIcon.ts";
 
 const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
 const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
@@ -34,7 +34,7 @@ export default class ToolbarItem extends ActivationView implements IView {
     key: string,
     text: string,
     canExpand: boolean = false,
-    icon?: ToolbarItemIcon,
+    icon?: IToolbarItemIcon,
     enabled?: boolean,
     toggle?: boolean) {
 
@@ -69,14 +69,6 @@ export default class ToolbarItem extends ActivationView implements IView {
   protected onClick() {
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
-
-  // protected onMouseEnter() {
-  //   super.onMouseEnter();
-  // }
-  //
-  // protected onMouseLeave() {
-  //   super.onMouseLeave();
-  // }
 
   protected onExpandClick() {
     this.dispatchEvent(new ToolbarItemEvent(this._isToggle && this._canExpand ? "expand" : "click", this))
@@ -133,5 +125,13 @@ export default class ToolbarItem extends ActivationView implements IView {
 
   public set textWidth(width: number) {
     this.button.textWidth = width
+  }
+
+  public set value(value: any) {
+    this.button.value = value
+  }
+
+  public get value(): any {
+    return !this.isActive
   }
 }

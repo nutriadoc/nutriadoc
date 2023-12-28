@@ -42,7 +42,8 @@ export default class FontFamilyFormatter extends AbstractFormatter {
   }
 
   public activeFont(font: string) {
-    this.active("font", font)
+    this.changeToolbarItemText("fontFamily", font)
+    this.activeMenuItem("fontFamily", font)
   }
 
 }

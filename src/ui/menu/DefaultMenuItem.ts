@@ -1,9 +1,9 @@
-import View from "../View.ts";
 import MenuItemEvent from "./events/MenuItemEvent.ts";
+import MenuItem from "./MenuItem.ts";
 
 import "./MenuItem.scss"
 
-export default class DefaultMenuItem extends View {
+export default class DefaultMenuItem extends MenuItem {
 
   protected _key: string
 
@@ -71,7 +71,6 @@ export default class DefaultMenuItem extends View {
   }
 
   protected onMouseClick(): void {
-
     const event = new MenuItemEvent("select", this)
     this.dispatchEvent(event)
   }
@@ -96,5 +95,9 @@ export default class DefaultMenuItem extends View {
 
   public render(): Node | Node[] {
     return this._element
+  }
+
+  public get value(): any {
+    return this._key
   }
 }

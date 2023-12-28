@@ -3,8 +3,6 @@ import ToolbarItem from "./items/ToolbarItem.ts";
 import ToolbarItemEvent from "./events/ToolbarItemEvent.ts";
 import Format, {keyToFormat} from "../../../editor/formatter/Format.ts";
 import MenuEvent from "../../menu/events/MenuEvent.ts";
-import DefaultMenuItem from "../../menu/DefaultMenuItem.ts";
-import Menu from "../../menu/Menu.ts";
 import {FontSizeManager} from "../../../editor/font/FontSize.ts";
 import IFormatter from "../../../editor/formatter/IFormatter.ts";
 
@@ -21,6 +19,13 @@ export default class ToolbarAction {
     this.formatter = formatter
 
     this.setupToolbarItemListener()
+    this.setupMenuListener()
+  }
+
+  protected setupMenuListener() {
+    this.toolbar.menus.forEach(menu => {
+      menu.addEventListener("select", this.onMenuItemSelect.bind(this))
+    })
   }
 
   setupToolbarItemListener() {
@@ -55,45 +60,52 @@ export default class ToolbarAction {
     const e = event as ToolbarItemEvent
     const item = e.target as ToolbarItem
 
-    if (item.isToggle && !item.canExpand)
-      this.selectMenuItem(new Event(item.key))
+    if (item.isToggle)
+      this.format(item.key, item.value)
 
-    this.toolbar.openMenu(item.key, item.element)
+    if (item.canExpand && !item.isToggle)
+      this.toolbar.openMenu(item.key, item.element)
   }
 
-  protected onToolbarItemExpand(event: Event) {
-    this.onToolbarItemClick(event)
-  }
+  protected onMenuItemSelect(event: Event) {
+    const e = event as MenuEvent
+    const item = e.menuItem
+    console.debug('on menu item select', { menu: e.menu, item })
 
-  public selectMenuItem(event: Event) {
-    const e: MenuEvent | undefined = event as MenuEvent
-    console.debug("select menu item", e)
+    const menuKey = e.menu.key
 
-    switch (e.type) {
-      case "styles": {
-        this.onStylesMenuItemSelect(e!)
+    switch (menuKey) {
+      case "header": {
+        this.format(item.key, null)
         break
       }
-      case "font": {
-        this.onFontMenuItemSelect(e!)
-        break
-      }
-      case "increase-font-size":
-      case "decrease-font-size":
       case "font-size": {
-        this.setFontSize(e.type, e.menu, e.menuItem)
+        this.setFontSize(menuKey, item.value);
         break
       }
       default: {
-        const format = keyToFormat(e.type)
-        const toolbarItem = this.toolbar.findItem(e.type)
-        this.formatter.format(format, !toolbarItem?.isActive)
+        this.format(menuKey, item.value)
         break
       }
     }
   }
 
-  protected setFontSize(type: string, _menu?: Menu, menuItem?: DefaultMenuItem) {
+  protected onToolbarItemExpand(event: Event) {
+    const e = event as ToolbarItemEvent
+    const item = e.target as ToolbarItem
+
+    this.toolbar.openMenu(item.key, item.element)
+  }
+
+  public format(key: string, value: any) {
+
+    const format = keyToFormat(key)
+    console.debug("format", key, value)
+
+    this.formatter.format(format, value)
+  }
+
+  protected setFontSize(type: string, value: string) {
     let size: number
     let current = this.toolbar.findMenu("font-size")?.findActive()
     const toolbarItem = this.toolbar.findItem("font-size")
@@ -101,8 +113,7 @@ export default class ToolbarAction {
 
     switch (type) {
       case "font-size": {
-        if (!menuItem) return
-        size = parseInt(menuItem!.key)
+        size = parseInt(value)
         break
       }
       case "increase-font-size": {
@@ -121,20 +132,4 @@ export default class ToolbarAction {
 
     this.formatter.format(Format.FontSize, size)
   }
-
-  protected onStylesMenuItemSelect(event: Event) {
-    const e = event as MenuEvent
-    const key = e.menuItem?.key
-    if (!key)
-      return
-
-    this.formatter.format(keyToFormat(key))
-  }
-
-  protected onFontMenuItemSelect(event: Event) {
-    const e = event as MenuEvent
-    if (!e?.menuItem) return
-    this.formatter.format(Format.FontFamily, e.menuItem.key)
-  }
-
 }

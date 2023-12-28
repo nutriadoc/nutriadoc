@@ -1,8 +1,10 @@
 export default interface IToolbar {
 
-  setItemLabel(key: string, label: string): void
+  setToolbarItemText(key: string, label: string): void
 
   activeItem(key: string): void
+
+  activeMenuItem(menuKey: string, itemKey: string): void
 
   deactiveItem(key: string): void
 }

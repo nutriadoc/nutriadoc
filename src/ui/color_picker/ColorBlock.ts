@@ -1,6 +1,7 @@
 import {One} from "./Colors.ts"
 import ColorPicker from "./ColorPicker.ts"
 import ActivationView from "../toolbar/main/items/ActivationView.ts";
+import ColorEvent from "./ColorEvent.ts";
 
 export default class ColorBlock extends ActivationView {
 
@@ -18,6 +19,12 @@ export default class ColorBlock extends ActivationView {
     element.classList.add("color-block")
     element.style.backgroundColor = color
     this.element.style.border = `2px solid ${color}`
+
+    this.element.addEventListener("click", this.onClick.bind(this))
+  }
+
+  protected onClick(_: MouseEvent) {
+    this.colorPicker.dispatchEvent(new ColorEvent("click", this.color))
   }
 
   protected onMouseEnter() {
