@@ -108,7 +108,7 @@ export default class ToolbarAction {
   protected setFontSize(type: string, value: string) {
     let size: number
     let current = this.toolbar.findMenu("font-size")?.findActive()
-    const toolbarItem = this.toolbar.findItem("font-size")
+    const toolbarItem = this.toolbar.findToolbarItem("font-size")
     let currentSize: number = parseInt(current?.key ?? toolbarItem?.text ?? "11")
 
     switch (type) {

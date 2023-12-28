@@ -25,8 +25,11 @@ export default abstract class AbstractFormatter implements IFormatter {
     }
   }
 
-  protected activeToolbarItem(_key: string) {
-
+  protected activeToolbarItem(key: string) {
+    this
+      .toolbars
+      .map(toolbar => toolbar.findToolbarItem(key))
+      .forEach(menu => menu?.active())
   }
 
   protected changeToolbarItemText(key: string, value: string) {

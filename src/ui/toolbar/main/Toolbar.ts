@@ -51,7 +51,7 @@ export default class Toolbar extends View implements IToolbar{
   }
 
   setToolbarItemText(key: string, label: string): void {
-    const item = this.findItem(key)
+    const item = this.findToolbarItem(key)
     if (!item) return
     item.value = label
   }
@@ -65,7 +65,7 @@ export default class Toolbar extends View implements IToolbar{
   }
 
   deactiveItem(key: string): void {
-    this.findItem(key)?.deactivate()
+    this.findToolbarItem(key)?.deactivate()
   }
 
   protected setupMenus() {
@@ -77,7 +77,7 @@ export default class Toolbar extends View implements IToolbar{
   }
 
   public activeToolbarItem(key: string): void {
-    const item = this.findItem(key)
+    const item = this.findToolbarItem(key)
     if (!item) return
 
     item.active()
@@ -102,7 +102,7 @@ export default class Toolbar extends View implements IToolbar{
     })
   }
 
-  public findItem(key: string): ToolbarItem | undefined {
+  public findToolbarItem(key: string): ToolbarItem | undefined {
     let item: ToolbarItem | undefined
     for (let layout of this._layouts) {
       item = layout.findItem(key)

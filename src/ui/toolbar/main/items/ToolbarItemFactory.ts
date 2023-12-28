@@ -174,7 +174,7 @@ export default class ToolbarItemFactory {
 
   public bulletList(): ToolbarItem {
     return this.createItem({
-      key: "list",
+      key: "bullet",
       icon: {
         name: "list-ul",
       },
@@ -185,7 +185,7 @@ export default class ToolbarItemFactory {
 
   public numberedList(): ToolbarItem {
     return this.createItem({
-      key: "numberedList",
+      key: "numbered",
       icon: {
         name: "list-ol",
       },

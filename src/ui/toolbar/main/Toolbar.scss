@@ -13,7 +13,7 @@
     flex: 1 0 auto;
 
     gap: 6px;
-    padding: 8px 0px;
+    padding: 8px 0;
 
     .item {
       display: flex;
@@ -75,7 +75,7 @@
           display: flex;
           height: 100%;
 
-          padding: 0px 4px 0px 4px;
+          padding: 0 4px 0 4px;
 
           justify-content: flex-end;
           align-items: center;
@@ -93,8 +93,8 @@
       width: 1px;
       // height: 20px;
 
-      padding: 0px;
-      margin: 4px 0px;
+      padding: 0;
+      margin: 4px 0;
 
       background-color: #E0E0E0;
     }

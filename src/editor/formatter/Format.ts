@@ -19,6 +19,8 @@ enum Format {
   Color,
   Background,
   List,
+  Bullet,
+  Numbered,
   Indent,
   Outdent
 }
