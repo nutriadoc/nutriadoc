@@ -5,6 +5,7 @@ import { ToolbarSeparatorItem } from "./ToolbarSeparatorItem.ts";
 import ColorIcon from "./impls/ColorIcon.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts"
 import ToolbarColorItem from "./ToolbarColorItem.ts";
+import ToolbarLayout from "../ToolbarLayout.ts";
 
 interface IconOption {
 
@@ -268,11 +269,13 @@ export default class ToolbarItemFactory {
   }
 
   public switchComplexity(): ToolbarItem {
+
     return this.createItem({
       key: "switchComplexity",
       icon: {
         name: "chevron-down",
       },
+      justifySelf: "end"
     })
   }
 
@@ -280,15 +283,19 @@ export default class ToolbarItemFactory {
     return new ToolbarSeparatorItem()
   }
 
-  createItem(item: any, itemClass: typeof ToolbarItem | typeof ToolbarColorItem = ToolbarItem): ToolbarItem {
-    return new itemClass(
-      item.key,
-      item.name,
-      item.canExpand,
-      this.createIcon(item.icon),
-      item.enabled ?? true,
-      item.toggle,
+  createItem(option: any, itemClass: typeof ToolbarItem | typeof ToolbarColorItem = ToolbarItem): ToolbarItem {
+    const toolbarItem = new itemClass(
+      option.key,
+      option.name,
+      option.canExpand,
+      this.createIcon(option.icon),
+      option.enabled ?? true,
+      option.toggle,
     )
+
+    if (option.justifySelf)
+      toolbarItem.justifySelf = option.justifySelf
+    return toolbarItem
   }
 
   createIcon(icon?: IconOption | IToolbarItemIcon | undefined): IToolbarItemIcon | undefined {

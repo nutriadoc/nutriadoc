@@ -1,9 +1,9 @@
-import View from "../../View.ts";
 import IView from "../../IView.ts";
 import ToolbarItem from "./items/ToolbarItem.ts";
 import ToolbarItemFactory from "./items/ToolbarItemFactory.ts"
+import FlexView from "../../FlexView.ts";
 
-export default class ToolbarLayout extends View implements IView {
+export default class ToolbarLayout extends FlexView implements IView {
 
   protected _children: IView[] = []
 
@@ -97,10 +97,15 @@ export default class ToolbarLayout extends View implements IView {
       // factory.hightBlock(),
       // factory.more(),
       // factory.search(),
-      factory.switchComplexity(),
+
     ]
 
-    const layout = new ToolbarLayout(items, 'simple-layout')
-    return layout
+    const l1 = new ToolbarLayout(items, 'simple-layout-main')
+    l1.flex = "1 0 auto"
+    const l2 = new ToolbarLayout([factory.switchComplexity()], 'simple-layout-right')
+
+    const l = new ToolbarLayout([l1, l2], 'simple-layout')
+    l.flex = "1 0 auto"
+    return l
   }
 }

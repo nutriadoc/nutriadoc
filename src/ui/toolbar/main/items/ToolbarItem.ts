@@ -1,4 +1,3 @@
-import IView from "../../../IView.ts"
 import ToolbarItemEvent from "../events/ToolbarItemEvent.ts"
 import ToolbarItemButton from "./ToolbarItemButton.ts";
 import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
@@ -8,7 +7,7 @@ import IToolbarItemIcon from "./IToolbarItemIcon.ts";
 const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
 const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
 
-export default class ToolbarItem extends ActivationView implements IView {
+export default class ToolbarItem extends ActivationView {
 
   protected _key: string
 
@@ -152,5 +151,13 @@ export default class ToolbarItem extends ActivationView implements IView {
     super.disable();
 
     this.button.disable()
+  }
+
+  public set justifySelf(value: string) {
+    this._element.style.justifySelf = value
+  }
+
+  public get justifySelf(): string {
+    return this._element.style.justifySelf
   }
 }
