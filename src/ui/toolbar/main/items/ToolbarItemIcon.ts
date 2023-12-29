@@ -1,9 +1,12 @@
-import View from "../../../View.ts"
 import IView from "../../../IView.ts"
+import IToolbarItemIcon from "./IToolbarItemIcon.ts";
+import InteractiveView from "../../../InteractiveView.ts";
 
 export const DEFAULT_COLOR = "#464D5A"
 
-export default class ToolbarItemIcon extends View implements IView {
+export const DISABLE_COLOR = "#888"
+
+export default class ToolbarItemIcon extends InteractiveView implements IView, IToolbarItemIcon {
 
   protected name: string
 
@@ -36,5 +39,17 @@ export default class ToolbarItemIcon extends View implements IView {
 
   public get color(): string {
     return this._color
+  }
+
+  public enable() {
+    super.enable();
+
+    this.color = DEFAULT_COLOR
+  }
+
+  public disable() {
+    super.disable();
+
+    this.color = DISABLE_COLOR
   }
 }

@@ -1,4 +1,4 @@
-import Quill, {StringMap} from "quill"
+import Quill, {Sources, StringMap} from "quill"
 import Format from "./Format.ts"
 import IToolbar from "../../ui/toolbar/IToolbar.ts"
 import IFormatter from "./IFormatter.ts";
@@ -23,6 +23,10 @@ export default abstract class AbstractFormatter implements IFormatter {
     if (value) {
       this.toolbars.forEach(toolbar => toolbar.setToolbarItemText(key, value))
     }
+  }
+
+  public textChange(_delta: any, _oldDelta: any, _source: Sources) {
+
   }
 
   protected activeToolbarItem(key: string) {

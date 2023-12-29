@@ -1,6 +1,6 @@
-import View from "../../../View.ts"
+import InteractiveView from "../../../InteractiveView.ts";
 
-export default class ActivationView extends View {
+export default class ActivationView extends InteractiveView {
 
   protected activatedBackgroundColor?: string
 

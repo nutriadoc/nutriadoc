@@ -12,7 +12,7 @@ export default class CommonFormatter extends AbstractFormatter {
     'blockquote',
     'color',
     'align',
-    'linespacing'
+    'linespacing',
   ]
 
   public select(formats: StringMap): void {

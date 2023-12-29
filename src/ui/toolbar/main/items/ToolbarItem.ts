@@ -16,8 +16,6 @@ export default class ToolbarItem extends ActivationView implements IView {
 
   protected _canExpand: boolean = false
 
-  protected _isEnabled: boolean = true
-
   protected _isActivated: boolean = false
 
   protected _isToggle: boolean = true
@@ -52,6 +50,10 @@ export default class ToolbarItem extends ActivationView implements IView {
 
     const activeColor = toggle === true ? ACTIVE_BACKGROUND_COLOR2 : undefined
     this.button = new ToolbarItemButton(icon, activeColor)
+    if (this._isEnabled)
+      this.button.enable()
+    else
+      this.button.disable()
     this.text = text
     this.expandButton = new ToolbarItemExpandButton(activeColor)
 
@@ -67,6 +69,7 @@ export default class ToolbarItem extends ActivationView implements IView {
   }
 
   protected onClick() {
+    if (!this.isEnabled) return
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 
@@ -137,5 +140,17 @@ export default class ToolbarItem extends ActivationView implements IView {
 
   public get value(): any {
     return !this.isActive
+  }
+
+  public enable() {
+    super.enable();
+
+    this.button.enable()
+  }
+
+  public disable() {
+    super.disable();
+
+    this.button.disable()
   }
 }

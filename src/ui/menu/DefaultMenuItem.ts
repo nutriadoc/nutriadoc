@@ -21,7 +21,7 @@ export default class DefaultMenuItem extends MenuItem {
 
   protected expandIcon?: Node
 
-  public constructor(key: string, name: string, canExpand: boolean = false, icon?: string) {
+  public constructor(key: string, name: string, canExpand: boolean = false, icon?: string, enabled?: boolean) {
     const element = document.createElement("div")
     element.classList.add("ntr-menu-item")
     super(element)
@@ -34,6 +34,7 @@ export default class DefaultMenuItem extends MenuItem {
     this._name = name
     this._canExpand = canExpand
     this._icon = icon
+    this._enabled = enabled ?? true
 
     const nameElement = document.createElement('span')
     nameElement.classList.add("name")

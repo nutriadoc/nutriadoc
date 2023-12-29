@@ -9,6 +9,8 @@ export default abstract class MenuItem extends View {
 
   protected _expanded: boolean = false
 
+  protected _enabled: boolean = true
+
   public abstract isActivated(): boolean
 
   public abstract deactivate(): void
@@ -65,5 +67,13 @@ export default abstract class MenuItem extends View {
       return
 
     this._expand.hidden()
+  }
+
+  protected set enabled(value: boolean) {
+    this._enabled = value
+  }
+
+  protected get enabled(): boolean {
+    return this._enabled
   }
 }

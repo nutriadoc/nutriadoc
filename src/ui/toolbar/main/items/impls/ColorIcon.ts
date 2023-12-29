@@ -1,9 +1,9 @@
 import ToolbarItemIcon, {DEFAULT_COLOR} from "../ToolbarItemIcon.ts"
 import ColorComponent from "./ColorUnderlineComponent.ts"
-import View from "../../../../View.ts";
 import IToolbarItemIcon from "../IToolbarItemIcon.ts";
+import InteractiveView from "../../../../InteractiveView.ts";
 
-export default class ColorIcon extends View implements IToolbarItemIcon {
+export default class ColorIcon extends InteractiveView implements IToolbarItemIcon {
 
   protected _icon: ToolbarItemIcon
 

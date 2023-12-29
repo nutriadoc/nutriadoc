@@ -9,6 +9,10 @@ export default interface IToolbar {
 
   activeMenuItem(menuKey: string, itemKey: string): void
 
+  enableToolbarItem(key: string): void
+
+  disableToolbarItem(key: string): void
+
   deactiveItem(key: string): void
 
   findMenu(key: string): Menu | undefined

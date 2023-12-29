@@ -26,6 +26,8 @@ enum Format {
   Align,
   LineSpacing,
   Table,
+  Undo,
+  Redo,
   Unknown
 }
 

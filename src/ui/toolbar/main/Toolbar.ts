@@ -119,6 +119,14 @@ export default class Toolbar extends View implements IToolbar{
 
   }
 
+  enableToolbarItem(key: string): void {
+    this.findToolbarItem(key)?.enable()
+  }
+
+  disableToolbarItem(key: string): void {
+    this.findToolbarItem(key)?.disable()
+  }
+
   public render(): Node | Node[] {
     this.addElement(this._layouts)
     this.addElement(this._tooltip)

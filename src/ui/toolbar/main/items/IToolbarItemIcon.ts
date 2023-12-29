@@ -1,6 +1,6 @@
-import IView from "../../../IView.ts";
+import IInteractiveView from "../../../IInteractiveView.ts";
 
-export default interface IToolbarItemIcon extends IView {
+export default interface IToolbarItemIcon extends IInteractiveView {
 
   get color(): string | undefined
 

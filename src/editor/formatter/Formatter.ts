@@ -10,6 +10,7 @@ import IFormatter from "./IFormatter.ts";
 import IndentationFormatter from "./IndentationFormatter.ts";
 import ListFormatter from "./ListFormatter.ts";
 import TableFormatter from "./TableFormatter.ts";
+import HistoryFormatter from "./HistoryFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -23,6 +24,7 @@ export default class Formatter implements IFormatter {
     CommonFormatter,
     ListFormatter,
     TableFormatter,
+    HistoryFormatter,
   ]
 
   protected formatters: AbstractFormatter[]
@@ -51,7 +53,9 @@ export default class Formatter implements IFormatter {
     this.quill.getSelection()
   }
 
-  textChange(_delta: any, _oldDelta: any, source: Sources) {
+  textChange(delta: any, oldDelta: any, source: Sources) {
+    this.formatters.forEach(formatter => formatter.textChange(delta, oldDelta, source))
+
     const range = this.quill.getSelection()
     if (range == null) return
     this.select(range, range, source)
