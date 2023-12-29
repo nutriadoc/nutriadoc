@@ -2,17 +2,21 @@ import type {StoryObj, Meta} from '@storybook/html'
 import Editor from "../index"
 
 const meta = {
-  title: 'Editor/List',
+  title: 'Editor/Quote',
   render: () => {
 
     const root = document.createElement("div")
     root.className = "root"
     const doc = Editor(root)
 
-    for (let i  = 1; i < 7; i++) {
-      const start = doc.quill.getLength() - 1
-      doc.quill.insertText(start, `List ${i}\n`, 'user')
-    }
+
+    doc.quill.insertText(0, "Quote\n")
+    doc.quill.setSelection(0, 6)
+
+    doc.quill.focus()
+
+    // doc.quill.format("blockquote", true)
+    doc.quill.formatText(0, 6, { blockquote: true })
 
     return root
   },
@@ -23,7 +27,7 @@ export default meta;
 type Story = StoryObj;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const ListStories: Story = {
+export const Quote: Story = {
   args: {},
 }
 

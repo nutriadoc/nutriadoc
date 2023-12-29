@@ -5,6 +5,7 @@ import Format, {keyToFormat} from "../../../editor/formatter/Format.ts";
 import MenuEvent from "../../menu/events/MenuEvent.ts";
 import {FontSizeManager} from "../../../editor/font/FontSize.ts";
 import IFormatter from "../../../editor/formatter/IFormatter.ts";
+import CommandEvent from "../../../editor/commands/CommandEvent.ts";
 
 export default class ToolbarAction {
 
@@ -25,6 +26,7 @@ export default class ToolbarAction {
   protected setupMenuListener() {
     this.toolbar.menus.forEach(menu => {
       menu.addEventListener("select", this.onMenuItemSelect.bind(this))
+      menu.addEventListener("command", this.onMenuCommand.bind(this))
     })
   }
 
@@ -45,6 +47,11 @@ export default class ToolbarAction {
     item.element.addEventListener("mouseleave", () => {
       this.onItemMouseLeave(item)
     })
+  }
+
+  protected onMenuCommand(event: Event) {
+    const e = event as CommandEvent
+    this.formatter.format(e.command.format, e.command)
   }
 
   protected onItemMouseEnter(item: ToolbarItem): void {
@@ -70,7 +77,6 @@ export default class ToolbarAction {
   protected onMenuItemSelect(event: Event) {
     const e = event as MenuEvent
     const item = e.menuItem
-    console.debug('on menu item select', { menu: e.menu, item })
 
     const menuKey = e.menu.key
 

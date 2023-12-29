@@ -10,11 +10,11 @@ import Menu from "../../menu/Menu.ts";
 import IToolbar from "../IToolbar.ts";
 import Tooltip from "../../tooltip/Tooltip.ts";
 import FontColorMenu from "../components/font_color/FontColorMenu.ts";
-
-import "./Toolbar.scss"
 import HighlightMenu from "../components/hightlight/HighlightMenu.ts";
 import AlignMenu from "../components/align/AlignMenu.ts";
 import LineSpacingMenu from "../components/line_spacing/LineSpacingMenu.ts";
+
+import "./Toolbar.scss"
 
 export default class Toolbar extends View implements IToolbar{
 
@@ -74,7 +74,7 @@ export default class Toolbar extends View implements IToolbar{
 
   protected setupMenus() {
     this._menus = this.menuClasses.map(menuClass => {
-      const menu = new menuClass()
+      const menu = new menuClass(this)
       this.addElement(menu)
       return menu
     })

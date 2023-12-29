@@ -94,9 +94,9 @@ export default class ToolbarLayout extends View implements IView {
       factory.lineSpacing(),
       factory.separator(),
       factory.quote(),
-      factory.hightBlock(),
-      factory.more(),
-      factory.search(),
+      // factory.hightBlock(),
+      // factory.more(),
+      // factory.search(),
       factory.switchComplexity(),
     ]
 

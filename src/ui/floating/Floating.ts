@@ -12,6 +12,8 @@ export default class Floating extends View implements IView {
 
   protected attachedEvent: boolean = false
 
+  protected _zIndex: number = 100
+
   constructor(relativePosition?: FloatingPosition, children?: IView[]) {
     const element = document.createElement("div")
     super(element)
@@ -33,6 +35,12 @@ export default class Floating extends View implements IView {
     const rect = this._relative.getBoundingClientRect()
 
     switch (this._relativePosition) {
+      case FloatingPosition.RightBottom:
+      case FloatingPosition.RightCenter:
+      case FloatingPosition.RightTop: {
+        x = rect.x + rect.width + 10
+        break
+      }
       case FloatingPosition.BottomLeft:
       default: {
         x = rect.x
@@ -50,6 +58,12 @@ export default class Floating extends View implements IView {
     const rect = this._relative.getBoundingClientRect()
 
     switch (this._relativePosition) {
+      case FloatingPosition.RightBottom:
+      case FloatingPosition.RightCenter:
+      case FloatingPosition.RightTop: {
+        y = rect.y
+        break
+      }
       case FloatingPosition.BottomLeft:
       default: {
         y = rect.y + rect.height + 5
@@ -68,7 +82,7 @@ export default class Floating extends View implements IView {
     this._element.style.backgroundColor = "white"
     this._element.style.padding = "8px 0px"
     this._element.style.borderRadius = "6px"
-    this._element.style.zIndex = "100"
+    this._element.style.zIndex = this._zIndex.toString()
 
     this.addElement(this.children)
 
@@ -106,18 +120,17 @@ export default class Floating extends View implements IView {
   protected pin() {
     this._element.style.left = `${this.x}px`
     this._element.style.top = `${this.y}px`
-
-    // debugger
+    this._element.style.zIndex = this._zIndex.toString()
   }
 
-  public visible(relatvie?: HTMLElement | View | undefined) {
+  public visible(relative?: HTMLElement | View | undefined) {
     this._visible = true
     this._element.style.visibility = "visible"
 
-    if (relatvie instanceof HTMLElement)
-      this.relative = relatvie
-    if (relatvie instanceof View)
-      this.relative = relatvie.element
+    if (relative instanceof HTMLElement)
+      this.relative = relative
+    if (relative instanceof View)
+      this.relative = relative.element
 
     this.pin()
 
@@ -127,5 +140,9 @@ export default class Floating extends View implements IView {
   public hidden() {
     this._element.style.visibility = "hidden"
   
+  }
+
+  public set zIndex(index: number) {
+    this._zIndex = index
   }
 } 

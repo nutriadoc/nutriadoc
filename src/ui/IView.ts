@@ -4,6 +4,10 @@ export default interface IView {
 
   set key(value: string)
 
+  get className(): string
+
+  set className(value: string)
+
   addNode(node: Node | Node[]): void
 
   addElement(element: IView | IView[]): void
@@ -15,4 +19,5 @@ export default interface IView {
   get children(): IView[]
 
   find(key: string): IView | undefined
+
 }

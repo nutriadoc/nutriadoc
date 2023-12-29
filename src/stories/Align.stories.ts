@@ -2,7 +2,7 @@ import type {StoryObj, Meta} from '@storybook/html'
 import Editor from "../index"
 
 const meta = {
-  title: 'Editor/Align',
+  title: 'Editor/Font',
   tags: [],
   render: () => {
 

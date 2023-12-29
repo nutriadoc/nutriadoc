@@ -55,4 +55,16 @@ export default class ActivationView extends View {
     this.element.style.backgroundColor = ""
   }
 
+  public get isActivated() {
+    return this._isActivated
+  }
+
+  public active() {
+    this.onMouseEnter()
+  }
+
+  public deactivate() {
+
+  }
+
 }

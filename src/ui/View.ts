@@ -52,11 +52,22 @@ export default class View extends EventTarget implements IView {
     this._key = value
   }
 
+  public get className(): string {
+    return this._element.className
+  }
+
+  public set className(value: string) {
+    this._element.className = value
+  }
+
   public find(key: string): IView | undefined {
     return this._children.find(child => child.key === key)
   }
 
   render(): Node | Node[] {
+    if (this.key != '') {
+      this._element.setAttribute('data-key', this.key)
+    }
     return this._element
   }
   

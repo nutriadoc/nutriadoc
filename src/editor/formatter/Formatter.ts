@@ -9,6 +9,7 @@ import CommonFormatter from "./CommonFormatter.ts";
 import IFormatter from "./IFormatter.ts";
 import IndentationFormatter from "./IndentationFormatter.ts";
 import ListFormatter from "./ListFormatter.ts";
+import TableFormatter from "./TableFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -20,7 +21,8 @@ export default class Formatter implements IFormatter {
     FontSizeFormatter,
     IndentationFormatter,
     CommonFormatter,
-    ListFormatter
+    ListFormatter,
+    TableFormatter,
   ]
 
   protected formatters: AbstractFormatter[]
@@ -39,9 +41,6 @@ export default class Formatter implements IFormatter {
   }
 
   format(format: Format, ...params: any[]) {
-    // const range = this.quill.getSelection()
-    // if (range == null) return
-
     this.formatters.forEach(formatter => formatter.format(format, ...params))
   }
 

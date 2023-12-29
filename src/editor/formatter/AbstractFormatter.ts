@@ -41,7 +41,6 @@ export default abstract class AbstractFormatter implements IFormatter {
   }
 
   public deactive(key: string) {
-    console.debug("deactive", key)
     this.toolbars.forEach(toolbar => toolbar.deactiveItem(key))
   }
 }

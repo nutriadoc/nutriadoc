@@ -25,6 +25,8 @@ enum Format {
   Outdent,
   Align,
   LineSpacing,
+  Table,
+  Unknown
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {
@@ -76,6 +78,12 @@ export function keyToFormat(key: string): Format {
 
 export function formatToKey(format: Format): string {
   return Format[format]
+}
+
+export function formatToCamelcaseKey(format: Format): string {
+  let key = formatToKey(format)
+  key = key.charAt(0).toLowerCase() + key.slice(1)
+  return key
 }
 
 export default Format

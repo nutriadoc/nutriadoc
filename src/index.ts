@@ -3,7 +3,6 @@ import Toolbar from "./ui/toolbar/main/Toolbar.ts";
 import View from "./ui/View.ts";
 import Formatter from "./editor/formatter/Formatter.ts";
 import Title from "./editor/formats/Title.ts";
-
 import {Scope, ScrollBlot} from "parchment"
 import {Blot} from "parchment/dist/typings/blot/abstract/blot"
 import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
@@ -14,8 +13,7 @@ import LineSpacing from "./editor/formats/LineSpacing.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-
-
+import "./index.scss"
 
 class Document extends View {
 
@@ -39,11 +37,22 @@ class Document extends View {
     this.editorElement = document.createElement("div")
     this._quill = new Quill(this.editorElement)
 
+    this._quill.root.addEventListener("blur", this.onQuillBlur.bind(this))
+
     this.toolbar = Toolbar.simple()
     const formatter = new Formatter(this._quill, [this.toolbar])
     this.toolbar.action = new ToolbarAction(this.toolbar, formatter)
 
     this.setupEditorElement()
+  }
+
+  /**
+   * @param e
+   * @protected
+   */
+  protected onQuillBlur(e: FocusEvent) {
+    e.preventDefault()
+    this._quill.root.focus()
   }
 
   protected registerModules() {
@@ -60,7 +69,7 @@ class Document extends View {
       "formats/title": Title,
       "formats/subtitle": Subtitle,
       "formats/font-size": FontSize,
-      "formats/lineSpacing": new LineSpacing('lineSpacing', 'lineSpacing', { scope: Scope.INLINE }),
+      "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
     })
   }
 
@@ -114,17 +123,8 @@ class Document extends View {
   }
 
   protected onMouseMove(_event: MouseEvent) {
-    // const element = event.target as HTMLElement
-    // const rect = element.getBoundingClientRect()
-
-    // this.quill?.getLeaf
-
-    // console.debug(rect)
   }
 
-  protected onEditorChange(name: string, delta: any) {
-    console.debug(name, delta)
-  }
 
   public get quill(): Quill {
     return this._quill

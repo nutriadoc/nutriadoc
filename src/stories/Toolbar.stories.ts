@@ -1,10 +1,11 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Toolbar from "../ui/toolbar/main/Toolbar.ts"
+import { default as ToolbarComponent } from "../ui/toolbar/main/Toolbar.ts"
+import ToolbarAction from "../ui/toolbar/main/ToolbarAction.ts";
+import {NothingFormatter} from "../editor/formatter/IFormatter.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import ToolbarAction from "../ui/toolbar/main/ToolbarAction.ts";
-import {NothingFormatter} from "../editor/formatter/IFormatter.ts";
+
 
 const meta = {
   title: 'Editor/Toolbar',
@@ -14,10 +15,17 @@ const meta = {
     const root = document.createElement("div")
     root.className = "root"
 
-    const toolbar = Toolbar.simple()
+    const toolbar = ToolbarComponent.simple()
     toolbar.action = new ToolbarAction(toolbar, new NothingFormatter())
     toolbar.render()
     toolbar.addTo(root)
+
+
+    const item = toolbar.findToolbarItem("insert")
+    setTimeout(() => {
+      item?.click()
+    }, 100)
+
 
     return root
   },
@@ -28,7 +36,7 @@ export default meta;
 type Story = StoryObj;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const ToolbarStories: Story = {
+export const Default: Story = {
   args: {},
 }
 

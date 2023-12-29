@@ -12,15 +12,12 @@ const meta = {
 
     doc.quill.insertText(0, "Text1")
     doc.quill.insertText(6, "Text2")
-    let text2 = doc.quill.formatText(0, 5, {
+    doc.quill.formatText(0, 5, {
       bold: true,
       font: "微软雅黑",
       color: "rgb(230, 0, 0)",
       unsupported: true
-
     })
-
-    console.debug("text2", text2)
 
     doc.quill.formatText(6, 1, { bold: true })
     doc.quill.formatText(7, 1, { italic: true })
@@ -37,7 +34,7 @@ export default meta;
 type Story = StoryObj;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Styles: Story = {
+export const Text: Story = {
   args: {},
 }
 

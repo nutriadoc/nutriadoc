@@ -70,6 +70,10 @@ export default class ToolbarItem extends ActivationView implements IView {
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 
+  public click() {
+    this.onClick()
+  }
+
   protected onExpandClick() {
     this.dispatchEvent(new ToolbarItemEvent(this._isToggle && this._canExpand ? "expand" : "click", this))
   }

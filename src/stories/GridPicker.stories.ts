@@ -1,18 +1,17 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Editor from "../index"
+import GridPicker from "../ui/grid_picker/GridPicker.ts";
 
 const meta = {
-  title: 'Editor/List',
+  title: 'Components/GridPicker1',
   render: () => {
 
     const root = document.createElement("div")
     root.className = "root"
-    const doc = Editor(root)
 
-    for (let i  = 1; i < 7; i++) {
-      const start = doc.quill.getLength() - 1
-      doc.quill.insertText(start, `List ${i}\n`, 'user')
-    }
+    const picker = new GridPicker(10, 10, true)
+    picker.addTo(root)
+    picker.addEventListener("pick", (_: Event) => {
+    })
 
     return root
   },
@@ -23,7 +22,7 @@ export default meta;
 type Story = StoryObj;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const ListStories: Story = {
+export const GridPicker1: Story = {
   args: {},
 }
 

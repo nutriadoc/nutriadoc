@@ -2,8 +2,8 @@ import type {StoryObj, Meta} from '@storybook/html'
 import Editor from "../index"
 
 const meta = {
-  title: 'Editor/Styles',
-  tags: ['autodocs'],
+  title: 'Editor/Font',
+
   render: () => {
 
     const root = document.createElement("div")
@@ -17,9 +17,6 @@ const meta = {
       const start = doc.quill.getLength() - 1
       doc.quill.insertText(start, "Hello friend\n", { header: i }, 'user')
     }
-
-
-    console.debug("delta", doc.quill.getContents())
 
     return root
   },

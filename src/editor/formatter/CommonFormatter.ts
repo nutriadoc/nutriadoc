@@ -12,7 +12,7 @@ export default class CommonFormatter extends AbstractFormatter {
     'blockquote',
     'color',
     'align',
-    'lineSpacing'
+    'linespacing'
   ]
 
   public select(formats: StringMap): void {
@@ -25,12 +25,11 @@ export default class CommonFormatter extends AbstractFormatter {
   }
 
   public format(format: Format, ..._params: any[]): void {
-    console.debug("format", format, _params)
+    const formatKey = formatToKey(format).toLowerCase()
+    if (!this.supportedFormats.includes(formatKey)) return
 
-    // const range = this.quill.getSelection()
-
-    const key = formatToKey(format).toLowerCase()
-    this.quill.format(key, _params[0], "user")
+    console.debug("format", formatKey, _params)
+    this.quill.format(formatKey, _params[0], "user")
   }
 
 }

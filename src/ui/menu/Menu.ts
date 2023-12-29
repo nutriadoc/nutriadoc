@@ -45,4 +45,12 @@ export default class Menu extends Floating {
     return this.items.find(item => item.isActivated())
   }
 
+  public hidden() {
+    super.hidden();
+
+    this.items.forEach(item => {
+      item.hiddenExpand()
+    })
+  }
+
 }

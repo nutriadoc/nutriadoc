@@ -63,6 +63,8 @@ export default class DefaultMenuItem extends MenuItem {
 
   protected onMouseEnter(): void {
     this.element.classList.add("active")
+
+    this.visibleExpand()
   }
 
   protected onMouseLeave(): void {

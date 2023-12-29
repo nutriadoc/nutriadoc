@@ -1,0 +1,17 @@
+.grid-picker {
+  display: flex;
+  flex-direction: column;
+
+  width: fit-content;
+
+  gap: 2px;
+
+  .grid-picker-col {
+    display: flex;
+    flex-direction: row;
+
+    width: fit-content;
+
+    gap: 2px;
+  }
+}

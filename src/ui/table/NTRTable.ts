@@ -68,7 +68,7 @@ export default class NTRTable {
     const height = this.table.clientHeight
 
     if (direction == Direction.Left || direction == Direction.Right) {
-      line.style.left = (direction == Direction.Left ? left : right) + "px"
+      line.style.left = (direction == Direction.Left ? left : right) - 2 + "px"
       line.style.top = top + "px"
       line.style.height = height + "px"
       line.style.width = "4px"
@@ -126,18 +126,51 @@ export default class NTRTable {
     const top = event.clientY - this.table.offsetTop - cell.offsetTop
     const bottom = event.clientY - (this.table.offsetTop + cell.offsetTop + cell.clientHeight)
 
-    if (left < 10)
+    const perception = 2
+    if (left < perception)
       return Direction.Left
 
-    if (right < 10)
+    if (right < perception)
       return Direction.Right
 
-    if (top < 10)
+    if (top < perception)
       return Direction.Up
 
-    if (bottom < 10)
+    if (bottom < perception)
       return Direction.Down
 
     return Direction.Unknown
+  }
+
+  public displayColumnToolbar() {
+
+  }
+
+  public displayRowToolbar() {
+
+  }
+
+  public displayColumnToolbarButton() {
+
+  }
+
+  public displayRowToolbarButton() {
+
+  }
+
+  public insertColumn() {
+
+  }
+
+  public insertRow() {
+
+  }
+
+  public removeColumn() {
+
+  }
+
+  public removeRow() {
+
   }
 }
