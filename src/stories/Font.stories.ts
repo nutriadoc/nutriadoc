@@ -3,7 +3,7 @@ import Editor from "../index"
 
 const meta = {
   title: 'Editor/Font',
-  tags: ['autodocs'],
+  tags: [],
   render: () => {
 
     const root = document.createElement("div")
@@ -14,15 +14,9 @@ const meta = {
     doc.quill.insertText(6, "Text2")
     let text2 = doc.quill.formatText(0, 5, {
       bold: true,
-      // font: /* "Microsoft YaHei"*/ "serif"
-      // "attributors/style/font": "Microsoft YaHei",
-      // font: "serif",
       font: "微软雅黑",
       color: "rgb(230, 0, 0)",
       unsupported: true
-      // "size": "32px",
-      // "font-family": "Microsoft YaHei",
-      // "family": "Microsoft YaHei",
 
     })
 

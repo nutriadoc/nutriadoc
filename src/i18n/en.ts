@@ -2,6 +2,7 @@ export default {
   toolbar: {
     insert: "Insert",
     styles: "Normal Text",
+    align: "Align",
   },
   menu: {
     picture: "Picture",
@@ -13,6 +14,12 @@ export default {
       subtitle: "Subtitle",
       heading: "Heading",
       normalText: "Normal Text"
+    },
+    align: {
+      left: "Left align",
+      center: "Center align",
+      right: "Right align",
+      justify: "Justify"
     }
   }
 }

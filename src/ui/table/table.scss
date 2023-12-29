@@ -1,0 +1,21 @@
+.ntr-table {
+
+  .active::before {
+    content: "";
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 2px;
+    background-color: red;
+  }
+
+
+}
+
+.ntr-table-line {
+  position: absolute;
+  width: 4px;
+  background: #E7EBED;
+  visibility: hidden;
+}

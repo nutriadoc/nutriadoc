@@ -83,6 +83,10 @@ export default class ToolbarAction {
         this.setFontSize(menuKey, item.value);
         break
       }
+      case "align": {
+        this.format(menuKey, item.key)
+        break
+      }
       default: {
         this.format(menuKey, item.value)
         break
@@ -98,7 +102,6 @@ export default class ToolbarAction {
   }
 
   public format(key: string, value: any) {
-
     const format = keyToFormat(key)
     console.debug("format", key, value)
 

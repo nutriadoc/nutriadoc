@@ -22,7 +22,9 @@ enum Format {
   Bullet,
   Numbered,
   Indent,
-  Outdent
+  Outdent,
+  Align,
+  LineSpacing,
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

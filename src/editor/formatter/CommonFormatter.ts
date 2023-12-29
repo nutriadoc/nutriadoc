@@ -10,7 +10,9 @@ export default class CommonFormatter extends AbstractFormatter {
     'underline',
     'strike',
     'blockquote',
-    'color'
+    'color',
+    'align',
+    'lineSpacing'
   ]
 
   public select(formats: StringMap): void {

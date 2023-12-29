@@ -4,15 +4,17 @@ import View from "./ui/View.ts";
 import Formatter from "./editor/formatter/Formatter.ts";
 import Title from "./editor/formats/Title.ts";
 
-import {ScrollBlot} from "parchment"
+import {Scope, ScrollBlot} from "parchment"
 import {Blot} from "parchment/dist/typings/blot/abstract/blot"
 import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
 import Subtitle from "./editor/formats/Subtitle.ts";
 import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
 import FontSize from "./editor/formats/FontSize.ts";
+import LineSpacing from "./editor/formats/LineSpacing.ts";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+
 
 
 class Document extends View {
@@ -58,6 +60,7 @@ class Document extends View {
       "formats/title": Title,
       "formats/subtitle": Subtitle,
       "formats/font-size": FontSize,
+      "formats/lineSpacing": new LineSpacing('lineSpacing', 'lineSpacing', { scope: Scope.INLINE }),
     })
   }
 

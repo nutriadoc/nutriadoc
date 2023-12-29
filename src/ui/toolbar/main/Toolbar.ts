@@ -13,6 +13,8 @@ import FontColorMenu from "../components/font_color/FontColorMenu.ts";
 
 import "./Toolbar.scss"
 import HighlightMenu from "../components/hightlight/HighlightMenu.ts";
+import AlignMenu from "../components/align/AlignMenu.ts";
+import LineSpacingMenu from "../components/line_spacing/LineSpacingMenu.ts";
 
 export default class Toolbar extends View implements IToolbar{
 
@@ -31,6 +33,8 @@ export default class Toolbar extends View implements IToolbar{
     FontSizeMenu,
     FontColorMenu,
     HighlightMenu,
+    AlignMenu,
+    LineSpacingMenu,
   ]
 
   public constructor(layout: ToolbarLayout[]) {
