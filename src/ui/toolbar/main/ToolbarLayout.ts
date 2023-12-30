@@ -71,8 +71,11 @@ export default class ToolbarLayout extends FlexView implements IView {
     const items = [
       factory.undo(),
       factory.redo(),
+      factory.clearFormatting(),
+      factory.formatPainter(),
       factory.separator(),
       factory.insert(),
+
       factory.separator(),
       factory.styles(),
       factory.font(),

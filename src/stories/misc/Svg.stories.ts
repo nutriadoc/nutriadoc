@@ -1,19 +1,16 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import {default as ColorPickerComponent} from "../ui/color_picker/ColorPicker.ts";
-
-// TODO: https://coloris.js.org/
+import {EraserFill} from "../../ui/toolbar/icons";
 
 const meta = {
-  title: 'Editor/ColorPicker',
+  title: 'Misc/Svg',
   tags: [],
   render: () => {
 
     const root = document.createElement("div")
     root.className = "root"
 
-    const picker = new ColorPickerComponent()
-    picker.addTo(root)
-
+    root.innerHTML = EraserFill
+    
     return root
   },
   argTypes: {},
@@ -23,7 +20,7 @@ export default meta;
 type Story = StoryObj;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const ColorPicker: Story = {
+export const Svg: Story = {
   args: {},
 }
 

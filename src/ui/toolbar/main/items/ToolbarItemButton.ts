@@ -59,7 +59,7 @@ export default class ToolbarItemButton extends ActivationView {
   public enable() {
     super.enable();
 
-    this._icon?.enable()
+    this._icon?.enable?.()
   }
 
   public disable() {

@@ -12,7 +12,7 @@ export default class FontSizeFormatter extends AbstractFormatter {
   protected setFontSize(formats: StringMap): void {
     const formatFontSize = formats["size"] ?? "11"
 
-    let fontSizes: string [] = Array.isArray(formatFontSize) ? formatFontSize: [formatFontSize] ?? ["11"]
+    let fontSizes: string [] = Array.isArray(formatFontSize) ? formatFontSize: ([formatFontSize] || ["11"])
     if (fontSizes.length > 1)
       fontSizes = [""]
 

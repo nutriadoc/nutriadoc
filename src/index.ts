@@ -57,21 +57,12 @@ export class Document extends View {
   }
 
   protected setupEvents() {
-    document.addEventListener("DOMContentLoaded", this.onDomContentLoaded.bind(this))
 
     const observer = new MutationObserver(this.onMutation.bind(this))
     observer.observe(this._quill.root, {childList: true, subtree: true})
 
     this._quill.root.addEventListener("dragover", (_e) => {
-      // debugger
     })
-  }
-
-  protected onDomContentLoaded(event: Event) {
-    if (event.target instanceof HTMLImageElement) {
-      // debugger
-    }
-    console.debug(event.currentTarget)
   }
 
   protected onMutation(mutations: MutationRecord[]) {

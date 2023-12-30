@@ -28,7 +28,11 @@ export default class View extends EventTarget implements IView {
       element.forEach(ele => this.addNode(ele.render()))
     } else {
       this._children.push(element)
-      this.addNode(element.render())
+      try {
+        this.addNode(element.render())
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 

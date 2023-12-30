@@ -5,6 +5,8 @@ import { ToolbarSeparatorItem } from "./ToolbarSeparatorItem.ts";
 import ColorIcon from "./impls/ColorIcon.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts"
 import ToolbarColorItem from "./ToolbarColorItem.ts";
+import {EraserFill, PaintBucket} from "../../icons";
+import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
 // import ToolbarLayout from "../ToolbarLayout.ts";
 
 interface IconOption {
@@ -35,6 +37,20 @@ export default class ToolbarItemFactory {
         name: "arrow-clockwise",
       },
       enabled: false
+    })
+  }
+
+  public clearFormatting(): ToolbarItem {
+    return this.createItem({
+      key: "clearFormatting",
+      icon: { asset: EraserFill },
+    })
+  }
+
+  public formatPainter(): ToolbarItem {
+    return this.createItem({
+      key: "formatPainter",
+      icon: { asset: PaintBucket },
     })
   }
   
@@ -298,11 +314,11 @@ export default class ToolbarItemFactory {
     return toolbarItem
   }
 
-  createIcon(icon?: IconOption | IToolbarItemIcon | undefined): IToolbarItemIcon | undefined {
+  createIcon(icon?: IconOption | IToolbarItemIcon | any | undefined): IToolbarItemIcon | undefined {
     if (!icon) return undefined
 
+    if (icon.asset) return new ToolbarItemSvgIcon(icon.asset, 16)
     if ((icon as any)['name'] === undefined) return icon as IToolbarItemIcon
-
     // @ts-ignore
     return new ToolbarItemIcon(icon.name, icon.color, "16px")
   }
