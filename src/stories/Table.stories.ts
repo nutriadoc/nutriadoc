@@ -1,6 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import Editor from "../index"
-import NTRTable from "../ui/table/NTRTable.ts";
+// import NTRTable from "../ui/table/NTRTable.ts";
 import Quill from "quill";
 
 type TableArgs = {

@@ -1,5 +1,5 @@
 import i18n from "../../../../i18n"
-import FloatingPosition from "../../../floating/FloatingPosition.ts"
+import Position from "../../../floating/Position.ts"
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import Menu from "../../../menu/Menu.ts";
 import TableMenu from "../table/TableMenu.ts";
@@ -25,7 +25,7 @@ export default class InsertMenu extends Menu {
 
   public constructor(container: View) {
     const create = InsertMenu.items(container)
-    super("insert", FloatingPosition.BottomLeft, create.items)
+    super("insert", Position.BottomLeft, create.items)
     this._element.classList.add("insert-menu")
 
     this.tableMenu = create.tableMenu

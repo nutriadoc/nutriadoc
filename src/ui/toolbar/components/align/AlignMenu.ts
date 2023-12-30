@@ -1,12 +1,12 @@
 import Menu from "../../../menu/Menu.ts";
-import FloatingPosition from "../../../floating/FloatingPosition.ts";
+import Position from "../../../floating/Position.ts";
 import MenuItem from "../../../menu/MenuItem.ts";
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import i18n from "i18next";
 
 export default class AlignMenu extends Menu {
   public constructor() {
-    super('align', FloatingPosition.BottomLeft, AlignMenu.createItems());
+    super('align', Position.BottomLeft, AlignMenu.createItems());
   }
 
   static createItems(): MenuItem[] {

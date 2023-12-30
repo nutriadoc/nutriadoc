@@ -1,12 +1,12 @@
 import View from "../View.ts"
 import IView from "../IView.ts"
-import FloatingPosition from "./FloatingPosition.ts"
+import Position from "./Position.ts"
 
 export default class Floating extends View implements IView {
 
   protected _relative?: HTMLElement
 
-  protected _relativePosition?: FloatingPosition
+  protected _position?: Position
 
   protected _visible: boolean = true
 
@@ -14,14 +14,14 @@ export default class Floating extends View implements IView {
 
   protected _zIndex: number = 100
 
-  constructor(relativePosition?: FloatingPosition, children?: IView[]) {
+  constructor(relativePosition?: Position, children?: IView[]) {
     const element = document.createElement("div")
     super(element)
 
     element.style.maxHeight = "70%"
     element.style.overflowY = "auto";
 
-    this._relativePosition = relativePosition ?? FloatingPosition.BottomLeft
+    this._position = relativePosition ?? Position.BottomLeft
     this._children = children ?? []
 
     this.onDocumentClick = this.onDocumentClick.bind(this)
@@ -34,14 +34,14 @@ export default class Floating extends View implements IView {
 
     const rect = this._relative.getBoundingClientRect()
 
-    switch (this._relativePosition) {
-      case FloatingPosition.RightBottom:
-      case FloatingPosition.RightCenter:
-      case FloatingPosition.RightTop: {
+    switch (this._position) {
+      case Position.RightBottom:
+      case Position.RightCenter:
+      case Position.RightTop: {
         x = rect.x + rect.width + 10
         break
       }
-      case FloatingPosition.BottomLeft:
+      case Position.BottomLeft:
       default: {
         x = rect.x
       }
@@ -57,14 +57,14 @@ export default class Floating extends View implements IView {
 
     const rect = this._relative.getBoundingClientRect()
 
-    switch (this._relativePosition) {
-      case FloatingPosition.RightBottom:
-      case FloatingPosition.RightCenter:
-      case FloatingPosition.RightTop: {
+    switch (this._position) {
+      case Position.RightBottom:
+      case Position.RightCenter:
+      case Position.RightTop: {
         y = rect.y
         break
       }
-      case FloatingPosition.BottomLeft:
+      case Position.BottomLeft:
       default: {
         y = rect.y + rect.height + 5
       }

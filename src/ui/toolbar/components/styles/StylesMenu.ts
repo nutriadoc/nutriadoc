@@ -1,12 +1,12 @@
 import i18n from "../../../../i18n"
-import FloatingPosition from "../../../floating/FloatingPosition.ts"
+import Position from "../../../floating/Position.ts"
 import Menu from "../../../menu/Menu.ts"
 import MenuItem from "../../../menu/MenuItem.ts";
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 
 export default class StylesMenu extends Menu {
 
-  public constructor(relativePosition: FloatingPosition) {
+  public constructor(relativePosition: Position) {
     super("header", relativePosition, StylesMenu.items())
     this._element.classList.add("insert-menu")
   }

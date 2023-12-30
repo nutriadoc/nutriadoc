@@ -1,12 +1,12 @@
 import Menu from "../../../menu/Menu.ts";
 import MenuItem from "../../../menu/MenuItem.ts";
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
-import FloatingPosition from "../../../floating/FloatingPosition.ts";
+import Position from "../../../floating/Position.ts";
 
 export default class LineSpacingMenu extends Menu {
 
   public constructor() {
-    super('lineSpacing', FloatingPosition.BottomLeft, LineSpacingMenu.createItems())
+    super('lineSpacing', Position.BottomLeft, LineSpacingMenu.createItems())
   }
 
   static createItems(): MenuItem[] {

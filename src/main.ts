@@ -25,6 +25,6 @@
 // const insert = toolbar.findItem("insert")!
 // const helloworld = document.createElement("div")
 // helloworld.innerHTML = "Hello World"
-// const menu = new Floating(insert.element, FloatingPosition.BottomLeft, [new AbstractElement(helloworld)])
+// const menu = new Floating(insert.element, Position.BottomLeft, [new AbstractElement(helloworld)])
 // toolbar.addElement(menu)
 // toolbar.active("insert")

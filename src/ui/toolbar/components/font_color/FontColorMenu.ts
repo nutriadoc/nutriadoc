@@ -1,5 +1,5 @@
 import Menu from "../../../menu/Menu.ts";
-import FloatingPosition from "../../../floating/FloatingPosition.ts";
+import Position from "../../../floating/Position.ts";
 import MenuItem from "../../../menu/MenuItem.ts";
 import ColorPicker from "../../../color_picker/ColorPicker.ts";
 import InactiveMenuItem from "../../../menu/InactiveMenuItem.ts";
@@ -15,7 +15,7 @@ export default class FontColorMenu extends Menu {
   protected one: MenuItem
 
   public constructor(key?: string) {
-    super(key ?? 'color', FloatingPosition.BottomLeft, [FontColorMenu.createColorPickerItem()])
+    super(key ?? 'color', Position.BottomLeft, [FontColorMenu.createColorPickerItem()])
 
     this.one = this.items[0]
     this.colorPicker = this.one.children[0] as ColorPicker

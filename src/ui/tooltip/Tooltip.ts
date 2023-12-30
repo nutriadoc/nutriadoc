@@ -1,5 +1,5 @@
 import Floating from "../floating/Floating.ts"
-import FloatingPosition from "../floating/FloatingPosition.ts"
+import Position from "../floating/Position.ts"
 import IView from "../IView.ts"
 import TooltipTextContent from "./TooltipTextContent.ts";
 import View from "../View.ts";
@@ -10,9 +10,9 @@ export default class Tooltip extends Floating {
 
   protected contentView: TooltipTextContent
 
-  public constructor(content: string | IView, position?: FloatingPosition) {
+  public constructor(content: string | IView, position?: Position) {
     const contentView = Tooltip.createContent(content)
-    super(position ?? FloatingPosition.BottomLeft, contentView)
+    super(position ?? Position.BottomLeft, contentView)
 
     this.contentView = contentView[0]
   }

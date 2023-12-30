@@ -1,4 +1,4 @@
-import FloatingPosition from "../../../floating/FloatingPosition.ts";
+import Position from "../../../floating/Position.ts";
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import Fonts from "../../../../editor/font/DefaultFonts.ts";
 import Menu from "../../../menu/Menu.ts";
@@ -7,7 +7,7 @@ export default class FontMenu extends Menu {
 
   protected family: Map<string, string> = new Map()
 
-  public constructor(relativePosition: FloatingPosition) {
+  public constructor(relativePosition: Position) {
     super('fontFamily', relativePosition, FontMenu.items())
 
     Fonts.forEach(font => {

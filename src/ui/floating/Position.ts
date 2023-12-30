@@ -1,4 +1,4 @@
-enum FloatingPosition {
+enum Position {
     TopLeft = 0,
     TopCenter = 1,
     TopRight = 2,
@@ -13,4 +13,4 @@ enum FloatingPosition {
     RightBottom = 11
 }
 
-export default FloatingPosition
+export default Position

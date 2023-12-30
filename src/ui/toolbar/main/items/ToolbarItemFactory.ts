@@ -5,7 +5,7 @@ import { ToolbarSeparatorItem } from "./ToolbarSeparatorItem.ts";
 import ColorIcon from "./impls/ColorIcon.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts"
 import ToolbarColorItem from "./ToolbarColorItem.ts";
-import ToolbarLayout from "../ToolbarLayout.ts";
+// import ToolbarLayout from "../ToolbarLayout.ts";
 
 interface IconOption {
 

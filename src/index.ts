@@ -3,7 +3,7 @@ import Toolbar from "./ui/toolbar/main/Toolbar.ts";
 import View from "./ui/View.ts";
 import Formatter from "./editor/formatter/Formatter.ts";
 import Title from "./editor/formats/Title.ts";
-import {Scope, ScrollBlot} from "parchment"
+import {ScrollBlot} from "parchment"
 import {Blot} from "parchment/dist/typings/blot/abstract/blot"
 import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
 import Subtitle from "./editor/formats/Subtitle.ts";
@@ -14,6 +14,7 @@ import LineSpacing from "./editor/formats/LineSpacing.ts";
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
+import Resizer from "./ui/resizer/Resizer.ts";
 
 class Document extends View {
 
@@ -44,6 +45,41 @@ class Document extends View {
     this.toolbar.action = new ToolbarAction(this.toolbar, formatter)
 
     this.setupEditorElement()
+    this.setupEvents()
+  }
+
+  protected setupEvents() {
+    document.addEventListener("DOMContentLoaded", this.onDomContentLoaded.bind(this))
+
+    const observer = new MutationObserver(this.onMutation.bind(this))
+    observer.observe(this._quill.root, {childList: true, subtree: true})
+
+    this._quill.root.addEventListener("dragover", (_e) => {
+      // debugger
+    })
+  }
+
+  protected onDomContentLoaded(event: Event) {
+    if (event.target instanceof HTMLImageElement) {
+      // debugger
+    }
+    console.debug(event.currentTarget)
+  }
+
+  protected onMutation(mutations: MutationRecord[]) {
+    mutations.forEach((mutation) => {
+      if (mutation.type == "childList") {
+        mutation.addedNodes.forEach((node) => {
+          if (node instanceof HTMLImageElement) {
+            this.onImageLoad(node)
+          }
+        })
+      }
+    })
+  }
+
+  protected onImageLoad(image: HTMLImageElement) {
+    new Resizer(image)
   }
 
   /**
