@@ -28,7 +28,8 @@ enum Format {
   Table,
   Undo,
   Redo,
-  Unknown
+  Unknown,
+  ClearFormatting,
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

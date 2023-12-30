@@ -11,6 +11,7 @@ import IndentationFormatter from "./IndentationFormatter.ts";
 import ListFormatter from "./ListFormatter.ts";
 import TableFormatter from "./TableFormatter.ts";
 import HistoryFormatter from "./HistoryFormatter.ts";
+import ClearFormattingFormatter from "./ClearFormattingFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -25,6 +26,7 @@ export default class Formatter implements IFormatter {
     ListFormatter,
     TableFormatter,
     HistoryFormatter,
+    ClearFormattingFormatter
   ]
 
   protected formatters: AbstractFormatter[]
