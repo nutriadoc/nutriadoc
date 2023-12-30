@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Editor from "../index"
+import {create} from "../index"
 
 type ImageArgs = {
 
@@ -12,7 +12,7 @@ const meta = {
 
     const root = document.createElement("div")
     root.className = "root"
-    const doc = Editor(root)
+    const doc = create(root)
 
     doc.quill.insertEmbed(0, "image", 'https://placehold.co/300x200')
 

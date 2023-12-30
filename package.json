@@ -1,5 +1,5 @@
 {
-  "name": "editor",
+  "name": "@nutriadoc/nutriadoc",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,6 +9,20 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/nutriadoc.umd.cjs",
+  "module": "./dist/nutriadoc.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nutriadoc.js",
+      "require": "./dist/nutriadoc.umd.cjs"
+    }
+  },
+  "publishConfig": {
+    "access": "nutriadoc"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.6.6",

@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Editor from "../index"
+import {create} from "../index"
 
 const meta = {
   title: 'Editor/Font',
@@ -8,7 +8,7 @@ const meta = {
 
     const root = document.createElement("div")
     root.className = "root"
-    const doc = Editor(root)
+    const doc = create(root)
 
     doc.quill.insertText(0, "Text1")
     doc.quill.insertText(6, "Text2")

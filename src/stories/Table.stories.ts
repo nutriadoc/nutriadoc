@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Editor from "../index"
+import {create} from "../index"
 // import NTRTable from "../ui/table/NTRTable.ts";
 import Quill from "quill";
 
@@ -14,7 +14,7 @@ const meta = {
 
     const root = document.createElement("div")
     root.className = "root"
-    const doc = Editor(root)
+    const doc = create(root)
 
     args?.init?.(doc.quill)
     // const tableElement = doc.quill.root.getElementsByTagName("table")[0]

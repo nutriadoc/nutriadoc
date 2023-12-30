@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Editor from "../index"
+import {create} from "../index"
 
 const meta = {
   title: 'Editor/List',
@@ -7,7 +7,7 @@ const meta = {
 
     const root = document.createElement("div")
     root.className = "root"
-    const doc = Editor(root)
+    const doc = create(root)
 
     for (let i  = 1; i < 7; i++) {
       const start = doc.quill.getLength() - 1

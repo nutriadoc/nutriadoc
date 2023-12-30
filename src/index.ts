@@ -16,7 +16,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 import Resizer from "./ui/resizer/Resizer.ts";
 
-class Document extends View {
+export class Document extends View {
 
   protected editorElement: HTMLDivElement
 
@@ -169,7 +169,7 @@ class Document extends View {
 
 
 
-export default function (element: string | HTMLElement, contents?: string): Document {
+export function create (element: string | HTMLElement, contents?: string): Document {
   const doc = new Document(contents ?? "")
   const docEle = doc.render()
 
@@ -177,4 +177,16 @@ export default function (element: string | HTMLElement, contents?: string): Docu
     element.append(docEle as HTMLElement)
 
   return doc
+}
+
+export interface NutriaDoc {
+  create: typeof create
+  Document: typeof Document
+}
+
+if (window) {
+  window.NutriaDoc = {
+    create,
+    Document,
+  }
 }
