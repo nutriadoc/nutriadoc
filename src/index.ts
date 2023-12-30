@@ -10,11 +10,15 @@ import Subtitle from "./editor/formats/Subtitle.ts";
 import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
 import FontSize from "./editor/formats/FontSize.ts";
 import LineSpacing from "./editor/formats/LineSpacing.ts";
+import Resizer from "./ui/resizer/Resizer.ts";
+import Option from "./editor/Option.ts";
+import WebsocketCollaboration from "./editor/collaboration/WebSocketCollaboration.ts";
+import QuillCursors from "quill-cursors";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
-import Resizer from "./ui/resizer/Resizer.ts";
+
 
 export class Document extends View {
 
@@ -26,17 +30,21 @@ export class Document extends View {
 
   protected contents: string
 
-  constructor(contents: string) {
+  constructor(option?: Option) {
     const element = document.createElement("div")
     super(element)
 
-    this.contents = contents
+    this.contents = option?.html ?? ""
     element.className = "ntr-doc"
 
     this.registerModules()
 
     this.editorElement = document.createElement("div")
-    this._quill = new Quill(this.editorElement)
+    this._quill = new Quill(this.editorElement, { modules: { cursors: true } })
+
+    if (option?.collaboration) {
+      new WebsocketCollaboration(this._quill, option)
+    }
 
     this._quill.root.addEventListener("blur", this.onQuillBlur.bind(this))
 
@@ -107,6 +115,8 @@ export class Document extends View {
       "formats/font-size": FontSize,
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
     })
+
+    Quill.register('modules/cursors', QuillCursors);
   }
 
   public render(): Node | Node[] {
@@ -169,8 +179,8 @@ export class Document extends View {
 
 
 
-export function create (element: string | HTMLElement, contents?: string): Document {
-  const doc = new Document(contents ?? "")
+export function create (element: string | HTMLElement, option?: Option): Document {
+  const doc = new Document(option)
   const docEle = doc.render()
 
   if (element instanceof HTMLElement)

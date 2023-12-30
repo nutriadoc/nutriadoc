@@ -46,6 +46,7 @@
     "bootstrap-icons": "^1.11.2",
     "i18next": "^23.7.11",
     "quill": "2.0.0-dev.4",
+    "quill-cursors": "^4.0.2",
     "y-quill": "^0.1.5",
     "y-websocket": "^1.5.1",
     "yjs": "^13.6.10"
