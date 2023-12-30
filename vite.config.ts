@@ -23,6 +23,7 @@ export default defineConfig({
         // for externalized deps
         globals: {
         },
+
       },
       plugins: [
       ],

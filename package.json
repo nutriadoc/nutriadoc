@@ -1,7 +1,6 @@
 {
   "name": "@nutriadoc/nutriadoc",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,7 +21,8 @@
     }
   },
   "publishConfig": {
-    "access": "nutriadoc"
+    "access": "public",
+    "scope": "@nutriadoc"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.6.6",
