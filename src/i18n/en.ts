@@ -8,6 +8,7 @@ export default {
     picture: "Picture",
     table: "Table",
     font: "Default Font",
+    horizontalRule: "Horizontal Rule",
     fontSize: "11",
     styles: {
       title: "Title",

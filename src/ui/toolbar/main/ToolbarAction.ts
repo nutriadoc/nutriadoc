@@ -87,6 +87,7 @@ export default class ToolbarAction {
     const menuKey = e.menu.key
 
     switch (menuKey) {
+      case "insert":
       case "header": {
         this.format(item.key, null)
         break

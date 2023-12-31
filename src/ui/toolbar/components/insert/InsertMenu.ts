@@ -53,6 +53,12 @@ export default class InsertMenu extends Menu {
         icon: "table",
         name: i18n.t("menu.table"),
         expand: tableMenu,
+      },
+      {
+        key: "hr",
+        icon: "dash-square",
+        name: i18n.t("menu.horizontalRule"),
+        canExpand: false,
       }
     ].map(item => this.createItem(item))
 

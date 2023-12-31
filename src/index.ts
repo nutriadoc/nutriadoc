@@ -18,6 +18,7 @@ import WebsocketCollaboration from "./editor/collaboration/WebSocketCollaboratio
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
+import HorizontalRuleBlot from "./editor/formats/HorizontalRuleBlot.ts";
 
 
 export class Document extends View {
@@ -111,6 +112,8 @@ export class Document extends View {
       "formats/font-size": FontSize,
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
     })
+
+    Quill.register('formats/hr', HorizontalRuleBlot, true)
 
     // Quill.register('modules/cursors', QuillCursors);
   }

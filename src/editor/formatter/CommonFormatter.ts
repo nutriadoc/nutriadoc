@@ -15,6 +15,10 @@ export default class CommonFormatter extends AbstractFormatter {
     'linespacing',
   ]
 
+  readonly supportedCommand: string[] = [
+    'hr',
+  ]
+
   public select(formats: StringMap): void {
     this.supportedFormats.forEach(format => {
       if (formats[format])
@@ -26,10 +30,23 @@ export default class CommonFormatter extends AbstractFormatter {
 
   public format(format: Format, ..._params: any[]): void {
     const formatKey = formatToKey(format).toLowerCase()
-    if (!this.supportedFormats.includes(formatKey)) return
 
-    console.debug("format", formatKey, _params)
+    if (this.supportedCommand.includes(formatKey)) {
+      this.command(formatKey)
+      return
+    }
+
+    if (!this.supportedFormats.includes(formatKey)) return
     this.quill.format(formatKey, _params[0], "user")
+  }
+
+  public command(command: string): void {
+    if (!this.supportedCommand.includes(command)) return
+
+    const range = this.quill.getSelection(true)
+    if (range == null) return
+    console.debug("command", command, range)
+    this.quill.insertText(range.index, '\n', { 'hr': true })
   }
 
 }
