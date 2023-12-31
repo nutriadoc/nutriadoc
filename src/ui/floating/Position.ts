@@ -10,7 +10,8 @@ enum Position {
     LeftBottom = 8,
     RightTop = 9,
     RightCenter = 10,
-    RightBottom = 11
+    RightBottom = 11,
+    Center,
 }
 
 export default Position

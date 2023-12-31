@@ -1,4 +1,10 @@
 import IView from "./IView.ts";
+import IUnit from "./view/unit/IUnit.ts";
+import Attribute from "./view/attribute/Attribute.ts";
+import Content from "./view/content/Content.ts";
+import TextContent from "./view/content/TextContent.ts";
+import StyleUnit from "./view/unit/StyleUnit.ts";
+import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
 
 export default class View extends EventTarget implements IView {
 
@@ -10,7 +16,7 @@ export default class View extends EventTarget implements IView {
 
   public class?: string | string[]
 
-  // public style?: any
+  protected _units: WeakSet<IUnit> = new WeakSet()
 
   public constructor(element?: HTMLElement) {
     super()
@@ -91,10 +97,65 @@ export default class View extends EventTarget implements IView {
     if (this.key != '') {
       this._element.setAttribute('data-key', this.key)
     }
+
+    if (this.className) {
+      let className: string[]
+      className = this.className.split(" ")
+
+      // if (Array.isArray(this.className)) {
+      //   this._element.classList.add(...this.className)
+      // } else {
+      className.forEach(name => this._element.classList.add(name))
+        // this._element.classList.add(className)
+      // }
+    }
+
     return this._element
   }
 
-  static new() {
+  public assignUnits(...units: IUnit[]): IView {
+    units.forEach(unit => {
+      this._units.add(unit)
 
+      if (unit instanceof Attribute)
+        this._element.setAttribute(unit.key, unit.value)
+
+      if (unit instanceof View)
+        this.addElement(unit)
+
+      this.assignContent(unit)
+
+      if (unit instanceof StyleUnit) {
+        this.assignStyle(unit)
+      }
+
+      this.assignEventListener(unit as EventListenerUnit)
+    })
+
+    return this
+  }
+
+  protected assignContent(content: Content) {
+    if (content instanceof TextContent) {
+      this.element.textContent = content.text
+    }
+  }
+
+  protected assignStyle(unit: StyleUnit) {
+    Object.keys(unit.styles).forEach(key => {
+      (this.element.style as any)[key] = unit.styles[key]
+    })
+  }
+
+  protected assignEventListener(unit: IUnit) {
+    if (!(unit instanceof EventListenerUnit)) return
+
+    this.element.addEventListener(unit.type, unit.listener as any)
+  }
+
+  static new(tag?: string) {
+    if (!!tag) return new View(document.createElement(tag))
+
+    return new View()
   }
 }

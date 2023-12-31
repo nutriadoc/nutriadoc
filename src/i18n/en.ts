@@ -10,6 +10,7 @@ export default {
     font: "Default Font",
     horizontalRule: "Horizontal Rule",
     fontSize: "11",
+    link: "Link",
     styles: {
       title: "Title",
       subtitle: "Subtitle",

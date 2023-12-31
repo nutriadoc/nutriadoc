@@ -13,6 +13,7 @@ import TableFormatter from "./TableFormatter.ts";
 import HistoryFormatter from "./HistoryFormatter.ts";
 import ClearFormattingFormatter from "./ClearFormattingFormatter.ts";
 import FormatPainterFormatter from "./FormatPainterFormtter.ts";
+import LinkFormatter from "./LinkFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -29,6 +30,7 @@ export default class Formatter implements IFormatter {
     HistoryFormatter,
     ClearFormattingFormatter,
     FormatPainterFormatter,
+    LinkFormatter,
   ]
 
   protected formatters: AbstractFormatter[]

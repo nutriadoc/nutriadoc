@@ -59,6 +59,12 @@ export default class InsertMenu extends Menu {
         icon: "dash-square",
         name: i18n.t("menu.horizontalRule"),
         canExpand: false,
+      },
+      {
+        key: "link",
+        icon: "link-45deg",
+        name: i18n.t("menu.link"),
+        canExpand: false,
       }
     ].map(item => this.createItem(item))
 

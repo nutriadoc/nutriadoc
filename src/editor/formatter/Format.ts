@@ -32,6 +32,7 @@ enum Format {
   ClearFormatting,
   FormatPainter,
   HR,
+  Link,
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

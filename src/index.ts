@@ -19,6 +19,8 @@ import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 import HorizontalRuleBlot from "./editor/formats/HorizontalRuleBlot.ts";
+import Link from "./ui/link/Link.ts";
+import QuillLinkBinding from "./editor/quilljs/QuillLinkBinding.ts";
 
 
 export class Document extends View {
@@ -91,9 +93,9 @@ export class Document extends View {
    * @param e
    * @protected
    */
-  protected onQuillBlur(e: FocusEvent) {
-    e.preventDefault()
-    this._quill.root.focus()
+  protected onQuillBlur(_e: FocusEvent) {
+    // e.preventDefault()
+    // this._quill.root.focus()
   }
 
   protected registerModules() {
@@ -168,6 +170,13 @@ export class Document extends View {
   }
 
   protected onMouseMove(_event: MouseEvent) {
+  }
+
+  public openInsertLink() {
+    const selection = this._quill.getSelection(true)
+
+    const link = new Link(new QuillLinkBinding(this._quill, selection))
+    link.visible()
   }
 
 

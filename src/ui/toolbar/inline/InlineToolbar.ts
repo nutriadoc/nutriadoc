@@ -1,5 +1,5 @@
 import View from "../../View.ts";
-import {className, div, style} from "../../views.ts";
+import {className, div} from "../../views.ts";
 // import FontSizeIncrease from "../item/FontSizeIncrease.ts";
 import IView from "../../IView.ts";
 
@@ -13,7 +13,7 @@ export default class InlineToolbar extends View implements IView {
   _children = [
     div(
       className("inline-toolbar__item"),
-      div(style()),
+      // div(style()),
       // FontSizeIncrease.new(event("click", this.onToolbarItemClick.bind(this)))
     ),
   ]

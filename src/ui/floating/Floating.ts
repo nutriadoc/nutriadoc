@@ -1,6 +1,7 @@
 import View from "../View.ts"
 import IView from "../IView.ts"
 import Position from "./Position.ts"
+import {className} from "../views.ts";
 
 export default class Floating extends View implements IView {
 
@@ -29,12 +30,17 @@ export default class Floating extends View implements IView {
 
   public get x(): number {
     let x = 0
-    if (!this._relative)
-      return 0
 
-    const rect = this._relative.getBoundingClientRect()
+    const bodyRect = new DOMRect(0, 0, window.innerWidth, window.innerHeight)
+    const relativeRect = this._relative?.getBoundingClientRect()
+    const selfRect = this._element.getBoundingClientRect()
+    const rect = relativeRect ?? bodyRect
 
     switch (this._position) {
+      case Position.Center: {
+        x = (rect.width - selfRect.width) / 2
+        break
+      }
       case Position.RightBottom:
       case Position.RightCenter:
       case Position.RightTop: {
@@ -52,12 +58,18 @@ export default class Floating extends View implements IView {
 
   public get y(): number {
     let y = 0
-    if (!this._relative)
-      return 0
 
-    const rect = this._relative.getBoundingClientRect()
+    const bodyRect = new DOMRect(0, 0, window.innerWidth, window.innerHeight)
+    const relativeRect = this._relative?.getBoundingClientRect()
+    const rect = relativeRect ?? bodyRect
+    const selfRect = this._element.getBoundingClientRect()
 
     switch (this._position) {
+      case Position.Center: {
+        y = (rect.height - selfRect.height) / 2
+        // if (this.className == "link") debugger
+        break
+      }
       case Position.RightBottom:
       case Position.RightCenter:
       case Position.RightTop: {
@@ -85,6 +97,8 @@ export default class Floating extends View implements IView {
     this._element.style.zIndex = this._zIndex.toString()
 
     this.addElement(this.children)
+
+    super.render()
 
     return this._element
   }
@@ -118,14 +132,22 @@ export default class Floating extends View implements IView {
   }
 
   protected pin() {
+
     this._element.style.left = `${this.x}px`
     this._element.style.top = `${this.y}px`
     this._element.style.zIndex = this._zIndex.toString()
   }
 
   public visible(relative?: HTMLElement | View | undefined) {
+
     this._visible = true
     this._element.style.visibility = "visible"
+
+    if (!this.element.parentElement) {
+      this.render()
+      document.body.append(this.element)
+
+    }
 
     if (relative instanceof HTMLElement)
       this.relative = relative
@@ -140,6 +162,10 @@ export default class Floating extends View implements IView {
   public hidden() {
     this._element.style.visibility = "hidden"
   
+  }
+
+  public dismiss() {
+    this._element.remove()
   }
 
   public set zIndex(index: number) {

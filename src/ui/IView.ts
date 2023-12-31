@@ -1,4 +1,6 @@
-export default interface IView {
+import IUnit from "./view/unit/IUnit.ts";
+
+export default interface IView extends IUnit {
 
   get key(): string
 
@@ -19,6 +21,8 @@ export default interface IView {
   get element(): HTMLElement
 
   get children(): IView[]
+
+  assignUnits(...units: IUnit[]): IView
 
   find(key: string): IView | undefined
 
