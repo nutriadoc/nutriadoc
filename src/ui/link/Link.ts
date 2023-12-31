@@ -1,6 +1,6 @@
 import Floating from "../floating/Floating.ts";
 import {
-  _for,
+  _for, autoFocus,
   button,
   className,
   div,
@@ -8,7 +8,7 @@ import {
   input,
   label,
   onChange,
-  onClick,
+  onClick, onKeyDown,
   placeholder,
   style,
   text, value,
@@ -51,7 +51,12 @@ export default class Link extends Floating {
     })
 
     const inputStyles = style({
-      width: "500px"
+      width: "500px",
+      borderRadius: "4px",
+      border: "1px #CCC solid",
+      lineHeight: "200%",
+      outline: "none",
+
     })
 
     this.addElement(
@@ -64,6 +69,7 @@ export default class Link extends Floating {
           padding: "15px",
           gap: "15px"
         }),
+        onKeyDown(this.onKeyDown.bind(this)),
         div(
           className("field"),
           fieldStyles,
@@ -76,6 +82,8 @@ export default class Link extends Floating {
             id("url"),
             inputStyles,
             value(this.url),
+            onKeyDown(this.onKeyDown.bind(this)),
+            autoFocus(),
             placeholder("Please enter a URL"),
             onChange(this.onLinkChange.bind(this))
           ),
@@ -92,6 +100,7 @@ export default class Link extends Floating {
             id("text"),
             inputStyles,
             value(this.text),
+            onKeyDown(this.onKeyDown.bind(this)),
             placeholder("Please enter a URL"),
             onChange(this.onLinkTextChange.bind(this))
           ),
@@ -121,6 +130,18 @@ export default class Link extends Floating {
     return super.render()
   }
 
+  protected onKeyDown(e: KeyboardEvent) {
+    if (e.key === "Escape") {
+      e.preventDefault()
+      e.stopPropagation()
+
+      this.dismiss()
+    }
+
+    if (e.key === "Enter" && e.ctrlKey)
+      this.onPrimaryButtonClick()
+  }
+
   protected onLinkChange(e: Event) {
     const input = e.target as HTMLInputElement
     this.url = input.value
@@ -136,6 +157,7 @@ export default class Link extends Floating {
   }
 
   protected onPrimaryButtonClick() {
+    console.debug("on primary button click", this.url, this.text, this.binding)
     this.binding.link(this.url, this.text)
     this.dismiss()
   }

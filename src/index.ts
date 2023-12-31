@@ -19,8 +19,9 @@ import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 import HorizontalRuleBlot from "./editor/formats/HorizontalRuleBlot.ts";
-import Link from "./ui/link/Link.ts";
 import QuillLinkBinding from "./editor/quilljs/QuillLinkBinding.ts";
+import ShortcutKeyBinding from "./editor/shortcut_key/ShortcutKeyBinding.ts";
+import QuillShortcutKeyBinding from "./editor/quilljs/QuillShortcutKeyBinding.ts";
 
 
 export class Document extends View {
@@ -32,6 +33,8 @@ export class Document extends View {
   protected _quill: Quill
 
   protected contents: string
+
+  protected shortcutKeyBinding: ShortcutKeyBinding
 
   constructor(option?: Option) {
     const element = document.createElement("div")
@@ -49,6 +52,8 @@ export class Document extends View {
         // modules: { cursors: true }
       }
     )
+
+    this.shortcutKeyBinding = new QuillShortcutKeyBinding(this._quill)
 
     if (option?.collaboration) {
       new WebsocketCollaboration(this._quill, option)
@@ -175,8 +180,7 @@ export class Document extends View {
   public openInsertLink() {
     const selection = this._quill.getSelection(true)
 
-    const link = new Link(new QuillLinkBinding(this._quill, selection))
-    link.visible()
+    new QuillLinkBinding(this._quill, selection).openLink()
   }
 
 

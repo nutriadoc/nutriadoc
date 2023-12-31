@@ -41,7 +41,6 @@ export default class View extends EventTarget implements IView {
           this._element.append(node)
         } catch(e) {
           console.error(e)
-          debugger
         }
       })
     }

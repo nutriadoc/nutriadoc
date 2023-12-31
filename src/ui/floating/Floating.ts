@@ -1,7 +1,6 @@
 import View from "../View.ts"
 import IView from "../IView.ts"
 import Position from "./Position.ts"
-import {className} from "../views.ts";
 
 export default class Floating extends View implements IView {
 

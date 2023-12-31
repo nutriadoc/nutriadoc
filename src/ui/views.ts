@@ -51,6 +51,10 @@ export function input(...units: IUnit[]): IView {
   return View.new("input").assignUnits(...units)
 }
 
+export function autoFocus(): Attribute {
+  return new Attribute("autofocus", "true")
+}
+
 export function button(...units: IUnit[]): IView {
   return View.new("button").assignUnits(...units)
 }
@@ -61,6 +65,10 @@ export function onClick(handler: any): IUnit {
 
 export function onChange(handler: any): IUnit {
   return new EventListenerUnit("change", handler)
+}
+
+export function onKeyDown(handler: any): IUnit {
+  return new EventListenerUnit("keydown", handler)
 }
 
 export function placeholder(_placeholder: string): IUnit {
