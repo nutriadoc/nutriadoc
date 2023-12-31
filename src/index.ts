@@ -13,7 +13,7 @@ import LineSpacing from "./editor/formats/LineSpacing.ts";
 import Resizer from "./ui/resizer/Resizer.ts";
 import Option from "./editor/Option.ts";
 import WebsocketCollaboration from "./editor/collaboration/WebSocketCollaboration.ts";
-import QuillCursors from "quill-cursors";
+// import QuillCursors from "quill-cursors";
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
@@ -40,7 +40,12 @@ export class Document extends View {
     this.registerModules()
 
     this.editorElement = document.createElement("div")
-    this._quill = new Quill(this.editorElement, { modules: { cursors: true } })
+    this._quill = new Quill(
+      this.editorElement,
+      {
+        // modules: { cursors: true }
+      }
+    )
 
     if (option?.collaboration) {
       new WebsocketCollaboration(this._quill, option)
@@ -107,7 +112,7 @@ export class Document extends View {
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
     })
 
-    Quill.register('modules/cursors', QuillCursors);
+    // Quill.register('modules/cursors', QuillCursors);
   }
 
   public render(): Node | Node[] {

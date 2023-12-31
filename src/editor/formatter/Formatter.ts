@@ -12,6 +12,7 @@ import ListFormatter from "./ListFormatter.ts";
 import TableFormatter from "./TableFormatter.ts";
 import HistoryFormatter from "./HistoryFormatter.ts";
 import ClearFormattingFormatter from "./ClearFormattingFormatter.ts";
+import FormatPainterFormatter from "./FormatPainterFormtter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -26,7 +27,8 @@ export default class Formatter implements IFormatter {
     ListFormatter,
     TableFormatter,
     HistoryFormatter,
-    ClearFormattingFormatter
+    ClearFormattingFormatter,
+    FormatPainterFormatter,
   ]
 
   protected formatters: AbstractFormatter[]

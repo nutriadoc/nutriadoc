@@ -30,6 +30,7 @@ enum Format {
   Redo,
   Unknown,
   ClearFormatting,
+  FormatPainter
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

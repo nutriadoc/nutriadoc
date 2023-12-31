@@ -8,9 +8,19 @@ export default class View extends EventTarget implements IView {
 
   protected _key: string = ""
 
-  public constructor(element: HTMLElement) {
+  public class?: string | string[]
+
+  // public style?: any
+
+  public constructor(element?: HTMLElement) {
     super()
-    this._element = element
+    this._element = element ?? document.createElement('div')
+
+    this.initialize()
+  }
+
+  protected initialize() {
+
   }
 
   public addNode(node: Node | Node[]): void {
@@ -18,7 +28,16 @@ export default class View extends EventTarget implements IView {
       this._element.append(node)
     } else {
       const nodes = node as Node[]
-      nodes.forEach(this._element.appendChild)
+      // nodes.forEach(this._element.appendChild)
+
+      nodes.forEach(node => {
+        try {
+          this._element.append(node)
+        } catch(e) {
+          console.error(e)
+          debugger
+        }
+      })
     }
   }
 
@@ -74,5 +93,8 @@ export default class View extends EventTarget implements IView {
     }
     return this._element
   }
-  
+
+  static new() {
+
+  }
 }

@@ -33,7 +33,14 @@ export default abstract class AbstractFormatter implements IFormatter {
     this
       .toolbars
       .map(toolbar => toolbar.findToolbarItem(key))
-      .forEach(menu => menu?.active())
+      .forEach(toolbarItem => toolbarItem?.active())
+  }
+
+  protected deactivateToolbarItem(key: string) {
+    this
+      .toolbars
+      .map(toolbar => toolbar.findToolbarItem(key))
+      .forEach(toolbarItem => toolbarItem?.deactivate())
   }
 
   protected changeToolbarItemText(key: string, value: string) {

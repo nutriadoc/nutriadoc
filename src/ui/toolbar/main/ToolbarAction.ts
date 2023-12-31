@@ -34,6 +34,7 @@ export default class ToolbarAction {
     this.toolbar.items.forEach(item => {
       item.addEventListener("click", this.onToolbarItemClick.bind(this))
       item.addEventListener("expand", this.onToolbarItemExpand.bind(this))
+      item.addEventListener("command", this.onToolbarCommand.bind(this))
 
       this.setupItemMouseEvent(item)
     })
@@ -50,6 +51,11 @@ export default class ToolbarAction {
   }
 
   protected onMenuCommand(event: Event) {
+    const e = event as CommandEvent
+    this.formatter.format(e.command.format, e.command)
+  }
+
+  protected onToolbarCommand(event: Event) {
     const e = event as CommandEvent
     this.formatter.format(e.command.format, e.command)
   }

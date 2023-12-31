@@ -41,7 +41,6 @@ export default class ActivationView extends InteractiveView {
   protected onMouseEnter() {
     if (!this.activatedBackgroundColor)
       return
-
     this.element.style.backgroundColor = this.activatedBackgroundColor
   }
 
@@ -60,11 +59,14 @@ export default class ActivationView extends InteractiveView {
   }
 
   public active() {
-    this.onMouseEnter()
+
+    if (!this.activatedBackgroundColor)
+      return
+    this.element.style.backgroundColor = this.activatedBackgroundColor
   }
 
   public deactivate() {
-
+    this.element.style.backgroundColor = ""
   }
 
 }

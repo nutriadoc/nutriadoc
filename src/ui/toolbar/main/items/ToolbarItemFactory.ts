@@ -7,6 +7,7 @@ import IToolbarItemIcon from "./IToolbarItemIcon.ts"
 import ToolbarColorItem from "./ToolbarColorItem.ts";
 import {EraserFill, PaintBucket} from "../../icons";
 import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
+import ToolbarFormatPainterItem from "./impls/ToolbarFormatPainterItem.ts";
 // import ToolbarLayout from "../ToolbarLayout.ts";
 
 interface IconOption {
@@ -48,10 +49,13 @@ export default class ToolbarItemFactory {
   }
 
   public formatPainter(): ToolbarItem {
-    return this.createItem({
-      key: "formatPainter",
-      icon: { asset: PaintBucket },
-    })
+    return this.createItem(
+      {
+        key: "formatPainter",
+        icon: { asset: PaintBucket },
+      },
+      ToolbarFormatPainterItem
+      )
   }
   
   public insert(): ToolbarItem {

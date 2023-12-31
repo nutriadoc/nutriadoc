@@ -12,6 +12,8 @@ export default interface IView {
 
   addElement(element: IView | IView[]): void
 
+  style?: CSSStyleDeclaration
+
   render(): Node | Node[]
 
   get element(): HTMLElement

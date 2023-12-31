@@ -99,6 +99,8 @@ export default class ToolbarItem extends ActivationView {
   public deactivate(): void {
     this._isActivated = false
     this._element.classList.remove("active")
+
+    super.deactivate()
   }
 
   public get key(): string {
