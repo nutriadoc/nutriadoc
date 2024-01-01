@@ -8,16 +8,24 @@ export default class Floating extends View implements IView {
 
   protected _position?: Position
 
+  protected _relativeTo: "viewport" | "element" = "viewport"
+
   protected _visible: boolean = true
 
   protected attachedEvent: boolean = false
 
   protected _zIndex: number = 100
 
-  constructor(relativePosition?: Position, children?: IView[]) {
+  protected _container?: IView
+
+  protected spacing: number
+
+  constructor(relativePosition?: Position, children?: IView[], relativeTo?: "viewport" | "element", spacing?: number) {
     const element = document.createElement("div")
     super(element)
 
+    this._relativeTo = relativeTo ?? "viewport"
+    this.spacing = spacing ?? 10
     element.style.maxHeight = "70%"
     element.style.overflowY = "auto";
 
@@ -58,15 +66,33 @@ export default class Floating extends View implements IView {
   public get y(): number {
     let y = 0
 
-    const bodyRect = new DOMRect(0, 0, window.innerWidth, window.innerHeight)
+    // cases:
+    // 无相对窗口
+    // 有相对窗口
+    // 位置依据相对容器
+    // 位置依据Position，和相对容器无关
+    // 位置依据定位(x, y)，和相对容器、容器无关
+
+    const container = this._container?.element ?? document.body
     const relativeRect = this._relative?.getBoundingClientRect()
-    const rect = relativeRect ?? bodyRect
+    const rect = relativeRect ?? container.getBoundingClientRect()
     const selfRect = this._element.getBoundingClientRect()
+
+    if (this._relativeTo == "element") {
+      rect.y = this._relative?.offsetTop ?? 0
+      rect.x = this._relative?.offsetLeft ?? 0
+    }
 
     switch (this._position) {
       case Position.Center: {
         y = (rect.height - selfRect.height) / 2
-        // if (this.className == "link") debugger
+        break
+      }
+      case Position.LeftTop:
+      case Position.TopLeft:
+      case Position.TopCenter:
+      case Position.TopRight: {
+        y = rect.y - selfRect.height - this.spacing
         break
       }
       case Position.RightBottom:
@@ -87,7 +113,7 @@ export default class Floating extends View implements IView {
   public render(): Node | Node[] {
     this._element.classList.add('ntr-conextual-menu')
     
-    this.pin()
+    // this.pin()
     this._element.style.position = "absolute"
     this._element.style.boxShadow = "0 0 10px 0 rgba(0, 0, 0, 0.15)"
     this._element.style.backgroundColor = "white"
@@ -137,24 +163,27 @@ export default class Floating extends View implements IView {
     this._element.style.zIndex = this._zIndex.toString()
   }
 
-  public visible(relative?: HTMLElement | View | undefined) {
-
-    this._visible = true
-    this._element.style.visibility = "visible"
-
-    if (!this.element.parentElement) {
-      this.render()
-      document.body.append(this.element)
-
-    }
+  public visible(relative?: HTMLElement | View | undefined, container?: View) {
+    this._container = container
 
     if (relative instanceof HTMLElement)
       this.relative = relative
     if (relative instanceof View)
       this.relative = relative.element
 
-    this.pin()
+    this._visible = true
+    this._element.style.visibility = "visible"
 
+    if (!this.element.parentElement) {
+      this.render()
+
+      if (container === undefined)
+        document.body.append(this.element)
+      else
+        container.addElement(this)
+    }
+
+    this.pin()
     this.setupDismiss()
   }
 

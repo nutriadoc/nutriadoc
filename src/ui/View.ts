@@ -18,6 +18,8 @@ export default class View extends EventTarget implements IView {
 
   protected _units: WeakSet<IUnit> = new WeakSet()
 
+  protected _attributes: Map<string, Attribute> = new Map()
+
   public constructor(element?: HTMLElement) {
     super()
     this._element = element ?? document.createElement('div')
@@ -88,9 +90,22 @@ export default class View extends EventTarget implements IView {
     this._element.className = value
   }
 
-  public find(key: string): IView | undefined {
-    return this._children.find(child => child.key === key)
+  find(key: Attribute): IView | undefined
+  find(key: string): IView | undefined
+  find(key: string | Attribute): IView | undefined {
+    if (typeof key === 'string') {
+      return this._children.find(child => child.key === key)
+    }
+
+    return this._children.find(child => {
+      const attr = child.attributes.get(key.key)
+      if (attr?.value === key.value) return child
+
+      return child.find(key)
+
+    })
   }
+
 
   render(): Node | Node[] {
     if (this.key != '') {
@@ -116,8 +131,10 @@ export default class View extends EventTarget implements IView {
     units.forEach(unit => {
       this._units.add(unit)
 
-      if (unit instanceof Attribute)
+      if (unit instanceof Attribute) {
         this._element.setAttribute(unit.key, unit.value)
+        this._attributes.set(unit.key, unit)
+      }
 
       if (unit instanceof View)
         this.addElement(unit)
@@ -150,6 +167,10 @@ export default class View extends EventTarget implements IView {
     if (!(unit instanceof EventListenerUnit)) return
 
     this.element.addEventListener(unit.type, unit.listener as any)
+  }
+
+  get attributes(): Map<string, Attribute> {
+    return this._attributes
   }
 
   static new(tag?: string) {

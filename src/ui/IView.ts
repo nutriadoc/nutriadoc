@@ -1,4 +1,5 @@
 import IUnit from "./view/unit/IUnit.ts";
+import Attribute from "./view/attribute/Attribute.ts";
 
 export default interface IView extends IUnit {
 
@@ -9,6 +10,8 @@ export default interface IView extends IUnit {
   get className(): string
 
   set className(value: string)
+
+  get attributes(): Map<string, Attribute>
 
   addNode(node: Node | Node[]): void
 
@@ -24,6 +27,7 @@ export default interface IView extends IUnit {
 
   assignUnits(...units: IUnit[]): IView
 
+  find(key: Attribute): IView | undefined;
   find(key: string): IView | undefined
 
 }
