@@ -1,6 +1,7 @@
-import Quill, {RangeStatic, Sources} from "quill";
-import LinkInlineToolbar from "../../ui/toolbar/inline/link/LinkInlineToolbar.ts";
-import View from "../../ui/View.ts";
+import Quill, {RangeStatic} from "quill"
+import LinkInlineToolbar from "../../ui/toolbar/inline/link/LinkInlineToolbar.ts"
+import View from "../../ui/View.ts"
+import QuillLinkBinding from "../quilljs/QuillLinkBinding.ts"
 
 export default class InlineToolbarBinding {
 
@@ -17,49 +18,38 @@ export default class InlineToolbarBinding {
     this.quill.root.style.position = "relative"
   }
 
-  protected onSelectionChange(range: RangeStatic, _: RangeStatic, __: Sources) {
+  protected onSelectionChange(range: RangeStatic, _: RangeStatic) {
+    if (null == range) return
 
     const [leaf] = this.quill.getLeaf(range.index)
-    const blot = leaf.parent
-
-    // this.insertInlineToolbarContainer()
-    this.visibleLinkInlineToolbar(blot)
+    this.visibleLinkInlineToolbar(range, leaf)
   }
 
-  protected insertInlineToolbarContainer() {
-    if (this.quill.root.querySelector(".inline-toolbars")) return
-    this.quill.insertEmbed(0, "inline-toolbar", true)
-  }
-
-  protected visibleLinkInlineToolbar(blot: any) {
-    console.debug("visible link", blot, blot.statics.blotName)
-
-    if (blot.statics.blotName.toLowerCase() !== "link") return
+  protected visibleLinkInlineToolbar(range: RangeStatic, leaf: any) {
+    if (!QuillLinkBinding.isLink(leaf)) return
 
     if (!this.link) {
       const container = this.getContainer("link")
-      this.link = new LinkInlineToolbar(container, this.quill)
+      this.link = new LinkInlineToolbar(container)
       this.link.render()
     }
 
-    this.link.href = blot.domNode.href
-
+    this.link.binding = new QuillLinkBinding(this.quill, range, leaf)
     this.link.visible(
-      blot.domNode,
-      // new View(blot.domNode)
+      leaf.parent.domNode,
       this.root
     )
   }
 
-  protected getContainer(name: string) {
-    // if (range == null) return
+  protected getContainer(name: string): HTMLElement {
     const key = `${name}-inline-toolbar`
+    let element = this.quill.root.querySelector(`.${key}`)
+    if (element)
+      return element as HTMLElement
+
     this.quill.insertEmbed(0, "inline-toolbar", key)
 
-    return this.quill.root.querySelector(`.${key}`) as HTMLElement
-  }
-
-  protected get container(): HTMLElement {
-    return this.quill.root.querySelector(".inline-toolbars") as HTMLElement
+    element = this.quill.root.querySelector(`.${key}`)
+    return element as HTMLElement
   }
 }

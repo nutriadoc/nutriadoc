@@ -6,6 +6,7 @@ import TextContent from "./view/content/TextContent.ts";
 import StyleUnit from "./view/unit/StyleUnit.ts";
 import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
 import Property from "./view/attribute/Property.ts";
+import ClassName from "./view/attribute/ClassName.ts";
 
 export default class View extends EventTarget implements IView {
 
@@ -20,6 +21,8 @@ export default class View extends EventTarget implements IView {
   protected _units: WeakSet<IUnit> = new WeakSet()
 
   protected _attributes: Map<string, Attribute> = new Map()
+
+  protected _rendered: boolean = false
 
   public constructor(element?: HTMLElement) {
     super()
@@ -94,6 +97,15 @@ export default class View extends EventTarget implements IView {
   find(key: Attribute): IView | undefined
   find(key: string): IView | undefined
   find(key: string | Attribute): IView | undefined {
+    if (key instanceof ClassName) {
+      return this._children.find(child => {
+        const className = child.attributes.get('class')
+        if (!className) return false
+
+        return key.classes.every(c => className.value.includes(c))
+      })
+    }
+
     if (typeof key === 'string') {
       return this._children.find(child => child.key === key)
     }
@@ -129,19 +141,23 @@ export default class View extends EventTarget implements IView {
   }
 
   public assignUnits(...units: IUnit[]): IView {
-    units.forEach(unit => {
+
+    const className = ClassName
+      .merge(
+        units
+          .filter(unit => unit instanceof ClassName)
+          .map(x => x as ClassName)
+      )
+
+    units = units.filter(u => !(u instanceof ClassName))
+      .concat(className)
+
+    units
+      .forEach(unit => {
+
       this._units.add(unit)
 
-      if (unit instanceof Attribute) {
-        if (unit instanceof Property) {
-          const v: any = {}
-          v[unit.key] = unit.value
-          Object.assign(this._element, v)
-        } else {
-          this._element.setAttribute(unit.key, unit.value)
-        }
-        this._attributes.set(unit.key, unit)
-      }
+      this.assignAttribute(unit)
 
       if (unit instanceof View)
         this.addElement(unit)
@@ -156,6 +172,22 @@ export default class View extends EventTarget implements IView {
     })
 
     return this
+  }
+
+  protected assignAttribute(unit: IUnit) {
+    if (!(unit instanceof Attribute)) return
+
+    if (unit instanceof ClassName) {
+      this._element.classList.add(...unit.classes)
+    } else if (unit instanceof Property) {
+      const v: any = {}
+      v[unit.key] = unit.value
+      Object.assign(this._element, v)
+    } else {
+      this._element.setAttribute(unit.key, unit.value)
+    }
+
+    this._attributes.set(unit.key, unit)
   }
 
   protected assignContent(content: Content) {
@@ -178,6 +210,10 @@ export default class View extends EventTarget implements IView {
 
   get attributes(): Map<string, Attribute> {
     return this._attributes
+  }
+
+  public remove() {
+    this.element.remove()
   }
 
   static new<T extends View>(tag?: string): View {

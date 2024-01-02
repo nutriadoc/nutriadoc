@@ -13,7 +13,7 @@ const meta = {
 
     for (let i = 0; i < 10; i++) {
       doc.quill.insertText(doc.quill.getLength() - 1, "Link: ")
-      doc.quill.insertText(doc.quill.getLength() - 1, "google\n", "link", "https://google.com")
+      doc.quill.insertText(doc.quill.getLength() - 1, `google ${i}\n`, "link", "https://google.com")
     }
 
     setTimeout(() => {

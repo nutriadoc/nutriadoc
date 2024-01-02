@@ -7,6 +7,7 @@ import IUnit from "./view/unit/IUnit.ts";
 import StyleUnit from "./view/unit/StyleUnit.ts";
 import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
 import Property from "./view/attribute/Property.ts";
+import ClassName from "./view/attribute/ClassName.ts";
 
 export function div(..._params: IUnit[]): IView {
   return View.new('div').assignUnits(..._params)
@@ -92,6 +93,7 @@ export function target(value: "_blank" | "_self" | "_parent"): IUnit {
   return new Attribute("target", value)
 }
 
-export function className(_name: string): Attribute {
-  return new Attribute("class", _name)
+
+export function className(...name: string[]): Attribute {
+  return new ClassName(name)
 }

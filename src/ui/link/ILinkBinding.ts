@@ -1,9 +1,17 @@
-import ILinkRange from "./ILinkRange.ts";
-
 export default interface ILinkBinding {
 
-  get payload(): ILinkRange | undefined
+  get url(): string
 
-  link(url: string, text: string): void
+  get text(): string
+
+  openLinkSettings(): void
+
+  openLink(): void
+
+  removeLink(): void
+
+  copyLink(): void
+
+  closeInlineToolbar(): void
 
 }

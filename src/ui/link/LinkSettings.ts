@@ -14,24 +14,21 @@ import {
   text, value,
 } from "../views.ts";
 import Position from "../floating/Position.ts";
-import ILinkBinding from "./ILinkBinding.ts";
 import View from "../View.ts";
+import LinkEvent from "../toolbar/inline/link/LinkEvent.ts";
 
-export default class Link extends Floating {
+export default class LinkSettings extends Floating {
 
-  protected binding: ILinkBinding
+  public _url: string = ""
 
-  protected url: string = ""
+  public _text: string = ""
 
-  protected text: string = ""
+  public constructor(url?: string, text?: string) {
+    super(Position.Center)
+    this._url = url ?? ''
+    this._text = text ?? ''
 
-  public constructor(url: string | undefined, text: string | undefined, binding: ILinkBinding) {
-    super(Position.Center);
-
-    this.text = text ?? ""
-    this.url = url ?? ""
-
-    this.binding = binding
+    console.debug("Link constructor")
   }
 
   public get className(): string {
@@ -39,6 +36,8 @@ export default class Link extends Floating {
   }
 
   public render(): Node | Node[] {
+
+    if (this._rendered) return super.render()
 
     const fieldStyles = style({
       display: "flex",
@@ -144,7 +143,7 @@ export default class Link extends Floating {
       e.preventDefault()
       e.stopPropagation()
 
-      this.dismiss()
+      this.hidden()
     }
 
     if (e.key === "Enter" && e.ctrlKey)
@@ -166,8 +165,26 @@ export default class Link extends Floating {
   }
 
   protected onPrimaryButtonClick() {
-    console.debug("on primary button click", this.url, this.text, this.binding)
-    this.binding.link(this.url, this.text)
-    this.dismiss()
+    this.hidden()
+
+    this.dispatchEvent(new LinkEvent(this.url, this.text))
+  }
+
+  public get url(): string {
+    return this._url
+  }
+
+  public set url(url: string) {
+    this._url = url
+    this.find(id("url"))?.assignUnits(value(url))
+  }
+
+  public get text(): string {
+    return this._text
+  }
+
+  public set text(text: string) {
+    this._text = text
+    this.find(id("text"))?.assignUnits(value(text))
   }
 }

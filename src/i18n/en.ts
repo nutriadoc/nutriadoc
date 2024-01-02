@@ -23,5 +23,15 @@ export default {
       right: "Right align",
       justify: "Justify"
     }
-  }
+  },
+  inlineToolbar: {
+    close: "Close"
+  },
+  link: {
+    open: "Open link",
+    settings: "Link settings",
+    url: "URL",
+    text: "Text",
+    remove: "Remove link"
+  },
 }

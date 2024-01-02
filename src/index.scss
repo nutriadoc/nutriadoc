@@ -24,25 +24,31 @@ blockquote {
   background-color: white;
   padding: 8px 0;
   border-radius: 4px;
+  visibility: hidden;
 }
 
 .inline-toolbar {
   display: flex;
   flex-direction: row;
 
+  position: absolute;
+
   align-items: center;
 
   background-color: var(--background-color);
 
   font-size: 12px;
-  gap: 15px;
-  padding: 8px 8px;
+  gap: 5px;
+  padding: 2px;
 
   .active {
     background-color: var(--hover-background-color);
   }
 
   .inline-toolbar-item {
+    padding: 6px;
+    border-radius: 4px;
+
     .svg, .svg svg {
       width: 14px;
       height: 14px;

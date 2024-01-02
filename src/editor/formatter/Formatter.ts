@@ -14,6 +14,7 @@ import HistoryFormatter from "./HistoryFormatter.ts";
 import ClearFormattingFormatter from "./ClearFormattingFormatter.ts";
 import FormatPainterFormatter from "./FormatPainterFormtter.ts";
 import LinkFormatter from "./LinkFormatter.ts";
+import EventDispatcher from "../quilljs/EventDispatcher.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -45,18 +46,12 @@ export default class Formatter implements IFormatter {
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))
-    this.quill.root.addEventListener('mouseup', this.onMouseUp.bind(this))
+
+    EventDispatcher.shared.load(this.quill)
   }
 
   format(format: Format, ...params: any[]) {
     this.formatters.forEach(formatter => formatter.format(format, ...params))
-  }
-
-  /**
-   * 触发 selection-change 事件
-   */
-  public onMouseUp(_: MouseEvent) {
-    this.quill.getSelection()
   }
 
   textChange(delta: any, oldDelta: any, source: Sources) {

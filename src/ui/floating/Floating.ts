@@ -20,6 +20,12 @@ export default class Floating extends View implements IView {
 
   protected spacing: number
 
+  protected documentClickHandler: any
+
+  public id: number = Floating.id ++
+
+  static id: number = 0
+
   constructor(
     relativePosition?: Position,
     children?: IView[],
@@ -38,7 +44,7 @@ export default class Floating extends View implements IView {
     this._position = relativePosition ?? Position.BottomLeft
     this._children = children ?? []
 
-    this.onDocumentClick = this.onDocumentClick.bind(this)
+    this.documentClickHandler = this.onDocumentClick.bind(this)
   }
 
   public get x(): number {
@@ -127,21 +133,21 @@ export default class Floating extends View implements IView {
   }
 
   public render(): Node | Node[] {
+    if (this._rendered) return super.render()
+    this._rendered = true
+
     this._element.classList.add('ntr-floating')
-
     this._element.style.zIndex = this._zIndex.toString()
-
     this.addElement(this.children)
 
-    super.render()
 
-    return this._element
+    return super.render()
   }
 
   protected setupDismiss() {
     if (this.attachedEvent) return
 
-    document.addEventListener('click', this.onDocumentClick)
+    document.addEventListener('click', this.documentClickHandler)
   }
 
   public onDocumentClick(event: MouseEvent) {
@@ -157,7 +163,7 @@ export default class Floating extends View implements IView {
       return
     }
 
-    document.removeEventListener('click', this.onDocumentClick)
+    document.removeEventListener('click', this.documentClickHandler)
     this.attachedEvent = false
     this.hidden()
   }
@@ -199,11 +205,14 @@ export default class Floating extends View implements IView {
 
   public hidden() {
     this._element.style.visibility = "hidden"
-  
+
+    this.dispatchEvent(new Event("hidden"))
   }
 
   public dismiss() {
     this._element.remove()
+
+    this.dispatchEvent(new Event("hidden"))
   }
 
   public set zIndex(index: number) {

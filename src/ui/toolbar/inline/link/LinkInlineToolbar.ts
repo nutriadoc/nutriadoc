@@ -1,89 +1,97 @@
 import InlineToolbar from "../InlineToolbar.ts"
-import LinkOpen from "./LinkOpen.ts";
-import {className, onClick, text} from "../../../views.ts"
+import LinkOpenButton from "./LinkOpenButton.ts";
+import {className, name, onClick, text} from "../../../views.ts"
 import InlineToolbarItem from "../InlineToolbarItem.ts";
 import {Copy, Edit, X} from "../../icons";
 import InlineToolbarSeparatorItem from "../InlineToolbarSeparatorItem.ts";
-import QuillLinkBinding from "../../../../editor/quilljs/QuillLinkBinding.ts";
-import Quill, {RangeStatic} from "quill";
+import ILinkBinding from "../../../link/ILinkBinding.ts";
 import View from "../../../View.ts";
+import i18n from "../../../../i18n";
 
 export default class LinkInlineToolbar extends InlineToolbar {
 
-  protected _href: string = ""
+  protected _binding?: ILinkBinding
 
-  protected quill: Quill
-
-  protected cursor?: RangeStatic
-
-  public constructor(element: HTMLElement, quill: Quill) {
+  public constructor(element: HTMLElement) {
     super(
       element,
       LinkInlineToolbar.nodes()
     )
 
-    this.quill = quill
-
     this.addElement(this._children)
 
-    this.find(className("inline-toolbar-item edit"))
+    this.find(className("edit"))
       ?.assignUnits(onClick(this.onEditClick.bind(this)))
+
+    this.find(className("copy"))
+      ?.assignUnits(onClick(this.onCopyClick.bind(this)))
+
+    this.find(className("link-open"))
+      ?.assignUnits(onClick(this.onOpenClick.bind(this)))
+
+    this.find(className("remove"))
+      ?.assignUnits(onClick(this.onRemoveClick.bind(this)))
+
+    this.find(className("close"))
+      ?.assignUnits(onClick(this.onCloseClick.bind(this)))
+
   }
 
   static nodes() {
+    const t = i18n.t
     return [
-      (new LinkOpen()).assignUnits(
-        text("Open link")
+      new LinkOpenButton(),
+      new InlineToolbarSeparatorItem(),
+      new InlineToolbarItem(Copy, className("inline-toolbar-item", "copy")),
+      new InlineToolbarItem(Edit, className("inline-toolbar-item", "edit")),
+      new InlineToolbarSeparatorItem(),
+      new InlineToolbarItem(
+        undefined,
+        className("inline-toolbar-item", "remove"),
+        text(t("link.remove"))
       ),
       new InlineToolbarSeparatorItem(),
-      (new InlineToolbarItem(Copy)),
-      (new InlineToolbarItem(Edit, className("inline-toolbar-item edit"))),
-      new InlineToolbarSeparatorItem(),
-      new InlineToolbarItem(X),
+      new InlineToolbarItem(
+        X,
+        className("inline-toolbar-item", "close"),
+      ),
     ]
   }
 
+  protected onCopyClick(_event: MouseEvent): void {
+    this._binding?.copyLink()
+  }
 
-  protected onEditClick(event: MouseEvent): void {
-    event.preventDefault()
-    event.stopPropagation()
-
+  protected onRemoveClick(_event: MouseEvent): void {
+    this._binding?.removeLink()
     this.hidden()
-
-    new QuillLinkBinding(this.quill).openLink()
-
-    // if (this.cursor)
-    //   this.quill.setSelection(this.cursor)
-
   }
 
-  public render(): Node | Node[] {
-    const node = super.render();
-
-    // this.element.style.position = "relative"
-    return node
+  protected onOpenClick(_event: MouseEvent): void {
+    this._binding?.openLink()
+    this.visible()
   }
 
-  public get href(): string {
-    return this._href
+  protected onCloseClick(_event: MouseEvent): void {
+    this.hidden()
+    this._binding?.closeInlineToolbar()
   }
 
-  public set href(value: string) {
-    const link = this.find(className("link-open"))?.element as HTMLLinkElement | undefined
-    if (!link) return
-    link.href = value
-    this._href = value
+  protected onEditClick(_event: MouseEvent): void {
+    this.hidden()
+    this._binding?.openLinkSettings()
   }
 
   public visible(relative?: HTMLElement | View | undefined, container?: View) {
     super.visible(relative, container)
-
-    this.cursor = this.quill.getSelection(false) ?? undefined
   }
 
-  dismiss() {
+  public set binding(value: ILinkBinding | undefined) {
+    this._binding = value
+    const linkOpen = this.find(name("link_open")) as LinkOpenButton
 
-    console.debug("dismiss")
-    super.dismiss();
+    const url = value?.url
+    if (url)
+      linkOpen.link = url
   }
 }

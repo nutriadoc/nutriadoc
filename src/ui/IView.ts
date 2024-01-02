@@ -32,4 +32,5 @@ export default interface IView extends IUnit {
   find(key: Attribute): IView | undefined;
   find(key: string): IView | undefined
 
+  remove(): void
 }
