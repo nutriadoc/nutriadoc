@@ -15,6 +15,7 @@ import {
 } from "../views.ts";
 import Position from "../floating/Position.ts";
 import ILinkBinding from "./ILinkBinding.ts";
+import View from "../View.ts";
 
 export default class Link extends Floating {
 
@@ -128,6 +129,14 @@ export default class Link extends Floating {
     )
 
     return super.render()
+  }
+
+  public visible(relative?: HTMLElement | View | undefined, container?: View) {
+    super.visible(relative, container)
+
+    setTimeout(() => {
+      this._element.querySelector("input")?.focus()
+    }, 100)
   }
 
   protected onKeyDown(e: KeyboardEvent) {

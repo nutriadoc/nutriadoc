@@ -20,8 +20,14 @@ export default class Floating extends View implements IView {
 
   protected spacing: number
 
-  constructor(relativePosition?: Position, children?: IView[], relativeTo?: "viewport" | "element", spacing?: number) {
-    const element = document.createElement("div")
+  constructor(
+    relativePosition?: Position,
+    children?: IView[],
+    relativeTo?: "viewport" | "element",
+    spacing?: number,
+    element?: HTMLElement) {
+
+    element = element ?? document.createElement("div")
     super(element)
 
     this._relativeTo = relativeTo ?? "viewport"
@@ -38,6 +44,7 @@ export default class Floating extends View implements IView {
   public get x(): number {
     let x = 0
 
+    const container = this._container?.element ?? document.body
     const bodyRect = new DOMRect(0, 0, window.innerWidth, window.innerHeight)
     const relativeRect = this._relative?.getBoundingClientRect()
     const selfRect = this._element.getBoundingClientRect()
@@ -46,6 +53,13 @@ export default class Floating extends View implements IView {
     switch (this._position) {
       case Position.Center: {
         x = (rect.width - selfRect.width) / 2
+        break
+      }
+      case Position.LeftTop:
+      case Position.TopLeft:
+      case Position.TopCenter:
+      case Position.TopRight: {
+        x = this._relative?.offsetLeft ?? 0 - container.offsetLeft
         break
       }
       case Position.RightBottom:
@@ -92,7 +106,9 @@ export default class Floating extends View implements IView {
       case Position.TopLeft:
       case Position.TopCenter:
       case Position.TopRight: {
-        y = rect.y - selfRect.height - this.spacing
+        y = rect.y - selfRect.height // - this.spacing
+        if (y < 0)
+          y = rect.y + rect.height + this.spacing
         break
       }
       case Position.RightBottom:
@@ -111,14 +127,8 @@ export default class Floating extends View implements IView {
   }
 
   public render(): Node | Node[] {
-    this._element.classList.add('ntr-conextual-menu')
-    
-    // this.pin()
-    this._element.style.position = "absolute"
-    this._element.style.boxShadow = "0 0 10px 0 rgba(0, 0, 0, 0.15)"
-    this._element.style.backgroundColor = "white"
-    this._element.style.padding = "8px 0px"
-    this._element.style.borderRadius = "6px"
+    this._element.classList.add('ntr-floating')
+
     this._element.style.zIndex = this._zIndex.toString()
 
     this.addElement(this.children)

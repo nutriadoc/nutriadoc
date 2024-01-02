@@ -63,10 +63,12 @@ export default class ActivationView extends InteractiveView {
     if (!this.activatedBackgroundColor)
       return
     this.element.style.backgroundColor = this.activatedBackgroundColor
+    this.element.classList.add("active")
   }
 
   public deactivate() {
     this.element.style.backgroundColor = ""
+    this.element.classList.remove("active")
   }
 
 }

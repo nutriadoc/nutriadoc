@@ -1,2 +1,5 @@
 export { default as EraserFill } from './eraser-fill.svg?raw'
 export { default as PaintBucket } from './paint-bucket.svg?raw'
+export { default as Copy } from './copy.svg?raw'
+export { default as Edit } from './edit.svg?raw'
+export { default as X } from './x.svg?raw'

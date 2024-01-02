@@ -6,8 +6,9 @@ import IView from "./IView.ts";
 import IUnit from "./view/unit/IUnit.ts";
 import StyleUnit from "./view/unit/StyleUnit.ts";
 import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
+import Property from "./view/attribute/Property.ts";
 
-export function div(..._params: any): IView {
+export function div(..._params: IUnit[]): IView {
   return View.new('div').assignUnits(..._params)
 }
 
@@ -23,8 +24,12 @@ export function text(text: string): Content {
   return new TextContent(text)
 }
 
-export function svg(_html: string): IView {
-  return div()
+export function svg(html: string): IView {
+  return div().assignUnits(innerHtml(html))
+}
+
+export function innerHtml(html: string): Attribute {
+  return new Property("innerHTML", html)
 }
 
 export function label(...units: IUnit[]): IView {
@@ -73,6 +78,18 @@ export function onKeyDown(handler: any): IUnit {
 
 export function placeholder(_placeholder: string): IUnit {
   return new Attribute("placeholder", _placeholder)
+}
+
+export function a(...units: IUnit[]): IView {
+  return View.new("a").assignUnits(...units)
+}
+
+export function href(value: string) {
+  return new Attribute("href", value)
+}
+
+export function target(value: "_blank" | "_self" | "_parent"): IUnit {
+  return new Attribute("target", value)
 }
 
 export function className(_name: string): Attribute {

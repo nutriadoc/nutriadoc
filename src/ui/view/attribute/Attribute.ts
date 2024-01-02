@@ -1,6 +1,6 @@
 import IUnit from "../unit/IUnit.ts";
 
-export default class Attribute implements IUnit{
+export default class Attribute implements IUnit {
 
   protected _key: string = ""
 

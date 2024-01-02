@@ -5,6 +5,7 @@ import Content from "./view/content/Content.ts";
 import TextContent from "./view/content/TextContent.ts";
 import StyleUnit from "./view/unit/StyleUnit.ts";
 import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
+import Property from "./view/attribute/Property.ts";
 
 export default class View extends EventTarget implements IView {
 
@@ -132,7 +133,13 @@ export default class View extends EventTarget implements IView {
       this._units.add(unit)
 
       if (unit instanceof Attribute) {
-        this._element.setAttribute(unit.key, unit.value)
+        if (unit instanceof Property) {
+          const v: any = {}
+          v[unit.key] = unit.value
+          Object.assign(this._element, v)
+        } else {
+          this._element.setAttribute(unit.key, unit.value)
+        }
         this._attributes.set(unit.key, unit)
       }
 
@@ -173,8 +180,8 @@ export default class View extends EventTarget implements IView {
     return this._attributes
   }
 
-  static new(tag?: string) {
-    if (!!tag) return new View(document.createElement(tag))
+  static new<T extends View>(tag?: string): View {
+    if (!!tag) return new View(document.createElement(tag)) as T
 
     return new View()
   }

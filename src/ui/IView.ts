@@ -17,6 +17,8 @@ export default interface IView extends IUnit {
 
   addElement(element: IView | IView[]): void
 
+  addTo(parent: HTMLElement): void
+
   style?: CSSStyleDeclaration
 
   render(): Node | Node[]

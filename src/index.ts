@@ -14,14 +14,17 @@ import Resizer from "./ui/resizer/Resizer.ts";
 import Option from "./editor/Option.ts";
 import WebsocketCollaboration from "./editor/collaboration/WebSocketCollaboration.ts";
 // import QuillCursors from "quill-cursors";
-
-import 'quill/dist/quill.core.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import "./index.scss"
 import HorizontalRuleBlot from "./editor/formats/HorizontalRuleBlot.ts";
 import QuillLinkBinding from "./editor/quilljs/QuillLinkBinding.ts";
 import ShortcutKeyBinding from "./editor/shortcut_key/ShortcutKeyBinding.ts";
 import QuillShortcutKeyBinding from "./editor/quilljs/QuillShortcutKeyBinding.ts";
+import InlineToolbarBinding from "./editor/toolbar/InlineToolbarBinding.ts";
+
+import 'quill/dist/quill.core.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import "./index.scss"
+import InlineToolbarBlock from "./editor/formats/InlineToolbarBlock.ts";
+
 
 
 export class Document extends View {
@@ -54,6 +57,7 @@ export class Document extends View {
     )
 
     this.shortcutKeyBinding = new QuillShortcutKeyBinding(this._quill)
+    new InlineToolbarBinding(this._quill)
 
     if (option?.collaboration) {
       new WebsocketCollaboration(this._quill, option)
@@ -118,6 +122,7 @@ export class Document extends View {
       "formats/subtitle": Subtitle,
       "formats/font-size": FontSize,
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
+      "formats/inline-toolbar": InlineToolbarBlock
     })
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)
