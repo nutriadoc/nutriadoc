@@ -3,6 +3,8 @@ import Point from "../../core/Point.ts";
 import Size from "../../core/Size.ts";
 import {className} from "../views.ts";
 import ResizeEvent from "./ResizeEvent.ts";
+import Bounding from "../view/Bounding.ts";
+import Direction from "../Direction.ts";
 
 export default class Resizable extends View {
 
@@ -11,8 +13,6 @@ export default class Resizable extends View {
   protected verticalEdgeLine: HTMLElement
 
   protected horizontalEdgeLine: HTMLElement
-
-  protected cornerLine: HTMLElement
 
   protected resizing: boolean = false
 
@@ -24,70 +24,156 @@ export default class Resizable extends View {
 
   protected clicked?: Point
 
+  protected originalSize?: Size
+
   protected size?: Size
 
-  protected previousResize?: Size
+  protected resizingDirection?: Direction[]
 
-  constructor(target: HTMLElement, self?: HTMLDivElement) {
-    self = self ?? document.createElement("div")
-    super(self)
+  protected bounding: Bounding = new Bounding()
 
-    this.assignUnits(className("resizer"))
-    this.element.setAttribute("unselectable", "on")
-    this.element.classList.add("no-select")
-    target.setAttribute("unselectable", "on")
-    target.classList.add("no-select")
+  constructor(target: HTMLElement, element?: HTMLDivElement) {
+    element = element ?? document.createElement("div")
+    super(element)
+
+    this.assignUnits(className("resizable"))
+
+    this._target = target
+    this.setupTarget(target)
 
     this.onMouseMoveHandler = this.onMouseMove.bind(this)
     this.onMouseDownHandler = this.onMouseDown.bind(this)
     this.onMouseUpHandler = this.onMouseUp.bind(this)
 
-    // this.element.addEventListener("selectstart", (e) => {
-    //   e.preventDefault()
-    // })
-
-    this._target = target
-    this._target.addEventListener('load', this.onImageLoad.bind(this))
-    this._target.addEventListener("selectstart", (e) => {
-      e.preventDefault()
-    })
-    this.addNode(this._target)
-
     this.verticalEdgeLine = this.createVerticalEdgeLine()
     this.horizontalEdgeLine = this.createHorizontalEdgeLine()
-    this.cornerLine = this.createCornerLine()
 
     this.setupStyles()
     this.hidden()
 
-    // document.body.append(this.element)
-    // this.element.append(this.verticalEdgeLine)
-    // this.element.append(this.horizontalEdgeLine)
-    // this.element.append(this.cornerLine)
-
     this.setupEvents()
   }
 
-  protected onImageLoad(e: any) {
-    console.debug('on image load', e)
-    this.element.style.width = e.target.width + "px"
-    this.element.style.height = e.target.height + "px"
+  protected setupTarget(target: HTMLElement) {
+    if (target instanceof HTMLImageElement)
+      this._target.addEventListener('load', this.onImageLoad.bind(this))
+    this.addNode(this._target)
+  }
 
+  protected onImageLoad(e: any) {
     this.size = {
       width: e.target.width,
       height: e.target.height,
     }
+
+    this.originalSize = { ... this.size }
+    this.resize(this.size.width, this.size.height)
+  }
+
+  protected setupStyles() {
+    this.element.style.position = "relative"
+    this.element.style.display = "inline-block"
+  }
+
+  protected setupEvents() {
+    this.element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
+    this.element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
+    this.element.addEventListener("mousedown", this.onMouseDownHandler)
+
+    document.addEventListener("mouseup", this.onMouseUpHandler)
+    // document.addEventListener("mousemove", this.onMouseMoveHandler)
+  }
+
+  protected onMouseDown(e: MouseEvent) {
+    const rect = this.element.getBoundingClientRect()
+    const mouse: Point = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    }
+
+    const directions = this.bounding.isReachedTheEdge(mouse, rect)
+    if (!directions) return
+
+    document.addEventListener("mousemove", this.onMouseMoveHandler)
+
+    this.resizingDirection = directions
+
+    this.resizing = true
+    this.clicked = { x: e.clientX, y: e.clientY }
+
+
+    console.debug('on mouse down', this.resizing, this.clicked, e)
+  }
+
+  protected onMouseUp(_: MouseEvent) {
+    console.debug('on mouse up')
+    this.resizing = false
+    this.clicked = undefined
+
+    this.verticalEdgeLine.remove()
+    this.horizontalEdgeLine.remove()
+
+    document.removeEventListener('mousemove', this.onMouseMoveHandler)
+    // this.dispatchEvent(new ResizeEvent("resize_width", this.previousResize!.width, this.previousResize!.height))
+  }
+
+  protected onMouseMove(e: MouseEvent) {
+    if (!this.resizing) return
+
+    const x = this.clicked!.x - e.clientX
+    const y = this.clicked!.y - e.clientY
+    const size: Size = {...this.size! }
+    const r = size.width / size.height
+
+    let width: number = 0, height: number = 0
+
+    if (this.resizingDirection?.includes(Direction.Left) || this.resizingDirection?.includes(Direction.Right)) {
+      width = size.width - x
+      height = width / r
+    }
+
+    if (this.resizingDirection?.includes(Direction.Up) || this.resizingDirection?.includes(Direction.Down)) {
+      height = size.height - y
+      width = height * r
+    }
+
+    this.resize(width, height)
+  }
+
+  public resize(width: number, height: number) {
+    this.element.style.width = this._target.style.width = width + "px"
+    this.element.style.height = this._target.style.height = height + "px"
+  }
+
+  protected onMouseEnter() {
+    this.visible()
+  }
+
+  protected onMouseLeave() {
+    this.hidden()
+  }
+
+  public visible() {
+    this.element.append(this.verticalEdgeLine)
+    this.element.append(this.horizontalEdgeLine)
+  }
+
+  public hidden() {
+    if (this.resizing) return
+
+    this.verticalEdgeLine.remove()
+    this.horizontalEdgeLine.remove()
   }
 
   protected createVerticalEdgeLine(): HTMLElement {
     const element = document.createElement("div")
     element.style.position = "absolute"
-    element.style.width = "6px"
-    element.style.height = "60px"
+    element.style.width = "4px"
     element.style.right = "0"
+    element.style.bottom = "0"
     element.style.top = "0"
     element.style.cursor = "ew-resize"
-    element.style.backgroundColor = "rgba(0, 0, 0, 0.7)"
+    element.style.backgroundColor = "rgba(0, 0, 0, 0.3)"
     element.style.borderRadius = "4px"
 
     return element
@@ -97,108 +183,15 @@ export default class Resizable extends View {
     const element = document.createElement("div")
 
     element.style.position = "absolute"
-    element.style.width = "20%"
-    element.style.height = "6px"
+    element.style.height = "4px"
     element.style.bottom = "0"
+    element.style.left = "0"
+    element.style.right = "0"
     element.style.cursor = "ns-resize"
-    element.style.backgroundColor = "rgba(0, 0, 0, 0.7)"
+    element.style.backgroundColor = "rgba(0, 0, 0, 0.3)"
     element.style.borderRadius = "4px"
 
     return element
-  }
-
-  protected createCornerLine(): HTMLElement {
-    const element = document.createElement("div")
-
-    element.style.position = "absolute"
-    element.style.width = "10px"
-    element.style.height = "10px"
-    element.style.right = "0"
-    element.style.bottom = "0"
-    element.style.cursor = "nwse-resize"
-    element.style.backgroundColor = "rgba(0, 0, 0, 0.7)"
-    element.style.borderRadius = "10px"
-
-
-    return element
-  }
-
-  protected setupStyles() {
-    this.element.style.position = "relative"
-    // this.element.style.width = this.target.clientWidth + "px"
-    // this.element.style.height = this.target.clientHeight + "px"
-    // this.element.style.left = this.target.offsetLeft + "px"
-    // this.element.style.top = this.target.offsetTop + "px"
-    // this.element.style.backgroundColor = "rgba(0, 0, 0, 0.1)"
-    // this.element.style.zIndex = "1000"
-  }
-
-  protected setupEvents() {
-    this.element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
-    this.element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
-    // document.addEventListener("mousedown", this.onMouseDownHandler)
-    // document.addEventListener("mouseup", this.onMouseUpHandler)
-    // document.addEventListener("mousemove", this.onMouseMoveHandler)
-  }
-
-  protected onMouseDown(e: MouseEvent) {
-    this.resizing = true
-    this.clicked = { x: e.clientX, y: e.clientY }
-    console.debug('on mouse down', this.resizing, this.clicked)
-  }
-
-  protected onMouseUp(_: MouseEvent) {
-    console.debug('on mouse up')
-    this.resizing = false
-    this.clicked = undefined
-    this.dispatchEvent(new ResizeEvent("resize_width", this.previousResize!.width, this.previousResize!.height))
-  }
-
-  protected onMouseMove(e: MouseEvent) {
-    if (!this.resizing) return
-
-    let x = this.clicked!.x - e.clientX
-    let resizedWith = this.size!.width - x
-
-    // debugger
-    // console.debug('on mouse move', resizedWith, e.offsetX, e.offsetY, e.screenX)
-    this.element.style.width = resizedWith + "px"
-    this._target.style.width = resizedWith + "px"
-
-    console.debug('width', {x, resizedWith, clientX: e.clientX, clicked: this.clicked})
-
-    this.previousResize = { width: resizedWith, height: 0 }
-    // this.target.style.height = e.offsetY + "px"
-
-  }
-
-  protected onMouseEnter() {
-    this.setupStyles()
-    this.visible()
-
-    const position = (this.element.clientHeight - this.verticalEdgeLine.clientHeight) / 2
-    this.verticalEdgeLine.style.top = position + "px"
-
-    const position2 = (this.element.clientWidth - this.horizontalEdgeLine.clientWidth) / 2
-    this.horizontalEdgeLine.style.left = position2 + "px"
-  }
-
-  protected onMouseLeave() {
-
-    this.setupStyles()
-    this.hidden()
-  }
-
-  public visible() {
-    this.element.style.visibility = "visible"
-  }
-
-  public hidden() {
-    // this.element.style.visibility = "hidden"
-  }
-
-  protected dispatchResizeEvent() {
-
   }
 
   public get target(): Node {
@@ -208,7 +201,7 @@ export default class Resizable extends View {
   static loadResizer(source: string, element?: Node) {
     const image = document.createElement("img")
     image.src = source
-    image.style.objectFit = "contain"
+    image.style.objectFit = "fill"
 
     return new Resizable(image, element as HTMLDivElement)
   }
