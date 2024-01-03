@@ -37,12 +37,18 @@ const meta = {
 
     const doc = create(root.find(name("root")) as IView)
     doc.quill.on("text-change", (delta, _, __) => {
-      console.debug('text-change', delta)
+      console.debug('text-change', {delta, deltas: doc.quill.getContents()})
     })
 
     doc.quill.insertText(0, "Image")
-    doc.quill.insertEmbed(doc.quill.getLength() - 1, "image", 'https://placehold.co/300x200')
+    const firstPicturePosition = doc.quill.getLength() - 1
+    doc.quill.insertEmbed(firstPicturePosition, "image", 'https://placehold.co/300x200')
     doc.quill.insertEmbed(doc.quill.getLength(), "image", 'https://placehold.co/300x200')
+
+    doc.quill.formatText(firstPicturePosition, 1, "width", "150")
+    doc.quill.formatText(firstPicturePosition, 1, "height", "300")
+
+    console.debug(doc.quill.getContents())
 
     return root.render() as Node
   },

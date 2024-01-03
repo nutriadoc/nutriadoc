@@ -16,13 +16,15 @@ import QuillLinkBinding from "./editor/quilljs/QuillLinkBinding.ts";
 import ShortcutKeyBinding from "./editor/shortcut_key/ShortcutKeyBinding.ts";
 import QuillShortcutKeyBinding from "./editor/quilljs/QuillShortcutKeyBinding.ts";
 import InlineToolbarBinding from "./editor/toolbar/InlineToolbarBinding.ts";
+import InlineToolbarBlock from "./editor/formats/InlineToolbarBlock.ts";
+import ImageEmbed from "./editor/formats/ImageEmbed.ts";
+import IView from "./ui/IView.ts";
+import Resize from "./editor/formats/Resize.ts"
 
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
-import InlineToolbarBlock from "./editor/formats/InlineToolbarBlock.ts";
-import ImageEmbed from "./editor/formats/ImageEmbed.ts";
-import IView from "./ui/IView.ts";
+
 
 
 
@@ -118,6 +120,7 @@ export class Document extends View {
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
       "formats/inline-toolbar": InlineToolbarBlock,
       "formats/image": ImageEmbed,
+      "formats/resize": new Resize('resize', 'resize', {}),
     })
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)

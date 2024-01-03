@@ -28,9 +28,14 @@ export default class View extends EventTarget implements IView {
 
   static id: number = 0
 
+  static views: Map<string, View> = new Map<string, View>()
+
   public constructor(element?: HTMLElement) {
     super()
     this._element = element ?? document.createElement('div')
+
+    this.assignUnits(new Attribute("data-view-id", this.id.toString()))
+    View.views.set(this.id.toString(), this)
 
     this.initialize()
   }

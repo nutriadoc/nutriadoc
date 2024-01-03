@@ -18,16 +18,12 @@ export default class ImageEmbed extends Image {
     const view = ImageEmbed.views.get(viewId)
     if (!view) return
 
-    view.addEventListener("resize_width", this.onWidthChange.bind(this))
+    view.addEventListener("resize", this.onWidthChange.bind(this))
   }
 
   protected onWidthChange(e: Event) {
     const event = e as ResizeEvent
     this.format("width", event.width.toString())
-  }
-
-  format(name: string, value: string) {
-    super.format(name, value)
   }
 
   static create(value: any) {
@@ -39,6 +35,46 @@ export default class ImageEmbed extends Image {
     node.setAttribute("data-view-id", view.id.toString())
 
     return node
+  }
+
+  static formats(domNode: Element): any {
+    return ["width", "height"]
+      .reduce(
+        (formats: Record<string, string | null>, attribute) => {
+          if (domNode.hasAttribute(attribute)) {
+            formats[attribute] = domNode.getAttribute(attribute)
+          }
+          return formats
+        },
+        {}
+      )
+  }
+
+  format(name: string, value: string): void {
+    let width: string = '', height: string = ''
+
+    if (name == 'width') width = value
+    if (name == 'height') height = value
+
+    try {
+      this.domNode.setAttribute(name, value)
+
+      this.resizeImageByNode(this.domNode, width, height)
+    } catch (e) {
+      console.warn("Parse the value of Resize failed", value)
+    }
+    return super.format(name, value);
+  }
+
+  resizeImageByNode(node: Element, width: string, height: string) {
+    const id = node.getAttribute("data-view-id")
+    if (!id) return
+
+    const view = View.views.get(id)
+    if (!view) return
+
+    const resizable = view as Resizable
+    resizable.resize(parseInt(width), parseInt(height))
   }
 
   public update(

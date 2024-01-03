@@ -32,6 +32,10 @@ export default class Resizable extends View {
 
   protected bounding: Bounding = new Bounding()
 
+  protected resizingSize?: Size
+
+  public queue: Size[] = []
+
   constructor(target: HTMLElement, element?: HTMLDivElement) {
     element = element ?? document.createElement("div")
     super(element)
@@ -67,7 +71,9 @@ export default class Resizable extends View {
     }
 
     this.originalSize = { ... this.size }
-    this.resize(this.size.width, this.size.height)
+    this.resizeElements(this.size.width, this.size.height)
+    this.queue.forEach(size => this.resize(size.width, size.height))
+    this.queue = []
   }
 
   protected setupStyles() {
@@ -81,7 +87,6 @@ export default class Resizable extends View {
     this.element.addEventListener("mousedown", this.onMouseDownHandler)
 
     document.addEventListener("mouseup", this.onMouseUpHandler)
-    // document.addEventListener("mousemove", this.onMouseMoveHandler)
   }
 
   protected onMouseDown(e: MouseEvent) {
@@ -100,13 +105,9 @@ export default class Resizable extends View {
 
     this.resizing = true
     this.clicked = { x: e.clientX, y: e.clientY }
-
-
-    console.debug('on mouse down', this.resizing, this.clicked, e)
   }
 
   protected onMouseUp(_: MouseEvent) {
-    console.debug('on mouse up')
     this.resizing = false
     this.clicked = undefined
 
@@ -114,7 +115,8 @@ export default class Resizable extends View {
     this.horizontalEdgeLine.remove()
 
     document.removeEventListener('mousemove', this.onMouseMoveHandler)
-    // this.dispatchEvent(new ResizeEvent("resize_width", this.previousResize!.width, this.previousResize!.height))
+    this.size = {...this.resizingSize!}
+    this.dispatchEvent(new ResizeEvent("resize", this.size!.width, this.size!.height))
   }
 
   protected onMouseMove(e: MouseEvent) {
@@ -137,12 +139,44 @@ export default class Resizable extends View {
       width = height * r
     }
 
-    this.resize(width, height)
+    this.resizingSize = { width, height }
+    this.resizeElements(width, height)
   }
 
-  public resize(width: number, height: number) {
+  public resizeElements(width: number, height: number) {
     this.element.style.width = this._target.style.width = width + "px"
     this.element.style.height = this._target.style.height = height + "px"
+  }
+
+  public resize(width?: number, height?: number) {
+
+    if (width === undefined && height ===undefined) return
+    if (isNaN(width!) && isNaN(height!)) return
+
+    width = width!
+    height = height!
+
+    if (!this.originalSize) {
+      this.queue.push({ width: width ?? -1, height: height ?? -1 })
+      return
+    }
+
+    let nw: number = -1, nh: number = -1
+    let r = this.originalSize.width / this.originalSize.height
+
+    if (!height) {
+      nw = width
+      nh = nw / r
+    }
+
+    if (!width) {
+      nh = height
+      nw = nh * r
+    }
+
+    this.size = { width: nw, height: nh }
+
+    this.resizeElements(nw, nh)
   }
 
   protected onMouseEnter() {
