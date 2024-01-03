@@ -3,14 +3,11 @@ import Toolbar from "./ui/toolbar/main/Toolbar.ts";
 import View from "./ui/View.ts";
 import Formatter from "./editor/formatter/Formatter.ts";
 import Title from "./editor/formats/Title.ts";
-import {ScrollBlot} from "parchment"
-import {Blot} from "parchment/dist/typings/blot/abstract/blot"
 import {FontFamily, FontFamilyClass} from "./editor/formats/FontFamily.ts";
 import Subtitle from "./editor/formats/Subtitle.ts";
 import ToolbarAction from "./ui/toolbar/main/ToolbarAction.ts";
 import FontSize from "./editor/formats/FontSize.ts";
 import LineSpacing from "./editor/formats/LineSpacing.ts";
-import Resizer from "./ui/resizer/Resizer.ts";
 import Option from "./editor/Option.ts";
 import WebsocketCollaboration from "./editor/collaboration/WebSocketCollaboration.ts";
 // import QuillCursors from "quill-cursors";
@@ -24,6 +21,8 @@ import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 import InlineToolbarBlock from "./editor/formats/InlineToolbarBlock.ts";
+import ImageEmbed from "./editor/formats/ImageEmbed.ts";
+import IView from "./ui/IView.ts";
 
 
 
@@ -87,15 +86,10 @@ export class Document extends View {
       if (mutation.type == "childList") {
         mutation.addedNodes.forEach((node) => {
           if (node instanceof HTMLImageElement) {
-            this.onImageLoad(node)
           }
         })
       }
     })
-  }
-
-  protected onImageLoad(image: HTMLImageElement) {
-    new Resizer(image)
   }
 
   /**
@@ -122,7 +116,8 @@ export class Document extends View {
       "formats/subtitle": Subtitle,
       "formats/font-size": FontSize,
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
-      "formats/inline-toolbar": InlineToolbarBlock
+      "formats/inline-toolbar": InlineToolbarBlock,
+      "formats/image": ImageEmbed,
     })
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)
@@ -145,14 +140,14 @@ export class Document extends View {
     return this.element
   }
 
-  protected get scroll(): ScrollBlot {
-    return this._quill!.scroll as unknown as ScrollBlot
+  protected get scroll(): any {
+    return this._quill!.scroll
   }
 
-  protected findBlot(dom: Node): Blot | undefined {
-    let found: Blot | undefined
+  protected findBlot(dom: Node): any | undefined {
+    let found: any | undefined
 
-    this.scroll.children.forEach((blot) => {
+    this.scroll.children.forEach((blot: any) => {
       if (blot.domNode == dom) {
         found = blot
         return false
@@ -170,7 +165,7 @@ export class Document extends View {
     return this.nextLine(blot)
   }
 
-  protected nextLine(blot: Blot) {
+  protected nextLine(blot: any) {
     const index = this._quill!.getIndex(blot)
     return index + blot.length() 
   }
@@ -194,14 +189,14 @@ export class Document extends View {
   }
 }
 
-
-
-export function create (element: string | HTMLElement, option?: Option): Document {
+export function create (element: string | HTMLElement | IView | View, option?: Option): Document {
   const doc = new Document(option)
   const docEle = doc.render()
 
   if (element instanceof HTMLElement)
     element.append(docEle as HTMLElement)
+  else if (element instanceof View)
+    element.addElement(doc)
 
   return doc
 }

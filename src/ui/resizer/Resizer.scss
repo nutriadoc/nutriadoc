@@ -1,0 +1,9 @@
+.resizer {
+  user-select: none;
+  display: inline-block;
+  margin: 0 4px;
+
+  img {
+    user-select: none;
+  }
+}

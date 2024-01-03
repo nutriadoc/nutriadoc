@@ -1,5 +1,5 @@
 import Quill from "quill"
-import {Scope} from "parchment"
+import Scope from "../quilljs/Scope.ts"
 
 const parchment = Quill.import("parchment")
 

@@ -22,10 +22,6 @@ export default class Floating extends View implements IView {
 
   protected documentClickHandler: any
 
-  public id: number = Floating.id ++
-
-  static id: number = 0
-
   constructor(
     relativePosition?: Position,
     children?: IView[],

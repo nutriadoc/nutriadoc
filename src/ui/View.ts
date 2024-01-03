@@ -24,6 +24,10 @@ export default class View extends EventTarget implements IView {
 
   protected _rendered: boolean = false
 
+  public id: number = View.id ++
+
+  static id: number = 0
+
   public constructor(element?: HTMLElement) {
     super()
     this._element = element ?? document.createElement('div')

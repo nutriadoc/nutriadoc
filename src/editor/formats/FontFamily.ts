@@ -1,4 +1,4 @@
-import {Scope} from "parchment"
+import Scope from "../quilljs/Scope.ts"
 import Quill from "quill"
 import Font from "../font";
 

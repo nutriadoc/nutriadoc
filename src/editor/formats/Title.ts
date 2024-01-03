@@ -1,5 +1,5 @@
 import Attributor from "./Attributor.ts"
-import {Scope} from "parchment"
+import Scope from "../quilljs/Scope.ts"
 
 
 // FIXED: 格式化后的结果是<h1><span></span></h1>

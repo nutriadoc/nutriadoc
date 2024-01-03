@@ -2,19 +2,10 @@ import InteractiveView from "../../../InteractiveView.ts";
 
 export default class ActivationView extends InteractiveView {
 
-  protected activatedBackgroundColor?: string
-
   protected _isActivated: boolean = false
 
-  public constructor(element: HTMLElement, activatedBackgroundColor?: string, isLeftBorderRadius?: boolean) {
+  public constructor(element: HTMLElement, _activatedBackgroundColor?: string, isLeftBorderRadius?: boolean) {
     super(element)
-
-    // if (activatedBackgroundColor !== undefined)
-    //   element.setAttribute("data-activation-color", activatedBackgroundColor)
-
-    // this.activatedBackgroundColor = activatedBackgroundColor
-
-    // if (!!activatedBackgroundColor)
     this.setupEvents()
 
     this.setupBorderRadius(isLeftBorderRadius)
@@ -39,21 +30,14 @@ export default class ActivationView extends InteractiveView {
   }
 
   protected onMouseEnter() {
-    // if (!this.activatedBackgroundColor)
-    //   return
-    // this.element.style.backgroundColor = this.activatedBackgroundColor ??
     this.element.classList.add("active")
   }
 
   protected onMouseLeave() {
-    // if (!this.activatedBackgroundColor)
-    //   return
-
     if (this._isActivated)
       return
 
     this.element.classList.remove("active")
-    // this.element.style.backgroundColor = ""
   }
 
   public get isActivated() {

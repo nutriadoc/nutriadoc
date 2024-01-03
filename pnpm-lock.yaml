@@ -52,9 +52,6 @@ devDependencies:
   '@types/quill':
     specifier: ^2.0.14
     version: 2.0.14
-  parchment:
-    specifier: ^2.0.1
-    version: 2.0.1
   quill-delta:
     specifier: ^5.1.0
     version: 5.1.0
@@ -6295,10 +6292,6 @@ packages:
   /parchment@2.0.0-dev.2:
     resolution: {integrity: sha512-4fgRny4pPISoML08Zp7poi52Dff3E2G1ORTi2D/acJ/RiROdDAMDB6VcQNfBcmehrX5Wixp6dxh6JjLyE5yUNQ==}
     dev: false
-
-  /parchment@2.0.1:
-    resolution: {integrity: sha512-VBKrlEoZCBD+iwoeag0QTtY1Cti+Ma4nLpVYcc/uus/wHhMsPOi5InH3RL1s4aekahPZpabcS2ToKyGf7RMH/g==}
-    dev: true
 
   /parse-json@5.2.0:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
