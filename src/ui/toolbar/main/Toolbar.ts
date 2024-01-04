@@ -13,6 +13,7 @@ import FontColorMenu from "../components/font_color/FontColorMenu.ts";
 import HighlightMenu from "../components/hightlight/HighlightMenu.ts";
 import AlignMenu from "../components/align/AlignMenu.ts";
 import LineSpacingMenu from "../components/line_spacing/LineSpacingMenu.ts";
+import {Document} from "../../../index.ts";
 
 import "./Toolbar.scss"
 
@@ -26,6 +27,8 @@ export default class Toolbar extends View implements IToolbar{
 
   protected _tooltip: Tooltip
 
+  protected _document: Document
+
   protected menuClasses: any[] = [
     InsertMenu,
     StylesMenu,
@@ -37,10 +40,12 @@ export default class Toolbar extends View implements IToolbar{
     LineSpacingMenu,
   ]
 
-  public constructor(layout: ToolbarLayout[]) {
+  public constructor(doc: Document, layout: ToolbarLayout[]) {
     const element = document.createElement("div")
     element.classList.add("ntr-main-toolbar")
     super(element)
+
+    this._document = doc
     this._layouts = layout
     this._tooltip = new Tooltip("")
     this.setupMenus()
@@ -146,7 +151,11 @@ export default class Toolbar extends View implements IToolbar{
     return this._menus
   }
 
-  public static simple(): Toolbar {
-    return new Toolbar([ToolbarLayout.simple()])
+  public get document(): Document {
+    return this._document
+  }
+
+  public static simple(document: Document): Toolbar {
+    return new Toolbar(document, [ToolbarLayout.simple()])
   }
 }

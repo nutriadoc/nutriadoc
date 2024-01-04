@@ -21,11 +21,13 @@ export default class ToolbarLayout extends FlexView implements IView {
 
   public render(): Node | Node[] {
 
+    if (this._rendered) return this._element
+
     if (this._children) {
       this.addElement(this._children)
     }
 
-    return this._element
+    return super.render()
   }
 
   public findItem(key: string): ToolbarItem | undefined {

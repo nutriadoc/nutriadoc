@@ -89,6 +89,10 @@ export default class ToolbarAction {
     switch (menuKey) {
       case "insert":
       case "header": {
+        if (item.key == "image") {
+          this.onImageMenuItemSelect(event)
+          break
+        }
         this.format(item.key, null)
         break
       }
@@ -147,5 +151,10 @@ export default class ToolbarAction {
     }
 
     this.formatter.format(Format.FontSize, size)
+  }
+
+  protected onImageMenuItemSelect(_: Event) {
+    console.debug('on image menu item select')
+    this.toolbar.document.uploadBehavior.selectFile()
   }
 }

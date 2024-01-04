@@ -44,6 +44,10 @@ export default class View extends EventTarget implements IView {
 
   }
 
+  protected assignId() {
+    this.assignUnits(new Attribute("data-view-id", this.id.toString()))
+  }
+
   public addNode(node: Node | Node[]): void {
     if (node instanceof Node) {
       this._element.append(node)
@@ -63,8 +67,7 @@ export default class View extends EventTarget implements IView {
 
   public addElement(element: IView | IView[]) {
     if (Array.isArray(element)) {
-      this._children.push(...element)
-      element.forEach(ele => this.addNode(ele.render()))
+      element.forEach(ele => this.addElement(ele))
     } else {
       this._children.push(element)
       try {
@@ -223,6 +226,10 @@ export default class View extends EventTarget implements IView {
 
   public remove() {
     this.element.remove()
+  }
+
+  public removeChild(view: IView) {
+    this.element.removeChild(view.element)
   }
 
   static new<T extends View>(tag?: string): View {

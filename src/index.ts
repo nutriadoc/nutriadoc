@@ -24,6 +24,9 @@ import Resize from "./editor/formats/Resize.ts"
 import 'quill/dist/quill.core.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
+import FileInput from "./ui/upload/FileInput.ts";
+import UploadBehavior from "./ui/upload/UploadBehavior.ts";
+import QuillUploadBehavior from "./editor/quilljs/upload/QuillUploadBehavior.ts";
 
 
 
@@ -39,6 +42,10 @@ export class Document extends View {
   protected contents: string
 
   protected shortcutKeyBinding: ShortcutKeyBinding
+
+  protected fileInput: FileInput
+
+  protected _uploadBehavior: UploadBehavior
 
   constructor(option?: Option) {
     const element = document.createElement("div")
@@ -60,13 +67,17 @@ export class Document extends View {
     this.shortcutKeyBinding = new QuillShortcutKeyBinding(this._quill)
     new InlineToolbarBinding(this._quill)
 
+    this.fileInput = new FileInput(this)
+    this._uploadBehavior = new QuillUploadBehavior(this._quill, this.fileInput)
+    this.addElement(this.fileInput)
+
     if (option?.collaboration) {
       new WebsocketCollaboration(this._quill, option)
     }
 
     this._quill.root.addEventListener("blur", this.onQuillBlur.bind(this))
 
-    this.toolbar = Toolbar.simple()
+    this.toolbar = Toolbar.simple(this)
     const formatter = new Formatter(this._quill, [this.toolbar])
     this.toolbar.action = new ToolbarAction(this.toolbar, formatter)
 
@@ -186,6 +197,9 @@ export class Document extends View {
     new QuillLinkBinding(this._quill, selection).openLink()
   }
 
+  public get uploadBehavior(): UploadBehavior {
+    return this._uploadBehavior
+  }
 
   public get quill(): Quill {
     return this._quill

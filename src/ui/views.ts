@@ -37,6 +37,10 @@ export function label(...units: IUnit[]): IView {
   return View.new("label").assignUnits(...units)
 }
 
+export function type(value: string): Attribute {
+  return new Attribute("type", value)
+}
+
 export function id(_id: string): Attribute {
   return new Attribute("id", _id)
 }
@@ -91,6 +95,14 @@ export function href(value: string) {
 
 export function target(value: "_blank" | "_self" | "_parent"): IUnit {
   return new Attribute("target", value)
+}
+
+export function contentEditable(value: boolean): IUnit {
+  return new Attribute("contenteditable", value.toString())
+}
+
+export function on(event: string, callback: Function): IUnit {
+  return new EventListenerUnit(event, callback)
 }
 
 

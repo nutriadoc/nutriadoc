@@ -15,8 +15,6 @@ export default class ToolbarItem extends ActivationView {
 
   protected _canExpand: boolean = false
 
-  protected _isActivated: boolean = false
-
   protected _isToggle: boolean = true
 
   protected rendered: boolean = false
