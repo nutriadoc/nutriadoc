@@ -2,6 +2,7 @@ import UploadBehavior from "../../../ui/upload/UploadBehavior.ts";
 import Quill from "quill";
 import FileInput from "../../../ui/upload/FileInput.ts";
 import IDisposable from "../../../core/IDisposable.ts";
+import FileService from "../../../core/file/FileService.ts";
 
 export default class QuillUploadBehavior implements UploadBehavior, IDisposable {
 
@@ -32,9 +33,14 @@ export default class QuillUploadBehavior implements UploadBehavior, IDisposable 
   }
 
   uploadFile(files: FileList): void {
-    console.debug(files)
-
     this.fileInput.renew()
+
+    FileService.toBlob(files[0]).then((blob) => {
+      const range = this.quill.getSelection(true)
+      const url = URL.createObjectURL(blob)
+
+      this.quill.insertEmbed(range.index, "image", url)
+    })
   }
 
   dispose(): void {
