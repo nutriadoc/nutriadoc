@@ -23,6 +23,14 @@ export default interface IView extends IUnit {
 
   render(): Node | Node[]
 
+  hide(): void
+
+  visible(): void
+
+  addClass(...classes: string[]): void
+
+  removeClass(...classes: string[]): void
+
   get element(): HTMLElement
 
   get children(): IView[]

@@ -13,6 +13,9 @@ export function div(..._params: IUnit[]): IView {
   return View.new('div').assignUnits(..._params)
 }
 
+export function span(...units: IUnit[]): IView {
+  return View.new("span").assignUnits(...units)
+}
 export function style(style: any): IUnit {
   return new StyleUnit(style)
 }
