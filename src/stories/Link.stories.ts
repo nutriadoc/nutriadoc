@@ -10,11 +10,11 @@ const meta = {
     root.className = "root"
 
     const doc = create(root)
-    doc.quill.insertText(0, "google\n", "link", "https://google.com")
-    doc.quill.insertText(7, "google\n", "link", "https://google.com")
+    doc.insertText(0, "google\n", "link", "https://google.com")
+    doc.insertText(7, "google\n", "link", "https://google.com")
 
     setTimeout(() => {
-      doc.quill.setSelection(14, 0)
+      doc.setSelection(14, 0)
     }, 20)
 
 

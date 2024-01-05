@@ -33,6 +33,7 @@ enum Format {
   FormatPainter,
   HR,
   Link,
+  Image,
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

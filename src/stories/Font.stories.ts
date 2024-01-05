@@ -10,19 +10,19 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.quill.insertText(0, "Text1")
-    doc.quill.insertText(6, "Text2")
-    doc.quill.formatText(0, 5, {
+    doc.insertText(0, "Text1")
+    doc.insertText(6, "Text2")
+    doc.formatText(0, 5, {
       bold: true,
       font: "微软雅黑",
       color: "rgb(230, 0, 0)",
       unsupported: true
     })
 
-    doc.quill.formatText(6, 1, { bold: true })
-    doc.quill.formatText(7, 1, { italic: true })
+    doc.formatText(6, 1, { bold: true })
+    doc.formatText(7, 1, { italic: true })
 
-    doc.quill.insertText(doc.quill.getLength(), "Text3\n", { size: 24 }, 'user')
+    doc.insertText(doc.getLength(), "Text3\n", { size: 24 })
 
 
     return root

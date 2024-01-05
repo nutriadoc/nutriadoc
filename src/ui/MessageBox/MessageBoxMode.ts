@@ -1,6 +1,7 @@
 enum MessageBoxMode {
   Tiny,
   Simple,
-  Detail
+  Detail,
+  Hidden
 }
 export default MessageBoxMode

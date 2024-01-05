@@ -1,18 +1,16 @@
 import {className, name, onChange, style, type} from "../views.ts";
 import View from "../View.ts";
-import {Document} from "../../index.ts";
 
 export default class FileInput extends View {
 
-  protected document: Document
-
   protected changeHandler: any = this.onChange.bind(this)
 
-  constructor(doc: Document) {
+  static shared: FileInput = FileInput.create()
+
+  constructor() {
     const element = document.createElement("input")
     super(element)
 
-    this.document = doc
     this.setup()
   }
 
@@ -35,10 +33,33 @@ export default class FileInput extends View {
     this._element = document.createElement("input")
     this.assignId()
     this.setup()
-    this.document.addElement(this)
+  }
+
+  public openSelect() {
+    this.element.click()
   }
 
   protected onChange(_: Event) {
     this.dispatchEvent(new Event("change"))
+    this.renew()
+  }
+
+  public get files(): File[] {
+    const ele = this._element as HTMLInputElement
+    if (!ele.files) return []
+    if (ele.files.length == 0) return []
+
+    const files: File[] = []
+    for (let i = 0; i < ele.files.length; i++) {
+      const file = ele.files[i]
+      files.push(file)
+    }
+    return files
+  }
+
+  static create(): FileInput {
+    const input = new FileInput()
+    input.addTo(document.body)
+    return input
   }
 }

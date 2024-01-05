@@ -10,12 +10,12 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.quill.insertText(0, "Hello friend\n", { header: 1, title: true }, 'user')
-    doc.quill.insertText(doc.quill.getLength() - 1, "Hello friend\n", { header: 2, subtitle: true }, 'user')
+    doc.insertText(0, "Hello friend\n", { header: 1, title: true }, 'user')
+    doc.insertText(doc.getLength() - 1, "Hello friend\n", { header: 2, subtitle: true }, 'user')
 
     for (let i  = 1; i < 7; i++) {
-      const start = doc.quill.getLength() - 1
-      doc.quill.insertText(start, "Hello friend\n", { header: i }, 'user')
+      const start = doc.getLength() - 1
+      doc.insertText(start, "Hello friend\n", { header: i }, 'user')
     }
 
     return root

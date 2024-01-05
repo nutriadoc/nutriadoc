@@ -10,13 +10,13 @@ const meta = {
     const doc = create(root)
 
 
-    doc.quill.insertText(0, "Quote\n")
-    doc.quill.setSelection(0, 6)
+    doc.insertText(0, "Quote\n")
+    doc.setSelection(0, 6)
 
-    doc.quill.focus()
+    doc.focus()
 
-    // doc.quill.format("blockquote", true)
-    doc.quill.formatText(0, 6, { blockquote: true })
+    // doc.format("blockquote", true)
+    doc.formatText(0, 6, { blockquote: true })
 
     return root
   },

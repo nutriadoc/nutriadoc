@@ -1,7 +1,7 @@
 import IUnit from "./view/unit/IUnit.ts";
 import Attribute from "./view/attribute/Attribute.ts";
 
-export default interface IView extends IUnit {
+export default interface IView extends IUnit, EventTarget  {
 
   get key(): string
 

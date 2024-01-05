@@ -12,13 +12,13 @@ const meta = {
     const doc = create(root)
 
     for (let i = 0; i < 10; i++) {
-      doc.quill.insertText(doc.quill.getLength() - 1, "Link: ")
-      doc.quill.insertText(doc.quill.getLength() - 1, `google ${i}\n`, "link", "https://google.com")
+      doc.insertText(doc.getLength() - 1, "Link: ")
+      doc.insertText(doc.getLength() - 1, `google ${i}\n`, "link", "https://google.com")
     }
 
     setTimeout(() => {
-      doc.quill.setSelection(9, 0)
-      doc.quill.focus()
+      doc.setSelection(9, 0)
+      doc.focus()
     }, 20)
 
     return root

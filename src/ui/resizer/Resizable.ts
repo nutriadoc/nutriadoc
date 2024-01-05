@@ -204,7 +204,7 @@ export default class Resizable extends View {
     element.style.position = "absolute"
     element.style.width = "4px"
     element.style.right = "0"
-    element.style.bottom = "0"
+    element.style.bottom = "0px"
     element.style.top = "0"
     element.style.cursor = "ew-resize"
     element.style.backgroundColor = "rgba(0, 0, 0, 0.3)"

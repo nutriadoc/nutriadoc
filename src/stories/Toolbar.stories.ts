@@ -1,6 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import { default as ToolbarComponent } from "../ui/toolbar/main/Toolbar.ts"
-import ToolbarAction from "../ui/toolbar/main/ToolbarAction.ts";
 import {NothingFormatter} from "../editor/formatter/IFormatter.ts";
 
 import 'quill/dist/quill.core.css'
@@ -15,8 +14,7 @@ const meta = {
     const root = document.createElement("div")
     root.className = "root"
 
-    const toolbar = ToolbarComponent.simple()
-    toolbar.action = new ToolbarAction(toolbar, new NothingFormatter())
+    const toolbar = ToolbarComponent.simple(new NothingFormatter())
     toolbar.render()
     toolbar.addTo(root)
 

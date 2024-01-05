@@ -1,10 +1,10 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
 // import NTRTable from "../ui/table/NTRTable.ts";
-import Quill from "quill";
+import Document from "../document/Document.ts";
 
 type TableArgs = {
-  init?: (quill: Quill) => void
+  init?: (quill: Document) => void
 }
 
 const meta = {
@@ -16,8 +16,8 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    args?.init?.(doc.quill)
-    // const tableElement = doc.quill.root.getElementsByTagName("table")[0]
+    args?.init?.(doc)
+    // const tableElement = doc.root.getElementsByTagName("table")[0]
     // new NTRTable(tableElement)
     return root
   },
@@ -32,7 +32,7 @@ type Story = StoryObj<TableArgs>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Table: Story = {
   args: {
-    init: (quill: Quill) => {
+    init: (quill: Document) => {
       quill.insertText(0, '1.1\n', { table: 'a'})
       quill.insertText(quill.getLength() - 1, '1.2\n', { table: 'a'})
       quill.insertText(quill.getLength() - 1, '1.3\n', { table: 'a'})

@@ -10,10 +10,10 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.quill.insertText(0, "Align left", { align: "left" })
-    doc.quill.insertText(doc.quill.getLength(), "Align center\n", { align: "center" })
-    doc.quill.insertText(doc.quill.getLength() , "Align right\n", { align: "right" })
-    doc.quill.insertText(doc.quill.getLength(), "Align justify\n", { align: "justify" })
+    doc.insertText(0, "Align left", { align: "left" })
+    doc.insertText(doc.getLength(), "Align center\n", { align: "center" })
+    doc.insertText(doc.getLength() , "Align right\n", { align: "right" })
+    doc.insertText(doc.getLength(), "Align justify\n", { align: "justify" })
 
     return root
   },

@@ -5,6 +5,9 @@ import TinyMessageBox from "./Tiny/TinyMessageBox.ts";
 import MessageBoxComponent from "./MessageBoxComponent.ts";
 import DetailMessageBox from "./Detail/DetailMessageBox.ts";
 import SimpleMessageBox from "./Simple/SimpleMessageBox.ts";
+import MessageView from "./MessageView.ts";
+import SummaryMessageView from "./SummaryMessageView.ts";
+import Message from "./Message.ts";
 
 export default class MessageBox extends View {
 
@@ -16,14 +19,21 @@ export default class MessageBox extends View {
 
   protected simple: MessageBoxComponent
 
+  protected summary: SummaryMessageView
+
+  protected currentSimpleMessage: MessageView | undefined
+
   protected components: Map<MessageBoxMode, MessageBoxComponent> = new Map<MessageBoxMode, MessageBoxComponent>();
 
-  public constructor(mode: MessageBoxMode) {
+  public constructor(mode?: MessageBoxMode, summary?: SummaryMessageView) {
     super(undefined, className("ntr-message-box", "ntr-box"))
+
+    mode = mode ?? MessageBoxMode.Hidden
 
     this.tiny = new TinyMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
     this.detail = new DetailMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
     this.simple = new SimpleMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
+    this.summary = summary ?? new SummaryMessageView(new Message(), new EventTarget())
 
     this.components.set(MessageBoxMode.Tiny, this.tiny)
     this.components.set(MessageBoxMode.Detail, this.detail)
@@ -48,8 +58,56 @@ export default class MessageBox extends View {
     })
   }
 
-  protected onMessageBoxExpand() {
+  public addMessage(message: MessageView) {
+
+  }
+
+  public removeMessage(message: MessageView) {
+
+  }
+
+  public activeMessage(key: string) {
+    if (this._mode == MessageBoxMode.Tiny) {
+      this.switchToSimpleMessage(key)
+    } else if (this._mode == MessageBoxMode.Simple) {
+
+    } else if (this._mode == MessageBoxMode.Detail) {
+      this.scrollToMessage(this._mode, "")
+    }
+  }
+
+  public switchToSimpleMessage(key: string) {
+    this.currentSimpleMessage = this.findMessage(key)
     this.setMode(MessageBoxMode.Simple)
+  }
+
+  public scrollToMessage(model: MessageBoxMode, key: string) {
+
+  }
+
+  public displaySummary() {
+
+  }
+
+  public deactivateMessage() {
+    if (this._mode == MessageBoxMode.Simple) {
+      this.displaySummary()
+    }
+  }
+
+  protected findMessage(key: string): MessageView | undefined {
+    return undefined
+  }
+
+  protected onMessageBoxExpand() {
+    switch (this._mode) {
+      case MessageBoxMode.Tiny:
+        this.setMode(MessageBoxMode.Simple)
+        break
+      case MessageBoxMode.Simple:
+        this.setMode(MessageBoxMode.Detail)
+        break
+    }
   }
 
   public get mode(): MessageBoxMode {

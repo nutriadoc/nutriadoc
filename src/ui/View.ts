@@ -8,7 +8,7 @@ import EventListenerUnit from "./view/listener/EventListenerUnit.ts";
 import Property from "./view/attribute/Property.ts";
 import ClassName from "./view/attribute/ClassName.ts";
 
-export default class View extends EventTarget implements IView {
+export default class View extends EventTarget implements IView, EventTarget {
 
   protected _element: HTMLElement
 
@@ -42,7 +42,6 @@ export default class View extends EventTarget implements IView {
   }
 
   protected initialize() {
-
   }
 
   protected assignId() {

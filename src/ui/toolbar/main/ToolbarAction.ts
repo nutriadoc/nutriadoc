@@ -6,6 +6,9 @@ import MenuEvent from "../../menu/events/MenuEvent.ts";
 import {FontSizeManager} from "../../../editor/font/FontSize.ts";
 import IFormatter from "../../../editor/formatter/IFormatter.ts";
 import CommandEvent from "../../../editor/commands/CommandEvent.ts";
+import CommandAssembler from "./items/CommandAssembler.ts";
+import DocumentCommandType from "../../../document/commands/DocumentCommandType.ts";
+import DocumentCommandEvent from "../../../document/commands/DocumentCommandEvent.ts";
 
 export default class ToolbarAction {
 
@@ -14,6 +17,8 @@ export default class ToolbarAction {
   protected formatter: IFormatter
 
   protected fontSizeManager: FontSizeManager = FontSizeManager.shared
+
+  protected assembler: CommandAssembler = new CommandAssembler()
 
   constructor(toolbar: Toolbar, formatter: IFormatter) {
     this.toolbar = toolbar
@@ -73,6 +78,13 @@ export default class ToolbarAction {
     const e = event as ToolbarItemEvent
     const item = e.target as ToolbarItem
 
+    console.debug("on toolbar item click", item)
+
+    const command = this.assembler.toCommand(item)
+    if (command.type !== DocumentCommandType.Unknown) {
+      this.toolbar.dispatchEvent(new DocumentCommandEvent(command))
+    }
+
     if (item.isToggle)
       this.format(item.key, item.value)
 
@@ -86,13 +98,14 @@ export default class ToolbarAction {
 
     const menuKey = e.menu.key
 
+    const cmd = this.assembler.toCommand(e.menu, item)
+    if (cmd.type !== DocumentCommandType.Unknown) {
+      this.toolbar.dispatchEvent(new DocumentCommandEvent(cmd))
+    }
+
     switch (menuKey) {
       case "insert":
       case "header": {
-        if (item.key == "image") {
-          this.onImageMenuItemSelect(event)
-          break
-        }
         this.format(item.key, null)
         break
       }
@@ -151,10 +164,5 @@ export default class ToolbarAction {
     }
 
     this.formatter.format(Format.FontSize, size)
-  }
-
-  protected onImageMenuItemSelect(_: Event) {
-    console.debug('on image menu item select')
-    this.toolbar.document.uploadBehavior.selectFile()
   }
 }

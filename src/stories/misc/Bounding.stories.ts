@@ -51,9 +51,9 @@ const meta = {
 
     const doc = create(root.find(name("root")) as IView)
 
-    doc.quill.insertText(0, "Image")
-    doc.quill.insertEmbed(doc.quill.getLength() - 1, "image", 'https://placehold.co/300x200')
-    doc.quill.insertEmbed(doc.quill.getLength(), "image", 'https://placehold.co/300x200')
+    doc.insertText(0, "Image")
+    doc.insertEmbed(doc.getLength() - 1, "image", 'https://placehold.co/300x200')
+    doc.insertEmbed(doc.getLength(), "image", 'https://placehold.co/300x200')
 
     setTimeout(inspect, 100)
 

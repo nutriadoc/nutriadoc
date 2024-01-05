@@ -1,7 +1,9 @@
-.resizer {
+.resizable {
   user-select: none;
   display: inline-block;
   margin: 0 4px;
+
+  cursor: pointer;
 
   img {
     user-select: none;

@@ -12,4 +12,8 @@ export default class ToolbarItemEvent extends Event {
   public get item(): ToolbarItem {
     return this._item
   }
+
+  clone() {
+    return new ToolbarItemEvent(this.type, this._item)
+  }
 }

@@ -12,7 +12,7 @@ const meta = {
     const doc = create(root)
 
     setTimeout(() => {
-      doc.quill.insertText(0,   '\n', { 'hr': true})
+      doc.insertText(0,   '\n', { 'hr': true})
     }, 1000)
 
 

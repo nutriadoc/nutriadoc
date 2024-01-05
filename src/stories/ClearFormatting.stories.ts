@@ -11,13 +11,13 @@ const meta = {
 
     const doc = create(root)
 
-    doc.quill.insertText(0, "Text1", { bold: true, italic: true })
-    doc.quill.removeFormat(0, 5)
-    doc.quill.formatText(0, 5, { bold: true, italic: true })
+    doc.insertText(0, "Text1", { bold: true, italic: true })
+    doc.removeFormat(0, 5)
+    doc.formatText(0, 5, { bold: true, italic: true })
 
     setTimeout(() => {
-      doc.quill.focus()
-      doc.quill.setSelection(0, 5, 'user')
+      doc.focus()
+      doc.setSelection(0, 5)
     })
 
     return root

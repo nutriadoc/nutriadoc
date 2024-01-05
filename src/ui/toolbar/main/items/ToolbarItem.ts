@@ -58,7 +58,6 @@ export default class ToolbarItem extends ActivationView {
   }
 
   protected setupEvents2() {
-    super.setupEvents()
 
     this.button.element.addEventListener("click", this.onClick.bind(this))
     if (this._canExpand)
@@ -67,6 +66,7 @@ export default class ToolbarItem extends ActivationView {
 
   protected onClick() {
     if (!this.isEnabled) return
+    console.debug("on toolbar item click", this.key)
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 

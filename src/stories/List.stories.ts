@@ -10,8 +10,8 @@ const meta = {
     const doc = create(root)
 
     for (let i  = 1; i < 7; i++) {
-      const start = doc.quill.getLength() - 1
-      doc.quill.insertText(start, `List ${i}\n`, 'user')
+      const start = doc.getLength() - 1
+      doc.insertText(start, `List ${i}\n`, 'user')
     }
 
     return root

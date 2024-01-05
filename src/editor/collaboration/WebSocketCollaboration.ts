@@ -3,8 +3,9 @@ import * as Y from "yjs"
 import { WebsocketProvider} from "y-websocket"
 import Quill from "quill";
 import Option from "../Option.ts";
+import Collaboration from "./Collaboration.ts";
 
-export default class WebsocketCollaboration {
+export default class WebsocketCollaboration implements Collaboration {
 
   protected ydoc: Y.Doc
 
