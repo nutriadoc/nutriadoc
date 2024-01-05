@@ -6,16 +6,18 @@ import UserBehavior from "../editor/behavior/UserBehavior.ts";
 import DocumentCommandEvent from "./commands/DocumentCommandEvent.ts";
 import TypingCommand from "./commands/TypingCommand.ts";
 import Command from "../editor/commands/Command.ts";
+import MessageBox from "../ui/MessageBox/MessageBox.ts";
 
 export default abstract class Document extends AbstractDocument {
 
-  protected behavior: UserBehavior
+  protected _behavior: UserBehavior
+
 
 
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
 
-    this.behavior = this.createUserBehavior()
+    this._behavior = this.createUserBehavior()
     this.setupElements(option)
     this.initialized()
   }
@@ -62,10 +64,14 @@ export default abstract class Document extends AbstractDocument {
 
   onTextChange(mutation: DocumentMutation, old: DocumentMutation) {
     const cmd = new TypingCommand(mutation, old)
-    this.behavior.execute(cmd)
+    this._behavior.execute(cmd)
   }
 
   protected onCommand(event: DocumentCommandEvent) {
-    this.behavior.execute(event.command)
+    this._behavior.execute(event.command)
+  }
+
+  public get behavior(): UserBehavior {
+    return this._behavior
   }
 }

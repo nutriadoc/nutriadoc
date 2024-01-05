@@ -1,15 +1,19 @@
 .ntr-message-box {
   width: fit-content;
+  flex-direction: column;
 
-  .title {
+  .title-bar {
     display: flex;
     flex-direction: row;
+
+    align-content: center;
 
     padding: 15px 10px;
 
     .title-text {
       display: flex;
-      flex: 1;
+
+      flex: 1 0 auto;
       font-size: 16px;
       font-weight: bold;
     }
@@ -18,16 +22,26 @@
       display: flex;
       flex-direction: column;
 
-      .svg {
-        width: 12px;
-        height: 12px;
-      }
+      cursor: pointer;
     }
+    .expand-collapse > div, .expand-collapse > div > svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .message-view {
+    padding: 20px;
   }
 
   .ntr-simple-message-box {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    .container {
+      background-color: var(--gray-3);
+      min-height: 120px;
+    }
   }
 
   .ntr-tiny-message-box {
@@ -67,6 +81,27 @@
       }
     }
   }
+
+  .upload-message-view {
+
+    display: flex;
+    flex-direction: row;
+
+    gap: 16px;
+
+    .avatar, .avatar > img {
+      width: 28px;
+      height: 28px;
+
+      border-radius: 28px;
+    }
+
+    .body {
+      display: flex;
+
+      flex: 1 0 auto;
+    }
+  }
 }
 
 .model-0 {
@@ -75,6 +110,5 @@
 
 .model-1, .model-2 {
   width: 410px;
-  min-height: 410px;
   max-height: 600px;
 }

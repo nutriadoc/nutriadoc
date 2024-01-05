@@ -21,4 +21,5 @@ export default class UploadTask extends Task {
 
     // this.dataStore.put(ref, blob).then(() => { })
   }
+
 }

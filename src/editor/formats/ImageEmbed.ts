@@ -2,6 +2,9 @@ import Quill from "quill";
 import Resizable from "../../ui/resizer/Resizable.ts";
 import View from "../../ui/View.ts";
 import ResizeEvent from "../../ui/resizer/ResizeEvent.ts";
+import KeyPool from "../../core/KeyPool.ts";
+import Key from "../../core/Key.ts";
+import KeyFile from "../../core/file/KeyFile.ts";
 const Image = Quill.import("formats/image")
 
 export default class ImageEmbed extends Image {
@@ -27,6 +30,12 @@ export default class ImageEmbed extends Image {
   }
 
   static create(value: any) {
+    const key = Key.of(value as string)
+    const kf = KeyPool.shared.get(key.int) as KeyFile | undefined
+
+    if (kf !== undefined)
+      value = URL.createObjectURL(kf.file)
+
     const node = super.create(value) as HTMLElement
     node.classList.add("image")
 

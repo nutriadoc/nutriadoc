@@ -34,4 +34,15 @@ export default {
     text: "Text",
     remove: "Remove link"
   },
+  notification: {
+    title: "All messages",
+    upload: {
+      uploads: "Uploads"
+    }
+  },
+  upload: {
+    notification: {
+      uploads: "Uploads"
+    }
+  }
 }

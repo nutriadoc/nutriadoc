@@ -116,7 +116,9 @@ export default class Resizable extends View {
 
     document.removeEventListener('mousemove', this.onMouseMoveHandler)
     this.size = {...this.resizingSize!}
-    this.dispatchEvent(new ResizeEvent("resize", this.size!.width, this.size!.height))
+
+    if (!!this.size)
+      this.dispatchEvent(new ResizeEvent("resize", this.size!.width, this.size!.height))
   }
 
   protected onMouseMove(e: MouseEvent) {

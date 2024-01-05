@@ -23,6 +23,25 @@ export default class FileService {
     return URL.createObjectURL(blob)
   }
 
+  static fromBase64<T extends Blob | File>(base64: string, toFile: boolean = false): T {
+
+    let [type, data] = base64.split(",")
+    const bytes = atob(data);
+    const ab = new ArrayBuffer(bytes.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < bytes.length; i++) {
+      ia[i] = bytes.charCodeAt(i);
+    }
+
+    const [_, mime] = type.split(";")
+    type = mime.split(":")[1]
+
+    const blob = new Blob([ab], {type});
+
+    if (!toFile) return blob as unknown as T
+    return new File([blob], 'noname', {type}) as unknown as T
+  }
+
   static async base64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()

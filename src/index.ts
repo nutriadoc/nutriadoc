@@ -7,7 +7,8 @@ import QuillDocument from "./editor/quilljs/QuillDocument.ts";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 
-export function create(element: string | Element | IView | View, option?: Option): Document {
+export function create(element?: string | Element | IView | View | undefined, option?: Option): Document {
+  if (element === undefined) return new QuillDocument(option)
 
   let container: IView
 

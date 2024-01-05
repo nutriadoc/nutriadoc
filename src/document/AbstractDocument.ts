@@ -28,6 +28,8 @@ export default abstract class AbstractDocument extends View {
 
   protected commandHandler: any
 
+  protected messageBox!: MessageBox
+
   protected constructor(option?: Option, element?: HTMLElement, ...units: IUnit[]) {
     super(element, ...units)
     this._option = option
@@ -37,8 +39,6 @@ export default abstract class AbstractDocument extends View {
     this.commandHandler = this._onCommand.bind(this)
 
     this.toolbars = this.createToolbars()
-
-
   }
 
   abstract createEditor(): Editor
@@ -82,10 +82,13 @@ export default abstract class AbstractDocument extends View {
   }
 
   protected createUploadBehavior(): UserUploadBehavior {
-    const messageBox = new MessageBox()
+
+    this.messageBox = new MessageBox()
+    this.addElement(this.messageBox)
+
     return new DefaultUserUploadBehavior(
       new MockUploadService(),
-      messageBox,
+      this.messageBox,
       this._editor
     )
   }

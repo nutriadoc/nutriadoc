@@ -1,15 +1,12 @@
 import Message from "./Message.ts";
 import MessageEvent from "./MessageEvent.ts";
+import View from "../View.ts";
+import {className} from "../views.ts";
 
-export default abstract class MessageView {
+export default abstract class MessageView extends View {
 
-  protected _messageTarget: EventTarget
-
-  protected _message: Message
-
-  protected constructor(message: Message, messageTarget: EventTarget) {
-    this._message = message
-    this._messageTarget = messageTarget
+  public constructor() {
+    super(undefined, className("message-view"))
   }
 
   abstract update(message: Message): void

@@ -2,6 +2,7 @@ import UploadService from "./UploadService.ts";
 import Task from "../task/Task.ts";
 import UploadTask from "./UploadTask.ts";
 import Optional from "../../core/util/Optional.ts";
+import KeyFile from "../../core/file/KeyFile.ts";
 
 export default class MockUploadService implements UploadService {
 
@@ -11,7 +12,7 @@ export default class MockUploadService implements UploadService {
     return Optional.ofNullable(this.tasks.get(key))
   }
 
-  upload(_: File, __?: string): Task {
+  upload(_: KeyFile): Task {
     const task = new UploadTask(new File([], 'test'))
     let i = 0
     const handle = setInterval(() => {

@@ -32,6 +32,14 @@ export function svg(html: string): IView {
   return div().assignUnits(innerHtml(html))
 }
 
+export function source(src: string): Attribute {
+  return new Attribute("src", src)
+}
+
+export function image(...units: IUnit[]): IView {
+  return View.new("img").assignUnits(...units)
+}
+
 export function innerHtml(html: string): Attribute {
   return new Property("innerHTML", html)
 }

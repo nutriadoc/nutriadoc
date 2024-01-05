@@ -21,6 +21,8 @@ export default class MessageBox extends View {
 
   protected summary: SummaryMessageView
 
+  protected messages: MessageView[] = []
+
   protected currentSimpleMessage: MessageView | undefined
 
   protected components: Map<MessageBoxMode, MessageBoxComponent> = new Map<MessageBoxMode, MessageBoxComponent>();
@@ -33,7 +35,7 @@ export default class MessageBox extends View {
     this.tiny = new TinyMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
     this.detail = new DetailMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
     this.simple = new SimpleMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))
-    this.summary = summary ?? new SummaryMessageView(new Message(), new EventTarget())
+    this.summary = summary ?? new SummaryMessageView()
 
     this.components.set(MessageBoxMode.Tiny, this.tiny)
     this.components.set(MessageBoxMode.Detail, this.detail)
@@ -42,6 +44,8 @@ export default class MessageBox extends View {
     this.components.forEach(component => { this.addElement(component)})
 
     this.setMode(mode)
+
+    console.debug("MessageBox created", { id: this.id })
   }
 
   public setMode(mode: MessageBoxMode) {
@@ -50,15 +54,18 @@ export default class MessageBox extends View {
     this.components.forEach((component, key) => {
       if (key === mode) {
         this.addClass(`model-${key}`)
+        console.debug(`visible ${key}`)
         component.visible()
       } else {
         this.removeClass(`model-${key}`)
+        console.debug(`hide ${key}`)
         component.hide()
       }
     })
   }
 
   public addMessage(message: MessageView) {
+    this.messages.push(message)
 
   }
 
@@ -66,19 +73,31 @@ export default class MessageBox extends View {
 
   }
 
-  public activeMessage(key: string) {
+  activeMessage(message: MessageView): void
+  activeMessage(key: string): void
+  activeMessage(key: string | MessageView): void {
     if (this._mode == MessageBoxMode.Tiny) {
       this.switchToSimpleMessage(key)
     } else if (this._mode == MessageBoxMode.Simple) {
 
     } else if (this._mode == MessageBoxMode.Detail) {
       this.scrollToMessage(this._mode, "")
+    } else {
+      this.switchToSimpleMessage(key)
     }
   }
 
-  public switchToSimpleMessage(key: string) {
-    this.currentSimpleMessage = this.findMessage(key)
+  switchToSimpleMessage(key: string | MessageView): void {
+    if (typeof key === "string")
+      this.currentSimpleMessage = this.findMessage(key)
+    else
+      this.currentSimpleMessage = key
+
     this.setMode(MessageBoxMode.Simple)
+
+    if (!this.currentSimpleMessage) return
+    const box = this.simple as SimpleMessageBox
+    box.setMessage(this.currentSimpleMessage)
   }
 
   public scrollToMessage(model: MessageBoxMode, key: string) {

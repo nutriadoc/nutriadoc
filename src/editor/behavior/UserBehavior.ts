@@ -8,11 +8,11 @@ export default class UserBehavior {
 
   protected press: UserPressBehavior
 
-  protected upload: UserUploadBehavior
+  protected _upload: UserUploadBehavior
 
   constructor(press: UserPressBehavior, upload: UserUploadBehavior) {
     this.press = press
-    this.upload = upload
+    this._upload = upload
   }
 
   execute(cmd: DocumentCommand) {
@@ -27,9 +27,13 @@ export default class UserBehavior {
         break
       }
       case DocumentCommandType.SelectImage: {
-        this.upload.selectImageFile()
+        this._upload.selectImageFile()
         break
       }
     }
+  }
+
+  public get upload(): UserUploadBehavior {
+    return this._upload
   }
 }

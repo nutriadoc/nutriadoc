@@ -27,8 +27,6 @@ export default class LinkSettings extends Floating {
     super(Position.Center)
     this._url = url ?? ''
     this._text = text ?? ''
-
-    console.debug("Link constructor")
   }
 
   public get className(): string {

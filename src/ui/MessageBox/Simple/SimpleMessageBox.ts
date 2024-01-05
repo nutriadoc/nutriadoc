@@ -1,32 +1,47 @@
 import {className, div, svg, text} from "../../views.ts";
 import View from "../../View.ts";
-import {ChevronDown, ChevronUp} from "../../styles/icons";
+
 import IUnit from "../../view/unit/IUnit.ts";
 import MessageBoxComponent from "../MessageBoxComponent.ts";
+import MessageView from "../MessageView.ts";
+import TitleBar from "../components/TitleBar.ts";
 
 export default class SimpleMessageBox extends View implements MessageBoxComponent {
 
+  protected messageView?: MessageView
+
+  protected container: View
+
   public constructor(...units: IUnit[]) {
 
-    super(undefined, ...units)
+    const container = new View(undefined, className("container"))
 
-    const components = div(
-      className("ntr-simple-message-box", "no-select", "hidden"),
-      div(
-        className("title"),
-        div(
-          className("title-text"),
-          text("Title")
-        ),
-        div(
-          className("expand-collapse"),
-          svg(ChevronUp),
-          svg(ChevronDown)
-        )
-      )
+    super(
+      undefined,
+      ...[
+        ...units,
+        className("ntr-simple-message-box", "no-select", "hidden"),
+        new TitleBar(),
+        container
+      ]
     )
 
-    this.addElement(components)
+    this.container = container
+  }
+
+  public setMessage(message: MessageView) {
+    this.messageView = message
+
+    this.container.removeAllChild()
+    this.container.addElement(this.messageView)
+  }
+
+  visible() {
+    super.visible();
+  }
+
+  hide() {
+    super.hide();
   }
 
   protected onExpandClick() {

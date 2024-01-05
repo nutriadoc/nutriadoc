@@ -1,23 +1,25 @@
 import Command from "./Command.ts";
 import Format from "../formatter/Format.ts";
+import KeyFile from "../../core/file/KeyFile.ts";
 
 export default class ImageCommand extends Command {
 
-  protected _source: string
+  protected _source: KeyFile
 
   protected _width: number
 
   protected _height: number
 
-  constructor(source: string, width?: number, height?: number) {
+  constructor(source: KeyFile, width?: number, height?: number) {
     super(Format.Image, source)
 
     this._value = this._source = source
     this._width = width ?? -1
     this._height = height ?? -1
+    this._value = source.key.toString()
   }
 
-  public get source(): string {
+  public get source(): KeyFile {
     return this._source
   }
 

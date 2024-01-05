@@ -58,6 +58,10 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   insertText(index: number, text: string, formats?: any, value?: any): void {
+    if (formats === undefined) {
+      this._quill.insertText(index, text)
+      return
+    }
     if (value === undefined) {
       let map: StringMap = {}
       Object.keys(formats).reduce((result, key) => {

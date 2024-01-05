@@ -20,6 +20,18 @@ export default class Optional<T> {
     return !!this._value
   }
 
+  get(): T {
+    if (this._value) {
+      return this._value
+    } else {
+      throw new Error("No value present")
+    }
+  }
+
+  static empty<T>(): Optional<T> {
+    return new Optional<T>()
+  }
+
   static of<T>(value: T): Optional<T> {
     return new Optional(value)
   }

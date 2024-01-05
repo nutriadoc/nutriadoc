@@ -41,4 +41,6 @@ export default interface IView extends IUnit, EventTarget  {
   find(key: string): IView | undefined
 
   remove(): void
+
+  removeAllChild(): void
 }

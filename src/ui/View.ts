@@ -246,8 +246,13 @@ export default class View extends EventTarget implements IView, EventTarget {
     this.element.remove()
   }
 
+  removeAllChild(): void {
+    this._children.forEach(child => this.removeChild(child))
+  }
+
   public removeChild(view: IView) {
     this.element.removeChild(view.element)
+    this._children = this._children.filter(c => c !== view)
   }
 
   static new<T extends View>(tag?: string): View {
