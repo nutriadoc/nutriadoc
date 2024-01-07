@@ -25,10 +25,18 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   constructor(option?: Option) {
     super()
     this._quill = new Quill(this.element)
+
     this._option = option
+    this.initializeContents()
+
 
     this.textChangeHandler = this.onQuillTextChange.bind(this)
     this._quill.on('text-change', this.textChangeHandler)
+  }
+
+  protected initializeContents() {
+    const contents = this._quill.clipboard.convert({html: this._option?.html})
+    this._quill.setContents(contents)
   }
 
   createFormatter(): IFormatter {

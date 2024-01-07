@@ -12,7 +12,8 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: '@nutriadoc/nutriadoc',
       // the proper extensions will be added
-      fileName: 'nutriadoc',
+      fileName: (format) => `nutria.${format}.js`,
+      formats: ['umd', 'es']
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
@@ -22,8 +23,9 @@ export default defineConfig({
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
+          nutria: 'Nutria',
         },
-
+        format: "umd"
       },
       plugins: [
       ],

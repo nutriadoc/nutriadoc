@@ -28,14 +28,16 @@ export function create(element?: string | Element | IView | View | undefined, op
   return doc
 }
 
-export interface NutriaDoc {
+export interface Nutria {
   create: typeof create
   Document: typeof Document
 }
 
 if (window) {
-  window.NutriaDoc = {
+  window.Nutria = {
     create,
     Document,
   }
+
+  console.debug(window.Nutria)
 }

@@ -1,11 +1,11 @@
 /// <reference types="vite/client" />
 
-import {NutriaDoc} from "./index.ts";
+import {Nutria} from "./index.ts";
 
 declare global {
   interface Window {
-    NutriaDoc: NutriaDoc,
+    Nutria: Nutria,
   }
 }
 
-window.NutriaDoc = window.NutriaDoc || {}
+window.Nutria = window.Nutria || {}

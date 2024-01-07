@@ -39,6 +39,8 @@ export default class Floatable {
     this._position = relativePosition ?? Position.BottomLeft
 
     this.documentClickHandler = this.onDocumentClick.bind(this)
+
+    this.hidden()
   }
 
   public get x(): number {
@@ -191,12 +193,15 @@ export default class Floatable {
         container.addElement(this._view)
     }
 
+    this._view.element.classList.remove("floating-hidden")
+
     this.pin()
     this.setupDismiss()
   }
 
   public hidden() {
     this._view.element.style.visibility = "hidden"
+    this._view.element.classList.add("floating-hidden")
 
     this._view.dispatchEvent(new Event("hidden"))
   }

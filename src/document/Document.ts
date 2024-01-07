@@ -17,18 +17,21 @@ export default abstract class Document extends AbstractDocument {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
 
     Lang.setup()
-    Page.setup()
 
     this._behavior = this.createUserBehavior()
     this.setupElements(option)
-    this.initialized()
   }
 
-  setupElements(option?: Option) {
+  async setupElements(option?: Option): Promise<void> {
     this.createShortcutKeyBinding()
     this.createInlineToolbar()
     if (!!option?.collaboration) this.createCollaboration(option)
 
+    await Page.setup(option)
+    this.attach()
+  }
+
+  attach() {
     this.addElement(this._editor)
   }
 

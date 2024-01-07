@@ -13,4 +13,6 @@ export default interface Option {
   html?: string
 
   name?: string
+
+  assetFromRemote?: boolean
 }
