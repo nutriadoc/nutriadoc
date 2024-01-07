@@ -33,8 +33,8 @@ export default class FileService {
       ia[i] = bytes.charCodeAt(i);
     }
 
-    const [_, mime] = type.split(";")
-    type = mime.split(":")[1]
+    const [mime] = type.split(";")
+    type = mime.split(":")[1].split("/")[1]
 
     const blob = new Blob([ab], {type});
 

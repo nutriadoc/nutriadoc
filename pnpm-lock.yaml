@@ -8,6 +8,9 @@ dependencies:
   bootstrap-icons:
     specifier: ^1.11.2
     version: 1.11.2
+  bytes:
+    specifier: ^3.1.2
+    version: 3.1.2
   i18next:
     specifier: ^23.7.11
     version: 23.7.11
@@ -49,6 +52,9 @@ devDependencies:
   '@storybook/test':
     specifier: 7.6.6
     version: 7.6.6
+  '@types/bytes':
+    specifier: ^3.1.4
+    version: 3.1.4
   '@types/quill':
     specifier: ^2.0.14
     version: 2.0.14
@@ -3406,6 +3412,10 @@ packages:
       '@types/node': 20.10.5
     dev: true
 
+  /@types/bytes@3.1.4:
+    resolution: {integrity: sha512-A0uYgOj3zNc4hNjHc5lYUfJQ/HVyBXiUMKdXd7ysclaE6k9oJdavQzODHuwjpUu2/boCP8afjQYi8z/GtvNCWA==}
+    dev: true
+
   /@types/chai@4.3.11:
     resolution: {integrity: sha512-qQR1dr2rGIHYlJulmr8Ioq3De0Le9E4MJ5AiaeAETJJpndT1uUNHsGFK3L/UIu+rbkQSdj8J/w2bCsBZc/Y5fQ==}
     dev: true
@@ -4021,7 +4031,6 @@ packages:
   /bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
     engines: {node: '>= 0.8'}
-    dev: true
 
   /call-bind@1.0.5:
     resolution: {integrity: sha512-C3nQxfFZxFRVoJoGKKI8y3MOEo129NQ+FgQ08iye+Mk4zNZZGdjfs06bVTr+DBSlA66Q2VEcMki/cUCP4SercQ==}

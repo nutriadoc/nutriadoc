@@ -108,6 +108,8 @@ export default class Resizable extends View {
   }
 
   protected onMouseUp(_: MouseEvent) {
+    if (!this.resizing) return
+
     this.resizing = false
     this.clicked = undefined
 

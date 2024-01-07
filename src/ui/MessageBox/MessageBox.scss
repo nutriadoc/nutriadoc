@@ -2,19 +2,22 @@
   width: fit-content;
   flex-direction: column;
 
+  opacity: 0;
+
   .title-bar {
     display: flex;
     flex-direction: row;
 
     align-content: center;
+    justify-content: center;
 
-    padding: 15px 10px;
+    padding: 15px 10px 15px 15px;
 
     .title-text {
       display: flex;
 
       flex: 1 0 auto;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: bold;
     }
 
@@ -22,8 +25,11 @@
       display: flex;
       flex-direction: column;
 
+      margin-top: -6px;
+
       cursor: pointer;
     }
+
     .expand-collapse > div, .expand-collapse > div > svg {
       width: 12px;
       height: 12px;
@@ -32,15 +38,15 @@
 
   .message-view {
     padding: 20px;
+
+    font-size: 12px;
   }
 
   .ntr-simple-message-box {
-    display: flex;
     flex-direction: column;
 
     .container {
       background-color: var(--gray-3);
-      min-height: 120px;
     }
   }
 
@@ -98,8 +104,74 @@
 
     .body {
       display: flex;
+      flex-direction: column;
 
       flex: 1 0 auto;
+
+      gap: 16px;
+
+      .title {
+        font-weight: 600;
+      }
+
+      .progress-container {
+        display: flex;
+        flex: 1 0 auto;
+        height: 10px;
+
+        align-items: center;
+
+        gap: 4px;
+
+        .progress {
+          display: flex;
+          flex: 1 0 auto;
+
+          height: 6px;
+
+          background-color: #D9D9D9;
+          border-radius: 8px;
+
+          margin-top: 4px;
+
+          .indicator {
+            border-radius: 8px;
+
+            background-color: #C8C8C8;
+          }
+        }
+
+        .cancel, .cancel svg {
+          width: 10px;
+          height: 10px;
+
+          cursor: pointer;
+        }
+
+        .cancel svg {
+          color: var(--gray-8);
+        }
+      }
+
+      .file-info {
+        display: flex;
+        flex-direction: row;
+
+        gap: 30px;
+
+        .file-item {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          .label {
+            font-size: 10px;
+          }
+          .label, .value {
+            color: var(--gray-7)
+          }
+        }
+      }
     }
   }
 }
@@ -111,4 +183,18 @@
 .model-1, .model-2 {
   width: 410px;
   max-height: 600px;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

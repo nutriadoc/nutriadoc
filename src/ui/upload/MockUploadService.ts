@@ -16,14 +16,14 @@ export default class MockUploadService implements UploadService {
     const task = new UploadTask(new File([], 'test'))
     let i = 0
     const handle = setInterval(() => {
-      task.progress(i, 100)
+      task.progress(i, 50)
       i++
 
-      if (i > 100) {
+      if (i > 50) {
         clearInterval(handle)
         task.success()
       }
-    }, 100)
+    }, 20)
 
     return task
   }

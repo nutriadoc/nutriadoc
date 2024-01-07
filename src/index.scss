@@ -9,7 +9,16 @@
 
   --gray-2: #fafafa;
   --gray-3: #f5f5f5;
+  --gray-7: #8c8c8c;
   --gray-8: #595959;
+}
+
+body:lang(zh) {
+ font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+body:lang(en) {
+  font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 blockquote {
@@ -97,4 +106,13 @@ blockquote {
   border-radius: 8px;
   background: #FFF;
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.05), 0px 0px 1px 0px rgba(0, 0, 0, 0.20);
+}
+
+.flex {
+  display: flex;
+}
+
+.ntr-floating {
+  max-height: 70%;
+  overflow-y: auto;
 }

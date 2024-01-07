@@ -15,12 +15,15 @@ import DefaultUserUploadBehavior from "../editor/behavior/upload/DefaultUserUplo
 import UserUploadBehavior from "../editor/behavior/upload/UserUploadBehavior.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
+import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
 
 export default abstract class AbstractDocument extends View {
 
   protected _option?: Option
 
   protected _editor: Editor
+
+  protected mainToolbar!: Toolbar
 
   protected toolbars: Toolbars
 
@@ -50,8 +53,8 @@ export default abstract class AbstractDocument extends View {
   abstract createCollaboration(option: Option): Collaboration
 
   protected createToolbars(): Toolbars {
-    const main = this.createToolbar()
-    return new Toolbars([main])
+    this.mainToolbar = this.createToolbar()
+    return new Toolbars([this.mainToolbar])
   }
 
   protected createToolbar(): Toolbar {
@@ -83,7 +86,7 @@ export default abstract class AbstractDocument extends View {
 
   protected createUploadBehavior(): UserUploadBehavior {
 
-    this.messageBox = new MessageBox()
+    this.messageBox = new MessageBox(this.mainToolbar, MessageBoxMode.Tiny)
     this.addElement(this.messageBox)
 
     return new DefaultUserUploadBehavior(

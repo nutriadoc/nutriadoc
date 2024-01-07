@@ -28,8 +28,8 @@ export function text(text: string): Content {
   return new TextContent(text)
 }
 
-export function svg(html: string): IView {
-  return div().assignUnits(innerHtml(html))
+export function svg(html: string, ...units: IUnit[]): IView {
+  return div(...units).assignUnits(innerHtml(html))
 }
 
 export function source(src: string): Attribute {
