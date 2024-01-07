@@ -1,15 +1,15 @@
 import View from "./View.ts";
 import IFlexView from "./IFlexView.ts";
+import {className} from "./views.ts";
+import IUnit from "./view/unit/IUnit.ts";
 
 export default class FlexView extends View implements IFlexView {
 
     protected _justifySelf?: string
 
-    public constructor(element?: HTMLElement) {
+    public constructor(element?: HTMLElement, ...units: IUnit[]) {
       element = element ?? document.createElement("div")
-      super(element)
-
-      this.element.style.display = "flex"
+      super(element, ...units, className("flex"))
     }
 
     public get justifySelf(): string {
@@ -27,5 +27,15 @@ export default class FlexView extends View implements IFlexView {
 
     public set flex(value: string) {
       this.element.style.flex = value
+    }
+
+    hide() {
+      super.hide();
+      this.removeClass("flex")
+    }
+
+    visible() {
+      super.visible();
+      this.addClass("flex")
     }
 }

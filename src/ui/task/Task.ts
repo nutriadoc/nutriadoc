@@ -1,4 +1,5 @@
 import TaskProgressEvent from "./TaskProgressEvent.ts";
+import TaskSuccessEvent from "./TaskSuccessEvent.ts";
 
 export default class Task extends EventTarget {
 
@@ -14,7 +15,7 @@ export default class Task extends EventTarget {
   }
 
   cancel(): void {
-    throw new Error("Method not implemented.");
+
   }
 
   progress(loaded: number, length: number): void {
@@ -22,7 +23,7 @@ export default class Task extends EventTarget {
   }
 
   success(): void {
-
+    this.dispatchEvent(new TaskSuccessEvent())
   }
 
   fail(): void {

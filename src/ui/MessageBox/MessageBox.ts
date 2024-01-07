@@ -7,7 +7,9 @@ import DetailMessageBox from "./Detail/DetailMessageBox.ts";
 import SimpleMessageBox from "./Simple/SimpleMessageBox.ts";
 import MessageView from "./MessageView.ts";
 import SummaryMessageView from "./SummaryMessageView.ts";
-import Message from "./Message.ts";
+import Floatable from "../floating/Floatable.ts";
+import Position from "../floating/Position.ts";
+import IView from "../IView.ts";
 
 export default class MessageBox extends View {
 
@@ -27,8 +29,12 @@ export default class MessageBox extends View {
 
   protected components: Map<MessageBoxMode, MessageBoxComponent> = new Map<MessageBoxMode, MessageBoxComponent>();
 
-  public constructor(mode?: MessageBoxMode, summary?: SummaryMessageView) {
-    super(undefined, className("ntr-message-box", "ntr-box"))
+  protected floatable: Floatable
+
+  protected where: IView
+
+  public constructor(where: IView, mode?: MessageBoxMode, summary?: SummaryMessageView) {
+    super(undefined, className("ntr-message-box", "ntr-box", "hidden"))
 
     mode = mode ?? MessageBoxMode.Hidden
 
@@ -43,9 +49,16 @@ export default class MessageBox extends View {
 
     this.components.forEach(component => { this.addElement(component)})
 
-    this.setMode(mode)
+    this.where = where
+    this.floatable = new Floatable(this, Position.BottomCenter, "element")
+    this.floatable.dismissWhenBlur = false
+    this.floatable.hidden()
 
-    console.debug("MessageBox created", { id: this.id })
+    setTimeout(() => {
+      this.floatable.visible(this.where.element)
+    }, 500)
+
+    this.setMode(mode)
   }
 
   public setMode(mode: MessageBoxMode) {
@@ -54,6 +67,7 @@ export default class MessageBox extends View {
     this.components.forEach((component, key) => {
       if (key === mode) {
         this.addClass(`model-${key}`)
+        // this.addClass("fade-in")
         console.debug(`visible ${key}`)
         component.visible()
       } else {
@@ -62,14 +76,15 @@ export default class MessageBox extends View {
         component.hide()
       }
     })
+
+    this.floatable.pin()
   }
 
   public addMessage(message: MessageView) {
     this.messages.push(message)
-
   }
 
-  public removeMessage(message: MessageView) {
+  public removeMessage(_: MessageView) {
 
   }
 
@@ -100,7 +115,7 @@ export default class MessageBox extends View {
     box.setMessage(this.currentSimpleMessage)
   }
 
-  public scrollToMessage(model: MessageBoxMode, key: string) {
+  public scrollToMessage(_: MessageBoxMode, __: string) {
 
   }
 
@@ -114,7 +129,7 @@ export default class MessageBox extends View {
     }
   }
 
-  protected findMessage(key: string): MessageView | undefined {
+  protected findMessage(_: string): MessageView | undefined {
     return undefined
   }
 

@@ -9,4 +9,12 @@ export default class TaskProgressEvent extends Event {
     this._loaded = loaded
     this._length = length
   }
+
+  get loaded(): number {
+    return this._loaded
+  }
+
+  get total(): number {
+    return this._length
+  }
 }

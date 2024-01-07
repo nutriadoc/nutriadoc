@@ -13,7 +13,7 @@ export default class TableMenu extends Menu {
   constructor(container: View) {
     const item = TableMenu.createItem()
     super("insert-table", Position.RightTop, [item]);
-    this.zIndex = this._zIndex + 1
+    // this.zIndex = this._zIndex + 1
 
     this.gridPicker = item.children[0] as GridPicker
     this.gridPicker.addEventListener("pick", this.onGridPick.bind(this))

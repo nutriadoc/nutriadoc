@@ -32,6 +32,7 @@
     "@storybook/html": "7.6.6",
     "@storybook/html-vite": "7.6.6",
     "@storybook/test": "7.6.6",
+    "@types/bytes": "^3.1.4",
     "@types/quill": "^2.0.14",
     "quill-delta": "^5.1.0",
     "react": "18.2.0",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "bootstrap-icons": "^1.11.2",
+    "bytes": "^3.1.2",
     "i18next": "^23.7.11",
     "quill": "2.0.0-dev.4",
     "quill-cursors": "^4.0.2",

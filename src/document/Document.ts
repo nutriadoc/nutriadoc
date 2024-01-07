@@ -6,16 +6,18 @@ import UserBehavior from "../editor/behavior/UserBehavior.ts";
 import DocumentCommandEvent from "./commands/DocumentCommandEvent.ts";
 import TypingCommand from "./commands/TypingCommand.ts";
 import Command from "../editor/commands/Command.ts";
-import MessageBox from "../ui/MessageBox/MessageBox.ts";
+import Lang from "../ui/lang/Lang.ts";
+import Page from "../ui/Page.ts";
 
 export default abstract class Document extends AbstractDocument {
 
   protected _behavior: UserBehavior
 
-
-
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
+
+    Lang.setup()
+    Page.setup()
 
     this._behavior = this.createUserBehavior()
     this.setupElements(option)

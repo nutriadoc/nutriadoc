@@ -1,10 +1,10 @@
 import {className, div, on, span, svg, text} from "../../views.ts";
-import View from "../../View.ts";
 import {ChevronDown} from "../../styles/icons";
 import IUnit from "../../view/unit/IUnit.ts";
 import MessageBoxComponent from "../MessageBoxComponent.ts";
+import FlexView from "../../FlexView.ts";
 
-export default class DetailMessageBox extends View implements MessageBoxComponent {
+export default class DetailMessageBox extends FlexView implements MessageBoxComponent {
 
   public constructor(...units: IUnit[]) {
 

@@ -1,13 +1,12 @@
 import type {Meta, StoryObj} from '@storybook/html'
-import MessageBox from "../../../ui/MessageBox/MessageBox.ts";
-import MessageBoxMode from "../../../ui/MessageBox/MessageBoxMode.ts";
+import {create} from "../../../index.ts";
 
 const meta = {
   title: 'Upload/Elements/MessageBox',
   tags: [],
   render: () => {
-
-    return new MessageBox(MessageBoxMode.Tiny).render() as Node
+    const editor = create()
+    return editor.render() as Node
   },
   argTypes: {},
 } satisfies Meta;

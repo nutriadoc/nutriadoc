@@ -44,5 +44,10 @@ export default {
     notification: {
       uploads: "Uploads"
     }
+  },
+  file: {
+    fileName: "File name",
+    fileSize: "File size",
+    fileType: "File type"
   }
 }
