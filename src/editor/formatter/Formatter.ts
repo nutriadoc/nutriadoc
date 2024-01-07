@@ -36,13 +36,12 @@ export default class Formatter implements IFormatter {
 
   protected formatters: AbstractFormatter[]
 
-  protected toolbars: IToolbar[]
+  protected _toolbars: IToolbar[] = []
 
-  public constructor(quill: Quill, toolbars: IToolbar[]) {
+  public constructor(quill: Quill) {
     this.quill = quill
-    this.toolbars = toolbars
 
-    this.formatters = this.formatterClasses.map(cls => new cls(this.quill, toolbars))
+    this.formatters = this.formatterClasses.map(cls => new cls(this.quill))
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))
@@ -64,8 +63,17 @@ export default class Formatter implements IFormatter {
 
   select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
     const format = this.quill.getFormat(range)
-    console.debug("on select", range, format)
+    // console.debug("on select", range, format)
     this.formatters.forEach(formatter => formatter.select(format))
+  }
+
+  public set toolbars(value: IToolbar[]) {
+    this._toolbars = value
+    this.formatters.forEach(formatter => formatter.toolbars = value)
+  }
+
+  public get toolbars(): IToolbar[] {
+    return this._toolbars
   }
 
 }

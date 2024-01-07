@@ -40,7 +40,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   createFormatter(): IFormatter {
-    return new Formatter(this._quill, [])
+    return new Formatter(this._quill)
   }
 
   getSelection(): Range {

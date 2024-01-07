@@ -58,7 +58,10 @@ export default abstract class AbstractDocument extends View {
   }
 
   protected createToolbar(): Toolbar {
-    const main = Toolbar.simple(this._editor.createFormatter())
+    const formatter = this._editor.createFormatter()
+    const main = Toolbar.simple(formatter)
+
+    formatter.toolbars = [main]
     this.addElement(main)
     main.addEventListener("command", this.commandHandler)
 

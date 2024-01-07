@@ -7,11 +7,10 @@ export default abstract class AbstractFormatter implements IFormatter {
 
   protected quill: Quill
 
-  public toolbars: IToolbar[] = []
+  protected  _toolbars: IToolbar[] = []
 
-  public constructor(quill: Quill, toolbars: IToolbar[]) {
+  public constructor(quill: Quill) {
     this.quill = quill
-    this.toolbars = toolbars
   }
 
   public abstract select(formats: StringMap): void
@@ -19,6 +18,7 @@ export default abstract class AbstractFormatter implements IFormatter {
   public abstract format(format: Format, ...params: any[]): void
 
   public active(key: string, value?: any) {
+    debugger
     this.toolbars.forEach(toolbar => toolbar.activeItem(key))
     if (value) {
       this.toolbars.forEach(toolbar => toolbar.setToolbarItemText(key, value))
@@ -53,5 +53,13 @@ export default abstract class AbstractFormatter implements IFormatter {
 
   public deactive(key: string) {
     this.toolbars.forEach(toolbar => toolbar.deactiveItem(key))
+  }
+
+  public get toolbars(): IToolbar[] {
+    return this._toolbars
+  }
+
+  public set toolbars(value: IToolbar[]) {
+    this._toolbars = value
   }
 }
