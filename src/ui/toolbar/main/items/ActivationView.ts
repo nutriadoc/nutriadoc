@@ -4,7 +4,7 @@ export default class ActivationView extends InteractiveView {
 
   protected _isActivated: boolean = false
 
-  public constructor(element: HTMLElement, _activatedBackgroundColor?: string, isLeftBorderRadius?: boolean) {
+  public constructor(element?: HTMLElement, _activatedBackgroundColor?: string, isLeftBorderRadius?: boolean) {
     super(element)
     this.setupEvents()
 

@@ -26,6 +26,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   constructor(option?: Option) {
     super()
+
     this._quill = new Quill(
       this.element,
       {
@@ -33,7 +34,8 @@ export default class QuillEditor extends AbstractEditor implements Editor {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                return hljs.highlight(text, {language})
+                // return hljs.highlight(text, {language})
+                return hljs.highlightAuto(text)
               }
             }
           }

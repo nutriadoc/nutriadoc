@@ -8,6 +8,7 @@ import InlineToolbarBlock from "../formats/InlineToolbarBlock.ts";
 import ImageEmbed from "../formats/ImageEmbed.ts";
 import Resize from "../formats/Resize.ts";
 import HorizontalRuleBlot from "../formats/HorizontalRuleBlot.ts";
+import Syntax from "../formats/Syntax.ts";
 
 export default class QuillModule {
   static registerModules() {
@@ -28,6 +29,8 @@ export default class QuillModule {
       "formats/inline-toolbar": InlineToolbarBlock,
       "formats/image": ImageEmbed,
       "formats/resize": new Resize('resize', 'resize', {}),
+
+      "modules/syntax": Syntax,
     })
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)

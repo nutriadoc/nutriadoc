@@ -13,11 +13,9 @@ export default class QuillDocument extends Document {
 
   public constructor(option?: Option) {
     super(option)
-
-    this.setupEvents()
   }
 
-  protected setupEvents() {
+  protected setupLoadEvent() {
 
     const observer = new MutationObserver(this.onMutation.bind(this))
     observer.observe(document.body, {childList: true, subtree: true})
@@ -26,7 +24,8 @@ export default class QuillDocument extends Document {
   protected onMutation(mutations: MutationRecord[]) {
     mutations.forEach((mutation) => {
       if (mutation.type == "childList") {
-        mutation.addedNodes.forEach((_) => {
+        mutation.addedNodes.forEach((node) => {
+          this.onNodeInserted(node)
         })
       }
     })

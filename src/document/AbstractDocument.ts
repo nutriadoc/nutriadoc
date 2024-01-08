@@ -16,6 +16,7 @@ import UserUploadBehavior from "../editor/behavior/upload/UserUploadBehavior.ts"
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
 import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
+import CodeBlock from "../ui/code/CodeBlock.ts";
 
 export default abstract class AbstractDocument extends View {
 
@@ -35,6 +36,7 @@ export default abstract class AbstractDocument extends View {
 
   protected constructor(option?: Option, element?: HTMLElement, ...units: IUnit[]) {
     super(element, ...units)
+    this.setupLoadEvent()
     this._option = option
     this._editor = this.createEditor()
 
@@ -42,6 +44,12 @@ export default abstract class AbstractDocument extends View {
     this.commandHandler = this._onCommand.bind(this)
 
     this.toolbars = this.createToolbars()
+  }
+
+  protected abstract setupLoadEvent(): void
+
+  protected onNodeInserted(node: Node) {
+    CodeBlock.setup(node)
   }
 
   abstract createEditor(): Editor

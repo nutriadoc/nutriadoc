@@ -7,7 +7,7 @@ export default class InteractiveView extends View implements IInteractiveView {
 
   protected _isEnabled: boolean = true
 
-  public constructor(element: HTMLElement, ...units: IUnit[]) {
+  public constructor(element?: HTMLElement, ...units: IUnit[]) {
     units.push(new Attribute("enabled", ""))
     super(element, ...units)
   }
