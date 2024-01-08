@@ -70,6 +70,10 @@ export default abstract class Document extends AbstractDocument {
     return this._editor.getLength()
   }
 
+  getHtml(): string {
+    return this._editor.getHtml()
+  }
+
   onTextChange(mutation: DocumentMutation, old: DocumentMutation) {
     const cmd = new TypingCommand(mutation, old)
     this._behavior.execute(cmd)

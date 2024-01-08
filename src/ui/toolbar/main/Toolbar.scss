@@ -39,6 +39,11 @@
           margin-top: -3px;
         }
 
+        .svg-icon, .svg-icon svg {
+          width: 16px;
+          height: 16px;
+        }
+
         .color-icon {
           display: grid;
           flex-direction: column;

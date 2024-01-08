@@ -11,6 +11,8 @@ export default interface Editor extends IView {
 
   getLength(): number
 
+  getHtml(): string
+
   insertEmbed(index: number, format: string, value: any): void
   insertEmbed(index: number, command: Command): void
   insertEmbed(index: number, command: Command | string, value?: any): void

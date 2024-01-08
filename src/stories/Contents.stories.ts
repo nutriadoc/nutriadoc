@@ -20,6 +20,8 @@ const meta = {
       option.html = args.html
 
     const doc = create(element, option)
+
+    console.debug(doc.getHtml())
     return doc.render() as Node
   },
   argTypes: {},

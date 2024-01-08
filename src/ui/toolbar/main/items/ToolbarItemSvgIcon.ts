@@ -1,10 +1,12 @@
 import IToolbarItemIcon from "./IToolbarItemIcon.ts";
 import ColorView from "./ColorView.ts";
+import {className} from "../../../views.ts";
 
 export default class ToolbarItemSvgIcon extends ColorView implements IToolbarItemIcon {
 
   public constructor(svg: string, size: number = 16) {
     super()
+    this.assignUnits(className("icon", "svg-icon"))
 
     this.element.innerHTML = svg
 

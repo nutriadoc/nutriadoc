@@ -8,6 +8,7 @@ import ToolbarColorItem from "./ToolbarColorItem.ts";
 import {EraserFill, PaintBucket} from "../../icons";
 import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
 import ToolbarFormatPainterItem from "./impls/ToolbarFormatPainterItem.ts";
+import {Subscript, Superscript} from "../../../styles/icons";
 
 interface IconOption {
 
@@ -159,13 +160,29 @@ export default class ToolbarItemFactory {
     })
   }
 
+  public superscript(): ToolbarItem {
+    return this.createItem({
+      key: "superscript",
+      icon: {
+        asset: Superscript,
+      },
+    })
+  }
+
+  public subscript(): ToolbarItem {
+    return this.createItem({
+      key: "subscript",
+      icon: {
+        asset: Subscript,
+      },
+    })
+  }
+
   public color(): ToolbarItem {
     return this.createItem(
       {
         key: "color",
         icon: new ColorIcon("fonts", "#FF0000"),
-        canExpand: true,
-        toggle: true,
         },
       ToolbarColorItem
     )

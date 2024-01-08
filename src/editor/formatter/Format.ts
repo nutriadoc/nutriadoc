@@ -15,6 +15,8 @@ enum Format {
   Italic,
   Underline,
   Strike,
+  Subscript,
+  Superscript,
   BlockQuote,
   Color,
   Background,

@@ -37,6 +37,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   protected initializeContents() {
     const contents = this._quill.clipboard.convert({html: this._option?.html})
     this._quill.setContents(contents)
+    this._quill.history.clear()
   }
 
   createFormatter(): IFormatter {
@@ -53,6 +54,10 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   getLength(): number {
     return this._quill.getLength()
+  }
+
+  getHtml(): string {
+    return this._quill.root.innerHTML
   }
 
   insertEmbed(index: number, format: string, value: any): void

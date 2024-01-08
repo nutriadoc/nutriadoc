@@ -88,6 +88,8 @@ export default class ToolbarLayout extends FlexView implements IView {
       factory.italic(),
       factory.underline(),
       factory.strike(),
+      factory.superscript(),
+      factory.subscript(),
       factory.highlight(),
       factory.color(),
       factory.separator(),

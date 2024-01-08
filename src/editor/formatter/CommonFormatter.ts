@@ -14,6 +14,8 @@ export default class CommonFormatter extends AbstractFormatter {
     'align',
     'background',
     'linespacing',
+    'sub',
+    'super'
   ]
 
   readonly supportedCommand: string[] = [
@@ -38,6 +40,8 @@ export default class CommonFormatter extends AbstractFormatter {
     }
 
     if (!this.supportedFormats.includes(formatKey)) return
+
+    console.debug("apply format", formatKey, _params)
     this.quill.format(formatKey, _params[0], "user")
   }
 
@@ -46,7 +50,7 @@ export default class CommonFormatter extends AbstractFormatter {
 
     const range = this.quill.getSelection(true)
     if (range == null) return
-    console.debug("command", command, range)
+
     this.quill.insertText(range.index, '\n', { 'hr': true })
   }
 
