@@ -1,6 +1,6 @@
-import FontColorMenu from "../font_color/FontColorMenu.ts";
+import ColorMenu from "../ColorMenu.ts"
 
-export default class HighlightMenu extends FontColorMenu {
+export default class HighlightMenu extends ColorMenu {
   public constructor() {
     super("background")
   }

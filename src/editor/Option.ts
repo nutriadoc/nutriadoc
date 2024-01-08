@@ -6,6 +6,8 @@ export interface CollaborationOption  {
 
 export default interface Option {
 
+  container?: IView
+
   view?: IView
 
   collaboration?: CollaborationOption

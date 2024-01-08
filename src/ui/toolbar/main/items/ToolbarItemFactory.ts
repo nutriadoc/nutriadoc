@@ -8,7 +8,6 @@ import ToolbarColorItem from "./ToolbarColorItem.ts";
 import {EraserFill, PaintBucket} from "../../icons";
 import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
 import ToolbarFormatPainterItem from "./impls/ToolbarFormatPainterItem.ts";
-// import ToolbarLayout from "../ToolbarLayout.ts";
 
 interface IconOption {
 
@@ -258,6 +257,7 @@ export default class ToolbarItemFactory {
       icon: {
         name: "quote",
       },
+      toggle: true,
     })
   }
 

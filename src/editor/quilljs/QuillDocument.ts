@@ -13,24 +13,24 @@ export default class QuillDocument extends Document {
 
   public constructor(option?: Option) {
     super(option)
+
+    this.setupEvents()
   }
 
-  // protected setupEvents() {
-  //
-  //   const observer = new MutationObserver(this.onMutation.bind(this))
-  //   observer.observe(this._quill.root, {childList: true, subtree: true})
-  // }
-  //
-  // protected onMutation(mutations: MutationRecord[]) {
-  //   mutations.forEach((mutation) => {
-  //     if (mutation.type == "childList") {
-  //       mutation.addedNodes.forEach((node) => {
-  //         if (node instanceof HTMLImageElement) {
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
+  protected setupEvents() {
+
+    const observer = new MutationObserver(this.onMutation.bind(this))
+    observer.observe(document.body, {childList: true, subtree: true})
+  }
+
+  protected onMutation(mutations: MutationRecord[]) {
+    mutations.forEach((mutation) => {
+      if (mutation.type == "childList") {
+        mutation.addedNodes.forEach((node) => {
+        })
+      }
+    })
+  }
 
   createShortcutKeyBinding(): ShortcutKeyBinding {
     return new QuillShortcutKeyBinding(this.quill)

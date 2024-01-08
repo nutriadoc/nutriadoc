@@ -8,6 +8,8 @@ import TypingCommand from "./commands/TypingCommand.ts";
 import Command from "../editor/commands/Command.ts";
 import Lang from "../ui/lang/Lang.ts";
 import Page from "../ui/Page.ts";
+import Options from "./Options.ts";
+import DOMEvents from "./ui/DOMEvents.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -15,11 +17,12 @@ export default abstract class Document extends AbstractDocument {
 
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
-
+    DOMEvents.setup()
+    option = Options.setup(option)
     Lang.setup()
 
     this._behavior = this.createUserBehavior()
-    this.setupElements(option)
+    this.setupElements(option).then(() => {})
   }
 
   async setupElements(option?: Option): Promise<void> {

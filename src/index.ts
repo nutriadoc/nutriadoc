@@ -6,6 +6,7 @@ import QuillDocument from "./editor/quilljs/QuillDocument.ts";
 
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
+import Options from "./document/Options.ts";
 
 export function create(element?: string | Element | IView | View | undefined, option?: Option): Document {
   if (element === undefined) return new QuillDocument(option)
@@ -22,6 +23,14 @@ export function create(element?: string | Element | IView | View | undefined, op
     container = new View(element)
   else if (element instanceof View)
     container = element
+
+  if (!option) {
+    option = {
+    }
+  }
+
+  option.container = container!
+  option = Options.setup(option)
 
   const doc = new QuillDocument(option)
   container!.addElement(doc)

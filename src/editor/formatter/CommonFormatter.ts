@@ -12,6 +12,7 @@ export default class CommonFormatter extends AbstractFormatter {
     'blockquote',
     'color',
     'align',
+    'background',
     'linespacing',
   ]
 

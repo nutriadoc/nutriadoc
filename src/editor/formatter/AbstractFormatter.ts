@@ -18,7 +18,6 @@ export default abstract class AbstractFormatter implements IFormatter {
   public abstract format(format: Format, ...params: any[]): void
 
   public active(key: string, value?: any) {
-    debugger
     this.toolbars.forEach(toolbar => toolbar.activeItem(key))
     if (value) {
       this.toolbars.forEach(toolbar => toolbar.setToolbarItemText(key, value))
