@@ -15,7 +15,7 @@ export default class CommonFormatter extends AbstractFormatter {
     'background',
     'linespacing',
     'sub',
-    'super'
+    'super',
   ]
 
   readonly supportedCommand: string[] = [
@@ -32,7 +32,9 @@ export default class CommonFormatter extends AbstractFormatter {
   }
 
   public format(format: Format, ..._params: any[]): void {
-    const formatKey = formatToKey(format).toLowerCase()
+    let formatKey = formatToKey(format)
+    if (formatKey === undefined) return
+    formatKey = formatKey.toLowerCase()
 
     if (this.supportedCommand.includes(formatKey)) {
       this.command(formatKey)

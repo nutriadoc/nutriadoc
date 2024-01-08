@@ -101,6 +101,7 @@ export default class ToolbarLayout extends FlexView implements IView {
       factory.lineSpacing(),
       factory.separator(),
       factory.quote(),
+      factory.codeBlock(),
       // factory.hightBlock(),
       // factory.more(),
       // factory.search(),

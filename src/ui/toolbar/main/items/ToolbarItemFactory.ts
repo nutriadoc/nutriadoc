@@ -8,7 +8,7 @@ import ToolbarColorItem from "./ToolbarColorItem.ts";
 import {EraserFill, PaintBucket} from "../../icons";
 import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
 import ToolbarFormatPainterItem from "./impls/ToolbarFormatPainterItem.ts";
-import {Subscript, Superscript} from "../../../styles/icons";
+import {CodeSquare, Subscript, Superscript} from "../../../styles/icons";
 
 interface IconOption {
 
@@ -174,6 +174,15 @@ export default class ToolbarItemFactory {
       key: "subscript",
       icon: {
         asset: Subscript,
+      },
+    })
+  }
+
+  public codeBlock(): ToolbarItem {
+    return this.createItem({
+      key: "codeblock",
+      icon: {
+        asset: CodeSquare,
       },
     })
   }

@@ -16,6 +16,7 @@ import FormatPainterFormatter from "./FormatPainterFormtter.ts";
 import LinkFormatter from "./LinkFormatter.ts";
 import EventDispatcher from "../quilljs/EventDispatcher.ts";
 import ScriptFormatter from "./ScriptFormatter.ts";
+import CodeBlockFormatter from "./CodeBlockFormatter.ts";
 
 export default class Formatter implements IFormatter {
 
@@ -34,6 +35,7 @@ export default class Formatter implements IFormatter {
     FormatPainterFormatter,
     LinkFormatter,
     ScriptFormatter,
+    CodeBlockFormatter,
   ]
 
   protected formatters: AbstractFormatter[]

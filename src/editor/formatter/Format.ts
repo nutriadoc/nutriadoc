@@ -18,6 +18,7 @@ enum Format {
   Subscript,
   Superscript,
   BlockQuote,
+  CodeBlock,
   Color,
   Background,
   List,

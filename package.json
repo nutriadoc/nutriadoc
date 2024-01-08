@@ -45,6 +45,7 @@
   "dependencies": {
     "bootstrap-icons": "^1.11.2",
     "bytes": "^3.1.2",
+    "highlight.js": "^11.9.0",
     "i18next": "^23.7.11",
     "quill": "2.0.0-dev.4",
     "quill-cursors": "^4.0.2",

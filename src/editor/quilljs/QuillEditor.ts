@@ -9,10 +9,12 @@ import QuillModule from "./QuillModule.ts"
 import Delta from "quill-delta";
 import QuillDocumentMutation from "./QuillDocumentMutation.ts"
 import Range from "../Range.ts";
+import hljs from 'highlight.js'
 
 QuillModule.registerModules()
 
 import 'quill/dist/quill.core.css'
+import 'highlight.js/styles/default.min.css'
 
 export default class QuillEditor extends AbstractEditor implements Editor {
 
@@ -24,7 +26,13 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   constructor(option?: Option) {
     super()
-    this._quill = new Quill(this.element)
+    this._quill = new Quill(
+      this.element,
+      {
+        modules: {
+        },
+      }
+    )
 
     this._option = option
     this.initializeContents()
