@@ -1,6 +1,6 @@
 import View from "../ui/View.ts";
 import DocumentMutation from "./DocumentMutation.ts";
-import DocumentMutationEvent from "../events/DocumentMutationEvent.ts";
+import DocumentMutationEvent from "../document/events/DocumentMutationEvent.ts";
 
 export default abstract class AbstractEditor extends View {
 

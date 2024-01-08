@@ -67,12 +67,9 @@ export default class MessageBox extends View {
     this.components.forEach((component, key) => {
       if (key === mode) {
         this.addClass(`model-${key}`)
-        // this.addClass("fade-in")
-        console.debug(`visible ${key}`)
         component.visible()
       } else {
         this.removeClass(`model-${key}`)
-        console.debug(`hide ${key}`)
         component.hide()
       }
     })

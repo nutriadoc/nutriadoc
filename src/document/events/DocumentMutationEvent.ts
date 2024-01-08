@@ -1,4 +1,4 @@
-import DocumentMutation from "../editor/DocumentMutation.ts"
+import DocumentMutation from "../../editor/DocumentMutation.ts"
 
 export default class DocumentMutationEvent extends Event {
 

@@ -121,3 +121,7 @@ blockquote {
   width: 0;
   height: 0;
 }
+
+.ql-code-block-container > select {
+  display: none;
+}

@@ -26,7 +26,7 @@ export default class QuillDocument extends Document {
   protected onMutation(mutations: MutationRecord[]) {
     mutations.forEach((mutation) => {
       if (mutation.type == "childList") {
-        mutation.addedNodes.forEach((node) => {
+        mutation.addedNodes.forEach((_) => {
         })
       }
     })

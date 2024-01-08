@@ -184,6 +184,7 @@ export default class ToolbarItemFactory {
       icon: {
         asset: CodeSquare,
       },
+      toggle: true
     })
   }
 

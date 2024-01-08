@@ -47,6 +47,4 @@ if (window) {
     create,
     Document,
   }
-
-  console.debug(window.Nutria)
 }

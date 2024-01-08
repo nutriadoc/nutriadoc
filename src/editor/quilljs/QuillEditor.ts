@@ -14,7 +14,7 @@ import hljs from 'highlight.js'
 QuillModule.registerModules()
 
 import 'quill/dist/quill.core.css'
-import 'highlight.js/styles/default.min.css'
+import 'highlight.js/styles/github.css'
 
 export default class QuillEditor extends AbstractEditor implements Editor {
 
@@ -30,6 +30,13 @@ export default class QuillEditor extends AbstractEditor implements Editor {
       this.element,
       {
         modules: {
+          syntax: {
+            hljs: {
+              highlight(language: string, text: string) {
+                return hljs.highlight(text, {language})
+              }
+            }
+          }
         },
       }
     )

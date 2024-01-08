@@ -10,7 +10,8 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.insertText(0, "npm install --save @nutriadoc/nutriadoc\n", { "code-block": true })
+    doc.insertText(0, "npm install --save @nutriadoc/nutriadoc\n", { "code-block": "bash" })
+    doc.insertText(doc.getLength(), "const document = new Document();\n")
 
     return root
   },
