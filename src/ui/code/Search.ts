@@ -1,5 +1,5 @@
 import InactiveMenuItem from "../menu/InactiveMenuItem.ts";
-import {className, input, on, placeholder} from "../views.ts";
+import {autoFocus, className, input, on, placeholder} from "../views.ts";
 import SearchChangeEvent from "./SearchChangeEvent.ts";
 import IUnit from "../view/unit/IUnit.ts";
 
@@ -22,12 +22,23 @@ export default class Search extends InactiveMenuItem {
     this.props = props
 
     this.assignUnits(
+      className("search"),
       input(
-        className("search"),
         on("input", this.onInput.bind(this)),
-        placeholder("Search for a language")
+        placeholder("Search for a language"),
+        autoFocus()
       )
     )
+  }
+
+  public focus() {
+    const input = this.element.querySelector("input") as HTMLInputElement
+    input.focus()
+  }
+
+  public empty() {
+    const input = this.element.querySelector("input") as HTMLInputElement
+    input.value = ""
   }
 
   protected onInput(event: Event) {

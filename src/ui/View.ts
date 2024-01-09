@@ -279,9 +279,9 @@ export default class View extends EventTarget implements IView, EventTarget {
     })
   }
 
-  static new<T extends View>(tag?: string): View {
-    if (!!tag) return new View(document.createElement(tag)) as T
+  static new<T extends View>(tag?: string, ...units: IUnit[]): View {
+    if (!!tag) return new View(document.createElement(tag), ...units) as T
 
-    return new View()
+    return new View(undefined, ...units)
   }
 }

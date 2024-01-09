@@ -8,6 +8,9 @@ import hljs from "highlight.js";
 import Search from "./Search.ts";
 import SearchChangeEvent from "./SearchChangeEvent.ts";
 import MenuEvent from "../menu/events/MenuEvent.ts";
+import LanguageEvent from "./LanguageEvent.ts";
+import IView from "../IView.ts";
+import View from "../View.ts";
 
 interface Language {
 
@@ -22,6 +25,8 @@ export default class LanguageButton extends ActivationView {
   protected menu: Menu
 
   protected search: Search = new Search({ onChange: this.onSearchChange.bind(this) })
+
+  protected label: IView = View.new("span", text("Language"))
 
   protected allLanguages: Language[] = hljs
     .listLanguages()
@@ -52,34 +57,52 @@ export default class LanguageButton extends ActivationView {
       ) as Menu
 
     this.menu.addEventListener('select', this.onSelect.bind(this))
-
-    this.addElement(this.menu)
+    this.menu.addEventListener('hidden', this.onMenuHide.bind(this))
 
     this.assignUnits(
       className("language-button"),
-      text("Language"),
+      this.label,
       svg(ChevronDown),
       onClick(this.onClick.bind(this))
     )
   }
 
   protected onSearchChange(event: SearchChangeEvent) {
+    const lang = event.search.toLowerCase()
+    this.renderLanguages(lang)
+  }
+
+  protected renderLanguages(language: string) {
     this.menu.findAll(className("ntr-menu-item")).forEach(item => {
       item.remove()
     })
-    const filter = this
-      .allLanguageItems
-      .filter(item => item.key.toLowerCase().includes(event.search.toLowerCase()))
+    const filter = language == '' ?
+      [...this.allLanguageItems] :
+      this
+        .allLanguageItems
+        .filter(item => item.key.toLowerCase().includes(language))
 
     this.menu.addElement(filter)
   }
 
   protected onSelect(event: Event) {
     const e = event as MenuEvent
-    this.element.textContent = e.menuItem.element.textContent
+    this.label.element.textContent = e.menuItem.element.textContent
+
+    this.dispatchEvent(new LanguageEvent(e.menuItem.key))
   }
 
   protected onClick() {
+    this.renderLanguages('')
+    this._isActivated = true
     this.menu.visible(this.element)
+    this.search.focus()
+  }
+
+  protected onMenuHide() {
+    this._isActivated = false
+    this.deactivate()
+    this.renderLanguages('')
+    this.search.empty()
   }
 }

@@ -1,6 +1,8 @@
 import Quill from "quill"
 import LanguageButton from "../../ui/code/LanguageButton.ts";
 import {div} from "../../ui/views.ts";
+import LanguageEvent from "../../ui/code/LanguageEvent.ts";
+import hljs from "highlight.js";
 
 const BaseSyntax = Quill.import("modules/syntax")
 
@@ -19,24 +21,41 @@ export default class Syntax extends BaseSyntax {
     COMPOSITION_START: 'composition-start',
     COMPOSITION_BEFORE_END: 'composition-before-end',
     COMPOSITION_END: 'composition-end',
-  } as const;
+  } as const
+
+  protected blot: any
 
   initListener() {
     this.quill.on(Syntax.events.SCROLL_BLOT_MOUNT, (blot: any) => {
-      console.debug(blot.children)
-
       if (blot.constructor.name !== "SyntaxCodeBlockContainer") return
 
+      this.languages = hljs.listLanguages().reduce(
+        (memo: Record<string, unknown>, lang) => {
+          memo[lang] = true
+          return memo
+        },
+        {})
+
+      this.blot = blot
       if (blot.uiNode == null) {
         const button = new LanguageButton()
+        button.addEventListener("select", this.onLanguageSelect.bind(this))
+
         blot.attachUI(div(button).render() as Node)
-
-         // uiNode.getAttribute("data-language")
-
-        // blot.format("code-block", language)
       }
 
     })
 
+  }
+
+  protected onLanguageSelect(event: Event): void {
+    console.debug("on language select", event)
+
+    const quill = this.quill as Quill
+    const language = (event as LanguageEvent).language
+
+    this.blot.format('code-block', language)
+    quill.focus()
+    this.highlight(this.blot, true)
   }
 }

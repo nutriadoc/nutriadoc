@@ -3,6 +3,7 @@ import Position from "../floating/Position.ts";
 import MenuItemEvent from "./events/MenuItemEvent.ts";
 import MenuEvent from "./events/MenuEvent.ts";
 import MenuItem from "./MenuItem.ts";
+import {className} from "../views.ts";
 
 export default class Menu extends Floating {
 
@@ -10,6 +11,7 @@ export default class Menu extends Floating {
 
   public constructor(key: string, relativePosition: Position, items: MenuItem[]) {
     super(relativePosition)
+    this.assignUnits(className("ntr-menu"))
     this.key = key
     this.items = items
     this.element.style.visibility = "hidden"

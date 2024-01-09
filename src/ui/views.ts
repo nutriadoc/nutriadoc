@@ -73,7 +73,7 @@ export function input(...units: IUnit[]): IView {
 }
 
 export function autoFocus(): Attribute {
-  return new Attribute("autofocus", "true")
+  return new Attribute("autofocus", "")
 }
 
 export function button(...units: IUnit[]): IView {
