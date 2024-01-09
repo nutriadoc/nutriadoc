@@ -5,6 +5,7 @@ import MenuEvent from "./events/MenuEvent.ts";
 import MenuItem from "./MenuItem.ts";
 
 export default class Menu extends Floating {
+
   protected items: MenuItem[] = []
 
   public constructor(key: string, relativePosition: Position, items: MenuItem[]) {

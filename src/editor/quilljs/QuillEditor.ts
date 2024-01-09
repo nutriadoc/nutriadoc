@@ -34,8 +34,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                // return hljs.highlight(text, {language})
-                return hljs.highlightAuto(text)
+                return hljs.highlight(text, {language})
               }
             }
           }

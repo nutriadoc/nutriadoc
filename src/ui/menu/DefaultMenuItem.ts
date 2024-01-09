@@ -2,6 +2,7 @@ import MenuItemEvent from "./events/MenuItemEvent.ts";
 import MenuItem from "./MenuItem.ts";
 
 import "./MenuItem.scss"
+import {className} from "../views.ts";
 
 export default class DefaultMenuItem extends MenuItem {
 
@@ -22,13 +23,11 @@ export default class DefaultMenuItem extends MenuItem {
   protected expandIcon?: Node
 
   public constructor(key: string, name: string, canExpand: boolean = false, icon?: string, enabled?: boolean) {
-    const element = document.createElement("div")
-    element.classList.add("ntr-menu-item")
-    super(element)
+    super(className("ntr-menu-item"))
 
-    element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
-    element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
-    element.addEventListener("click", this.onMouseClick.bind(this))
+    this._element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
+    this._element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
+    this._element.addEventListener("click", this.onMouseClick.bind(this))
 
     this._key = key
     this._name = name

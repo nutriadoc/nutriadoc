@@ -1,5 +1,6 @@
 import View from "../View.ts"
 import Floating from "../floating/Floating.ts";
+import IUnit from "../view/unit/IUnit.ts";
 
 export default abstract class MenuItem extends View {
 
@@ -10,6 +11,10 @@ export default abstract class MenuItem extends View {
   protected _expanded: boolean = false
 
   protected _enabled: boolean = true
+
+  protected constructor(...units: IUnit[]) {
+    super(undefined, ...units)
+  }
 
   public abstract isActivated(): boolean
 

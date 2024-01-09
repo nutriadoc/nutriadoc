@@ -1,7 +1,8 @@
 import IUnit from "./view/unit/IUnit.ts";
 import Attribute from "./view/attribute/Attribute.ts";
+import IDisposable from "../core/IDisposable.ts";
 
-export default interface IView extends IUnit, EventTarget  {
+export default interface IView extends IUnit, EventTarget, IDisposable  {
 
   get key(): string
 
@@ -37,8 +38,10 @@ export default interface IView extends IUnit, EventTarget  {
 
   assignUnits(...units: IUnit[]): IView
 
-  find(key: Attribute): IView | undefined;
+  find(key: Attribute): IView | undefined
   find(key: string): IView | undefined
+
+  findAll(key: Attribute): IView[]
 
   remove(): void
 

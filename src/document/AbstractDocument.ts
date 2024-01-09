@@ -16,7 +16,6 @@ import UserUploadBehavior from "../editor/behavior/upload/UserUploadBehavior.ts"
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
 import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
-import CodeBlock from "../ui/code/CodeBlock.ts";
 
 export default abstract class AbstractDocument extends View {
 
@@ -48,8 +47,7 @@ export default abstract class AbstractDocument extends View {
 
   protected abstract setupLoadEvent(): void
 
-  protected onNodeInserted(node: Node) {
-    CodeBlock.setup(node)
+  protected onNodeInserted(_: Node) {
   }
 
   abstract createEditor(): Editor

@@ -17,7 +17,11 @@ export default class ClassName extends Attribute {
     return this._classes
   }
 
+  public contains(className: ClassName): boolean {
+    return className.classes.every(c => this.classes.includes(c))
+  }
+
   public static merge(className: ClassName[]): ClassName {
-    return new ClassName(className.map(x => x.classes).flatMap(x => x))
+    return new ClassName([... new Set(className.map(x => x.classes).flatMap(x => x))])
   }
 }

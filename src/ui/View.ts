@@ -18,7 +18,7 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   public class?: string | string[]
 
-  protected _units: WeakSet<IUnit> = new WeakSet()
+  protected _units: Set<IUnit> = new Set<IUnit>()
 
   protected _attributes: Map<string, Attribute> = new Map()
 
@@ -149,6 +149,19 @@ export default class View extends EventTarget implements IView, EventTarget {
     })
   }
 
+  findAll(key: Attribute): IView[] {
+    if (key instanceof ClassName) {
+      return this._children.filter(child => {
+        const className = child.attributes.get('class') as ClassName
+        if (!className) return false
+
+        return className.contains(key)
+      })
+    }
+
+    return []
+  }
+
 
   render(): Node | Node[] {
     if (this.key != '') {
@@ -171,6 +184,8 @@ export default class View extends EventTarget implements IView, EventTarget {
   }
 
   public assignUnits(...units: IUnit[]): IView {
+
+    units = [...this._units, ...units]
 
     const className = ClassName
       .merge(
@@ -209,6 +224,7 @@ export default class View extends EventTarget implements IView, EventTarget {
 
     if (unit instanceof ClassName) {
       this._element.classList.add(...unit.classes)
+
     } else if (unit instanceof Property) {
       const v: any = {}
       v[unit.key] = unit.value
@@ -251,8 +267,16 @@ export default class View extends EventTarget implements IView, EventTarget {
   }
 
   public removeChild(view: IView) {
-    this.element.removeChild(view.element)
+    view.element.remove()
     this._children = this._children.filter(c => c !== view)
+  }
+
+  dispose() {
+    this._units.forEach(unit => {
+      if (unit instanceof EventListenerUnit) {
+        this.element.removeEventListener(unit.type, unit.listener as any)
+      }
+    })
   }
 
   static new<T extends View>(tag?: string): View {

@@ -1,9 +1,10 @@
 import MenuItem from "./MenuItem.ts";
+import IUnit from "../view/unit/IUnit.ts";
 
 export default class InactiveMenuItem extends MenuItem {
-  public constructor(key?: string) {
+  public constructor(key?: string, ...units: IUnit[]) {
     const element = document.createElement("div")
-    super(element);
+    super(element, ...units)
 
     this.key = key ?? ""
   }
