@@ -1,7 +1,7 @@
 import MessageView from "../MessageBox/MessageView.ts";
 import Message from "../MessageBox/Message.ts";
 import KeyFile from "../../core/file/KeyFile.ts";
-import UploadService from "./UploadService.ts";
+import UploadService from "./service/UploadService.ts";
 import MockUploadService from "./MockUploadService.ts";
 import { default as DefaultAvatar } from "./DefaultAvatar.base64?raw"
 import {className, div, image, onClick, source, text} from "../views.ts";

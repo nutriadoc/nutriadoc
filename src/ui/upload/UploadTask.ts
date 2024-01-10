@@ -7,9 +7,12 @@ export default class UploadTask extends Task {
 
   protected _file: File
 
-  public constructor(file: File) {
+  protected _endpoint: string
+
+  public constructor(file: File, endpoint: string) {
     super()
     this._file = file
+    this._endpoint = endpoint
   }
 
   public get file(): File {

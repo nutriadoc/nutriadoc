@@ -1,4 +1,4 @@
-import UploadService from "./UploadService.ts";
+import UploadService from "./service/UploadService.ts";
 import Task from "../task/Task.ts";
 import UploadTask from "./UploadTask.ts";
 import Optional from "../../core/util/Optional.ts";
