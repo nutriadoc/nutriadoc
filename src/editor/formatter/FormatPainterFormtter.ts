@@ -15,7 +15,7 @@ export default class FormatPainterFormatter extends AbstractFormatter {
 
   protected formatPainterSelection?: RangeStatic
 
-  constructor(quill: Quill, toolbars: IToolbar[]) {
+  constructor(quill: Quill, _toolbars: IToolbar[]) {
     super(quill);
 
     this.onSelectionChangeHandler = this.onSelectionChange.bind(this)

@@ -6,8 +6,8 @@ export default class FileHttp implements IFileHttp {
 
   protected readonly endpoint: string = "https://i.nutria-doc.com/file"
 
-  upload(file: File, mimeType: string): Task {
-    return new UploadTask(file, mimeType, this.endpoint)
+  upload(file: File, _mimeType: string): Task {
+    return new UploadTask(file, this.endpoint)
   }
 
   protected async sign(filename: string, mimeType: string): Promise<string> {
