@@ -34,7 +34,6 @@ export default class QuillEditor extends AbstractEditor implements Editor {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                console.debug("highlight", {language, text})
                 return hljs.highlight(text, {language})
               }
             }
@@ -45,7 +44,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
     this._option = option
     this.initializeContents()
-
+    this.setupPlugins()
 
     this.textChangeHandler = this.onQuillTextChange.bind(this)
     this._quill.on('text-change', this.textChangeHandler)
@@ -55,6 +54,10 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     const contents = this._quill.clipboard.convert({html: this._option?.html})
     this._quill.setContents(contents)
     this._quill.history.clear()
+  }
+
+  protected get editorContent(): HTMLDivElement {
+    return this._quill.root
   }
 
   createFormatter(): IFormatter {
