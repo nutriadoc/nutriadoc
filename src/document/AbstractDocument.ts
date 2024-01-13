@@ -97,7 +97,7 @@ export default abstract class AbstractDocument extends View {
   protected createUploadBehavior(): UserUploadBehavior {
 
     this.messageBox = new MessageBox(this.mainToolbar, MessageBoxMode.Tiny)
-    this.addElement(this.messageBox)
+    // this.addElement(this.messageBox)
 
     return new DefaultUserUploadBehavior(
       new MockUploadService(),

@@ -20,13 +20,10 @@ function loadCSS(url: string): Promise<void> {
 
 export default async function Nutria() {
 
-  await loadCSS("https://cdn.jsdelivr.net/npm/@nutriadoc/nutriadoc@0.0.4/dist/style.css")
+  await loadCSS("https://cdn.jsdelivr.net/npm/@nutriadoc/nutriadoc@0.0.5/dist/style.css")
 
   const nutria = (window as any).Nutria
   nutria.create(
-    "#container",
-    {
-      html: `<h1>Nutria</h1>`
-    }
+    "#container"
   )
 }

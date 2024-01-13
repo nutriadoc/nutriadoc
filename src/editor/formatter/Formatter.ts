@@ -22,7 +22,7 @@ export default class Formatter implements IFormatter {
 
   protected quill: Quill
 
-  protected formatterClasses = [
+  protected formatterClasses: any[] = [
     StylesFormatter,
     FontFamilyFormatter,
     FontSizeFormatter,
