@@ -13,44 +13,26 @@ const meta = {
 
     const ydoc = new Y.Doc()
     const text = ydoc.getText("quill")
-    ydoc.on("update", () => {
-
+    ydoc.on("update", update => {
+      console.debug('ydoc update', update)
     })
 
-
+    console.debug('ydoc encode state as update', Y.encodeStateAsUpdate(ydoc))
 
     const editor = new Quill(root)
     new QuillBinding(text, editor)
 
+    text.observe((event) => {
+      console.debug('ydoc text', event.changes)
+    })
 
     editor.insertText(0, "Hello world\n")
+
+    console.debug("ydoc encode state as update", Y.encodeStateAsUpdate(ydoc))
+
     editor.insertText(editor.getLength() - 1, "Hello world\n")
 
-    text.observe((event) => {
-      console.log(event.delta)
-    })
-
-    const doc2 = new Y.Doc()
-    const text2 = doc2.getText("quill")
-    text2.observe((event) => {
-      console.log('doc2', event.delta)
-    })
-
-    let updates = Y.encodeStateAsUpdate(ydoc)
-    console.debug(updates)
-
-    editor.insertText(editor.getLength() - 1, "3\n")
-    console.debug(Y.encodeStateAsUpdate(ydoc))
-
-
-    editor.insertText(editor.getLength() - 1, "4\n")
-    updates = Y.encodeStateAsUpdate(ydoc)
-
-    Y.applyUpdate(doc2, updates)
-
-    setTimeout(() => {
-      editor.insertText(editor.getLength() - 1, "5\n")
-    }, 100)
+    console.debug("ydoc encode state as update", Y.encodeStateAsUpdate(ydoc))
     return root
   },
   argTypes: {},

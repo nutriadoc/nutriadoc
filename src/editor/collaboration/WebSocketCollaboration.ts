@@ -1,9 +1,9 @@
 import { QuillBinding } from 'y-quill'
 import * as Y from "yjs"
 import { WebsocketProvider} from "y-websocket"
-import Quill from "quill";
-import Option from "../Option.ts";
-import Collaboration from "./Collaboration.ts";
+import Quill from "quill"
+import Collaboration from "./Collaboration.ts"
+import {CollaborationOption} from "./CollaborationOption.ts"
 
 export default class WebsocketCollaboration implements Collaboration {
 
@@ -11,19 +11,18 @@ export default class WebsocketCollaboration implements Collaboration {
 
   protected quill: Quill
 
-  protected provider: WebsocketProvider
+  protected provider!: WebsocketProvider
 
-  protected binding: QuillBinding
+  protected binding!: QuillBinding
 
-  public constructor (quill: Quill, option: Option) {
-    if (!option.collaboration) throw new Error("Collaboration option is not set")
-    if (!option.name) throw new Error("Name option is not set")
+  public constructor(quill: Quill, option: CollaborationOption, documentId: string) {
 
     this.ydoc = new Y.Doc()
     this.quill = quill
-    this.provider = new WebsocketProvider(option.collaboration.ws, option.name, this.ydoc)
+    this.provider = new WebsocketProvider(option.ws, documentId, this.ydoc)
     const text = this.ydoc.getText("quill")
-    this.binding = new QuillBinding(text, quill)
+
+    this.binding = new QuillBinding(text, this.quill)
   }
 
 }

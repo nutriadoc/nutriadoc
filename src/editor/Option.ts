@@ -1,20 +1,18 @@
-import IView from "../ui/IView.ts";
+import IView from "../ui/IView.ts"
+import { CollaborationOption } from "./collaboration/CollaborationOption.ts"
 
-export interface CollaborationOption  {
-  ws: string
-}
-
+export const NutriaApiHost: string = "i.nutria-doc.com"
 export default interface Option {
 
   container?: IView
-
-  view?: IView
 
   collaboration?: CollaborationOption
 
   html?: string
 
-  name?: string
+  key?: string
+
+  workspace?: string
 
   assetFromRemote?: boolean
 }

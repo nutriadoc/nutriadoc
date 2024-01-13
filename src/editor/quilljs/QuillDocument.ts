@@ -1,6 +1,6 @@
 import Quill from "quill";
 import Document from "../../document/Document.ts";
-import Option from "../Option.ts";
+import Option, {NutriaApiHost} from "../Option.ts";
 import Collaboration from "../collaboration/Collaboration.ts";
 import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
 import Editor from "../Editor.ts";
@@ -8,6 +8,7 @@ import QuillEditor from "./QuillEditor.ts";
 import ShortcutKeyBinding from "../shortcut_key/ShortcutKeyBinding.ts";
 import InlineToolbarBinding from "../toolbar/InlineToolbarBinding.ts";
 import QuillShortcutKeyBinding from "./QuillShortcutKeyBinding.ts";
+import {CollaborationOption, getCollaborationOption} from "../collaboration/CollaborationOption.ts";
 
 export default class QuillDocument extends Document {
 
@@ -38,8 +39,13 @@ export default class QuillDocument extends Document {
     return new InlineToolbarBinding(this.quill)
   }
 
-  createCollaboration(option: Option): Collaboration {
-    return new WebsocketCollaboration(this.quill, option)
+  createCollaboration(docId: string, option?: CollaborationOption): Promise<Collaboration> {
+    const collaboration = new WebsocketCollaboration(
+      this.quill,
+      getCollaborationOption(NutriaApiHost, option),
+      docId
+    )
+    return Promise.resolve(collaboration)
   }
 
   createEditor(): Editor {

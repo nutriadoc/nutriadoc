@@ -10,10 +10,14 @@ import Lang from "../ui/lang/Lang.ts";
 import Page from "../ui/Page.ts";
 import Options from "./Options.ts";
 import DOMEvents from "./ui/DOMEvents.ts";
+import DocumentService from "./service/DocumentService.ts";
+import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 
 export default abstract class Document extends AbstractDocument {
 
   protected _behavior: UserBehavior
+
+  protected _documentService: DocumentService = new DefaultDocumentService()
 
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
@@ -28,13 +32,15 @@ export default abstract class Document extends AbstractDocument {
   async setupElements(option?: Option): Promise<void> {
     this.createShortcutKeyBinding()
     this.createInlineToolbar()
-    if (!!option?.collaboration) this.createCollaboration(option)
+
+    const doc = await this._documentService.findOrCreateDocument(option?.key, option?.workspace)
+    await this.createCollaboration(doc.id, option?.collaboration)
 
     await Page.setup(option)
-    this.attach()
+    this.attachEditor()
   }
 
-  attach() {
+  attachEditor() {
     this.addElement(this._editor)
   }
 
