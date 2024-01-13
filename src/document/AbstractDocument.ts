@@ -57,7 +57,7 @@ export default abstract class AbstractDocument extends View {
 
   abstract createInlineToolbar(): InlineToolbarBinding
 
-  abstract createCollaboration(documentId?: string, option?: CollaborationOption): Promise<Collaboration>
+  abstract createCollaboration(option?: CollaborationOption): Collaboration
 
   protected createToolbars(): Toolbars {
     this.mainToolbar = this.createToolbar()

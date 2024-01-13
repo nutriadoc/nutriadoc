@@ -2,11 +2,27 @@ import {GetServerSideProps } from 'next'
 import Nutria from './Nutria'
 import Script from 'next/script'
 
-type PageProps = {
-  data: string
-}
+
 
 export default async function Home() {
+  const html = await loadReadme()
+
+  return (
+    <div className="main">
+      <div
+        id="container"
+        className={"prose"}
+        // dangerouslySetInnerHTML={{__html: html}}
+      >
+      </div>
+
+
+      <Nutria html={html} />
+    </div>
+  )
+}
+
+async function loadReadme() {
   let response = await fetch(
     "https://i.nutria-doc.com/document",
     {
@@ -24,18 +40,6 @@ export default async function Home() {
 
   response = await fetch(
     `https://i.nutria-doc.com/document/html/${doc.id}`,
-    )
-  const html = await response.text()
-
-  return (
-    <div className="main">
-      <div id="container" className={"prose"} dangerouslySetInnerHTML={{__html: html}}>
-      </div>
-      <Script
-        src="https://cdn.jsdelivr.net/npm/@nutriadoc/nutriadoc@0.0.5/dist/nutria.umd.js"
-        // src="http://localhost:5173/dist/nutria.umd.js"
-        onLoad={Nutria}  
-      />
-    </div>
   )
+  return await response.text()
 }

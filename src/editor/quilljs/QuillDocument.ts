@@ -39,13 +39,11 @@ export default class QuillDocument extends Document {
     return new InlineToolbarBinding(this.quill)
   }
 
-  createCollaboration(docId: string, option?: CollaborationOption): Promise<Collaboration> {
-    const collaboration = new WebsocketCollaboration(
+  createCollaboration(option?: CollaborationOption): Collaboration {
+    return new WebsocketCollaboration(
       this.quill,
       getCollaborationOption(NutriaApiHost, option),
-      docId
     )
-    return Promise.resolve(collaboration)
   }
 
   createEditor(): Editor {

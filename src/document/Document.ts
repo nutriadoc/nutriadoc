@@ -12,6 +12,9 @@ import Options from "./Options.ts";
 import DOMEvents from "./ui/DOMEvents.ts";
 import DocumentService from "./service/DocumentService.ts";
 import DefaultDocumentService from "./service/DefaultDocumentService.ts";
+import ContentLoaderTask from "./tasks/ContentLoaderTask.ts";
+import DocumentLoadTask from "./tasks/DocumentLoadTask.ts";
+import WebsocketCollaboration from "../editor/collaboration/WebSocketCollaboration.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -33,15 +36,21 @@ export default abstract class Document extends AbstractDocument {
     this.createShortcutKeyBinding()
     this.createInlineToolbar()
 
-    const doc = await this._documentService.findOrCreateDocument(option?.key, option?.workspace)
-    await this.createCollaboration(doc.id, option?.collaboration)
+
 
     await Page.setup(option)
     this.attachEditor()
+    this.loadContent(option)
   }
 
   attachEditor() {
     this.addElement(this._editor)
+  }
+
+  protected async loadContent(option?: Option) {
+    const collab = this.createCollaboration(option?.collaboration)
+    const task = new ContentLoaderTask(option, this._documentService, collab)
+    await task.start()
   }
 
   insertText(index: number, text: string, format?: any, value?: any) {
