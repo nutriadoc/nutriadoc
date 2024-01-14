@@ -1,14 +1,10 @@
-import {GetServerSideProps } from 'next'
 import Nutria from './Nutria'
-import Script from 'next/script'
-
-
 
 export default async function Home() {
   const html = await loadReadme()
 
   return (
-    <div className="main">
+    <div className="container main xl">
       <div
         id="container"
         className={"prose"}

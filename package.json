@@ -1,6 +1,6 @@
 {
   "name": "@nutriadoc/nutriadoc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,7 +22,8 @@
   },
   "publishConfig": {
     "access": "public",
-    "scope": "@nutriadoc"
+    "scope": "@nutriadoc",
+    "registry": "https://registry.npmjs.com/"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.6.6",
