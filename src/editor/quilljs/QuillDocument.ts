@@ -42,6 +42,7 @@ export default class QuillDocument extends Document {
   createCollaboration(option?: CollaborationOption): Collaboration {
     const collaboration = new WebsocketCollaboration(
       [...this._insertTextQueue],
+      this._documentService,
       this.quill,
       getCollaborationOption(NutriaApiHost, option),
     )

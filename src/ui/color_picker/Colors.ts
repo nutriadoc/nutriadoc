@@ -1,3 +1,36 @@
+import Rgb from "./Rgb";
+import Random from "../../core/Random.ts";
+
+
+
+function hexToRgb(hex: string): Rgb {
+  if (hex.length === 4) {
+      hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3];
+  }
+  
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+
+  return { Red: r, Green: g, Blue: b }
+}
+
+export function randomColor(): string {
+  for (let i = 0; i < 30; i++) {
+    const r1 = Random.getRandomNumber(0, One.length - 1)
+    const r2 = Random.getRandomNumber(0, One[r1].length - 1)
+
+    const color = One[r1][r2]
+    const rgb = hexToRgb(color)
+
+    if (rgb.Blue <= 200 && rgb.Red <= 200 && rgb.Green <= 200) {
+      return color
+    }
+  }
+
+  throw new Error("Could not find a color")
+}
+
 export const One = [
 
   [

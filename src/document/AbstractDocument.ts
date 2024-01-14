@@ -20,6 +20,7 @@ import { CollaborationOption } from "../editor/collaboration/CollaborationOption
 
 export default abstract class AbstractDocument extends View {
 
+
   protected _option?: Option
 
   protected _editor: Editor

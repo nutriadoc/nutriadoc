@@ -11,6 +11,7 @@ import HorizontalRuleBlot from "../formats/HorizontalRuleBlot.ts";
 import Syntax from "../formats/Syntax.ts";
 import HTMLEmbed from "../formats/HTMLEmbed.ts";
 import Attributor from "../formats/Attributor.ts";
+import QuillCursors from "quill-cursors";
 
 export default class QuillModule {
   static registerModules() {
@@ -40,6 +41,6 @@ export default class QuillModule {
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)
 
-    // Quill.register('modules/cursors', QuillCursors);
+    Quill.register('modules/cursors', QuillCursors);
   }
 }

@@ -31,6 +31,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
       this.element,
       {
         modules: {
+          cursors: true,
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
