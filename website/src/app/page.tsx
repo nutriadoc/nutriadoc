@@ -36,6 +36,9 @@ async function loadReadme() {
 
   response = await fetch(
     `https://i.nutria-doc.com/document/html/${doc.id}`,
+    {
+      cache: "no-cache",
+    }
   )
   return await response.text()
 }

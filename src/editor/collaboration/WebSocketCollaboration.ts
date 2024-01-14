@@ -70,6 +70,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
       await delay(100)
       this.loadDelta()
 
+      this.quill.history.clear()
       this.success()
     }
 
