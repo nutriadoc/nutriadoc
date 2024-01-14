@@ -7,6 +7,8 @@ export default class Task extends EventTarget implements ITask {
 
   protected _tasks: ITask[] = []
 
+  protected _promise: Promise<void>
+
   protected _resolve: Function | null = null
 
   protected _reject: Function | null = null
@@ -16,31 +18,31 @@ export default class Task extends EventTarget implements ITask {
   public constructor(tasks: ITask[] = []) {
     super()
     this._tasks = tasks.map(task => { task.parent = this; return task })
+
+    this._promise = new Promise<void>((resolve, reject) => {
+      this._resolve = resolve
+      this._reject = reject
+    })
   }
 
   protected async run(): Promise<void> {
   }
 
   async start(): Promise<void> {
+    try {
+      await this.run()
+    } catch(e) {
+      console.error(e)
+      this.fail(e)
+    }
 
-    const promise = new Promise(async (resolve, reject): Promise<void> => {
-      this._resolve = resolve
-      this._reject = reject
+    await this.startChildTasks()
 
-      try {
-        await this.run()
-      } catch(e) {
-        this.fail(e)
-      }
+    this.onChildrenComplete()
 
-      await this.startChildTasks()
+    this.success()
 
-      this.onChildrenComplete()
-
-      this.success()
-    })
-
-    return promise.then(_ => {})
+    return this._promise
   }
 
   onChildrenComplete(): void {
@@ -81,6 +83,11 @@ export default class Task extends EventTarget implements ITask {
   success(): void {
     this.dispatchEvent(new TaskSuccessEvent())
     this._resolve?.()
+    this.onSuccess()
+  }
+
+  onSuccess(): void {
+
   }
 
   fail(e?: any): void {

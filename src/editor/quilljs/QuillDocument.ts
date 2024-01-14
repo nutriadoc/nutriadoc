@@ -40,10 +40,15 @@ export default class QuillDocument extends Document {
   }
 
   createCollaboration(option?: CollaborationOption): Collaboration {
-    return new WebsocketCollaboration(
+    const collaboration = new WebsocketCollaboration(
+      [...this._insertTextQueue],
       this.quill,
       getCollaborationOption(NutriaApiHost, option),
     )
+
+    this._insertTextQueue = []
+
+    return collaboration
   }
 
   createEditor(): Editor {

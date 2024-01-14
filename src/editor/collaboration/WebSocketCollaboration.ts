@@ -7,10 +7,13 @@ import {CollaborationOption} from "./CollaborationOption.ts"
 import Task from "../../ui/task/Task.ts";
 import DocumentLoadTask from "../../document/tasks/DocumentLoadTask.ts";
 import {delay} from "../../core/Time.ts";
+import OpenPromise from "../../ui/task/OpenPromise.ts";
 
 export default class WebsocketCollaboration extends Task implements Collaboration {
 
   protected ydoc: Y.Doc
+
+  protected text!: Y.Text
 
   protected quill: Quill
 
@@ -20,19 +23,24 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
 
   protected option: CollaborationOption
 
-  public constructor(quill: Quill, option: CollaborationOption) {
+  protected ops: any[] = []
+
+  protected running: OpenPromise<void> = new OpenPromise<void>()
+
+  public constructor(ops: any[], quill: Quill, option: CollaborationOption) {
     super()
 
+    this.ops = ops
     this.ydoc = new Y.Doc()
     this.quill = quill
     this.option = option
   }
 
-  protected async run(): Promise<void> {
+  protected run(): Promise<void> {
 
 
     const docTask = this._parent?.find<DocumentLoadTask>(DocumentLoadTask.name)
-    if (!docTask) return
+    if (!docTask) return Promise.resolve()
 
     this.provider = new WebsocketProvider(
       this.option.ws,
@@ -44,9 +52,11 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.provider.on('status', this.onConnected.bind(this))
     this.provider.on('connection-error', this.onConnectionError.bind(this))
 
-    const text = this.ydoc.getText("quill")
+    this.text =  this.ydoc.getText("quill")
+    this.binding = new QuillBinding(this.text, this.quill)
 
-    this.binding = new QuillBinding(text, this.quill)
+    return this.running.promise
+
   }
 
   protected async onConnected(option: any) {
@@ -57,16 +67,45 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     const {status} = option
 
     if (status == 'connected') {
-      await delay(200)
+      await delay(100)
+      this.loadDelta()
+
       this.success()
     }
 
+  }
+
+  protected loadDelta() {
+
+    const delta = this.text!.toDelta()
+    if (delta.length > 0) return
+
+    if (this.ops.length == 0) return
+
+    this.ops.forEach(op => {
+      this.quill.insertText(
+        op.index,
+        op.text,
+        op.format,
+        op.value
+      )
+    })
   }
 
   protected onConnectionError(e: any) {
     this.provider.disconnect()
 
     this.fail(e)
+  }
+
+  success() {
+    this.running.resolve()
+    super.success();
+  }
+
+  fail(e?: any) {
+    this.running.reject(e)
+    super.fail(e);
   }
 
 }

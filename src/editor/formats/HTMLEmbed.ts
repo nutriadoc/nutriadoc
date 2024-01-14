@@ -7,7 +7,6 @@ export default class HTMLEmbed extends EmbedBlot {
   static tagName = "div"
 
   format(name: string, value: string) {
-    console.debug({name, value})
     super.format(name, value)
   }
 
@@ -15,6 +14,7 @@ export default class HTMLEmbed extends EmbedBlot {
     const node = super.create(value) as HTMLElement
     node.innerHTML = value
     node.setAttribute("contenteditable", "false")
+    node.setAttribute("data-embed-html", "")
     return node
   }
 

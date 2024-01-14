@@ -9,6 +9,8 @@ import Document from "../Document.ts";
 
 export default class ContentLoaderTask extends Task {
 
+  protected document: Document
+
   public constructor(
     option: Option | undefined,
     editor: Editor,
@@ -20,11 +22,12 @@ export default class ContentLoaderTask extends Task {
       new DocumentLoadTask(service, option),
       collaboration,
       new EditorLoadContentTask(editor, doc, option)
-    ]);
+    ])
+
+    this.document = doc
   }
 
-  protected async editorLoadContent() {
-    debugger
-    return Promise.resolve()
+  onSuccess() {
+
   }
 }

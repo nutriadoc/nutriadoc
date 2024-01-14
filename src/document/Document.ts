@@ -12,12 +12,18 @@ import DOMEvents from "./ui/DOMEvents.ts";
 import DocumentService from "./service/DocumentService.ts";
 import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import ContentLoaderTask from "./tasks/ContentLoaderTask.ts";
+import ReadyEvent from "./events/ReadyEvent.ts";
+import DocumentStatus from "./DocumentStatus.ts";
 
 export default abstract class Document extends AbstractDocument {
 
   protected _behavior: UserBehavior
 
   protected _documentService: DocumentService = new DefaultDocumentService()
+
+  protected _status: DocumentStatus = DocumentStatus.Loading
+
+  protected _insertTextQueue: any[] = []
 
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
@@ -36,7 +42,7 @@ export default abstract class Document extends AbstractDocument {
 
     await Page.setup(option)
     this.attachEditor()
-    this.loadContent(option)
+    await this.loadContent(option)
   }
 
   attachEditor() {
@@ -44,18 +50,31 @@ export default abstract class Document extends AbstractDocument {
   }
 
   protected async loadContent(option?: Option) {
-    const collab = this.createCollaboration(option?.collaboration)
+    const collaboration = this.createCollaboration(option?.collaboration)
     const task = new ContentLoaderTask(
       option,
       this._editor,
       this,
       this._documentService,
-      collab
+      collaboration
     )
     await task.start()
+
+    this._status = DocumentStatus.Ready
+    this.dispatchEvent(new ReadyEvent())
   }
 
   insertText(index: number, text: string, format?: any, value?: any) {
+    if (this._status == DocumentStatus.Loading) {
+      this._insertTextQueue.push({
+        index,
+        text,
+        format,
+        value
+      })
+
+      return
+    }
     this._editor.insertText(index, text, format, value)
   }
 
@@ -102,5 +121,13 @@ export default abstract class Document extends AbstractDocument {
 
   public get behavior(): UserBehavior {
     return this._behavior
+  }
+
+  public get status(): DocumentStatus {
+    return this._status
+  }
+
+  public set status(value: DocumentStatus) {
+    this._status = value
   }
 }

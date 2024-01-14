@@ -93,13 +93,13 @@ export default class DefaultUserUploadBehavior implements UserUploadBehavior {
     }
   }
 
-  uploadsHasFailed(task: UploadTask): void {
-    this.messageBox.activeMessage(task.key)
+  uploadsHasFailed(_task: UploadTask): void {
+    // this.messageBox.activeMessage(task.key)
     // this.messageBox.addToast(t("message"))
   }
 
-  uploadsHasSucceeded(task: UploadTask): void {
-    this.messageBox.activeMessage(task.key)
+  uploadsHasSucceeded(_task: UploadTask): void {
+    // this.messageBox.activeMessage(task.key)
     // this.messageBox.addToast(t("message"))
   }
 

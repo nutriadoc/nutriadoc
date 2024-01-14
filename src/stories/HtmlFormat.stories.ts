@@ -7,11 +7,15 @@ const meta = {
 
   render: () => {
     const container = div()
-    const doc = create(container)
+    const doc = create(container, { key: "html_format_4"})
 
     doc.insertText(0, '1\n')
     doc.insertText(2, '\n', 'html', `<h1>Nutria</h1><p>Hi, there!</p>`)
     doc.formatText(2, 1, 'readonly', true)
+
+    doc.addEventListener("ready", () => {
+      console.debug(doc.getHtml())
+    })
 
     return container.render() as Node
   },

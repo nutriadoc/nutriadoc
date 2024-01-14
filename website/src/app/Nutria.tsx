@@ -31,9 +31,13 @@ export async function SetupNutria(url: string, html: string) {
       key: 'demo'
     }
   )
-  console.debug(doc)
-  // doc.insertEmbed(0, 'html', html)
-  doc.insertText(0, "Align left", { align: "left" })
+  doc.addEventListener("ready", async () => {
+
+    if (doc.element.querySelector("[data-embed-html]"))
+      return
+
+    doc.insertText(0, "\n", { html })
+  })
 }
 
 export interface NutriaProps {
