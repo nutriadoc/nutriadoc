@@ -2,8 +2,6 @@ import Nutria from './Nutria'
 
 export default async function Home() {
   const html = await loadReadme()
-  console.debug(html)
-
   return (
     <>
       <div className="container xl text-left px-10 py-20 md:w-3/6 flex flex-col gap-4">
