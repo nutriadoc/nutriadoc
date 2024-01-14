@@ -28,7 +28,7 @@ export async function SetupNutria(url: string, html: string) {
   const doc = nutria.create(
     "#container",
     {
-      key: 'demo'
+      key: 'demo-2'
     }
   )
   doc.addEventListener("ready", async () => {

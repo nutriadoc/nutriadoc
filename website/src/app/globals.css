@@ -27,7 +27,12 @@ body {
 
 #container {
   /*width: 1024px;*/
-  height: 600px;
+  min-height: 200px;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
 }
 
 .prose {

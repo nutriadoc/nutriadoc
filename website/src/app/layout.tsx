@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Image from 'next/image'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,6 +18,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <nav className="container p-4 border-b border-gray-200">
+          <div className="flex">
+            <div className="flex flex-1 gap-4">
+              <Image
+                className="logo"
+                src="/assets/logo.png"
+                alt="nutria logo"
+                width={20}
+                height={20}
+              />
+              <span>Nutria</span>
+            </div>
+            <div className="flex">
+              <a href="https://github.com/nutriadoc/nutriadoc">
+                <Image
+                  src="/assets/github.svg"
+                  alt="nutria project on github"
+                  width={20}
+                  height={20}
+                />
+              </a>
+            </div>
+          </div>
+        </nav>
+        
         {children}
       </body>
     </html>
