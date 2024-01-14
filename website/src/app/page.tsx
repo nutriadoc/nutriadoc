@@ -8,7 +8,7 @@ export default async function Home() {
     <>
       <div className="container xl text-left px-10 py-20 md:w-3/6 flex flex-col gap-4">
         <h1 className="text-2xl font-bold">Collaboration, Offline, Toolbar</h1>
-        <h2>Use Nutria to help you develop an extremely useful editor, where text doesn't get lost, documents can be edited collaboratively, and the toolbar is like Office.</h2>
+        <h2>Use Nutria to help you develop an extremely useful editor, where text doesn&apos;t get lost, documents can be edited collaboratively, and the toolbar is like Office.</h2>
       </div>
       <div className="container xl md:w-3/6 px-10 flex flex-col gap-2">
         <div className="text-slate-400">
@@ -53,8 +53,6 @@ async function loadReadme() {
       })
     })
   const doc = await response.json()
-
-  console.debug(doc)
 
   response = await fetch(
     `https://i.nutria-doc.com/document/html/${doc.id}`,
