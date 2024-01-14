@@ -8,13 +8,10 @@ import TypingCommand from "./commands/TypingCommand.ts";
 import Command from "../editor/commands/Command.ts";
 import Lang from "../ui/lang/Lang.ts";
 import Page from "../ui/Page.ts";
-import Options from "./Options.ts";
 import DOMEvents from "./ui/DOMEvents.ts";
 import DocumentService from "./service/DocumentService.ts";
 import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import ContentLoaderTask from "./tasks/ContentLoaderTask.ts";
-import DocumentLoadTask from "./tasks/DocumentLoadTask.ts";
-import WebsocketCollaboration from "../editor/collaboration/WebSocketCollaboration.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -25,7 +22,6 @@ export default abstract class Document extends AbstractDocument {
   protected constructor(option?: Option) {
     super(option, undefined, className("ntr-doc", "ntr-editor"))
     DOMEvents.setup()
-    option = Options.setup(option)
     Lang.setup()
 
     this._behavior = this.createUserBehavior()
@@ -49,7 +45,13 @@ export default abstract class Document extends AbstractDocument {
 
   protected async loadContent(option?: Option) {
     const collab = this.createCollaboration(option?.collaboration)
-    const task = new ContentLoaderTask(option, this._documentService, collab)
+    const task = new ContentLoaderTask(
+      option,
+      this._editor,
+      this,
+      this._documentService,
+      collab
+    )
     await task.start()
   }
 

@@ -7,11 +7,19 @@ export default interface Editor extends IView {
 
   createFormatter(): IFormatter
 
+  get editorContent(): HTMLDivElement
+
   getSelection(): Range
 
   getLength(): number
 
   getHtml(): string
+
+  setHtml(html: string): void
+
+  get html(): string
+
+  set html(html: string)
 
   insertEmbed(index: number, format: string, value: any): void
   insertEmbed(index: number, command: Command): void

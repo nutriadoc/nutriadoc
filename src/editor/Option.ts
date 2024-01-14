@@ -8,6 +8,8 @@ export default interface Option {
 
   collaboration?: CollaborationOption
 
+  containerHTML?: string
+
   html?: string
 
   key?: string
@@ -15,4 +17,6 @@ export default interface Option {
   workspace?: string
 
   assetFromRemote?: boolean
+
+  delta?: any
 }

@@ -3,14 +3,23 @@ import Option from "../../editor/Option.ts";
 import DocumentService from "../service/DocumentService.ts";
 import ITask from "../../ui/task/ITask.ts";
 import DocumentLoadTask from "./DocumentLoadTask.ts";
+import EditorLoadContentTask from "./EditorLoadContentTask.ts";
+import Editor from "../../editor/Editor.ts";
+import Document from "../Document.ts";
 
 export default class ContentLoaderTask extends Task {
 
-  public constructor(option: Option | undefined, service: DocumentService, collaboration: ITask) {
+  public constructor(
+    option: Option | undefined,
+    editor: Editor,
+    doc: Document,
+    service: DocumentService,
+    collaboration: ITask) {
+
     super([
       new DocumentLoadTask(service, option),
       collaboration,
-      Task.new(() => this.editorLoadContent.bind(this))
+      new EditorLoadContentTask(editor, doc, option)
     ]);
   }
 

@@ -6,6 +6,7 @@ import Collaboration from "./Collaboration.ts"
 import {CollaborationOption} from "./CollaborationOption.ts"
 import Task from "../../ui/task/Task.ts";
 import DocumentLoadTask from "../../document/tasks/DocumentLoadTask.ts";
+import {delay} from "../../core/Time.ts";
 
 export default class WebsocketCollaboration extends Task implements Collaboration {
 
@@ -48,7 +49,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.binding = new QuillBinding(text, this.quill)
   }
 
-  protected onConnected(option: any) {
+  protected async onConnected(option: any) {
 
     /**
      * @var 'connected'|'disconnected'
@@ -56,6 +57,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     const {status} = option
 
     if (status == 'connected') {
+      await delay(200)
       this.success()
     }
 

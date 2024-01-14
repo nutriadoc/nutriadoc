@@ -56,7 +56,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     this._quill.history.clear()
   }
 
-  protected get editorContent(): HTMLDivElement {
+  get editorContent(): HTMLDivElement {
     return this._quill.root
   }
 
@@ -132,6 +132,12 @@ export default class QuillEditor extends AbstractEditor implements Editor {
       new QuillDocumentMutation(delta),
       new QuillDocumentMutation(oldContents)
     )
+  }
+
+  setHtml(html: string) {
+    const delta = this._quill.clipboard.convert({html})
+    this._quill.updateContents(delta)
+    super.setHtml(html);
   }
 
   public get quill(): Quill {

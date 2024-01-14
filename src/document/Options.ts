@@ -14,10 +14,7 @@ export default class Options {
     const container = this._option.container?.element
     if (!container) throw new Error("Container not found")
 
-    const html = container.innerHTML
-    if (!this._option.html)
-      this._option.html = html
-
+    this._option.containerHTML = container.innerHTML
     container.innerHTML = ""
   }
 
