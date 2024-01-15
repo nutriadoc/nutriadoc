@@ -14,6 +14,10 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
 
   get attributes(): Map<string, Attribute>
 
+  get parent(): IView | undefined
+
+  set parent(value: IView)
+
   addNode(node: Node | Node[]): void
 
   addElement(element: IView | IView[]): void

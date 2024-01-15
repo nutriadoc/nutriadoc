@@ -3,11 +3,12 @@ import ToolbarItemButton from "./ToolbarItemButton.ts";
 import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
 import ActivationView from "./ActivationView.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts";
+import {Measurable} from "../../../../core";
 
 const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
 const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
 
-export default class ToolbarItem extends ActivationView {
+export default class ToolbarItem extends ActivationView implements Measurable {
 
   protected _key: string
 
@@ -24,6 +25,13 @@ export default class ToolbarItem extends ActivationView {
   protected button: ToolbarItemButton
 
   public description: string | undefined = undefined
+
+  protected _collapsedWeight: number = 0
+
+  protected _width: number = -1
+
+  public fixed: boolean = false
+
 
   public constructor(
     key: string,
@@ -159,5 +167,31 @@ export default class ToolbarItem extends ActivationView {
 
   public get justifySelf(): string {
     return this._element.style.justifySelf
+  }
+
+  public set collapsedWeight(value: number) {
+    this._collapsedWeight = value
+  }
+
+  public get collapsedWeight(): number {
+    return this._collapsedWeight
+  }
+
+  get width(): number {
+    if (this._width > 0)
+      return this._width
+
+    if (this._canExpand)
+      return 44
+
+    return 28
+  }
+
+  set width(value: number) {
+    this._width = value
+  }
+
+  get height(): number {
+    return 30
   }
 }

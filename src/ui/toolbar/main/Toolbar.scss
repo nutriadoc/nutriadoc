@@ -6,6 +6,10 @@
 
   font-size: 12px;
 
+  .layout-root {
+    width: 100%;
+  }
+
   .layout {
     display: flex;
     flex-direction: row;

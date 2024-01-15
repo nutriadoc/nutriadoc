@@ -18,6 +18,8 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   public class?: string | string[]
 
+  _parent?: IView
+
   protected _units: Set<IUnit> = new Set<IUnit>()
 
   protected _attributes: Map<string, Attribute> = new Map()
@@ -277,6 +279,15 @@ export default class View extends EventTarget implements IView, EventTarget {
         this.element.removeEventListener(unit.type, unit.listener as any)
       }
     })
+  }
+
+  public get parent(): IView | undefined {
+    return this._parent
+  }
+
+  set parent(value: IView) {
+    this._parent = value
+
   }
 
   static new<T extends View>(tag?: string, ...units: IUnit[]): View {

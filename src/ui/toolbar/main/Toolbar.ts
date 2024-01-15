@@ -47,6 +47,30 @@ export default class Toolbar extends View implements IToolbar{
     this._layouts = layout
     this._tooltip = new Tooltip("")
     this.setupMenus()
+    this.setupMonitorToolbarSizeChange()
+  }
+
+  protected setupMonitorToolbarSizeChange() {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(
+        mutation => mutation.addedNodes
+          .forEach(node => {
+            const element = node as HTMLElement
+            if (!element.classList.contains("layout")) return
+
+            this.monitorToolbarSizeChange(element)
+          }))
+    })
+    observer.observe(this._element, {
+      childList: true,
+    })
+  }
+
+  protected monitorToolbarSizeChange(element: HTMLElement) {
+    const observer = new ResizeObserver(_ => {
+      this.layout.layout(element.offsetWidth)
+    })
+    observer.observe(element)
   }
 
   public openMenu(key: string, element: HTMLElement) {
@@ -149,9 +173,17 @@ export default class Toolbar extends View implements IToolbar{
     return this._menus
   }
 
+  get layout(): ToolbarLayout {
+    return this._layouts[0]
+  }
+
   public static simple(formatter: IFormatter): Toolbar {
-    const toolbar = new Toolbar([ToolbarLayout.simple()])
+    const layout = ToolbarLayout.simple()
+    const toolbar = new Toolbar([layout])
     toolbar.action = new ToolbarAction(toolbar, formatter)
+
+    layout.sortItems()
+
     return toolbar
   }
 }

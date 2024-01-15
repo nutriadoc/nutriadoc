@@ -66,7 +66,8 @@ export default class ToolbarItemFactory {
       icon: {
         name: "plus-circle",
         color: "#000"
-      }
+      },
+      width: 81
     })
   }
 
@@ -75,6 +76,7 @@ export default class ToolbarItemFactory {
       key: "header",
       name: i18n.t("toolbar.styles"),
       canExpand: true,
+      width: 98
     })
     styles.textWidth = 70
     return styles
@@ -85,6 +87,7 @@ export default class ToolbarItemFactory {
       key: "fontFamily",
       name: i18n.t("menu.font"),
       canExpand: true,
+      width: 128
     })
     font.textWidth = 100
     return font
@@ -95,6 +98,7 @@ export default class ToolbarItemFactory {
       key: "font-size",
       name: i18n.t("menu.fontSize"),
       canExpand: true,
+      width: 58
     })
 
     size.textWidth = 30
@@ -166,6 +170,7 @@ export default class ToolbarItemFactory {
       icon: {
         asset: Superscript,
       },
+      collapsedWeight: 10,
     })
   }
 
@@ -175,6 +180,7 @@ export default class ToolbarItemFactory {
       icon: {
         asset: Subscript,
       },
+      collapsedWeight: 10,
     })
   }
 
@@ -322,7 +328,8 @@ export default class ToolbarItemFactory {
       icon: {
         name: "chevron-down",
       },
-      justifySelf: "end"
+      justifySelf: "end",
+      fixed: true
     })
   }
 
@@ -342,6 +349,16 @@ export default class ToolbarItemFactory {
 
     if (option.justifySelf)
       toolbarItem.justifySelf = option.justifySelf
+
+    if (option.collapsedWeight)
+      toolbarItem.collapsedWeight = option.collapsedWeight
+
+    if (option.fixed)
+      toolbarItem.fixed = option.fixed
+
+    if (option.width)
+      toolbarItem.width = option.width
+
     return toolbarItem
   }
 

@@ -158,7 +158,8 @@ export default class QuillLinkBinding extends LinkBinding {
   static create(quill: Quill): ILinkBinding {
 
     const range = quill.getSelection() ?? undefined
-    let [leaf] = range ? quill.getLeaf(range.index) : [undefined]
+    let [leaf] = range !== undefined ? quill.getLeaf(range.index) : [undefined]
+    debugger
 
     leaf = this.isLink(leaf) ? leaf : undefined
     return new QuillLinkBinding(quill, range, leaf)

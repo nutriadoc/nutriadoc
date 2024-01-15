@@ -14,6 +14,8 @@ export default interface Option {
 
   key?: string
 
+  height?: number
+
   workspace?: string
 
   assetFromRemote?: boolean

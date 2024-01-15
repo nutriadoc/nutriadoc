@@ -1,6 +1,6 @@
 {
-  "name": "@nutriadoc/nutriadoc",
-  "version": "0.0.8",
+  "name": "nutria",
+  "version": "0.0.9",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,7 +22,6 @@
   },
   "publishConfig": {
     "access": "public",
-    "scope": "@nutriadoc",
     "registry": "https://registry.npmjs.com/"
   },
   "devDependencies": {
