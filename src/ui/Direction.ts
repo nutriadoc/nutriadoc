@@ -3,6 +3,8 @@ enum Direction {
   Down,
   Left,
   Right,
+  Horizontal,
+  Vertical,
   Unknown
 }
 

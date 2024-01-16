@@ -9,6 +9,7 @@ import CommandEvent from "../../../editor/commands/CommandEvent.ts";
 import CommandAssembler from "./items/CommandAssembler.ts";
 import DocumentCommandType from "../../../document/commands/DocumentCommandType.ts";
 import DocumentCommandEvent from "../../../document/commands/DocumentCommandEvent.ts";
+import ToolbarSizeChangeEvent from "./events/ToolbarSizeChangeEvent.ts";
 
 export default class ToolbarAction {
 
@@ -24,8 +25,31 @@ export default class ToolbarAction {
     this.toolbar = toolbar
     this.formatter = formatter
 
+    this.setupToolbarListener()
     this.setupToolbarItemListener()
     this.setupMenuListener()
+  }
+
+  protected setupToolbarListener() {
+    this.toolbar.addEventListener(ToolbarSizeChangeEvent.type, this.onToolbarSizeChange.bind(this))
+  }
+
+  protected onToolbarSizeChange() {
+    const more = new Set(this.toolbar.layout.findDescendants(view => {
+      return view instanceof ToolbarItem && view.key == "more" && !!view.element.parentElement
+    }))
+
+    more.forEach(item => {
+      item.addEventListener("click", this.onToolbarMoreItemClick.bind(this))
+    })
+  }
+
+  protected onToolbarMoreItemClick(event: Event) {
+    const e = event as ToolbarItemEvent
+    const item = e.target as ToolbarItem
+
+    // TODO: fix double dispatch event on toolbar item
+    this.toolbar.openMenu("more_toolbar_item_menu", item.element)
   }
 
   protected setupMenuListener() {

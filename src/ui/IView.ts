@@ -1,6 +1,7 @@
 import IUnit from "./view/unit/IUnit.ts";
 import Attribute from "./view/attribute/Attribute.ts";
 import IDisposable from "../core/IDisposable.ts";
+import View from "./View.ts";
 
 export default interface IView extends IUnit, EventTarget, IDisposable  {
 
@@ -21,6 +22,9 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
   addNode(node: Node | Node[]): void
 
   addElement(element: IView | IView[]): void
+
+  add(view: View[]): void
+  add(view: View): void
 
   addTo(parent: HTMLElement): void
 
@@ -46,6 +50,8 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
   find(key: string): IView | undefined
 
   findAll(key: Attribute): IView[]
+
+  findDescendants(callback: (view: IView) => boolean): IView[]
 
   remove(): void
 

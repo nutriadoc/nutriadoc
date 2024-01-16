@@ -74,7 +74,7 @@ export default class ToolbarItem extends ActivationView implements Measurable {
 
   protected onClick() {
     if (!this.isEnabled) return
-    console.debug("on toolbar item click", this.key)
+
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 

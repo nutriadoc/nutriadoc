@@ -1,5 +1,5 @@
 import View from "../../View.ts"
-import ToolbarLayout from "./ToolbarLayout.ts"
+import ToolbarAccordionLayout from "./ToolbarAccordionLayout.ts"
 import ToolbarItem from "./items/ToolbarItem.ts"
 import InsertMenu from "../components/insert/InsertMenu.ts"
 import ToolbarAction from "./ToolbarAction.ts"
@@ -16,11 +16,13 @@ import LineSpacingMenu from "../components/line_spacing/LineSpacingMenu.ts";
 import IFormatter from "../../../editor/formatter/IFormatter.ts";
 
 import "./Toolbar.scss"
+import ToolbarSizeChangeEvent from "./events/ToolbarSizeChangeEvent.ts";
+import MoreToolbarItemMenu from "../components/more_toolbar_item_menu/MoreToolbarItemMenu.ts";
 
 
 export default class Toolbar extends View implements IToolbar{
 
-  protected _layouts: ToolbarLayout[]
+  protected _layouts: ToolbarAccordionLayout[]
 
   public action?: ToolbarAction
 
@@ -37,15 +39,17 @@ export default class Toolbar extends View implements IToolbar{
     HighlightMenu,
     AlignMenu,
     LineSpacingMenu,
+    MoreToolbarItemMenu,
   ]
 
-  public constructor(layout: ToolbarLayout[]) {
+  public constructor(layout: ToolbarAccordionLayout[]) {
     const element = document.createElement("div")
     element.classList.add("ntr-main-toolbar")
     super(element)
 
     this._layouts = layout
     this._tooltip = new Tooltip("")
+
     this.setupMenus()
     this.setupMonitorToolbarSizeChange()
   }
@@ -59,6 +63,7 @@ export default class Toolbar extends View implements IToolbar{
             if (!element.classList.contains("layout")) return
 
             this.monitorToolbarSizeChange(element)
+
           }))
     })
     observer.observe(this._element, {
@@ -69,6 +74,7 @@ export default class Toolbar extends View implements IToolbar{
   protected monitorToolbarSizeChange(element: HTMLElement) {
     const observer = new ResizeObserver(_ => {
       this.layout.layout(element.offsetWidth)
+      this.dispatchEvent(new ToolbarSizeChangeEvent())
     })
     observer.observe(element)
   }
@@ -173,12 +179,12 @@ export default class Toolbar extends View implements IToolbar{
     return this._menus
   }
 
-  get layout(): ToolbarLayout {
+  get layout(): ToolbarAccordionLayout {
     return this._layouts[0]
   }
 
   public static simple(formatter: IFormatter): Toolbar {
-    const layout = ToolbarLayout.simple()
+    const layout = ToolbarAccordionLayout.simple()
     const toolbar = new Toolbar([layout])
     toolbar.action = new ToolbarAction(toolbar, formatter)
 

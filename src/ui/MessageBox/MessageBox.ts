@@ -36,6 +36,7 @@ export default class MessageBox extends View {
   public constructor(where: IView, mode?: MessageBoxMode, summary?: SummaryMessageView) {
     super(undefined, className("ntr-message-box", "ntr-box", "hidden"))
 
+
     mode = mode ?? MessageBoxMode.Hidden
 
     this.tiny = new TinyMessageBox(on("expand", this.onMessageBoxExpand.bind(this)))

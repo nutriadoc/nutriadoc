@@ -8,7 +8,7 @@ import ToolbarColorItem from "./ToolbarColorItem.ts";
 import {EraserFill, PaintBucket} from "../../icons";
 import ToolbarItemSvgIcon from "./ToolbarItemSvgIcon.ts";
 import ToolbarFormatPainterItem from "./impls/ToolbarFormatPainterItem.ts";
-import {CodeSquare, Subscript, Superscript} from "../../../styles/icons";
+import {CodeSquare, Subscript, Superscript, ThreeDotVertical} from "../../../styles/icons";
 
 interface IconOption {
 
@@ -303,15 +303,6 @@ export default class ToolbarItemFactory {
     })
   }
 
-  public more(): ToolbarItem {
-    return this.createItem({
-      key: "more",
-      icon: {
-        name: "three-dots",
-      },
-    })
-  }
-
   public search(): ToolbarItem {
     return this.createItem({
       key: "search",
@@ -335,6 +326,16 @@ export default class ToolbarItemFactory {
 
   public separator(): ToolbarItem {
     return new ToolbarSeparatorItem()
+  }
+
+  public more(): ToolbarItem {
+    return this.createItem({
+      key: "more",
+      icon: {
+        asset: ThreeDotVertical
+      },
+      fixed: true
+    })
   }
 
   createItem(option: any, itemClass: typeof ToolbarItem | typeof ToolbarColorItem = ToolbarItem): ToolbarItem {

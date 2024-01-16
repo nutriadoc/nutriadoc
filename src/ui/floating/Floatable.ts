@@ -52,10 +52,22 @@ export default class Floatable {
     const selfRect = this._view.element.getBoundingClientRect()
     const rect = relativeRect ?? bodyRect
 
+    if (this._relativeTo == "element") {
+      rect.y = this._relative?.offsetTop ?? 0
+      rect.x = this._relative?.offsetLeft ?? 0
+    }
+
     switch (this._position) {
       case Position.BottomCenter:
       case Position.Center: {
-        x = (rect.width - selfRect.width) / 2
+        // x = (rect.width - selfRect.width) / 2
+        // debugger
+        x = rect.x - (selfRect.width - rect.width ) / 2
+        if (x + selfRect.width > container.offsetWidth)
+          x = container.offsetWidth - selfRect.width
+        if (x < 0)
+          x = 0
+
         break
       }
       case Position.LeftTop:
@@ -162,6 +174,10 @@ export default class Floatable {
 
   public set relative(value: HTMLElement) {
     this._relative = value
+  }
+
+  public get relative(): HTMLElement | undefined {
+    return this._relative
   }
 
   public pin() {

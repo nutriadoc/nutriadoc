@@ -115,6 +115,18 @@ blockquote {
   display: flex;
 }
 
+.flex-1 {
+  flex: 1;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
 .ntr-floating {
   max-height: 70%;
   overflow-y: auto;

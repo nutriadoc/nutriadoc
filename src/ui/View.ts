@@ -32,13 +32,17 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   static views: Map<string, View> = new Map<string, View>()
 
+  static nodes: WeakMap<Node, View> = new WeakMap<Node, View>()
+
   public constructor(element?: HTMLElement, ...units: IUnit[]) {
     super()
     this._element = element ?? document.createElement('div')
 
     this.assignUnits(...units)
     this.assignUnits(new Attribute("data-view-id", this.id.toString()))
+
     View.views.set(this.id.toString(), this)
+    View.nodes.set(this._element, this)
 
     this.initialize()
   }
@@ -85,12 +89,25 @@ export default class View extends EventTarget implements IView, EventTarget {
     }
   }
 
+  add(view: View[]): void
+  add(view: View): void
+  add(view: View | View[]): void {
+
+    if (view instanceof View) {
+      this._children.push(view)
+      this._element.append(view._element)
+    } else if (Array.isArray(view)) {
+      view.forEach(v => this.add(v))
+    }
+  }
+
   public addElement(element: IView | IView[]) {
     if (Array.isArray(element)) {
       element.forEach(ele => this.addElement(ele))
     } else {
       this._children.push(element)
       try {
+        // element.parent = this
         this.addNode(element.render())
       } catch (e) {
         console.error(e)
@@ -124,6 +141,10 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   public set className(value: string) {
     this._element.className = value
+  }
+
+  static find(node: Node) {
+    return View.nodes.get(node)
   }
 
   find(key: Attribute): IView | undefined
@@ -162,6 +183,20 @@ export default class View extends EventTarget implements IView, EventTarget {
     }
 
     return []
+  }
+
+  findDescendants(callback: (view: IView) => boolean): IView[] {
+    const descendants: IView[] = []
+
+    this._children.forEach(child => {
+      if (callback(child)) {
+        descendants.push(child)
+      }
+
+      descendants.push(...child.findDescendants(callback))
+    })
+
+    return descendants
   }
 
 
