@@ -49,7 +49,7 @@ export interface NutriaProps {
 
 export default async function Nutria(props: NutriaProps) {
   const debug: boolean = false
-  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.9/dist"
+  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.10/dist"
   if (debug) {
     nutriaUrl = "http://localhost:4173"
   }
