@@ -14,6 +14,9 @@ import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import ContentLoaderTask from "./tasks/ContentLoaderTask.ts";
 import ReadyEvent from "./events/ReadyEvent.ts";
 import DocumentStatus from "./DocumentStatus.ts";
+import PackageManager from "../core/package/PackageManager.ts";
+import Task from "../ui/task/Task.ts";
+import NutriaLoadTask from "./tasks/NutriaLoadTask.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -25,8 +28,16 @@ export default abstract class Document extends AbstractDocument {
 
   protected _insertTextQueue: any[] = []
 
+  protected package: PackageManager = new PackageManager()
+
   protected constructor(option?: Option) {
-    super(option, undefined, className("ntr-doc", "ntr-editor"))
+    super(option, undefined, className("nutria"))
+
+    this.package.register({
+      name: "quill",
+      version: "2.0.0-beta.0",
+    })
+
     DOMEvents.setup()
     Lang.setup()
 
@@ -38,30 +49,33 @@ export default abstract class Document extends AbstractDocument {
     this.createShortcutKeyBinding()
     this.createInlineToolbar()
 
-
-
     await Page.setup(option)
+
+
+    const loadContent = this.loadContent(option)
+
+    const loadTask = new NutriaLoadTask(this.package, loadContent)
+    await loadTask.start()
+
     this.attachEditor()
-    await this.loadContent(option)
+
+    this._status = DocumentStatus.Ready
+    this.dispatchEvent(new ReadyEvent())
   }
 
   attachEditor() {
     this.addElement(this._editor)
   }
 
-  protected async loadContent(option?: Option) {
+  protected loadContent(option?: Option): Task {
     const collaboration = this.createCollaboration(option?.collaboration)
-    const task = new ContentLoaderTask(
+    return new ContentLoaderTask(
       option,
       this._editor,
       this,
       this._documentService,
       collaboration
     )
-    await task.start()
-
-    this._status = DocumentStatus.Ready
-    this.dispatchEvent(new ReadyEvent())
   }
 
   insertText(index: number, text: string, format?: any, value?: any) {

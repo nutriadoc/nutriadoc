@@ -199,7 +199,9 @@ export default class ToolbarItemFactory {
       {
         key: "color",
         icon: new ColorIcon("fonts", "#FF0000"),
-        },
+        canExpand: true,
+        toggle: true,
+      },
       ToolbarColorItem
     )
   }

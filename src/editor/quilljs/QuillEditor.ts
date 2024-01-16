@@ -13,7 +13,7 @@ import hljs from 'highlight.js'
 
 QuillModule.registerModules()
 
-import 'quill/dist/quill.core.css'
+// import 'quill/dist/quill.core.css'
 import 'highlight.js/styles/github.css'
 
 export default class QuillEditor extends AbstractEditor implements Editor {

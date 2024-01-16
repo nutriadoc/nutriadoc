@@ -21,4 +21,6 @@ export default interface Option {
   assetFromRemote?: boolean
 
   delta?: any
+
+  loadStyles?: boolean
 }

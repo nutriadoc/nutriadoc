@@ -2,8 +2,8 @@ import type {StoryObj, Meta} from '@storybook/html'
 import { default as ToolbarComponent } from "../ui/toolbar/main/Toolbar.ts"
 import {NothingFormatter} from "../editor/formatter/IFormatter.ts";
 
-import 'quill/dist/quill.core.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
+// import 'quill/dist/quill.core.css'
+// import 'bootstrap-icons/font/bootstrap-icons.css'
 
 
 const meta = {

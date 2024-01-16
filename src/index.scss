@@ -220,3 +220,19 @@ input {
     flex: 1 0 auto;
   }
 }
+
+
+// ------------------------------
+.nutria {
+  ol, li {
+    padding-left: 0;
+  }
+
+  li {
+    :before {
+      font-size: 1.5em;
+      width: 3em;
+      line-height: 1;
+    }
+  }
+}
