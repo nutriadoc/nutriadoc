@@ -1,31 +1,19 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import { default as ToolbarComponent } from "../ui/toolbar/main/Toolbar.ts"
-import {NothingFormatter} from "../editor/formatter/IFormatter.ts";
-
-// import 'quill/dist/quill.core.css'
-// import 'bootstrap-icons/font/bootstrap-icons.css'
-
+import {create} from "../index.ts";
+import {div, style} from "../ui/views.ts";
 
 const meta = {
   title: 'Editor/Toolbar',
   tags: [],
   render: () => {
 
-    const root = document.createElement("div")
-    root.className = "root"
-
-    const toolbar = ToolbarComponent.simple(new NothingFormatter())
-    toolbar.render()
-    toolbar.addTo(root)
-
-
-    const item = toolbar.findToolbarItem("insert")
-    setTimeout(() => {
-      item?.click()
-    }, 100)
-
-
-    return root
+    const doc = div()
+    const container = div(
+      div(style({height: "1000px"})),
+      doc
+    )
+    create(doc).render()
+    return container.render() as Node
   },
   argTypes: {},
 } satisfies Meta;

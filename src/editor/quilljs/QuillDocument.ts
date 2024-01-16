@@ -8,7 +8,7 @@ import QuillEditor from "./QuillEditor.ts";
 import ShortcutKeyBinding from "../shortcut_key/ShortcutKeyBinding.ts";
 import InlineToolbarBinding from "../toolbar/InlineToolbarBinding.ts";
 import QuillShortcutKeyBinding from "./QuillShortcutKeyBinding.ts";
-import {CollaborationOption, getCollaborationOption} from "../collaboration/CollaborationOption.ts";
+import {CollaborationOption, getCollaborationOption} from "../collaboration/CollaborationOption.ts"
 
 export default class QuillDocument extends Document {
 
