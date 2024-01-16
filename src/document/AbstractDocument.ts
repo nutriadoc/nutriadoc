@@ -15,7 +15,7 @@ import DefaultUserUploadBehavior from "../editor/behavior/upload/DefaultUserUplo
 import UserUploadBehavior from "../editor/behavior/upload/UserUploadBehavior.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
-import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
+// import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
 import { CollaborationOption } from "../editor/collaboration/CollaborationOption.ts";
 
 export default abstract class AbstractDocument extends View {

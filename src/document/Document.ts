@@ -33,10 +33,11 @@ export default abstract class Document extends AbstractDocument {
   protected constructor(option?: Option) {
     super(option, undefined, className("nutria"))
 
-    this.package.register({
-      name: "quill",
-      version: "2.0.0-beta.0",
-    })
+    this.package.register(
+      { name: "quill", version: "2.0.0-beta.0", },
+      { name: "highlight.js", version: "11.9.0", },
+      { name: "bootstrap-icons", version: "1.11.2", },
+    )
 
     DOMEvents.setup()
     Lang.setup()
@@ -54,7 +55,7 @@ export default abstract class Document extends AbstractDocument {
 
     const loadContent = this.loadContent(option)
 
-    const loadTask = new NutriaLoadTask(this.package, loadContent)
+    const loadTask = new NutriaLoadTask(this.package, loadContent, this._option)
     await loadTask.start()
 
     this.attachEditor()

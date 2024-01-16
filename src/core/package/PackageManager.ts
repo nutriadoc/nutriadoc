@@ -9,14 +9,17 @@ export default class PackageManager {
 
   protected cdn: PackageCDN = new JsDelivrCDN()
 
-  register(pkg: Package): void {
-    this.packages.push(pkg)
+  register(...pkgs: Package[]): void {
+    pkgs.forEach(pkg => {
+      this.packages.push(pkg)
+    })
   }
 
   async load(path: string): Promise<void> {
     const pkg = this.packages.find(pkg => pkg.name === path.split('/')[0])
     if (path.endsWith(".css")) {
-      await Load.loadCSS(this.cdn.getUrl(path, pkg))
+      const url = this.cdn.getUrl(path, pkg)
+      await Load.loadCSS(url)
     }
   }
 }

@@ -28,7 +28,10 @@ export async function SetupNutria(url: string, html: string) {
   const doc = nutria.create(
     "#container",
     {
-      key: 'demo-2'
+      key: 'demo-3',
+      excludeCss: [
+        'quill/dist/quill.core.css'
+      ],
     }
   )
   doc.addEventListener("ready", async () => {

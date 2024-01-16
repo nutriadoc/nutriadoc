@@ -8,6 +8,7 @@ import ILinkBinding from "../../../link/ILinkBinding.ts";
 import View from "../../../View.ts";
 import i18n from "../../../../i18n";
 
+// @ts-ignore
 export default class LinkInlineToolbar extends InlineToolbar {
 
   protected _binding?: ILinkBinding

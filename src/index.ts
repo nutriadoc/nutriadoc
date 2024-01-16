@@ -5,7 +5,7 @@ import Document from "./document/Document.ts"
 import QuillDocument from "./editor/quilljs/QuillDocument.ts"
 import Options from "./document/Options.ts"
 
-import 'bootstrap-icons/font/bootstrap-icons.css'
+// import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
 
 export function create(element?: string | Element | IView | View | undefined, option?: Option): Document {

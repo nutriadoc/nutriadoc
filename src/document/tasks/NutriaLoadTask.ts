@@ -1,12 +1,13 @@
 import Task from "../../ui/task/Task.ts"
-import AssetLoadTask from "./asset/AssetLoadTask.ts";
+import AssetsLoadTask from "./asset/AssetsLoadTask.ts";
 import PackageManager from "../../core/package/PackageManager.ts";
+import Option from "../../editor/Option.ts";
 
 export default class NutriaLoadTask extends Task {
 
-  constructor(pkg: PackageManager, task: Task) {
+  constructor(pkg: PackageManager, task: Task, option?: Option) {
     super([
-      new AssetLoadTask(pkg),
+      new AssetsLoadTask(pkg, option),
       task,
     ])
   }

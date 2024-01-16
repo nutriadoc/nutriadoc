@@ -4,12 +4,22 @@ import PackageCDN from "./PackageCDN.ts";
 export default class JsDelivrCDN extends PackageCDN {
 
   constructor() {
-    super("https://www.jsdelivr.com/npm");
+    super("https://cdn.jsdelivr.net/npm");
   }
 
   getUrl(path: string, pkg?: Package): string {
-    if (!pkg) return `${this.url}/${path}`
-    return `${this.url}/${pkg?.version}/${path}`
+    const url = [this.url, "/"]
+    if (!pkg) {
+      url.push(path)
+    } else {
+      url.push(pkg.name)
+      url.push('@')
+      url.push(pkg.version)
+      url.push("/")
+      url.push(path.split("/").slice(1).join("/"))
+    }
+
+    return url.join("")
   }
 
 }

@@ -22,5 +22,5 @@ export default interface Option {
 
   delta?: any
 
-  loadStyles?: boolean
+  excludeCss?: string[]
 }
