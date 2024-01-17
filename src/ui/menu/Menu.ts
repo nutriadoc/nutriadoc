@@ -10,7 +10,7 @@ export default class Menu extends Floating {
   protected items: MenuItem[] = []
 
   public constructor(key: string, relativePosition: Position, items: MenuItem[]) {
-    super(relativePosition, [], "element",)
+    super(relativePosition, [], "viewport",)
     this.assignUnits(className("ntr-menu"))
     this.key = key
     this.items = items

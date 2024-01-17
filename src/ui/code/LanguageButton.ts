@@ -95,6 +95,7 @@ export default class LanguageButton extends ActivationView {
   protected onClick() {
     this.renderLanguages('')
     this._isActivated = true
+
     this.menu.visible(this.element)
     this.search.focus()
   }

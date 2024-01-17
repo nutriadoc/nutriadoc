@@ -1,5 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
+import {div, style} from "../ui/views.ts";
 
 const meta = {
   title: 'Editor/Code',
@@ -13,7 +14,16 @@ const meta = {
     doc.insertText(0, "npm install --save @nutriadoc/nutriadoc\n", { "code-block": "javascript" })
     doc.insertText(doc.getLength(), "const document = new Document();\n")
 
-    return root
+    const container = div(
+      div(
+        style({
+          height: "0",
+        })
+      ),
+      doc
+    )
+
+    return container.render() as Node
   },
   argTypes: {},
 } satisfies Meta;
