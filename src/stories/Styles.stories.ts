@@ -10,8 +10,8 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.insertText(0, "Hello friend\n", { header: 1, title: true }, 'user')
-    doc.insertText(doc.getLength() - 1, "Hello friend\n", { header: 2, subtitle: true }, 'user')
+    doc.insertText(0, "Title\n", { title: true }, 'user')
+    doc.insertText(doc.getLength() - 1, "Subtitle\n", { subtitle: true }, 'user')
 
     for (let i  = 1; i < 7; i++) {
       const start = doc.getLength() - 1
