@@ -54,7 +54,7 @@ export default class ToolbarItem extends ActivationView implements Measurable {
     this._isToggle = toggle == undefined ? !canExpand : toggle
 
     const activeColor = toggle === true ? ACTIVE_BACKGROUND_COLOR2 : undefined
-    this.button = new ToolbarItemButton(icon, activeColor)
+    this.button = new ToolbarItemButton(icon, activeColor, canExpand ? true : undefined)
     if (this._isEnabled)
       this.button.enable()
     else

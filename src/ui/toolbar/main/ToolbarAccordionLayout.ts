@@ -210,12 +210,16 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
   }
 
   get width(): number {
+    if (this.allItemsAreCollapsed) return 0
+
     return this
       ._items
       .reduce(
         (total, node) => total + node.width,
         0
       )
+      +
+      this._items.length * 4
   }
 
   get height(): number {
@@ -254,6 +258,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
         factory.lineSpacing(),
         factory.quote(),
         factory.codeBlock(),
+        factory.separator(),
         // factory.hightBlock(),
         // factory.more(),
         // factory.search(),
@@ -266,6 +271,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
         factory.redo(),
         factory.formatPainter(),
         factory.clearFormatting(),
+        factory.separator(),
       ],
     )
 
@@ -285,6 +291,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
         factory.subscript(),
         factory.highlight(),
         factory.color(),
+        factory.separator(),
       ]
     )
 

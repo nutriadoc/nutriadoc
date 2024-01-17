@@ -7,12 +7,12 @@ export default class ToolbarItemButton extends ActivationView {
 
   protected _textElement: HTMLElement
 
-  public constructor(icon?: IToolbarItemIcon, activatedBackgroundColor?: string) {
+  public constructor(icon?: IToolbarItemIcon, activatedBackgroundColor?: string, isLeftBorderRadius?: boolean) {
+
     const element = document.createElement("div")
     element.classList.add("button")
-    if (activatedBackgroundColor)
-      element.setAttribute("data-active-background-color", activatedBackgroundColor)
-    super(element, activatedBackgroundColor, true)
+
+    super(element, activatedBackgroundColor, isLeftBorderRadius)
 
     this._icon = icon
     this._textElement = this.createTextElement()
