@@ -34,7 +34,8 @@ export default abstract class Document extends AbstractDocument {
     super(option, undefined, className("nutria"))
 
     this.package.register(
-      { name: "quill", version: "2.0.0-beta.0", },
+      // { name: "quill", version: "2.0.0-beta.0", },
+      { name: "quill", version: "2.0.0-dev.4", },
       { name: "highlight.js", version: "11.9.0", },
       { name: "bootstrap-icons", version: "1.11.2", },
     )
@@ -58,6 +59,7 @@ export default abstract class Document extends AbstractDocument {
     const loadTask = new NutriaLoadTask(this.package, loadContent, this._option)
     await loadTask.start()
 
+    this.addElement(this.mainToolbar)
     this.attachEditor()
 
     this._status = DocumentStatus.Ready
