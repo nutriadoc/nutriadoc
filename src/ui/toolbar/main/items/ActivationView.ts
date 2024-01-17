@@ -18,7 +18,10 @@ export default class ActivationView extends InteractiveView {
 
   protected setupBorderRadius(isLeftBorderRadius: boolean | undefined = undefined) {
 
-    if (isLeftBorderRadius === undefined) return
+    if (isLeftBorderRadius === undefined) {
+      this.element.style.borderRadius = "5px"
+      return
+    }
 
     if (isLeftBorderRadius) {
       this.element.style.borderTopLeftRadius = "5px"
