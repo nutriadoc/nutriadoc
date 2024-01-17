@@ -1,0 +1,37 @@
+{
+  "name": "@nutriadoc/data",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/nutria_data.umd.js",
+  "module": "./dist/nutria_data.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/nutria_data.es.js",
+      "require": "./dist/nutria_data.umd.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
+  "peerDependencies": {
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.5",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "quill-delta-to-html": "^0.12.1"
+  }
+}
