@@ -70,7 +70,6 @@ export default abstract class AbstractDocument extends View {
     const main = Toolbar.simple(formatter)
 
     formatter.toolbars = [main]
-    this.addElement(main)
     main.addEventListener("command", this.commandHandler)
 
     return main

@@ -48,12 +48,12 @@ export default class InsertMenu extends Menu {
         name: i18n.t("menu.picture"),
         canExpand: false,
       },
-      {
-        key: "table",
-        icon: "table",
-        name: i18n.t("menu.table"),
-        expand: tableMenu,
-      },
+      // {
+      //   key: "table",
+      //   icon: "table",
+      //   name: i18n.t("menu.table"),
+      //   expand: tableMenu,
+      // },
       {
         key: "hr",
         icon: "dash-square",

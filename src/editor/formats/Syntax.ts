@@ -1,6 +1,6 @@
 import Quill from "quill"
 import LanguageButton from "../../ui/code/LanguageButton.ts";
-import {div} from "../../ui/views.ts";
+import {div, style} from "../../ui/views.ts";
 import LanguageEvent from "../../ui/code/LanguageEvent.ts";
 import hljs from "highlight.js";
 
@@ -41,7 +41,15 @@ export default class Syntax extends BaseSyntax {
         const button = new LanguageButton()
         button.addEventListener("select", this.onLanguageSelect.bind(this))
 
-        blot.attachUI(div(button).render() as Node)
+        blot.attachUI(
+          div(
+            button,
+            style({
+              position: "relative",
+            })
+          )
+            .render() as Node
+        )
       }
 
     })
