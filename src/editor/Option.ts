@@ -14,7 +14,7 @@ export default interface Option {
 
   key?: string
 
-  height?: number
+  height?: number | string
 
   workspace?: string
 

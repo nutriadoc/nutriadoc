@@ -31,6 +31,10 @@ export default abstract class Document extends AbstractDocument {
 
   protected package: PackageManager = new PackageManager()
 
+  protected didSetupSizeEvent: boolean = false
+
+  protected _height: number = 0
+
   protected constructor(option?: Option) {
     super(option, undefined, className("nutria"))
 
@@ -42,6 +46,7 @@ export default abstract class Document extends AbstractDocument {
 
     DOMEvents.setup()
     Lang.setup()
+    this.setupSizeEvents()
 
     this._behavior = this.createUserBehavior()
     this.setupElements(option).then(() => {})
@@ -134,6 +139,65 @@ export default abstract class Document extends AbstractDocument {
 
   protected onCommand(event: DocumentCommandEvent) {
     this._behavior.execute(event.command)
+  }
+
+  setupSizeEvents() {
+
+    const observer = new MutationObserver(_ => {
+      if (this.didSetupSizeEvent) return
+      this.setupHeight()
+      this.didSetupSizeEvent = true
+
+      this.resizingHeight()
+    })
+    observer.observe(this._element, {
+      childList: true,
+    })
+  }
+
+  resizingHeight() {
+    const observer = new ResizeObserver(_ => {
+      this.setupHeight()
+    })
+    observer.observe(this._element.parentElement!)
+  }
+
+  resizeHeight() {
+    if (this._height > 0) {
+      this._element.style.height = `${this._height}px`
+      this.editor.height = this._height - 40
+    }
+  }
+
+  setupHeight() {
+    const height = this._option?.height
+    if (!height) return
+
+    const containerHeight = this._element.parentElement?.offsetHeight ?? 0
+
+    if (typeof height == 'number') {
+      if (height < 5) {
+        // TODO: ratio of width , e.g 4 / 3
+      }
+    }
+
+    if (typeof height == "string") {
+      if (height.endsWith("%")) {
+        let percent = parseInt(height)
+        percent = 100
+        percent = percent / 100
+
+        this._height = containerHeight * percent
+      }
+
+      if (height.endsWith("px")) {
+        this._height = parseInt(height)
+      }
+
+      // TODO: em, rem, vw, vh
+    }
+
+    this.resizeHeight()
   }
 
   public get behavior(): UserBehavior {

@@ -137,6 +137,13 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     super.setHtml(html);
   }
 
+  set height(value: number) {
+    super.height = value
+
+    this._quill.root.parentElement!.style.height = `${value}px`
+    // debugger
+  }
+
   public get quill(): Quill {
     return this._quill
   }

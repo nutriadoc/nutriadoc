@@ -7,6 +7,8 @@ export default abstract class AbstractEditor extends View {
 
   protected _html: string = ""
 
+  protected _height: number = 0
+
   protected constructor() {
     super()
   }
@@ -38,6 +40,14 @@ export default abstract class AbstractEditor extends View {
 
   set html(html: string) {
     this.setHtml(html)
+  }
+
+  get height(): number {
+    return this._height
+  }
+
+  set height(value: number) {
+    this._height = value
   }
 
   getHtml(): string {
