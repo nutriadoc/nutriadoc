@@ -5,7 +5,6 @@ export function processFormat(_customOp: DeltaInsertOp, _contextOp: DeltaInsertO
 }
 
 export function processTag(_format: string, op: DeltaInsertOp): string | void {
-  console.debug(op)
   if (op.attributes.title) {
     return "h1"
   }

@@ -2,9 +2,9 @@ import { deltaToHtml } from "../src/index.ts"
 
 var ops =  [
   {insert: "Hello"},
-  {insert: "\n", attributes: { title: 1 }},
+  {insert: "\n", attributes: { title: 999 }},
   {insert: "Subtitle",},
-  {insert: "\n", attributes: { subtitle: 1 }},
+  {insert: "\n", attributes: { subtitle: 998 }},
   {insert: "This is colorful\n", attributes: {color: '#f00', size: '15'}},
   {insert: "let debug: boolean = true"},
   {insert: "\n", attributes: { 'code-block': "typescript" }},
