@@ -25,7 +25,7 @@ export default interface Editor extends IView {
   insertEmbed(index: number, command: Command): void
   insertEmbed(index: number, command: Command | string, value?: any): void
 
-  insertText(index: number, text: string, formats?: any, value?: any): void
+  insertText(index: number, text: string, formats?: any, value?: any): any
 
   formatText(index: number, length: number, format: any): void
   formatText(index: number, length: number, format: string, value: any): void

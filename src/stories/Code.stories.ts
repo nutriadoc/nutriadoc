@@ -1,6 +1,7 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
 import {div, style} from "../ui/views.ts";
+import QuillEditor from "../editor/quilljs/QuillEditor.ts";
 
 const meta = {
   title: 'Editor/Code',
@@ -11,8 +12,7 @@ const meta = {
     root.className = "root"
     const doc = create(root)
 
-    doc.insertText(0, "npm install --save @nutriadoc/nutriadoc\n", { "code-block": "javascript" })
-    doc.insertText(doc.getLength(), "const document = new Document();\n")
+
 
     const container = div(
       div(
@@ -22,6 +22,15 @@ const meta = {
       ),
       doc
     )
+
+    doc.addEventListener("ready", () => {
+      doc.insertText(0, "npm install --save @nutriadoc/nutriadoc\n", { "code-block": "javascript" })
+      doc.insertText(doc.getLength() - 1, "const document = new Document();\n")
+
+      const editor = doc.editor as QuillEditor
+      const delta = editor.quill.getContents()
+      console.debug(delta)
+    })
 
     return container.render() as Node
   },

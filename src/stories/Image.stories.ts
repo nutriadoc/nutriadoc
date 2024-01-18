@@ -2,6 +2,7 @@ import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
 import {div, name, style} from "../ui/views.ts";
 import IView from "../ui/IView.ts";
+import QuillEditor from "../editor/quilljs/QuillEditor.ts";
 
 type ImageArgs = {
 
@@ -35,18 +36,25 @@ const meta = {
       )
     )
 
-    const doc = create(root.find(name("root")) as IView)
+    const doc = create(div())
 
-    doc.insertText(0, "Image")
+    // doc.insertText(0, "Image")
     const firstPicturePosition = doc.getLength() - 1
     doc.insertEmbed(firstPicturePosition, "image", 'https://placehold.co/300x200')
-    doc.insertEmbed(doc.getLength(), "image", 'https://placehold.co/300x200')
+    // doc.insertEmbed(doc.getLength(), "image", 'https://placehold.co/300x200')
+    //
+    // doc.formatText(firstPicturePosition, 1, "width", "150")
+    // doc.formatText(firstPicturePosition, 1, "height", "300")
 
-    doc.formatText(firstPicturePosition, 1, "width", "150")
-    doc.formatText(firstPicturePosition, 1, "height", "300")
+    doc.addEventListener("ready", () => {
+      // doc.insertEmbed(0, "image", 'https://placehold.co/300x200')
+      const quill = (doc.editor as QuillEditor).quill
+      quill.insertEmbed(0, 'title', '')
+      console.debug(quill.getContents())
+    })
 
 
-    return root.render() as Node
+    return doc.render() as Node
   },
   argTypes: {},
 } satisfies Meta<ImageArgs>;

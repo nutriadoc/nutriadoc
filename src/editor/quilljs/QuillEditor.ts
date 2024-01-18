@@ -88,10 +88,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     this._quill.insertEmbed(index, format, value)
   }
 
-  insertText(index: number, text: string, formats?: any, value?: any): void {
+  insertText(index: number, text: string, formats?: any, value?: any): any {
     if (formats === undefined) {
-      this._quill.insertText(index, text)
-      return
+      return this._quill.insertText(index, text)
     }
     if (value === undefined) {
       let map: StringMap = {}
@@ -100,9 +99,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
         return result
       }, map)
 
-      this._quill.insertText(index, text, map)
+      return this._quill.insertText(index, text, map)
     } else {
-      this._quill.insertText(index, text, formats, value)
+      return this._quill.insertText(index, text, formats, value)
     }
 
   }

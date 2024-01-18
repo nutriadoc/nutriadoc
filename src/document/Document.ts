@@ -17,6 +17,7 @@ import DocumentStatus from "./DocumentStatus.ts";
 import PackageManager from "../core/package/PackageManager.ts";
 import Task from "../ui/task/Task.ts";
 import NutriaLoadTask from "./tasks/NutriaLoadTask.ts";
+import Editor from "../editor/Editor.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -80,7 +81,7 @@ export default abstract class Document extends AbstractDocument {
     )
   }
 
-  insertText(index: number, text: string, format?: any, value?: any) {
+  insertText(index: number, text: string, format?: any, value?: any): any {
     if (this._status == DocumentStatus.Loading) {
       this._insertTextQueue.push({
         index,
@@ -91,7 +92,7 @@ export default abstract class Document extends AbstractDocument {
 
       return
     }
-    this._editor.insertText(index, text, format, value)
+    return this._editor.insertText(index, text, format, value)
   }
 
   insertEmbed(index: number, format: string, value: any): void
@@ -145,5 +146,9 @@ export default abstract class Document extends AbstractDocument {
 
   public set status(value: DocumentStatus) {
     this._status = value
+  }
+
+  public get editor(): Editor {
+    return this._editor
   }
 }
