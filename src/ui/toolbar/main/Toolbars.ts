@@ -1,4 +1,5 @@
 import IToolbar from "../IToolbar.ts";
+import Range from "../../../editor/Range.ts"
 
 export default class Toolbars {
 
@@ -6,6 +7,10 @@ export default class Toolbars {
 
   constructor(toolbars: IToolbar[]) {
     this._toolbars = toolbars
+  }
+
+  onEditorSelectionChange(range: Range) {
+    this._toolbars.forEach(toolbar => toolbar.onEditorSelectionChange(range))
   }
 
   enableToolbarItem(key: string) {

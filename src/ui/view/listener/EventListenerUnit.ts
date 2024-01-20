@@ -1,6 +1,7 @@
 import IUnit from "../unit/IUnit.ts";
 
 export default class EventListenerUnit implements IUnit {
+
   protected _type: string
 
   protected _listener: Function

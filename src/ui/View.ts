@@ -301,6 +301,10 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   removeAllChild(): void {
     this._children.forEach(child => this.removeChild(child))
+
+    for (; this.element.children.length > 0;) {
+      this.element.children.item(0)?.remove()
+    }
   }
 
   public removeChild(view: IView) {

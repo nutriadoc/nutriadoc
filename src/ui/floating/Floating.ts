@@ -48,6 +48,14 @@ export default class Floating extends View implements IView {
     this.floatable.dismiss()
   }
 
+  disableAutoHide() {
+    this.floatable.disableAutoHide()
+  }
+
+  enableAutoHide() {
+    this.floatable.enableAutoHide()
+  }
+
   public set zIndex(value: number) {
     this.floatable.zIndex = value
   }

@@ -2,12 +2,15 @@ import Command from "./commands/Command.ts";
 import IFormatter from "./formatter/IFormatter.ts";
 import IView from "../ui/IView.ts";
 import Range from "./Range.ts";
+import {Link} from "../core";
 
 export default interface Editor extends IView {
 
   createFormatter(): IFormatter
 
   get editorContent(): HTMLDivElement
+
+  get editorElement(): HTMLElement
 
   getSelection(): Range
 
@@ -25,6 +28,16 @@ export default interface Editor extends IView {
 
   set height(value: number)
 
+  removeLink(range: Range): void
+
+  getLink(range: Range): Link | undefined
+
+  openLink(url: string): void
+
+  changeLink(range: Range, link: Link): void
+
+  insertLink(range: Range, link: Link): void
+
   insertEmbed(index: number, format: string, value: any): void
   insertEmbed(index: number, command: Command): void
   insertEmbed(index: number, command: Command | string, value?: any): void
@@ -37,6 +50,7 @@ export default interface Editor extends IView {
 
   removeFormat(index: number, length: number): void
 
+  setSelection(range: Range): void
   setSelection(index: number, length: number): void
 
   focus(): void

@@ -18,6 +18,11 @@ import PackageManager from "../core/package/PackageManager.ts";
 import Task from "../ui/task/Task.ts";
 import NutriaLoadTask from "./tasks/NutriaLoadTask.ts";
 import Editor from "../editor/Editor.ts";
+import InlineContainer from "./ui/InlineContainer.ts";
+import EditorSelectionChangeEvent from "../editor/events/EditorSelectionChangeEvent.ts";
+import Toolbars from "../ui/toolbar/main/Toolbars.ts";
+import ServiceCollection from "./ServiceCollection.ts";
+import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -35,8 +40,16 @@ export default abstract class Document extends AbstractDocument {
 
   protected _height: number = 0
 
-  protected constructor(option?: Option) {
+  protected editorSelectionChangeHandler = this.onEditorSelectionChange.bind(this)
+
+  protected services: ServiceCollection
+
+  protected inlineContainer: InlineContainer = new InlineContainer()
+
+  protected constructor(services: ServiceCollection, option?: Option) {
     super(option, undefined, className("nutria"))
+
+    this.services = services
 
     this.package.register(
       { name: "quill", version: "2.0.0-beta.0", },
@@ -44,31 +57,47 @@ export default abstract class Document extends AbstractDocument {
       { name: "bootstrap-icons", version: "1.11.2", },
     )
 
+    this._editor = services.editor()
+    this.mainToolbar = services.mainToolbar()
+
+    this.toolbars = new Toolbars([
+      this.mainToolbar,
+      this.services.inlineToolbar(this.inlineContainer),
+      // this.lineToolbar,
+    ])
+
+    this.editor.addEventListener("selection-change", this.editorSelectionChangeHandler)
+
+    new ShortcutKeyBinding(this.editor.editorElement, this.editor)
+
     DOMEvents.setup()
     Lang.setup()
     this.setupSizeEvents()
 
     this._behavior = this.createUserBehavior()
-    this.setupElements(option).then(() => {})
+
+    this.init()
   }
 
-  async setupElements(option?: Option): Promise<void> {
-    this.createShortcutKeyBinding()
-    this.createInlineToolbar()
 
-    await Page.setup(option)
+  init() {
 
+    const  _init = async () => {
+      await Page.setup(this._option)
 
-    const loadContent = this.loadContent(option)
+      const loadContent = this.loadContent(this._option)
+      const loadTask = new NutriaLoadTask(this.package, loadContent, this._option)
+      await loadTask.start()
 
-    const loadTask = new NutriaLoadTask(this.package, loadContent, this._option)
-    await loadTask.start()
+      this.addElement(this.mainToolbar)
+      this.addElement(this.inlineContainer)
+      this.attachEditor()
 
-    this.addElement(this.mainToolbar)
-    this.attachEditor()
+      this._status = DocumentStatus.Ready
+      this.dispatchEvent(new ReadyEvent())
+    }
 
-    this._status = DocumentStatus.Ready
-    this.dispatchEvent(new ReadyEvent())
+    _init().then(() => {})
   }
 
   attachEditor() {
@@ -198,6 +227,12 @@ export default abstract class Document extends AbstractDocument {
     }
 
     this.resizeHeight()
+  }
+
+  protected onEditorSelectionChange(e: Event) {
+    const event = e as EditorSelectionChangeEvent
+    console.debug('on editor selection change')
+    this.toolbars.onEditorSelectionChange(event.range)
   }
 
   public get behavior(): UserBehavior {

@@ -20,11 +20,13 @@ export default class Floatable {
 
   protected spacing: number
 
-  protected documentClickHandler: any
+  protected documentClickHandler = this.onDocumentClick.bind(this)
 
   protected _view: IView
 
   protected _dismissWhenBlur: boolean = true
+
+  public _disableAutoHide = false
 
   constructor(
     view: IView,
@@ -37,8 +39,6 @@ export default class Floatable {
     this.spacing = spacing ?? 10
 
     this._position = relativePosition ?? Position.BottomLeft
-
-    this.documentClickHandler = this.onDocumentClick.bind(this)
 
     this.hidden()
   }
@@ -124,7 +124,7 @@ export default class Floatable {
       case Position.TopLeft:
       case Position.TopCenter:
       case Position.TopRight: {
-        y = rect.y - selfRect.height // - this.spacing
+        y = rect.y - selfRect.height - this.spacing
         if (y < 0)
           y = rect.y + rect.height + this.spacing
         break
@@ -154,6 +154,7 @@ export default class Floatable {
   }
 
   public onDocumentClick(event: MouseEvent) {
+    console.debug('on document click', this)
 
     const target = event.target as HTMLElement
 
@@ -166,10 +167,23 @@ export default class Floatable {
       return
     }
 
+    console.debug('disable auto hide', this._disableAutoHide)
+
+    if (this._disableAutoHide) return
+
     document.removeEventListener('click', this.documentClickHandler)
     this.attachedEvent = false
 
     this.hidden()
+  }
+
+  public disableAutoHide() {
+    console.debug("disable auto hide")
+    document.removeEventListener('click', this.documentClickHandler)
+  }
+
+  public enableAutoHide() {
+    document.addEventListener('click', this.documentClickHandler)
   }
 
   public set relative(value: HTMLElement) {

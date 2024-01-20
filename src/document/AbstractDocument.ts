@@ -1,6 +1,4 @@
 import View from "../ui/View.ts";
-import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
-import InlineToolbarBinding from "../editor/toolbar/InlineToolbarBinding.ts";
 import Editor from "../editor/Editor.ts";
 import Collaboration from "../editor/collaboration/Collaboration.ts";
 import Option from "../editor/Option.ts";
@@ -27,7 +25,7 @@ export default abstract class AbstractDocument extends View {
 
   protected mainToolbar!: Toolbar
 
-  protected toolbars: Toolbars
+  protected toolbars!: Toolbars
 
   protected textChangeHandler: any
 
@@ -44,7 +42,6 @@ export default abstract class AbstractDocument extends View {
     this.textChangeHandler = this.onTextChange.bind(this)
     this.commandHandler = this._onCommand.bind(this)
 
-    this.toolbars = this.createToolbars()
   }
 
   protected abstract setupLoadEvent(): void
@@ -54,16 +51,7 @@ export default abstract class AbstractDocument extends View {
 
   abstract createEditor(): Editor
 
-  abstract createShortcutKeyBinding(): ShortcutKeyBinding
-
-  abstract createInlineToolbar(): InlineToolbarBinding
-
   abstract createCollaboration(option?: CollaborationOption): Collaboration
-
-  protected createToolbars(): Toolbars {
-    this.mainToolbar = this.createToolbar()
-    return new Toolbars([this.mainToolbar])
-  }
 
   protected createToolbar(): Toolbar {
     const formatter = this._editor.createFormatter()

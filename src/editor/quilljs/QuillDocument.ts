@@ -5,15 +5,14 @@ import Collaboration from "../collaboration/Collaboration.ts";
 import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
 import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
-import ShortcutKeyBinding from "../shortcut_key/ShortcutKeyBinding.ts";
-import InlineToolbarBinding from "../toolbar/InlineToolbarBinding.ts";
-import QuillShortcutKeyBinding from "./QuillShortcutKeyBinding.ts";
 import {CollaborationOption, getCollaborationOption} from "../collaboration/CollaborationOption.ts"
+import QuillServiceCollection from "./QuillServiceCollection.ts";
 
 export default class QuillDocument extends Document {
 
   public constructor(option?: Option) {
-    super(option)
+    const services = new QuillServiceCollection(option)
+    super(services, option)
   }
 
   protected setupLoadEvent() {
@@ -30,13 +29,6 @@ export default class QuillDocument extends Document {
         })
       }
     })
-  }
-
-  createShortcutKeyBinding(): ShortcutKeyBinding {
-    return new QuillShortcutKeyBinding(this.quill)
-  }
-  createInlineToolbar(): InlineToolbarBinding {
-    return new InlineToolbarBinding(this.quill)
   }
 
   createCollaboration(option?: CollaborationOption): Collaboration {

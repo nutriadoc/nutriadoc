@@ -18,9 +18,10 @@ import IFormatter from "../../../editor/formatter/IFormatter.ts";
 import "./Toolbar.scss"
 import ToolbarSizeChangeEvent from "./events/ToolbarSizeChangeEvent.ts";
 import MoreToolbarItemMenu from "../components/more_toolbar_item_menu/MoreToolbarItemMenu.ts";
+import Range from "../../../editor/Range.ts"
 
 
-export default class Toolbar extends View implements IToolbar{
+export default class Toolbar extends View implements IToolbar {
 
   protected _layouts: ToolbarAccordionLayout[]
 
@@ -52,6 +53,10 @@ export default class Toolbar extends View implements IToolbar{
 
     this.setupMenus()
     this.setupMonitorToolbarSizeChange()
+  }
+
+  onEditorSelectionChange(_: Range): void {
+
   }
 
   protected setupMonitorToolbarSizeChange() {

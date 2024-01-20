@@ -1,25 +1,50 @@
-import InlineToolbar from "../InlineToolbar.ts"
 import LinkOpenButton from "./LinkOpenButton.ts";
-import {className, name, onClick, text} from "../../../views.ts"
+import {className, onClick, text} from "../../../views.ts"
 import InlineToolbarItem from "../InlineToolbarItem.ts";
 import {Copy, Edit, X} from "../../icons";
 import InlineToolbarSeparatorItem from "../InlineToolbarSeparatorItem.ts";
-import ILinkBinding from "../../../link/ILinkBinding.ts";
 import View from "../../../View.ts";
 import i18n from "../../../../i18n";
+import LinkSettings from "../../../link/LinkSettings.ts";
+import InlineToolbar from "../InlineToolbar.ts";
+import Editor from "../../../../editor/Editor.ts";
+import Range from "../../../../editor/Range.ts";
+import {Link} from "../../../../core";
 
 // @ts-ignore
-export default class LinkInlineToolbar extends InlineToolbar {
+export default class LinkInlineToolbar extends View {
 
-  protected _binding?: ILinkBinding
+  protected current?: View
 
-  public constructor(element: HTMLElement) {
+  protected settings: LinkSettings
+
+  protected toolbar: InlineToolbar
+
+  protected editor: Editor
+
+  protected range: Range
+
+  protected link: Link
+
+  protected linkSettingCancelHandler = this.onLinkSettingCancel.bind(this)
+
+  public constructor(element: HTMLElement, toolbar: InlineToolbar, editor: Editor, range: Range) {
     super(
       element,
-      LinkInlineToolbar.nodes()
+      className("link-inline-toolbar")
     )
 
-    this.addElement(this._children)
+    this.toolbar = toolbar
+    this.editor = editor
+    this.range = range
+
+    const link: Link = this.editor.getLink(range) ?? { url: "", text: "" }
+    this.link = link
+
+    this.settings = new LinkSettings(this.editor, this.range)
+    this.settings.addEventListener('hidden', this.linkSettingCancelHandler)
+
+    this.addElement(LinkInlineToolbar.nodes())
 
     this.find(className("edit"))
       ?.assignUnits(onClick(this.onEditClick.bind(this)))
@@ -60,39 +85,46 @@ export default class LinkInlineToolbar extends InlineToolbar {
   }
 
   protected onCopyClick(_event: MouseEvent): void {
-    this._binding?.copyLink()
+    this.editor.setSelection(this.range)
+
+    navigator
+      .clipboard
+      .writeText(this.link.url)
+      .then(() => {
+      })
+      .catch(() => {
+      })
   }
 
   protected onRemoveClick(_event: MouseEvent): void {
-    this._binding?.removeLink()
-    this.hidden()
+    this.editor.removeLink(this.range)
+    this.editor.setSelection(this.range)
+    this.dispose()
   }
 
   protected onOpenClick(_event: MouseEvent): void {
-    this._binding?.openLink()
-    this.visible()
+    this.editor.openLink(this.link.url)
   }
 
   protected onCloseClick(_event: MouseEvent): void {
-    this.hidden()
-    this._binding?.closeInlineToolbar()
+    this.dispose()
+
   }
 
   protected onEditClick(_event: MouseEvent): void {
-    this.hidden()
-    this._binding?.openLinkSettings()
+    this.toolbar.disableAutoHide()
+
+    this.settings.visible()
   }
 
-  public visible(relative?: HTMLElement | View | undefined, container?: View) {
-    super.visible(relative, container)
+  protected onLinkSettingCancel() {
+    this.editor.setSelection(this.range)
   }
 
-  public set binding(value: ILinkBinding | undefined) {
-    this._binding = value
-    const linkOpen = this.find(name("link_open")) as LinkOpenButton
+  dispose() {
+    this.settings.removeEventListener('hidden', this.linkSettingCancelHandler)
 
-    const url = value?.url
-    if (url)
-      linkOpen.link = url
+    this.removeAllChild()
+    super.dispose();
   }
 }

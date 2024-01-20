@@ -1,5 +1,5 @@
 import Editor from "../Editor.ts"
-import Quill, {Sources, StringMap} from "quill"
+import Quill, {RangeStatic, Sources, StringMap} from "quill"
 import Command from "../commands/Command.ts"
 import IFormatter from "../formatter/IFormatter.ts"
 import Formatter from "../formatter/Formatter.ts"
@@ -9,43 +9,54 @@ import QuillModule from "./QuillModule.ts"
 import Delta from "quill-delta";
 import QuillDocumentMutation from "./QuillDocumentMutation.ts"
 import Range from "../Range.ts";
-import hljs from 'highlight.js'
+import {Link} from "../../core";
+import {a, className, href, style, target} from "../../ui/views.ts";
 
 QuillModule.registerModules()
 
 export default class QuillEditor extends AbstractEditor implements Editor {
 
-  protected _quill: Quill
+  protected _quill!: Quill
 
   protected _option?: Option
 
-  protected textChangeHandler: any
+  protected textChangeHandler = this.onQuillTextChange.bind(this)
+
+  protected selectionChangeHandler = this.onQuillSelectionChange.bind(this)
+
+  protected blurHandler = this.onBlur.bind(this)
+
+  protected focusHandler = this.onFocus.bind(this)
 
   constructor(option?: Option) {
     super()
 
-    this._quill = new Quill(
-      this.element,
-      {
-        modules: {
-          cursors: true,
-          syntax: {
-            hljs: {
-              highlight(language: string, text: string) {
-                return hljs.highlight(text, {language})
-              }
-            }
-          }
-        },
-      }
-    )
-
     this._option = option
+  }
+
+  init(quill: Quill) {
+    this._quill = quill
+
+
+    this._quill.root.addEventListener('blur', this.blurHandler)
+    this._quill.root.addEventListener('focus', this.focusHandler)
+
     this.initializeContents()
     this.setupPlugins()
+  }
 
-    this.textChangeHandler = this.onQuillTextChange.bind(this)
+  onFocus() {
     this._quill.on('text-change', this.textChangeHandler)
+    this._quill.on('selection-change', this.selectionChangeHandler)
+  }
+
+  onBlur() {
+    this._quill.off('text-change', this.textChangeHandler)
+    this._quill.off('selection-change', this.selectionChangeHandler)
+  }
+
+  get editorElement(): HTMLElement {
+    return this._quill.root
   }
 
   protected initializeContents() {
@@ -76,6 +87,65 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   getHtml(): string {
     return this._quill.root.innerHTML
+  }
+
+  removeLink(range: Range) {
+
+    const [blot] = this._quill.getLeaf(range.index)
+    const link = blot.parent
+    const index = link.offset(link.scroll)
+
+    this._quill.formatText(index, blot.text.length, 'link', false, 'silent')
+  }
+
+  getLink(range: Range): Link | undefined {
+    const [blot] = this._quill.getLeaf(range.index)
+    const link = blot.parent
+
+    return {
+      text: blot.text,
+      url: link.formats().link,
+    }
+  }
+
+  openLink(url: string): void {
+    const link = this.patchLink()
+    link.href = url
+    link.click()
+  }
+
+  protected patchLink(): HTMLLinkElement {
+    let node: HTMLLinkElement | undefined
+    node = document.body.querySelector(".link-patch") as HTMLLinkElement ?? undefined
+    if (node) return node as HTMLLinkElement
+
+    const link = a(
+      href("patch"),
+      target("_blank"),
+      className("link-patch"),
+      style({
+        visibility: "hidden"
+      })
+    )
+    node = link.render() as HTMLLinkElement
+    document.body.append(node)
+
+    return node
+  }
+
+  changeLink(range: Range, link: Link) {
+    const [blot] = this._quill.getLeaf(range.index)
+    const linkBlot = blot.parent
+    const index = linkBlot.offset(linkBlot.scroll)
+
+    this.quill.focus()
+    this.quill.deleteText(index, blot.text.length, "user")
+    this.quill.insertText(index, link.text, "user")
+    this.quill.formatText(index, link.text.length + 1, "link", link.url, "user")
+  }
+
+  insertLink(range: Range, link: Link) {
+    this.quill.insertText(range.index, link.text, { "link": link.url }, "user")
   }
 
   insertEmbed(index: number, format: string, value: any): void
@@ -116,8 +186,14 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     this._quill.removeFormat(index, length)
   }
 
-  setSelection(index: number, length: number): void {
-    this._quill.setSelection(index, length)
+  setSelection(range: Range): void
+  setSelection(index: number, length: number): void
+  setSelection(index: number | Range, length?: number): void {
+
+    if (typeof index === 'number')
+      this._quill.setSelection(index as number, length as number)
+    else
+      this._quill.setSelection(index as RangeStatic)
   }
 
   focus(): void {
@@ -129,6 +205,12 @@ export default class QuillEditor extends AbstractEditor implements Editor {
       new QuillDocumentMutation(delta),
       new QuillDocumentMutation(oldContents)
     )
+  }
+
+  protected onQuillSelectionChange(range: RangeStatic, old: RangeStatic): void {
+
+    console.debug("onQuillSelectionChange", { range, old})
+    this.onSelectionChange({...range}, {...old})
   }
 
   setHtml(html: string) {
@@ -146,5 +228,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   public get quill(): Quill {
     return this._quill
+  }
+
+  public set quill(quill: Quill) {
+    this._quill = quill
   }
 }

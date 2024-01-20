@@ -2,7 +2,7 @@ import Floating from "../floating/Floating.ts";
 import {
   _for, autoFocus,
   button,
-  className,
+  className, contentEditable,
   div,
   id,
   input,
@@ -16,6 +16,9 @@ import {
 import Position from "../floating/Position.ts";
 import View from "../View.ts";
 import LinkEvent from "../toolbar/inline/link/LinkEvent.ts";
+import Editor from "../../editor/Editor.ts";
+import Range from "../../editor/Range.ts";
+import {Link} from "../../core";
 
 export default class LinkSettings extends Floating {
 
@@ -23,10 +26,23 @@ export default class LinkSettings extends Floating {
 
   public _text: string = ""
 
-  public constructor(url?: string, text?: string) {
+  protected editor: Editor
+
+  protected range: Range
+
+  protected link?: Link
+
+  public constructor(editor: Editor, range: Range) {
     super(Position.Center)
-    this._url = url ?? ''
-    this._text = text ?? ''
+
+    this.assignUnits(contentEditable(false))
+
+    this.editor = editor
+    this.range = range
+    const link = this.link = editor.getLink(range)
+
+    this._url = link?.url ?? ''
+    this._text = link?.text ?? ''
   }
 
   public get className(): string {
@@ -49,7 +65,7 @@ export default class LinkSettings extends Floating {
     })
 
     const inputStyles = style({
-      width: "500px",
+      width: "300px",
       borderRadius: "4px",
       border: "1px #CCC solid",
       lineHeight: "200%",
@@ -159,12 +175,24 @@ export default class LinkSettings extends Floating {
   }
 
   protected onDefaultButtonClick() {
+    this.editor.setSelection(this.range)
+
     this.dismiss()
   }
 
   protected onPrimaryButtonClick() {
-    this.hidden()
 
+    const changed = { url: this.url, text: this.text }
+
+    if (!this.link) {
+      this.editor.insertLink(this.range, changed)
+    } else {
+      this.editor.changeLink(this.range, changed)
+    }
+
+    this.editor.setSelection(this.range.index, this.range.length)
+
+    this.hidden()
     this.dispatchEvent(new LinkEvent(this.url, this.text))
   }
 
@@ -174,7 +202,6 @@ export default class LinkSettings extends Floating {
 
   public set url(url: string) {
     this._url = url
-    this.find(id("url"))?.assignUnits(value(url))
   }
 
   public get text(): string {
@@ -183,6 +210,5 @@ export default class LinkSettings extends Floating {
 
   public set text(text: string) {
     this._text = text
-    this.find(id("text"))?.assignUnits(value(text))
   }
 }

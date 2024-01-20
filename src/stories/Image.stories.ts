@@ -1,7 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
 import {div, name, style} from "../ui/views.ts";
-import IView from "../ui/IView.ts";
 import QuillEditor from "../editor/quilljs/QuillEditor.ts";
 
 type ImageArgs = {
@@ -12,7 +11,7 @@ const meta = {
   title: 'Editor/Image',
   tags: [],
   render: () => {
-    const root = div(
+    div(
       div(
         style({
           height: "100px"
