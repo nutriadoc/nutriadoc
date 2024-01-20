@@ -5,7 +5,6 @@ import Quill from "quill";
 import Option from "../Option.ts";
 import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
-import hljs from "highlight.js";
 import IView from "../../ui/IView.ts";
 import InlineToolbar from "../../ui/toolbar/inline/InlineToolbar.ts";
 import QuillInlineToolbar from "./QuillInlineToolbar.ts";
@@ -47,7 +46,7 @@ export default class QuillServiceCollection extends ServiceCollection {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                return hljs.highlight(text, {language})
+                return (document as any).hljs.highlight(text, {language})
               }
             }
           }

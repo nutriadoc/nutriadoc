@@ -4,7 +4,6 @@ import {ChevronDown} from "../styles/icons";
 import Menu from "../menu/Menu.ts";
 import Position from "../floating/Position.ts";
 import DefaultMenuItem from "../menu/DefaultMenuItem.ts";
-import hljs from "highlight.js";
 import Search from "./Search.ts";
 import SearchChangeEvent from "./SearchChangeEvent.ts";
 import MenuEvent from "../menu/events/MenuEvent.ts";
@@ -28,10 +27,10 @@ export default class LanguageButton extends ActivationView {
 
   protected label: IView = View.new("span", text("Language"))
 
-  protected allLanguages: Language[] = hljs
+  protected allLanguages: Language[] = (document as any).hljs
     .listLanguages()
-    .map(lang => {
-    const ext = hljs.getLanguage(lang)
+    .map((lang: any) => {
+    const ext = (document as any).hljs.getLanguage(lang)
     return { value: lang, name: ext?.name ?? ""}
   })
 

@@ -1,6 +1,6 @@
 {
   "name": "nutria",
-  "version": "0.0.13",
+  "version": "0.0.17",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -43,12 +43,12 @@
     "storybook": "7.6.6",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "highlight.js": "^11.9.0"
   },
   "dependencies": {
     "axios": "^1.6.5",
     "bytes": "^3.1.2",
-    "highlight.js": "^11.9.0",
     "i18next": "^23.7.11",
     "quill": "2.0.0-dev.4",
     "quill-cursors": "^4.0.2",

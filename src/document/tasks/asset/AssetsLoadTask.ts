@@ -9,6 +9,7 @@ export default class AssetsLoadTask extends Task {
     const assets = [
       "quill/dist/quill.core.css",
       "bootstrap-icons/font/bootstrap-icons.css",
+      "highlight.js/highlight.min.js",
       "highlight.js/styles/github.css",
     ].filter(path => option?.excludeCss?.includes(path) !== true)
 
