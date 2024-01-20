@@ -14,11 +14,11 @@ import HighlightMenu from "../components/hightlight/HighlightMenu.ts";
 import AlignMenu from "../components/align/AlignMenu.ts";
 import LineSpacingMenu from "../components/line_spacing/LineSpacingMenu.ts";
 import IFormatter from "../../../editor/formatter/IFormatter.ts";
-
-import "./Toolbar.scss"
 import ToolbarSizeChangeEvent from "./events/ToolbarSizeChangeEvent.ts";
 import MoreToolbarItemMenu from "../components/more_toolbar_item_menu/MoreToolbarItemMenu.ts";
 import Range from "../../../editor/Range.ts"
+
+import "./Toolbar.scss"
 
 
 export default class Toolbar extends View implements IToolbar {

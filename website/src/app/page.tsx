@@ -20,7 +20,7 @@ export default async function Home() {
           <button className="rounded-lg bg-gray-700 text-white p-2">Subscribe</button>
         </div>
       </div>
-      <div className="container main lg pt-20">
+      <div className="container main lg pt-20 px-5">
         
         <div
           id="container"

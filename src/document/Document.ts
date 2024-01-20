@@ -1,5 +1,5 @@
 import Option from "../editor/Option.ts";
-import {className} from "../ui/views.ts";
+import {className, style} from "../ui/views.ts";
 import AbstractDocument from "./AbstractDocument.ts";
 import DocumentMutation from "../editor/DocumentMutation.ts";
 import UserBehavior from "../editor/behavior/UserBehavior.ts";
@@ -45,6 +45,8 @@ export default abstract class Document extends AbstractDocument {
   protected services: ServiceCollection
 
   protected inlineContainer: InlineContainer = new InlineContainer()
+
+  protected editorResizeObserver: ResizeObserver = new ResizeObserver(this.onEditorResize.bind(this))
 
   protected constructor(services: ServiceCollection, option?: Option) {
     super(option, undefined, className("nutria"))
@@ -174,10 +176,10 @@ export default abstract class Document extends AbstractDocument {
 
     const observer = new MutationObserver(_ => {
       if (this.didSetupSizeEvent) return
-      this.setupHeight()
       this.didSetupSizeEvent = true
 
       this.resizingHeight()
+      this.editorResizeObserver.observe(this._editor.editorElement)
     })
     observer.observe(this._element, {
       childList: true,
@@ -193,16 +195,21 @@ export default abstract class Document extends AbstractDocument {
 
   resizeHeight() {
     if (this._height > 0) {
+      const editorHeight = this._height - this.mainToolbar.element.offsetHeight
       this._element.style.height = `${this._height}px`
-      this.editor.height = this._height - 40
+      this.editor.height = editorHeight
     }
   }
 
+  // TODO: Box model
   setupHeight() {
     const height = this._option?.height
     if (!height) return
 
     const containerHeight = this._element.parentElement?.offsetHeight ?? 0
+
+    const toolbarHeight = this.mainToolbar.element.offsetHeight
+    if (toolbarHeight == 0) return
 
     if (typeof height == 'number') {
       if (height < 5) {
@@ -211,9 +218,10 @@ export default abstract class Document extends AbstractDocument {
     }
 
     if (typeof height == "string") {
+
       if (height.endsWith("%")) {
-        let percent = parseInt(height)
-        percent = 100
+        let percent = 100
+        try { percent = parseInt(height) } catch { }
         percent = percent / 100
 
         this._height = containerHeight * percent
@@ -223,16 +231,34 @@ export default abstract class Document extends AbstractDocument {
         this._height = parseInt(height)
       }
 
+      if (height == "auto") {
+        this._height = containerHeight - this._element.offsetTop
+        if (this._height <= 0) return
+        if (this._height < 100) this._height = 100
+      }
+
       // TODO: em, rem, vw, vh
     }
 
     this.resizeHeight()
   }
 
+  protected onEditorResize() {
+    this.inlineContainer.assignUnits(style({
+      width: `${this.editor.element.offsetWidth}px`,
+      height: `${this.editor.element.offsetHeight}px`,
+    }))
+  }
+
   protected onEditorSelectionChange(e: Event) {
     const event = e as EditorSelectionChangeEvent
     console.debug('on editor selection change')
     this.toolbars.onEditorSelectionChange(event.range)
+  }
+
+  dispose() {
+    super.dispose()
+    this.editorResizeObserver.unobserve(this.editor.editorElement)
   }
 
   public get behavior(): UserBehavior {

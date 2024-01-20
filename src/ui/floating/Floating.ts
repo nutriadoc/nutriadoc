@@ -25,7 +25,6 @@ export default class Floating extends View implements IView {
     this._rendered = true
 
     this._element.classList.add('ntr-floating')
-    this._element.style.zIndex = "100"
     this.addElement(this.children)
 
 
@@ -54,9 +53,5 @@ export default class Floating extends View implements IView {
 
   enableAutoHide() {
     this.floatable.enableAutoHide()
-  }
-
-  public set zIndex(value: number) {
-    this.floatable.zIndex = value
   }
 } 

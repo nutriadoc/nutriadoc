@@ -14,7 +14,7 @@ export default class Floatable {
 
   protected attachedEvent: boolean = false
 
-  protected _zIndex: number = 100
+  protected static _zIndex: number = 100
 
   protected _container?: IView
 
@@ -52,10 +52,10 @@ export default class Floatable {
     const selfRect = this._view.element.getBoundingClientRect()
     const rect = relativeRect ?? bodyRect
 
-    if (this._relativeTo == "element") {
+    // if (this._relativeTo == "element") {
       rect.y = this._relative?.offsetTop ?? 0
       rect.x = this._relative?.offsetLeft ?? 0
-    }
+    // }
 
     switch (this._position) {
       case Position.BottomCenter:
@@ -109,11 +109,19 @@ export default class Floatable {
     const rect = relativeRect ?? container.getBoundingClientRect()
     const selfRect = this._view.element.getBoundingClientRect()
 
-
-    if (this._relativeTo == "element") {
-      rect.y = this._relative?.offsetTop ?? 0
-      rect.x = this._relative?.offsetLeft ?? 0
+    let top = this._relative?.offsetTop ?? 0
+    let element = this._relative?.offsetParent as HTMLElement
+    top += element.offsetTop
+    for (; !!element;) {
+      element = element?.offsetParent as HTMLElement ?? undefined
+      top += element?.offsetTop ?? 0
     }
+
+    // if (this._relativeTo == "element") {
+      rect.y = top ?? 0
+      rect.x = this._relative?.offsetLeft ?? 0
+    // }
+
 
     switch (this._position) {
       case Position.Center: {
@@ -200,7 +208,7 @@ export default class Floatable {
     this._view.element.style.left = `${this.x}px`
     this._view.element.style.top = `${this.y}px`
     this._view.element.style.position = "absolute"
-    this._view.element.style.zIndex = this._zIndex.toString()
+    this._view.element.style.zIndex = (Floatable._zIndex ++).toString()
   }
 
   public visible(relative?: HTMLElement | View | undefined, container?: View) {
@@ -244,11 +252,6 @@ export default class Floatable {
 
   public set dismissWhenBlur(value: boolean) {
     this._dismissWhenBlur = value
-  }
-
-  public set zIndex(value: number) {
-    this._zIndex = value
-    this._view.element.style.zIndex = `${value}`
   }
 
 }
