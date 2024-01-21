@@ -133,7 +133,7 @@ export default abstract class Document extends AbstractDocument {
 
   insertEmbed(index: number, format: string, value: any): void
   insertEmbed(index: number, command: Command): void
-  insertEmbed(index: number, command: Command | string, value?: any): void{
+  insertEmbed(index: number, command: Command | string, value?: any): void {
     this._editor.insertEmbed(index, command, value)
   }
 
