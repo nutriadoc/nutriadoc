@@ -9,9 +9,13 @@ export default class KeyFile {
 
   protected pool: KeyPool = KeyPool.shared
 
+  protected _blob: string
+
   public constructor(key: Key, file: File) {
     this._key = key
     this._file = file
+    this._blob = URL.createObjectURL(file)
+
     this.pool.set(key.int, this)
   }
 
@@ -21,6 +25,10 @@ export default class KeyFile {
 
   public get file(): File {
     return this._file
+  }
+
+  public get blob(): string {
+    return this._blob
   }
 
   static create(file: File): KeyFile {

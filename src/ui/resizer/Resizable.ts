@@ -5,6 +5,7 @@ import {className} from "../views.ts";
 import ResizeEvent from "./ResizeEvent.ts";
 import Bounding from "../view/Bounding.ts";
 import Direction from "../Direction.ts";
+import KeyFile from "../../core/file/KeyFile.ts";
 
 export default class Resizable extends View {
 
@@ -36,9 +37,13 @@ export default class Resizable extends View {
 
   public queue: Size[] = []
 
-  constructor(target: HTMLElement, element?: HTMLDivElement) {
+  protected _file?: KeyFile
+
+  constructor(file: KeyFile | undefined, target: HTMLElement, element?: HTMLDivElement) {
     element = element ?? document.createElement("div")
     super(element)
+
+    this._file = file
 
     this.assignUnits(className("resizable"))
 
@@ -236,12 +241,16 @@ export default class Resizable extends View {
     return this._target
   }
 
-  static loadResizer(source: string, element?: Node) {
+  public get file(): KeyFile | undefined {
+    return this._file
+  }
+
+  static loadResizer(file: KeyFile | undefined, source: string, element?: Node) {
     const image = document.createElement("img")
     image.src = source
     image.style.objectFit = "fill"
 
-    return new Resizable(image, element as HTMLDivElement)
+    return new Resizable(file, image, element as HTMLDivElement)
   }
 
 }

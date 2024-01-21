@@ -28,6 +28,8 @@ export default interface Editor extends IView {
 
   set height(value: number)
 
+  get contents(): any
+
   removeLink(range: Range): void
 
   getLink(range: Range): Link | undefined

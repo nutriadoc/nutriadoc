@@ -17,4 +17,8 @@ export default class TaskProgressEvent extends Event {
   get total(): number {
     return this._length
   }
+
+  get percent(): number {
+    return this._loaded / this._length
+  }
 }

@@ -232,4 +232,8 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   public set quill(quill: Quill) {
     this._quill = quill
   }
+
+  get contents(): any {
+    return this._quill.getContents()
+  }
 }

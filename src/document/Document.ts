@@ -23,10 +23,13 @@ import EditorSelectionChangeEvent from "../editor/events/EditorSelectionChangeEv
 import Toolbars from "../ui/toolbar/main/Toolbars.ts";
 import ServiceCollection from "./ServiceCollection.ts";
 import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
+import NutriaDocument from "./service/model/NutriaDocument.ts";
 
 export default abstract class Document extends AbstractDocument {
 
   protected _behavior: UserBehavior
+
+  protected _data?: NutriaDocument
 
   protected _documentService: DocumentService = new DefaultDocumentService()
 
@@ -42,7 +45,7 @@ export default abstract class Document extends AbstractDocument {
 
   protected editorSelectionChangeHandler = this.onEditorSelectionChange.bind(this)
 
-  protected services: ServiceCollection
+  protected _services: ServiceCollection
 
   protected inlineContainer: InlineContainer = new InlineContainer()
 
@@ -51,7 +54,7 @@ export default abstract class Document extends AbstractDocument {
   protected constructor(services: ServiceCollection, option?: Option) {
     super(option, undefined, className("nutria"))
 
-    this.services = services
+    this._services = services
 
     this.package.register(
       { name: "quill", version: "2.0.0-beta.0", },
@@ -64,7 +67,7 @@ export default abstract class Document extends AbstractDocument {
 
     this.toolbars = new Toolbars([
       this.mainToolbar,
-      this.services.inlineToolbar(this.inlineContainer),
+      this._services.inlineToolbar(this.inlineContainer),
       // this.lineToolbar,
     ])
 
@@ -275,5 +278,17 @@ export default abstract class Document extends AbstractDocument {
 
   public get editor(): Editor {
     return this._editor
+  }
+
+  public get data(): NutriaDocument | undefined {
+    return this._data
+  }
+
+  public set data(value: NutriaDocument | undefined) {
+    this._data = value
+  }
+
+  public get services(): ServiceCollection {
+    return this._services
   }
 }

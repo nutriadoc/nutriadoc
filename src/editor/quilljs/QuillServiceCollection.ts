@@ -40,6 +40,7 @@ export default class QuillServiceCollection extends ServiceCollection {
 
   quill(): Quill {
     if (this._quill) return this._quill
+
     return this._quill = new Quill(
       this._editor.element,
       {

@@ -19,7 +19,7 @@ export default class ContentLoaderTask extends Task {
     collaboration: ITask) {
 
     super([
-      new DocumentLoadTask(service, option),
+      new DocumentLoadTask(doc, service, option),
       collaboration,
       new EditorLoadContentTask(editor, doc, option)
     ])

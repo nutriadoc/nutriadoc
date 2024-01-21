@@ -5,6 +5,9 @@ import ResizeEvent from "../../ui/resizer/ResizeEvent.ts";
 import KeyPool from "../../core/KeyPool.ts";
 import Key from "../../core/Key.ts";
 import KeyFile from "../../core/file/KeyFile.ts";
+import MediaUploader from "../../ui/media/MediaUploader.ts";
+import QuillDocument from "../quilljs/QuillDocument.ts";
+import NutriaDocument from "../../document/service/model/NutriaDocument.ts";
 const Image = Quill.import("formats/image")
 
 export default class ImageEmbed extends Image {
@@ -22,6 +25,24 @@ export default class ImageEmbed extends Image {
     if (!view) return
 
     view.addEventListener("resize", this.onWidthChange.bind(this))
+
+    this.startMediaUploader(view as Resizable)
+  }
+
+  protected startMediaUploader(resizable: Resizable): void {
+    if (!resizable.file) return
+
+    const scroll = (this as any).scroll
+    const document = QuillDocument.getDocumentByScroll(scroll)
+
+    const uploader = new MediaUploader(
+      resizable.file,
+      resizable,
+      document.services.mediaService(),
+      document.data as NutriaDocument
+    )
+
+    uploader.start().then(() => {})
   }
 
   protected onWidthChange(e: Event) {
@@ -34,12 +55,12 @@ export default class ImageEmbed extends Image {
     const kf = KeyPool.shared.get(key.int) as KeyFile | undefined
 
     if (kf !== undefined)
-      value = URL.createObjectURL(kf.file)
+      value = kf.blob
 
     const node = super.create(value) as HTMLElement
     node.classList.add("image")
 
-    const view = Resizable.loadResizer(value, node)
+    const view = Resizable.loadResizer(kf, value, node)
     this.views.set(view.id, view)
     node.setAttribute("data-view-id", view.id.toString())
 

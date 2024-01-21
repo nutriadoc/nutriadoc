@@ -52,7 +52,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.provider = new WebsocketProvider(
       this.option.ws,
       // 'ws://127.0.0.1:123',
-      docTask.document!.id,
+      docTask.data!.id,
       this.ydoc
     )
 

@@ -78,19 +78,22 @@ export default class DefaultUserUploadBehavior implements UserUploadBehavior {
       const file = KeyFile.create(files[i])
       this.editor.insertEmbed(editorIndex, new ImageCommand(file))
 
+      console.debug(this.editor.contents)
+      debugger
+
       const mv = UploadMessageView.createUploadMessageView(file)
       if (i === 0)
         messageView = Optional.of(mv)
 
-      this.messageBox.addMessage(mv)
+      // this.messageBox.addMessage(mv)
     }
 
 
-    if (files.length > 1) {
-      this.messageBox.displaySummary()
-    } else {
-      this.messageBox.activeMessage(messageView.get())
-    }
+    // if (files.length > 1) {
+    //   this.messageBox.displaySummary()
+    // } else {
+    //   this.messageBox.activeMessage(messageView.get())
+    // }
   }
 
   uploadsHasFailed(_task: UploadTask): void {
