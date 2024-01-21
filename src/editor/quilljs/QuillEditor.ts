@@ -70,7 +70,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   createFormatter(): IFormatter {
-    return new Formatter(this._quill)
+    return new Formatter(this._quill, this)
   }
 
   getSelection(): Range {
@@ -101,6 +101,8 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   getLink(range: Range): Link | undefined {
     const [blot] = this._quill.getLeaf(range.index)
     const link = blot.parent
+    if (link.statics.name !== 'Link')
+      return undefined
 
     return {
       text: blot.text,
@@ -208,8 +210,6 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   protected onQuillSelectionChange(range: RangeStatic, old: RangeStatic): void {
-
-    console.debug("onQuillSelectionChange", { range, old})
     this.onSelectionChange({...range}, {...old})
   }
 
@@ -223,7 +223,6 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     super.height = value
 
     this._quill.root.parentElement!.style.height = `${value}px`
-    // debugger
   }
 
   public get quill(): Quill {

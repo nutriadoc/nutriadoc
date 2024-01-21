@@ -88,7 +88,7 @@ export default class LinkSettings extends Floating {
           className("field"),
           fieldStyles,
           label(
-            text("Link"),
+            text("Url"),
             _for("url"),
             labelStyles,
           ),
@@ -106,7 +106,7 @@ export default class LinkSettings extends Floating {
           className("field"),
           fieldStyles,
           label(
-            text("Link Text"),
+            text("Text"),
             _for("text"),
             labelStyles,
           ),
@@ -115,7 +115,7 @@ export default class LinkSettings extends Floating {
             inputStyles,
             value(this.text),
             onKeyDown(this.onKeyDown.bind(this)),
-            placeholder("Please enter a URL"),
+            placeholder("Please enter the text"),
             onChange(this.onLinkTextChange.bind(this))
           ),
         ),

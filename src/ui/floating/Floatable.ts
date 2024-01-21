@@ -97,30 +97,21 @@ export default class Floatable {
   public get y(): number {
     let y = 0
 
-    // cases:
-    // 无相对窗口
-    // 有相对窗口
-    // 位置依据相对容器
-    // 位置依据Position，和相对容器无关
-    // 位置依据定位(x, y)，和相对容器、容器无关
-
     const container = this._container?.element ?? document.body
     const relativeRect = this._relative?.getBoundingClientRect()
     const rect = relativeRect ?? container.getBoundingClientRect()
     const selfRect = this._view.element.getBoundingClientRect()
 
     let top = this._relative?.offsetTop ?? 0
-    let element = this._relative?.offsetParent as HTMLElement
-    top += element.offsetTop
+    let element = this._relative?.offsetParent as HTMLElement | undefined
+    top += element?.offsetTop ?? 0
     for (; !!element;) {
       element = element?.offsetParent as HTMLElement ?? undefined
       top += element?.offsetTop ?? 0
     }
 
-    // if (this._relativeTo == "element") {
-      rect.y = top ?? 0
-      rect.x = this._relative?.offsetLeft ?? 0
-    // }
+    rect.y = top ?? 0
+    rect.x = this._relative?.offsetLeft ?? 0
 
 
     switch (this._position) {

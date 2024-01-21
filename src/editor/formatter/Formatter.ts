@@ -17,10 +17,13 @@ import LinkFormatter from "./LinkFormatter.ts";
 import EventDispatcher from "../quilljs/EventDispatcher.ts";
 import ScriptFormatter from "./ScriptFormatter.ts";
 import CodeBlockFormatter from "./CodeBlockFormatter.ts";
+import Editor from "../Editor.ts";
 
 export default class Formatter implements IFormatter {
 
   protected quill: Quill
+
+  protected editor: Editor
 
   protected formatterClasses: any[] = [
     StylesFormatter,
@@ -42,10 +45,11 @@ export default class Formatter implements IFormatter {
 
   protected _toolbars: IToolbar[] = []
 
-  public constructor(quill: Quill) {
+  public constructor(quill: Quill, editor: Editor) {
     this.quill = quill
+    this.editor = editor
 
-    this.formatters = this.formatterClasses.map(cls => new cls(this.quill))
+    this.formatters = this.formatterClasses.map(cls => new cls(this.quill, editor))
 
     this.quill.on("selection-change", this.select.bind(this))
     this.quill.on("text-change", this.textChange.bind(this))

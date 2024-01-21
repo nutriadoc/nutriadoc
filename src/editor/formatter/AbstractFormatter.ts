@@ -2,15 +2,19 @@ import Quill, {Sources, StringMap} from "quill"
 import Format from "./Format.ts"
 import IToolbar from "../../ui/toolbar/IToolbar.ts"
 import IFormatter from "./IFormatter.ts";
+import Editor from "../Editor.ts";
 
 export default abstract class AbstractFormatter implements IFormatter {
 
   protected quill: Quill
 
+  protected editor: Editor
+
   protected  _toolbars: IToolbar[] = []
 
-  public constructor(quill: Quill) {
+  public constructor(quill: Quill, editor: Editor) {
     this.quill = quill
+    this.editor = editor
   }
 
   public abstract select(formats: StringMap): void

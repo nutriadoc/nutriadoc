@@ -38,8 +38,7 @@ export default class LinkInlineToolbar extends View {
     this.editor = editor
     this.range = range
 
-    const link: Link = this.editor.getLink(range) ?? { url: "", text: "" }
-    this.link = link
+    this.link = this.editor.getLink(range) ?? {url: "", text: ""}
 
     this.settings = new LinkSettings(this.editor, this.range)
     this.settings.addEventListener('hidden', this.linkSettingCancelHandler)
