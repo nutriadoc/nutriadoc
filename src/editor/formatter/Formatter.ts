@@ -70,6 +70,7 @@ export default class Formatter implements IFormatter {
   }
 
   select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
+    if (range == null) return
     const format = this.quill.getFormat(range)
     // console.debug("on select", range, format)
     this.formatters.forEach(formatter => formatter.select(format))

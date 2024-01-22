@@ -1,5 +1,5 @@
 import UserPressBehavior from "./UserPressBehavior.ts";
-import UserUploadBehavior from "./upload/UserUploadBehavior.ts";
+import UserMediaBehavior from "./upload/UserMediaBehavior.ts";
 import DocumentCommand from "../../document/commands/DocumentCommand.ts";
 import DocumentCommandType from "../../document/commands/DocumentCommandType.ts";
 import TypingCommand from "../../document/commands/TypingCommand.ts";
@@ -8,9 +8,9 @@ export default class UserBehavior {
 
   protected press: UserPressBehavior
 
-  protected _upload: UserUploadBehavior
+  protected _upload: UserMediaBehavior
 
-  constructor(press: UserPressBehavior, upload: UserUploadBehavior) {
+  constructor(press: UserPressBehavior, upload: UserMediaBehavior) {
     this.press = press
     this._upload = upload
   }
@@ -33,7 +33,7 @@ export default class UserBehavior {
     }
   }
 
-  public get upload(): UserUploadBehavior {
+  public get upload(): UserMediaBehavior {
     return this._upload
   }
 }

@@ -4,6 +4,8 @@ import axios, {AxiosInstance} from "axios";
 import {NutriaApiHost} from "../../editor/Option.ts";
 import User from "./model/User.ts";
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
+import KeyFile from "../../core/file/KeyFile.ts";
+import CreateMediaTask from "./tasks/CreateMediaTask.ts";
 
 export default class DefaultDocumentService implements DocumentService {
 
@@ -25,6 +27,10 @@ export default class DefaultDocumentService implements DocumentService {
     })
 
     return response.data as NutriaDocument
+  }
+
+  createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask {
+    return new CreateMediaTask(document, file)
   }
 
   getUser(): Promise<User> {

@@ -9,8 +9,6 @@ import Command from "../editor/commands/Command.ts";
 import Lang from "../ui/lang/Lang.ts";
 import Page from "../ui/Page.ts";
 import DOMEvents from "./ui/DOMEvents.ts";
-import DocumentService from "./service/DocumentService.ts";
-import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import ContentLoaderTask from "./tasks/ContentLoaderTask.ts";
 import ReadyEvent from "./events/ReadyEvent.ts";
 import DocumentStatus from "./DocumentStatus.ts";
@@ -27,11 +25,11 @@ import NutriaDocument from "./service/model/NutriaDocument.ts";
 
 export default abstract class Document extends AbstractDocument {
 
+  protected _editor: Editor
+
   protected _behavior: UserBehavior
 
   protected _data?: NutriaDocument
-
-  protected _documentService: DocumentService = new DefaultDocumentService()
 
   protected _status: DocumentStatus = DocumentStatus.Loading
 
@@ -63,7 +61,10 @@ export default abstract class Document extends AbstractDocument {
     )
 
     this._editor = services.editor()
+    this._editor.addEventListener('mutation', this.textChangeHandler)
+
     this.mainToolbar = services.mainToolbar()
+    this.mainToolbar.addEventListener("command", this.commandHandler)
 
     this.toolbars = new Toolbars([
       this.mainToolbar,
@@ -79,7 +80,7 @@ export default abstract class Document extends AbstractDocument {
     Lang.setup()
     this.setupSizeEvents()
 
-    this._behavior = this.createUserBehavior()
+    this._behavior = this.services.userBehavior(this.toolbars)
 
     this.init()
   }
@@ -115,7 +116,7 @@ export default abstract class Document extends AbstractDocument {
       option,
       this._editor,
       this,
-      this._documentService,
+      this.services.documentService(),
       collaboration
     )
   }
@@ -131,6 +132,7 @@ export default abstract class Document extends AbstractDocument {
 
       return
     }
+    console.debug("insert text")
     return this._editor.insertText(index, text, format, value)
   }
 
@@ -168,6 +170,7 @@ export default abstract class Document extends AbstractDocument {
 
   onTextChange(mutation: DocumentMutation, old: DocumentMutation) {
     const cmd = new TypingCommand(mutation, old)
+    console.debug(cmd)
     this._behavior.execute(cmd)
   }
 
@@ -255,7 +258,6 @@ export default abstract class Document extends AbstractDocument {
 
   protected onEditorSelectionChange(e: Event) {
     const event = e as EditorSelectionChangeEvent
-    console.debug('on editor selection change')
     this.toolbars.onEditorSelectionChange(event.range)
   }
 
@@ -291,4 +293,6 @@ export default abstract class Document extends AbstractDocument {
   public get services(): ServiceCollection {
     return this._services
   }
+
+
 }

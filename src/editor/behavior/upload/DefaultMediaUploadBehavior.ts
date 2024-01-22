@@ -1,16 +1,13 @@
 import UploadTask from "../../../ui/upload/UploadTask.ts";
-import UserUploadBehavior from "./UserUploadBehavior.ts";
-import UploadMessageView from "../../../ui/upload/UploadMessageView.ts";
+import UserMediaBehavior from "./UserMediaBehavior.ts";
 import UploadService from "../../../ui/upload/service/UploadService.ts";
 import MessageBox from "../../../ui/MessageBox/MessageBox.ts";
 import Editor from "../../Editor.ts";
 import ImageCommand from "../../commands/ImageCommand.ts";
 import FileInput from "../../../ui/upload/FileInput.ts";
-import Optional from "../../../core/util/Optional.ts";
-import MessageView from "../../../ui/MessageBox/MessageView.ts";
 import KeyFile from "../../../core/file/KeyFile.ts";
 
-export default class DefaultUserUploadBehavior implements UserUploadBehavior {
+export default class DefaultMediaUploadBehavior implements UserMediaBehavior {
 
   protected uploadService: UploadService
 
@@ -27,10 +24,6 @@ export default class DefaultUserUploadBehavior implements UserUploadBehavior {
     this.uploadService = uploadService
     this.messageBox = messageBox
     this.editor = editor
-  }
-
-  userLoadDocument(): Promise<void> {
-      throw new Error("Method not implemented.");
   }
 
   selectImageFile(): void {
@@ -70,20 +63,15 @@ export default class DefaultUserUploadBehavior implements UserUploadBehavior {
     // 单张图片，显示激活
     // 多张图片，显示 Summary
 
-    let messageView = Optional.empty<MessageView>()
-
-
+    // let messageView = Optional.empty<MessageView>()
 
     for (let i = 0; i < files.length; i++) {
       const file = KeyFile.create(files[i])
       this.editor.insertEmbed(editorIndex, new ImageCommand(file))
 
-      console.debug(this.editor.contents)
-      debugger
-
-      const mv = UploadMessageView.createUploadMessageView(file)
-      if (i === 0)
-        messageView = Optional.of(mv)
+      // const mv = UploadMessageView.createUploadMessageView(file)
+      // if (i === 0)
+      //   messageView = Optional.of(mv)
 
       // this.messageBox.addMessage(mv)
     }

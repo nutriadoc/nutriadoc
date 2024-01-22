@@ -123,6 +123,7 @@ export default class ToolbarAction {
     const menuKey = e.menu.key
 
     const cmd = this.assembler.toCommand(e.menu, item)
+
     if (cmd.type !== DocumentCommandType.Unknown) {
       this.toolbar.dispatchEvent(new DocumentCommandEvent(cmd))
     }

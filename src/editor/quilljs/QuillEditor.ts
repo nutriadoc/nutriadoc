@@ -161,8 +161,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   insertText(index: number, text: string, formats?: any, value?: any): any {
+    let delta: any
     if (formats === undefined) {
-      return this._quill.insertText(index, text)
+      delta = this._quill.insertText(index, text)
     }
     if (value === undefined) {
       let map: StringMap = {}
@@ -171,10 +172,12 @@ export default class QuillEditor extends AbstractEditor implements Editor {
         return result
       }, map)
 
-      return this._quill.insertText(index, text, map)
+      delta = this._quill.insertText(index, text, map)
     } else {
-      return this._quill.insertText(index, text, formats, value)
+      delta = this._quill.insertText(index, text, formats, value)
     }
+
+    return delta
 
   }
 

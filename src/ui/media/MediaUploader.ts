@@ -1,9 +1,9 @@
 import View from "../View.ts";
-import UploadService from "../upload/service/UploadService.ts";
 import NutriaDocument from "../../document/service/model/NutriaDocument.ts";
 import KeyFile from "../../core/file/KeyFile.ts";
 import ProgressIndicator from "../progress_indicator/ProgressIndicator.ts";
 import TaskProgressEvent from "../task/TaskProgressEvent.ts";
+import DocumentService from "../../document/service/DocumentService.ts";
 
 export default class MediaUploader  {
 
@@ -11,16 +11,16 @@ export default class MediaUploader  {
 
   protected container: View
 
-  protected mediaService: UploadService
+  protected documentService: DocumentService
 
   protected data: NutriaDocument
 
   protected indicator?: ProgressIndicator
 
-  constructor(file: KeyFile, container: View, mediaService: UploadService, data: NutriaDocument) {
+  constructor(file: KeyFile, container: View, documentService: DocumentService, data: NutriaDocument) {
     this.file = file
     this.container = container
-    this.mediaService = mediaService
+    this.documentService = documentService
     this.data = data
   }
 
@@ -31,7 +31,7 @@ export default class MediaUploader  {
 
     const progressHandler = this.onProgress.bind(this)
 
-    const task = this.mediaService.upload(this.file)
+    const task = this.documentService.createMedia(this.data, this.file)
     task.addEventListener('progress', progressHandler)
 
     await task.start()

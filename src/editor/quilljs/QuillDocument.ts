@@ -3,7 +3,6 @@ import Document from "../../document/Document.ts";
 import Option, {NutriaApiHost} from "../Option.ts";
 import Collaboration from "../collaboration/Collaboration.ts";
 import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
-import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
 import {CollaborationOption, getCollaborationOption} from "../collaboration/CollaborationOption.ts"
 import QuillServiceCollection from "./QuillServiceCollection.ts";
@@ -40,7 +39,7 @@ export default class QuillDocument extends Document {
   createCollaboration(option?: CollaborationOption): Collaboration {
     const collaboration = new WebsocketCollaboration(
       [...this._insertTextQueue],
-      this._documentService,
+      this.services.documentService(),
       this.quill,
       getCollaborationOption(NutriaApiHost, option),
     )
@@ -48,10 +47,6 @@ export default class QuillDocument extends Document {
     this._insertTextQueue = []
 
     return collaboration
-  }
-
-  createEditor(): Editor {
-    return new QuillEditor(this._option)
   }
 
   static getDocumentByScroll(scroll: any): Document {

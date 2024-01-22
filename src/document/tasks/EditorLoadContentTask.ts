@@ -39,6 +39,8 @@ export default class EditorLoadContentTask extends Task {
       return
     }
 
+    console.debug('set inner html', innerHTML)
+
     this.editor.setHtml(innerHTML)
   }
 
@@ -49,6 +51,7 @@ export default class EditorLoadContentTask extends Task {
     if (!this.option?.html)
       return
 
-    this.editor.setHtml(this.option?.html)
+    console.debug('set html', this.option.html)
+    this.editor.setHtml(this.option.html)
   }
 }

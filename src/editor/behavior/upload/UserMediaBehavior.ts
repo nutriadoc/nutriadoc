@@ -1,8 +1,7 @@
 import UploadTask from "../../../ui/upload/UploadTask.ts";
 
-export default interface UserUploadBehavior {
+export default interface UserMediaBehavior {
 
-  userLoadDocument(): Promise<void>
 
   selectImageFile(): void
 

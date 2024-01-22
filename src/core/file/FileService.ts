@@ -23,7 +23,7 @@ export default class FileService {
     return URL.createObjectURL(blob)
   }
 
-  static fromBase64<T extends Blob | File>(base64: string, toFile: boolean = false): T {
+  static fromBase64<T extends Blob | File>(base64: string, name?: string): T {
 
     let [type, data] = base64.split(",")
     const bytes = atob(data);
@@ -38,8 +38,8 @@ export default class FileService {
 
     const blob = new Blob([ab], {type});
 
-    if (!toFile) return blob as unknown as T
-    return new File([blob], 'noname', {type}) as unknown as T
+    if (!name) return blob as unknown as T
+    return new File([blob], name, {type}) as unknown as T
   }
 
   static async base64(file: File): Promise<string> {

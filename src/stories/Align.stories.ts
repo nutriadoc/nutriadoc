@@ -9,11 +9,13 @@ const meta = {
     const root = document.createElement("div")
     root.className = "root"
     const doc = create(root)
-
+    
     doc.insertText(0, "Align left", { align: "left" })
     doc.insertText(doc.getLength(), "Align center\n", { align: "center" })
     doc.insertText(doc.getLength() , "Align right\n", { align: "right" })
     doc.insertText(doc.getLength(), "Align justify\n", { align: "justify" })
+
+
 
     return root
   },

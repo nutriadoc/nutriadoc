@@ -24,14 +24,12 @@ export default class QuillServiceCollection extends ServiceCollection {
     if (!!this._editor) return this._editor
 
     this._editor = new QuillEditor(this.option)
-    const editor = this._editor as QuillEditor
-    editor.init(this.quill())
 
     return this._editor
   }
 
   formatter(): IFormatter {
-    return new Formatter(this._quill, this.editor())
+    return new Formatter(this.quill(), this.editor())
   }
 
   inlineToolbar(container: IView): InlineToolbar {
@@ -41,8 +39,8 @@ export default class QuillServiceCollection extends ServiceCollection {
   quill(): Quill {
     if (this._quill) return this._quill
 
-    return this._quill = new Quill(
-      this._editor.element,
+    this._quill = new Quill(
+      this.editor().element,
       {
         modules: {
           cursors: true,
@@ -56,5 +54,9 @@ export default class QuillServiceCollection extends ServiceCollection {
         },
       }
     )
+    const editor = this._editor as QuillEditor
+    editor.init(this._quill)
+
+    return this._quill
   }
 }

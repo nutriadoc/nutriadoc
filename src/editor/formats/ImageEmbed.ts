@@ -38,7 +38,7 @@ export default class ImageEmbed extends Image {
     const uploader = new MediaUploader(
       resizable.file,
       resizable,
-      document.services.mediaService(),
+      document.services.documentService(),
       document.data as NutriaDocument
     )
 

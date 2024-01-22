@@ -1,5 +1,4 @@
 import View from "../ui/View.ts";
-import Editor from "../editor/Editor.ts";
 import Collaboration from "../editor/collaboration/Collaboration.ts";
 import Option from "../editor/Option.ts";
 import DocumentMutation from "../editor/DocumentMutation.ts";
@@ -7,11 +6,6 @@ import IUnit from "../ui/view/unit/IUnit.ts";
 import Toolbars from "../ui/toolbar/main/Toolbars.ts";
 import Toolbar from "../ui/toolbar/main/Toolbar.ts";
 import DocumentCommandEvent from "./commands/DocumentCommandEvent.ts";
-import UserBehavior from "../editor/behavior/UserBehavior.ts";
-import DefaultUserPressBehavior from "../editor/behavior/DefaultUserPressBehavior.ts";
-import DefaultUserUploadBehavior from "../editor/behavior/upload/DefaultUserUploadBehavior.ts";
-import UserUploadBehavior from "../editor/behavior/upload/UserUploadBehavior.ts";
-import MockUploadService from "../ui/upload/MockUploadService.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
 // import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
 import { CollaborationOption } from "../editor/collaboration/CollaborationOption.ts";
@@ -20,8 +14,6 @@ export default abstract class AbstractDocument extends View {
 
 
   protected _option?: Option
-
-  protected _editor: Editor
 
   protected mainToolbar!: Toolbar
 
@@ -37,7 +29,6 @@ export default abstract class AbstractDocument extends View {
     super(element, ...units)
     this.setupLoadEvent()
     this._option = option
-    this._editor = this.createEditor()
 
     this.textChangeHandler = this.onTextChange.bind(this)
     this.commandHandler = this._onCommand.bind(this)
@@ -49,23 +40,8 @@ export default abstract class AbstractDocument extends View {
   protected onNodeInserted(_: Node) {
   }
 
-  abstract createEditor(): Editor
-
   abstract createCollaboration(option?: CollaborationOption): Collaboration
 
-  protected createToolbar(): Toolbar {
-    const formatter = this._editor.createFormatter()
-    const main = Toolbar.simple(formatter)
-
-    formatter.toolbars = [main]
-    main.addEventListener("command", this.commandHandler)
-
-    return main
-  }
-
-  initialized(): void {
-    this._editor.addEventListener('mutation', this.textChangeHandler)
-  }
 
   abstract onTextChange(mutation: DocumentMutation, old: DocumentMutation): void
 
@@ -74,23 +50,4 @@ export default abstract class AbstractDocument extends View {
   }
 
   protected abstract onCommand(event: DocumentCommandEvent): void
-
-  protected createUserBehavior(): UserBehavior {
-    return new UserBehavior(
-      new DefaultUserPressBehavior(this.toolbars),
-      this.createUploadBehavior()
-    )
-  }
-
-  protected createUploadBehavior(): UserUploadBehavior {
-
-    // this.messageBox = new MessageBox(this.mainToolbar, MessageBoxMode.Tiny)
-    // this.addElement(this.messageBox)
-
-    return new DefaultUserUploadBehavior(
-      new MockUploadService(),
-      this.messageBox,
-      this._editor
-    )
-  }
 }

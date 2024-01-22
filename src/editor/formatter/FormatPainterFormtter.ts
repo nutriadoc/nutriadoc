@@ -1,7 +1,6 @@
 import AbstractFormatter from "./AbstractFormatter.ts";
 import Format from "./Format.ts";
-import Quill, {RangeStatic, Sources, StringMap} from "quill";
-import IToolbar from "../../ui/toolbar/IToolbar.ts";
+import {RangeStatic, Sources, StringMap} from "quill";
 import FormatPainterCommand from "../commands/FormatPainterCommand.ts";
 import QuitFormatPainterCommand from "../commands/QuitFormatPainterCommand.ts";
 
@@ -11,15 +10,9 @@ export default class FormatPainterFormatter extends AbstractFormatter {
 
   protected limited: boolean = true
 
-  protected onSelectionChangeHandler: (range: RangeStatic, oldRange: RangeStatic, source: Sources) => void
+  protected onSelectionChangeHandler = this.onSelectionChange.bind(this)
 
   protected formatPainterSelection?: RangeStatic
-
-  constructor(quill: Quill, _toolbars: IToolbar[]) {
-    super(quill);
-
-    this.onSelectionChangeHandler = this.onSelectionChange.bind(this)
-  }
 
   format(format: Format, ...params: any[]): void {
     if (format != Format.FormatPainter) return
