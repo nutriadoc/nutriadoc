@@ -19,8 +19,9 @@ const meta = {
 
     const root = create()
 
-    root.addEventListener('ready', () => {
-      root.behavior.upload.userUploadImages(files, 0).then(() => {})
+    root.addEventListener('ready', async () => {
+      await root.behavior.upload.userUploadImages(files, 0).then(() => {})
+      console.debug(root.editor.contents)
     })
 
     return root.render() as Node

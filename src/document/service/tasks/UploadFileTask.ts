@@ -21,7 +21,7 @@ export default class UploadFileTask extends Task {
     const type = mime.getType(this.file.file.type)!
     const instance = axios.create()
 
-    await instance.put(sign!.url!, this.file.file, {
+    await instance.put(sign!.url!.writeUrl, this.file.file, {
       headers: {
         "Content-Type": type,
       },

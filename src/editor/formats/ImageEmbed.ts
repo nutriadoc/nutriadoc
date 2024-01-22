@@ -8,6 +8,7 @@ import KeyFile from "../../core/file/KeyFile.ts";
 import MediaUploader from "../../ui/media/MediaUploader.ts";
 import QuillDocument from "../quilljs/QuillDocument.ts";
 import NutriaDocument from "../../document/service/model/NutriaDocument.ts";
+
 const Image = Quill.import("formats/image")
 
 export default class ImageEmbed extends Image {
@@ -17,8 +18,14 @@ export default class ImageEmbed extends Image {
 
   static views: Map<number, View> = new Map()
 
+  protected attached: boolean = false
+
   public attach() {
     super.attach()
+
+    if (this.attached) return
+
+    this.attached = true
 
     const viewId = parseInt(this.domNode.getAttribute("data-view-id"))
     const view = ImageEmbed.views.get(viewId)
@@ -26,23 +33,26 @@ export default class ImageEmbed extends Image {
 
     view.addEventListener("resize", this.onWidthChange.bind(this))
 
-    this.startMediaUploader(view as Resizable)
+    this.startMediaUploader(view as Resizable).then(() => {})
   }
 
-  protected startMediaUploader(resizable: Resizable): void {
+  protected async startMediaUploader(resizable: Resizable): Promise<void> {
     if (!resizable.file) return
 
-    const scroll = (this as any).scroll
-    const document = QuillDocument.getDocumentByScroll(scroll)
+    if (!this.image?.src?.startsWith("blob:")) return
 
     const uploader = new MediaUploader(
       resizable.file,
       resizable,
-      document.services.documentService(),
-      document.data as NutriaDocument
+      this.document.services.documentService(),
+      this.document.data as NutriaDocument
     )
 
-    uploader.start().then(() => {})
+    await uploader.start()
+
+    this.format("src", uploader.sign.readUrl)
+
+    console.debug(this.document.editor.contents)
   }
 
   protected onWidthChange(e: Event) {
@@ -68,7 +78,7 @@ export default class ImageEmbed extends Image {
   }
 
   static formats(domNode: Element): any {
-    return ["width", "height"]
+    return ["width", "height", "src"]
       .reduce(
         (formats: Record<string, string | null>, attribute) => {
           if (domNode.hasAttribute(attribute)) {
@@ -86,13 +96,23 @@ export default class ImageEmbed extends Image {
     if (name == 'width') width = value
     if (name == 'height') height = value
 
-    try {
-      this.domNode.setAttribute(name, value)
+    let attribute: string = name
 
-      this.resizeImageByNode(this.domNode, width, height)
+    try {
+      this.domNode.setAttribute(attribute, value)
+
+      const element = this.domNode as HTMLElement
+      const img = element.querySelector("img")
+      if (!img)
+        this.resizeImageByNode(this.domNode, width, height)
+      else
+        img.setAttribute(attribute, value)
     } catch (e) {
       console.warn("Parse the value of Resize failed", value)
     }
+    setTimeout(() => {
+      console.debug(this.document.editor.contents)
+    }, 100)
     return super.format(name, value);
   }
 
@@ -135,6 +155,16 @@ export default class ImageEmbed extends Image {
     }
 
     characterData.remove()
+  }
+
+  protected get document(): QuillDocument {
+    const scroll = (this as any).scroll
+    return QuillDocument.getDocumentByScroll(scroll) as QuillDocument
+  }
+
+  protected get image(): HTMLImageElement | undefined {
+    const element = this.domNode as HTMLElement
+    return element.querySelector("img") ?? undefined
   }
 
   // TODO: Sometimes the focus is lost

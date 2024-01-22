@@ -9,18 +9,27 @@ export default class CreateMediaTask extends Task {
 
   protected uploadProgressHandler = this.onUploadProgress.bind(this)
 
+  protected _signTask: SignFileTask
+
   constructor(document: NutriaDocument, file: KeyFile) {
     const uploadTask = new UploadFileTask(file)
+    const signTask = new SignFileTask(document, file)
+
     super([
-      new SignFileTask(document, file),
+      signTask,
       uploadTask,
     ])
 
+    this._signTask = signTask
     uploadTask.addEventListener('progress', this.uploadProgressHandler)
   }
 
   protected onUploadProgress(e: Event) {
     const event = e as TaskProgressEvent
     this.progress(event.loaded, event.total)
+  }
+
+  get signTask(): SignFileTask {
+    return this._signTask
   }
 }

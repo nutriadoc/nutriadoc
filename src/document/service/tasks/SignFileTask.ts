@@ -2,6 +2,7 @@ import Task from "../../../ui/task/Task.ts";
 import NutriaDocument from "../model/NutriaDocument.ts";
 import KeyFile from "../../../core/file/KeyFile.ts";
 import {NutriaApiHost} from "../../../editor/Option.ts";
+import SignMedia from "../model/SignMedia.ts";
 
 export default class SignFileTask extends Task {
 
@@ -9,7 +10,7 @@ export default class SignFileTask extends Task {
 
   protected file: KeyFile
 
-  public url?: string
+  public url?: SignMedia
 
   constructor(document: NutriaDocument, file: KeyFile) {
     super()
@@ -33,8 +34,7 @@ export default class SignFileTask extends Task {
       },
       body: JSON.stringify(data)
     })
-    const json = await response.json()
-    this.url = json.url
+    this.url = await response.json()
 
     return Promise.resolve()
   }

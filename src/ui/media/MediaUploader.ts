@@ -4,6 +4,7 @@ import KeyFile from "../../core/file/KeyFile.ts";
 import ProgressIndicator from "../progress_indicator/ProgressIndicator.ts";
 import TaskProgressEvent from "../task/TaskProgressEvent.ts";
 import DocumentService from "../../document/service/DocumentService.ts";
+import SignMedia from "../../document/service/model/SignMedia.ts";
 
 export default class MediaUploader  {
 
@@ -16,6 +17,8 @@ export default class MediaUploader  {
   protected data: NutriaDocument
 
   protected indicator?: ProgressIndicator
+
+  protected _sign!: SignMedia
 
   constructor(file: KeyFile, container: View, documentService: DocumentService, data: NutriaDocument) {
     this.file = file
@@ -36,6 +39,8 @@ export default class MediaUploader  {
 
     await task.start()
 
+    this._sign = task.signTask.url!
+
     task.removeEventListener('progress', progressHandler)
     this.indicator.remove()
     this.indicator = undefined
@@ -47,5 +52,9 @@ export default class MediaUploader  {
     const event = e as TaskProgressEvent
 
     this.indicator.percent = event.percent
+  }
+
+  get sign(): SignMedia {
+    return this._sign
   }
 }
