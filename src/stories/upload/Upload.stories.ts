@@ -1,26 +1,22 @@
 import type {Meta, StoryObj} from '@storybook/html'
 import {create} from "../../index.ts"
 import { default as Logo } from "./logo.base64?raw"
+import { default as Video } from "./video.base64?raw"
 import FileService from "../../core/file/FileService.ts";
 
 type UploadArgs = {
-  fileNumber: number
+  files: File[]
 }
 
 const meta = {
   title: 'Upload/Upload',
   tags: [],
   render: (args: UploadArgs) => {
-    const files: File[] = []
-    for (let i = 0, size = args.fileNumber; i < size; i++) {
-      const file = FileService.fromBase64<File>(Logo, `${Math.random().toFixed(8)}_logo.png`)
-      files.push(file)
-    }
-
+  
     const root = create()
 
     root.addEventListener('ready', async () => {
-      await root.behavior.upload.userUploadImages(files, 0).then(() => {})
+      await root.behavior.upload.userUploadImages(args.files, 0).then(() => {})
       console.debug(root.editor.contents)
     })
 
@@ -32,24 +28,34 @@ const meta = {
 export default meta;
 type Story = StoryObj<UploadArgs>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-
 export const User: Story = {
   args: {
-    fileNumber: 0
+    files: [],
   },
 }
 
 export const UploadSingle: Story = {
   args: {
-    fileNumber: 1
+    files: [
+      FileService.fromBase64<File>(Logo, `logo.png`)
+    ]
   },
 }
 
 export const UploadMultiple: Story = {
   args: {
-    fileNumber: 5
+    files: [
+      FileService.fromBase64<File>(Logo, `logo.png`),
+      FileService.fromBase64<File>(Logo, `logo.png`)
+    ]
   },
 }
 
+export const UploadVideo: Story ={
+  args: {
+    files: [
+      FileService.fromBase64<File>(Video, `_video.mp4`)
+    ]
+  }
+}
 

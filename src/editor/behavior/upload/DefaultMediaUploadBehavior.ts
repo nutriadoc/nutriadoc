@@ -1,11 +1,11 @@
-import UploadTask from "../../../ui/upload/UploadTask.ts";
-import UserMediaBehavior from "./UserMediaBehavior.ts";
-import UploadService from "../../../ui/upload/service/UploadService.ts";
-import MessageBox from "../../../ui/MessageBox/MessageBox.ts";
-import Editor from "../../Editor.ts";
-import ImageCommand from "../../commands/ImageCommand.ts";
-import FileInput from "../../../ui/upload/FileInput.ts";
-import KeyFile from "../../../core/file/KeyFile.ts";
+import UploadTask from "../../../ui/upload/UploadTask.ts"
+import UserMediaBehavior from "./UserMediaBehavior.ts"
+import UploadService from "../../../ui/upload/service/UploadService.ts"
+import MessageBox from "../../../ui/MessageBox/MessageBox.ts"
+import Editor from "../../Editor.ts"
+import FileInput from "../../../ui/upload/FileInput.ts"
+import KeyFile from "../../../core/file/KeyFile.ts"
+import AttachmentFactory from "../../commands/AttachmentFactory.ts"
 
 export default class DefaultMediaUploadBehavior implements UserMediaBehavior {
 
@@ -65,9 +65,12 @@ export default class DefaultMediaUploadBehavior implements UserMediaBehavior {
 
     // let messageView = Optional.empty<MessageView>()
 
+    const factory = new AttachmentFactory()
     for (let i = 0; i < files.length; i++) {
       const file = KeyFile.create(files[i])
-      this.editor.insertEmbed(editorIndex, new ImageCommand(file))
+  
+      const command = factory.create(file)
+      this.editor.insertEmbed(editorIndex, command)
 
       // const mv = UploadMessageView.createUploadMessageView(file)
       // if (i === 0)

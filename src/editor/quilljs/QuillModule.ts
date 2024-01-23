@@ -13,6 +13,7 @@ import HTMLEmbed from "../formats/HTMLEmbed.ts";
 import Attributor from "../formats/Attributor.ts";
 import QuillCursors from "quill-cursors";
 import QuillUploader from "./QuillUploader.ts";
+import VideoEmbed from "../formats/attachment/VideoEmbed.ts";
 
 export default class QuillModule {
   static registerModules() {
@@ -32,6 +33,7 @@ export default class QuillModule {
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
       "formats/inline-toolbar": InlineToolbarBlock,
       "formats/image": ImageEmbed,
+      "formats/video": VideoEmbed,
       "formats/resize": new Resize('resize', 'resize', {}),
       "formats/html": HTMLEmbed,
       "formats/readonly": new Attributor('readonly', 'readonly'),

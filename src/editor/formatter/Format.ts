@@ -37,6 +37,8 @@ enum Format {
   HR,
   Link,
   Image,
+  Video,
+  Attachment
 }
 
 export function formatToHeadingLevel(format: Format): number | undefined {

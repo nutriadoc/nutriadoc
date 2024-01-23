@@ -23,9 +23,11 @@ export default class MediaComponent {
   }
 
   protected setupResizer() {
-    let target: HTMLElement = null
+    let target!: HTMLElement
     if (this.blot.statics.blotName == 'image') {
       target = this.createImage()
+    } else if (this.blot.statics.blotName == 'video') {
+      target = this.createVideo()
     }
 
     const view = Resizable.loadResizer(target, this.blot.domNode)
@@ -48,8 +50,30 @@ export default class MediaComponent {
     return image
   }
 
+  protected createVideo() {
+    const video = document.createElement("video")
+    video.src = this.src
+    video.controls = true
+    video.style.objectFit = "fill"
+
+    video.addEventListener(
+      'loadedmetadata',
+      this.onVideoLoad.bind(this),
+      { once: true }
+    )
+
+    return video
+  }
+
+  protected onVideoLoad(e: Event) {
+    const video = e.target as HTMLVideoElement
+    this.blot.format("width", video.videoWidth.toString())
+    this.blot.format("height", video.videoHeight.toString())
+  }
+
   protected onResize(e: Event) {
     const event = e as ResizeEvent
+    console.debug('on resize', e)
 
     this.blot.format("width", event.width)
     this.blot.format("height", event.height)
@@ -70,11 +94,13 @@ export default class MediaComponent {
 
     await uploader.start()
 
+    this.document.data?.addAttachment(uploader.attachment)
+
     this.blot.format("src", uploader.attachment.url.read)
     this.blot.format("id", uploader.attachment.id)
   }
 
-  resizeByBlot(width: string, height: string) {
+  resizeByBlot(_: string, __: string) {
 
   }
 

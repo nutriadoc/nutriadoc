@@ -1,5 +1,6 @@
-import Key from "../Key.ts";
-import KeyPool from "../KeyPool.ts";
+import Key from "../Key.ts"
+import KeyPool from "../KeyPool.ts"
+import mime from "mime"
 
 export default class KeyFile {
   
@@ -33,6 +34,15 @@ export default class KeyFile {
 
   get id(): string {
     return this._blob
+  }
+
+  get type(): string {
+    const mimeType = mime.getType(this.file.name)
+    const [type] = mimeType?.split("/") ?? "attachment"
+    
+    return type == "video" ? 
+      "video": type == "image" ? 
+      "image" : "attachment"
   }
 
   static create(file: File): KeyFile {

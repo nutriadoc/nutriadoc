@@ -19,6 +19,4 @@ export default interface UserMediaBehavior {
 
   uploadsHasSucceeded(upload: UploadTask): void
 
-  resize(width: number, height: number): void
-
 }

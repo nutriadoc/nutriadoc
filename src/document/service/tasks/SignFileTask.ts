@@ -2,10 +2,8 @@ import Task from "../../../ui/task/Task.ts";
 import NutriaDocument from "../model/NutriaDocument.ts";
 import KeyFile from "../../../core/file/KeyFile.ts";
 import {NutriaApiHost} from "../../../editor/Option.ts";
-import SignaturedUrl from "../model/SignaturedUrl.ts";
 import Attachment from "../model/Attachment.ts";
-import ImageAttachment from "../model/ImageAttachment.ts";
-import VideoAttachment from "../model/VideoAttachment.ts";
+import attachmentAssembler from "../assembler/AttachmentAssembler.ts";
 
 export default class SignFileTask extends Task {
 
@@ -39,34 +37,8 @@ export default class SignFileTask extends Task {
     })
     
     const json = await response.json()
-    
-    const [type] = json.type.split("/")
-    let attachment: Attachment
-
-    let attachmentClass: any
-
-    switch(type) {
-      case "image":
-        attachmentClass = ImageAttachment
-        break;
-      case "video":
-        attachmentClass = VideoAttachment
-        break;
-      default:
-        attachmentClass = Attachment
-        break;
-    }
-
-    attachment = new attachmentClass(
-      json.id,
-      json.key,
-      json.size,
-      json.type,
-      new Date(json.createdAt),
-      json.url as SignaturedUrl,
-    )
-
-    this._attachment = attachment
+    const assembler = new attachmentAssembler()
+    this._attachment = assembler.fromDTO(json)
 
     return Promise.resolve()
   }

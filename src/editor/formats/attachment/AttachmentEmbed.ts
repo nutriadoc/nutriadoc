@@ -31,7 +31,7 @@ export default abstract class AttachmentEmbed extends Image {
     let attribute: string = name
 
     try {
-      this.domNode.setAttribute(attribute, value)
+      this.player.setAttribute(attribute, value)
 
       this.media.resizeByBlot(width, height)
 
@@ -42,12 +42,18 @@ export default abstract class AttachmentEmbed extends Image {
     return super.format(name, value);
   }
 
+  abstract get player(): HTMLElement
+
+  static getPlayer(_: HTMLElement): HTMLElement {
+    throw new Error("Not implemented")
+  }
+
   static formats(domNode: Element): any {
     return ["width", "height", "src", "id"]
       .reduce(
         (formats: Record<string, string | null>, attribute) => {
           if (domNode.hasAttribute(attribute)) {
-            formats[attribute] = domNode.getAttribute(attribute)
+            formats[attribute] = this.getPlayer(domNode as HTMLElement).getAttribute(attribute)
           }
           return formats
         },

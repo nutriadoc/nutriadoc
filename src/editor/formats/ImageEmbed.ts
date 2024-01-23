@@ -12,4 +12,12 @@ export default class ImageEmbed extends AttachmentEmbed {
 
     return node
   }
+
+  get player(): HTMLElement {
+    return (this.domNode as HTMLElement).querySelector("img") as HTMLElement
+  }
+
+  getPlayer(element: HTMLElement): HTMLElement {
+    return element.querySelector("img") as HTMLElement
+  }
 }

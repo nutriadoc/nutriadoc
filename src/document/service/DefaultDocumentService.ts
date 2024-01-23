@@ -6,6 +6,7 @@ import User from "./model/User.ts";
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
 import KeyFile from "../../core/file/KeyFile.ts";
 import CreateMediaTask from "./tasks/CreateMediaTask.ts";
+import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts";
 
 export default class DefaultDocumentService implements DocumentService {
 
@@ -26,7 +27,11 @@ export default class DefaultDocumentService implements DocumentService {
       key,
     })
 
-    return response.data as NutriaDocument
+    const json = response.data
+    const assembler = new NutriaDocumentAssembler()
+    const doc = assembler.fromDTO(json)
+
+    return doc
   }
 
   createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask {

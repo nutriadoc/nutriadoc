@@ -61,14 +61,27 @@ export default class Resizable extends View {
 
   protected setupTarget(target: HTMLElement) {
     if (target instanceof HTMLImageElement)
-      this._target.addEventListener('load', this.onImageLoad.bind(this))
+      this._target.addEventListener('load', this.onImageLoad.bind(this), { once: true})
+    else if (target instanceof HTMLVideoElement)
+      this._target.addEventListener('loadedmetadata', this.onVideoLoad.bind(this), { once: true})
     this.addNode(this._target)
   }
 
-  protected onImageLoad(e: any) {
+  protected onImageLoad(e: Event) {
+    const { width, height} = e.target as HTMLImageElement
+    this.onElementLoad(width, height)
+    
+  }
+
+  protected onVideoLoad(e: Event) {
+    const { videoWidth, videoHeight } = e.target as HTMLVideoElement
+    this.onElementLoad(videoWidth, videoHeight)
+  }
+
+  protected onElementLoad(width: number, height: number) {
     this.size = {
-      width: e.target.width,
-      height: e.target.height,
+      width,
+      height,
     }
 
     this.originalSize = { ... this.size }
@@ -143,8 +156,9 @@ export default class Resizable extends View {
       height = size.height - y
       width = height * r
     }
-
+    
     this.resizingSize = { width, height }
+    console.debug('resizing', this.resizingSize)
     this.resizeElements(width, height)
   }
 
