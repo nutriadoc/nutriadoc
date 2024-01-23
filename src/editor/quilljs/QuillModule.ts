@@ -12,6 +12,7 @@ import Syntax from "../formats/Syntax.ts";
 import HTMLEmbed from "../formats/HTMLEmbed.ts";
 import Attributor from "../formats/Attributor.ts";
 import QuillCursors from "quill-cursors";
+import QuillUploader from "./QuillUploader.ts";
 
 export default class QuillModule {
   static registerModules() {
@@ -36,11 +37,12 @@ export default class QuillModule {
       "formats/readonly": new Attributor('readonly', 'readonly'),
 
       "modules/syntax": Syntax,
+      "modules/uploader": QuillUploader,
 
-    })
+    }, true)
 
     Quill.register('formats/hr', HorizontalRuleBlot, true)
 
-    Quill.register('modules/cursors', QuillCursors);
+    Quill.register('modules/cursors', QuillCursors, true);
   }
 }
