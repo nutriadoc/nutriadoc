@@ -20,7 +20,7 @@ export default class DefaultDocumentService implements DocumentService {
   }
 
   async findOrCreateDocument(key?: string, workspace?: string): Promise<NutriaDocument> {
-
+    
     const response = await this.axios.post("/document", {
       workspace,
       key,

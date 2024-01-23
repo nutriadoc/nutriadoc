@@ -16,7 +16,7 @@ export default class KeyFile {
     this._file = file
     this._blob = URL.createObjectURL(file)
 
-    this.pool.set(key.int, this)
+    this.pool.set(this.id as String, this)
   }
 
   public get key(): Key {
@@ -28,6 +28,10 @@ export default class KeyFile {
   }
 
   public get blob(): string {
+    return this._blob
+  }
+
+  get id(): string {
     return this._blob
   }
 

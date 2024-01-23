@@ -16,7 +16,7 @@ export default class ImageCommand extends Command {
     this._value = this._source = source
     this._width = width ?? -1
     this._height = height ?? -1
-    this._value = source.key.toString()
+    this._value = this._source.id
   }
 
   public get source(): KeyFile {
