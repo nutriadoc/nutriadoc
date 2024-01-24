@@ -207,9 +207,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   protected onQuillTextChange(delta: Delta, oldContents: Delta, _: Sources): void {
     const lastChild = this._quill.root.lastChild
-    if (lastChild?.textContent != "")
+    if (lastChild?.textContent != "") {
       this._quill.insertText(this._quill.getLength(), "\n", "silent")
-
+    }
     this.onTextChange(
       new QuillDocumentMutation(delta),
       new QuillDocumentMutation(oldContents)
@@ -220,9 +220,17 @@ export default class QuillEditor extends AbstractEditor implements Editor {
     this.onSelectionChange({...range}, {...old})
   }
 
+  get isEmpty(): boolean {
+    const delta = this._quill.getContents()
+    const trim = delta.filter(d => typeof d.insert === 'string' ? d.insert.trim() != "" : false)
+    return trim.length == 0
+  }
+
   setHtml(html: string) {
     const delta = this._quill.clipboard.convert({html})
-    this._quill.updateContents(delta)
+
+    if (this.isEmpty)
+      this._quill.setContents(delta)
     super.setHtml(html);
   }
 

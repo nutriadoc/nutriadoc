@@ -39,9 +39,9 @@ export default class EditorLoadContentTask extends Task {
       return
     }
 
-    console.debug('set inner html', innerHTML)
-
-    this.editor.setHtml(innerHTML)
+    // console.debug('set inner html', innerHTML)
+    if (this.editor.isEmpty)
+      this.editor.setHtml(innerHTML)
   }
 
   protected loadFromHtml() {
@@ -51,7 +51,9 @@ export default class EditorLoadContentTask extends Task {
     if (!this.option?.html)
       return
 
-    console.debug('set html', this.option.html)
-    this.editor.setHtml(this.option.html)
+    // console.debug('set html', this.option.html)
+
+    if (this.editor.isEmpty)
+      this.editor.setHtml(this.option.html)
   }
 }

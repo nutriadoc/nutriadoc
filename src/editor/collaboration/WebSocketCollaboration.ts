@@ -6,14 +6,19 @@ import Collaboration from "./Collaboration.ts"
 import {CollaborationOption} from "./CollaborationOption.ts"
 import Task from "../../ui/task/Task.ts";
 import DocumentLoadTask from "../../document/tasks/DocumentLoadTask.ts";
-import {delay} from "../../core/Time.ts";
 import OpenPromise from "../../ui/task/OpenPromise.ts";
 import QuillCursors from "quill-cursors";
 import DocumentService from "../../document/service/DocumentService.ts";
+import QuillDocument from "../quilljs/QuillDocument.ts";
+import QuillEditor from "../quilljs/QuillEditor.ts";
+import Document from "../../document/Document.ts";
+import Delta from "quill-delta";
 
 Quill.register('modules/cursors', QuillCursors)
 
 export default class WebsocketCollaboration extends Task implements Collaboration {
+
+  protected document: Document
 
   protected ydoc: Y.Doc
 
@@ -27,24 +32,27 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
 
   protected option: CollaborationOption
 
-  protected ops: any[] = []
-
   protected running: OpenPromise<void> = new OpenPromise<void>()
 
   protected documentService: DocumentService
 
-  public constructor(ops: any[], documentService: DocumentService,  quill: Quill, option: CollaborationOption) {
+  delta: Delta
+
+  public constructor(doc: QuillDocument, option: CollaborationOption) {
     super()
 
-    this.ops = ops
-    this.ydoc = new Y.Doc()
-    this.quill = quill
+    this.document = doc
+    this.ydoc = doc.ydoc
+    this.text = doc.yText
+    this.quill = (doc.editor as QuillEditor).quill
     this.option = option
-    this.documentService = documentService
+    this.documentService = doc.services.documentService()
+
+    this.delta = this.quill.getContents()
   }
 
   protected async run(): Promise<void> {
-
+    this.applyInitializeContents()
 
     const docTask = this._parent?.find<DocumentLoadTask>(DocumentLoadTask.name)
     if (!docTask) return Promise.resolve()
@@ -68,11 +76,21 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.provider.on('status', this.onConnected.bind(this))
     this.provider.on('connection-error', this.onConnectionError.bind(this))
 
-    this.text =  this.ydoc.getText("quill")
     this.binding = new QuillBinding(this.text, this.quill, awareness)
 
     return this.running.promise
 
+  }
+
+  protected applyInitializeContents() {
+    const ob = (e: Y.YTextEvent) => {
+      const empty = !e.delta.some(d => typeof d.insert === 'string' ? d.insert.trim() != "" : false)
+      if (empty) {
+        this.quill.updateContents(this.delta)
+      }
+      this.text.unobserve(ob)
+    }
+    this.text.observe(ob)
   }
 
   protected async onConnected(option: any) {
@@ -83,30 +101,10 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     const {status} = option
 
     if (status == 'connected') {
-      await delay(100)
-      this.loadDelta()
-
       this.quill.history.clear()
       this.success()
     }
 
-  }
-
-  protected loadDelta() {
-
-    const delta = this.text!.toDelta()
-    if (delta.length > 0) return
-
-    if (this.ops.length == 0) return
-
-    this.ops.forEach(op => {
-      this.quill.insertText(
-        op.index,
-        op.text,
-        op.format,
-        op.value
-      )
-    })
   }
 
   protected onConnectionError(e: any) {

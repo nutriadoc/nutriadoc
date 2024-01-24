@@ -22,6 +22,7 @@ import Toolbars from "../ui/toolbar/main/Toolbars.ts";
 import ServiceCollection from "./ServiceCollection.ts";
 import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
 import NutriaDocument from "./service/model/NutriaDocument.ts";
+import * as Y from "yjs"
 
 export default abstract class Document extends AbstractDocument {
 
@@ -32,8 +33,6 @@ export default abstract class Document extends AbstractDocument {
   protected _data?: NutriaDocument
 
   protected _status: DocumentStatus = DocumentStatus.Loading
-
-  protected _insertTextQueue: any[] = []
 
   protected package: PackageManager = new PackageManager()
 
@@ -51,9 +50,17 @@ export default abstract class Document extends AbstractDocument {
 
   static _documents: WeakMap<any, Document> = new Map()
 
+  protected _ydoc: Y.Doc = new Y.Doc()
+
+  protected _yText: Y.Text = this._ydoc.getText("quill")
+
   protected constructor(services: ServiceCollection, option?: Option) {
     super(option, undefined, className("nutria"))
     Document._documents.set(this.element, this)
+
+    this._yText.observe((event) => {
+      console.debug(event)
+    })
 
     this._services = services
 
@@ -125,17 +132,6 @@ export default abstract class Document extends AbstractDocument {
   }
 
   insertText(index: number, text: string, format?: any, value?: any): any {
-    if (this._status == DocumentStatus.Loading) {
-      this._insertTextQueue.push({
-        index,
-        text,
-        format,
-        value
-      })
-
-      return
-    }
-    console.debug("insert text")
     return this._editor.insertText(index, text, format, value)
   }
 
@@ -295,6 +291,18 @@ export default abstract class Document extends AbstractDocument {
 
   public get services(): ServiceCollection {
     return this._services
+  }
+
+  get isEmpty(): boolean {
+    return this.editor.isEmpty
+  }
+
+  public get ydoc(): Y.Doc {
+    return this._ydoc
+  }
+
+  public get yText(): Y.Text {
+    return this._yText
   }
 
   static getDocumentByScroll(scroll: any): Document {

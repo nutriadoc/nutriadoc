@@ -1,5 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
+// import QuillEditor from "../editor/quilljs/QuillEditor.ts";
 
 interface CollaborationArgs {
 
@@ -14,13 +15,17 @@ const meta = {
   render: (args) => {
 
     const root = document.createElement("div")
+    root.innerHTML = `<p>${Math.random()}</p><br />`
     root.className = "root"
-    create(
+    const doc = create(
       root,
       {
-        key: args.key
+        key: args.key,
+        // html: `<p>${Math.random()}</p>`
       }
     )
+    // const quill = (doc.editor as QuillEditor).quill
+    // quill.insertText(0, "Hello World")
 
     return root
   },
@@ -37,7 +42,7 @@ export const Collaboration: Story = {
 
 export const IndexKey: Story = {
   args: {
-    key: "index"
+    key: "test3"
   }
 }
 

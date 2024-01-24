@@ -56,4 +56,6 @@ export default interface Editor extends IView {
   setSelection(index: number, length: number): void
 
   focus(): void
+
+  get isEmpty(): boolean
 }
