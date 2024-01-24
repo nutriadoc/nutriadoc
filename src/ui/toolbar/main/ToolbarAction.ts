@@ -102,8 +102,6 @@ export default class ToolbarAction {
     const e = event as ToolbarItemEvent
     const item = e.target as ToolbarItem
 
-    console.debug("on toolbar item click", item)
-
     const command = this.assembler.toCommand(item)
     if (command.type !== DocumentCommandType.Unknown) {
       this.toolbar.dispatchEvent(new DocumentCommandEvent(command))
@@ -158,8 +156,7 @@ export default class ToolbarAction {
 
   public format(key: string, value: any) {
     const format = keyToFormat(key)
-    console.debug("format", key, value)
-
+    
     this.formatter.format(format, value)
   }
 

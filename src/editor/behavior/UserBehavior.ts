@@ -1,5 +1,5 @@
 import UserPressBehavior from "./UserPressBehavior.ts";
-import UserMediaBehavior from "./upload/UserMediaBehavior.ts";
+import UserAttachmentBehavior from "./upload/UserAttachmentBehavior.ts";
 import DocumentCommand from "../../document/commands/DocumentCommand.ts";
 import DocumentCommandType from "../../document/commands/DocumentCommandType.ts";
 import TypingCommand from "../../document/commands/TypingCommand.ts";
@@ -8,9 +8,9 @@ export default class UserBehavior {
 
   protected press: UserPressBehavior
 
-  protected _upload: UserMediaBehavior
+  protected _upload: UserAttachmentBehavior
 
-  constructor(press: UserPressBehavior, upload: UserMediaBehavior) {
+  constructor(press: UserPressBehavior, upload: UserAttachmentBehavior) {
     this.press = press
     this._upload = upload
   }
@@ -26,14 +26,17 @@ export default class UserBehavior {
         this.press.typing(command.mutation, command.old)
         break
       }
+      case DocumentCommandType.SelectVideo:
+      case DocumentCommandType.SelectAttachment:
       case DocumentCommandType.SelectImage: {
-        this._upload.selectImageFile()
+        this._upload.selectFile(cmd.type)
         break
       }
+
     }
   }
 
-  public get upload(): UserMediaBehavior {
+  public get upload(): UserAttachmentBehavior {
     return this._upload
   }
 }

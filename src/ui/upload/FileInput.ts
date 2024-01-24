@@ -1,11 +1,16 @@
 import {className, name, onChange, style, type} from "../views.ts";
 import View from "../View.ts";
+import DocumentCommandType from "../../document/commands/DocumentCommandType.ts";
 
 export default class FileInput extends View {
 
   protected changeHandler: any = this.onChange.bind(this)
 
   static shared: FileInput = FileInput.create()
+
+  imageTypes: string[] = [ "jpg", "jpeg", "png", "gif", "svg", "webp", "tiff", "tif", "bmp" ]
+
+  videoTypes: string[] = [ "mp4", "m4v", "webm", "ogv", "ogg", "aiv", "mov", "wmv", "flv" ]
 
   constructor() {
     const element = document.createElement("input")
@@ -35,7 +40,23 @@ export default class FileInput extends View {
     this.setup()
   }
 
-  public openSelect() {
+  public openSelect(type: DocumentCommandType) {
+    const element: HTMLInputElement = this._element as HTMLInputElement
+    switch (type) {
+      case DocumentCommandType.SelectImage: {
+        element.accept = this.imageTypes.map(i => `.${i}`).join(", ")
+        break
+      }
+      case DocumentCommandType.SelectVideo: {
+        element.accept = this.videoTypes.map(i => `.${i}`).join(",")
+        break
+      }
+      case DocumentCommandType.SelectAttachment: {
+        element.accept = "*"
+        break
+      }
+    }
+
     this.element.click()
   }
 

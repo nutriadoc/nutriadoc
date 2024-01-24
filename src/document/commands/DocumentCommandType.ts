@@ -3,7 +3,9 @@ enum DocumentCommandType {
   Undo,
   Redo,
   Typing = 35,
-  SelectImage
+  SelectImage,
+  SelectVideo,
+  SelectAttachment
 }
 
 export default DocumentCommandType

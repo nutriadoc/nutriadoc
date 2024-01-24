@@ -6,6 +6,8 @@ export default {
   },
   menu: {
     picture: "Picture",
+    video: "Video",
+    attachment: "Attachment",
     table: "Table",
     font: "Default Font",
     horizontalRule: "Horizontal Rule",

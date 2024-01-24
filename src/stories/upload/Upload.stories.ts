@@ -16,7 +16,7 @@ const meta = {
     const root = create()
 
     root.addEventListener('ready', async () => {
-      await root.behavior.upload.userUploadImages(args.files, 0).then(() => {})
+      await root.behavior.upload.uploadImages(args.files, 0).then(() => {})
       console.debug(root.editor.contents)
     })
 

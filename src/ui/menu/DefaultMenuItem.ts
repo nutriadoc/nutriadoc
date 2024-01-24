@@ -1,8 +1,8 @@
 import MenuItemEvent from "./events/MenuItemEvent.ts";
 import MenuItem from "./MenuItem.ts";
+import {className} from "../views.ts";
 
 import "./MenuItem.scss"
-import {className} from "../views.ts";
 
 export default class DefaultMenuItem extends MenuItem {
 

@@ -14,10 +14,15 @@ export default class CommandAssembler {
   }
 
   fromMenu(menu: Menu, menuItem: MenuItem): DocumentCommand {
+
     switch (menu.key) {
       case "insert": {
         if (menuItem.key == "image") {
           return new ParameterlessDocumentCommand(DocumentCommandType.SelectImage)
+        } else if (menuItem.key == "video") {
+          return new ParameterlessDocumentCommand(DocumentCommandType.SelectVideo)
+        } else if (menuItem.key == "attachment") {
+          return new ParameterlessDocumentCommand(DocumentCommandType.SelectAttachment)
         }
         break
       }

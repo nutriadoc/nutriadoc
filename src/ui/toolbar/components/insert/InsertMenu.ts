@@ -48,6 +48,18 @@ export default class InsertMenu extends Menu {
         name: i18n.t("menu.picture"),
         canExpand: false,
       },
+      {
+        key: "video",
+        icon: "camera-video",
+        name: i18n.t("menu.video"),
+        canExpand: false,
+      },
+      {
+        key: "attachment",
+        icon: "paperclip",
+        name: i18n.t("menu.attachment"),
+        canExpand: false,
+      },
       // {
       //   key: "table",
       //   icon: "table",

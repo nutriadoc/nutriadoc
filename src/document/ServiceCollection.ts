@@ -9,8 +9,8 @@ import {NutriaApiHost} from "../editor/Option.ts";
 import DocumentService from "./service/DocumentService.ts";
 import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
-import UserMediaBehavior from "../editor/behavior/upload/UserMediaBehavior.ts";
-import DefaultMediaUploadBehavior from "../editor/behavior/upload/DefaultMediaUploadBehavior.ts";
+import UserAttachmentBehavior from "../editor/behavior/upload/UserAttachmentBehavior.ts";
+import DefaultUserAttachmentBehavior from "../editor/behavior/upload/DefaultUserAttachmentBehavior.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
 import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
 import UserBehavior from "../editor/behavior/UserBehavior.ts";
@@ -56,9 +56,9 @@ export default class ServiceCollection {
     return this._documentService
   }
 
-  mediaUploadBehavior(): UserMediaBehavior {
+  mediaUploadBehavior(): UserAttachmentBehavior {
     const messageBox = new MessageBox(this.mainToolbar(), MessageBoxMode.Tiny)
-    return new DefaultMediaUploadBehavior(
+    return new DefaultUserAttachmentBehavior(
       new MockUploadService(),
       messageBox,
       this.editor()
