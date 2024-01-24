@@ -13,7 +13,7 @@ import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
 import {getCollaborationOption} from "../collaboration/CollaborationOption.ts";
 import QuillDocument from "./QuillDocument.ts";
 import Document from "../../document/Document.ts";
-import hljs from "highlight.js";
+// import hljs from "highlight.js";
 
 export default class QuillServiceCollection extends ServiceCollection {
 
@@ -64,7 +64,8 @@ export default class QuillServiceCollection extends ServiceCollection {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                return hljs?.highlight(text, {language})
+                // @ts-ignore
+                return window.hljs?.highlight(text, {language})
               }
             }
           }

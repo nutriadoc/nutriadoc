@@ -5,8 +5,10 @@ import Document from "./document/Document.ts"
 import QuillDocument from "./editor/quilljs/QuillDocument.ts"
 import Options from "./document/Options.ts"
 
-// import 'bootstrap-icons/font/bootstrap-icons.css'
 import "./index.scss"
+
+import pkg from "../package.json"
+console.debug("current version " + pkg.version)
 
 export function create(element?: string | Element | IView | View | undefined, option?: Option): Document {
   if (element === undefined) return new QuillDocument(option)

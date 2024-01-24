@@ -19,14 +19,12 @@ export default defineConfig({
       // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: [
-        'highlight.js'
       ],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          nutria: 'Nutria',
-          'highlight.js': 'hljs'
+          nutria: 'Nutria'
         },
         format: "umd"
       },

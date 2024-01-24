@@ -1,5 +1,3 @@
-import hljs from "highlight.js";
-
 export function getAllLanguages(): any[] {
 
   if (hljs === undefined) return []
@@ -8,7 +6,7 @@ export function getAllLanguages(): any[] {
     .listLanguages()
     .map((lang: any) => {
       const ext = hljs.getLanguage(lang)
-      return { value: lang, name: ext?.name ?? ""}
+      return { value: lang, name: (ext as any)?.name ?? ""}
     })
 }
 
