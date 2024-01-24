@@ -14,20 +14,23 @@ $ npm install --save @nutria-doc/nutria-doc
 
 ```javascript
 <script>
-    createEditor("#editor")
+    Nutria.create("#editor")
 </script>
 ```
 
 ## Features
 
 ### Working
-- Text formatting
-- Toolbar, line toolbar, inline toolbar
-- Link
+- Fixing some issues
+
 
 ### Planned
-- Image, Video, Attachment, upload
 - Table
+
+### Finished
+- Image, Video, Attachment, upload
+- Toolbar, line toolbar, inline toolbar
+- Link
 - Code
 - Collaboration
 
