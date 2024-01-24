@@ -15,11 +15,15 @@ export default class PackageManager {
     })
   }
 
-  async load(path: string): Promise<void> {
+  async load(path: string, source?: string): Promise<void> {
     const pkg = this.packages.find(pkg => pkg.name === path.split('/')[0])
     if (path.endsWith(".css")) {
-      const url = this.cdn.getUrl(path, pkg)
+      const url = this.cdn.getUrl(path, pkg, source)
       await Load.loadCSS(url)
+    }
+    else if (path.endsWith(".js")) {
+      const url = this.cdn.getUrl(path, pkg, source)
+      await Load.loadJS(url)
     }
   }
 }

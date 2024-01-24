@@ -26,6 +26,7 @@ export default defineConfig({
         // for externalized deps
         globals: {
           nutria: 'Nutria',
+          'highlight.js': 'hljs'
         },
         format: "umd"
       },

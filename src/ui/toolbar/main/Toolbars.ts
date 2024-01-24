@@ -20,4 +20,8 @@ export default class Toolbars {
   disableToolbarItem(undo: string) {
     this._toolbars.forEach(toolbar => toolbar.disableToolbarItem(undo))
   }
+
+  get toolbars(): IToolbar[] {
+    return this._toolbars
+  }
 }

@@ -36,7 +36,7 @@ export default abstract class AbstractEditor extends View {
   }
 
   protected onSelectionChange(range: Range, old: Range): void {
-    console.debug("onSelectionChange", { range, old})
+    // console.debug("onSelectionChange", { range, old})
     this.dispatchEvent(new EditorSelectionChangeEvent(range, old))
   }
 

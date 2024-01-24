@@ -43,7 +43,6 @@ export default class CommonFormatter extends AbstractFormatter {
 
     if (!this.supportedFormats.includes(formatKey)) return
 
-    console.debug("apply format", formatKey, _params)
     this.quill.format(formatKey, _params[0], "user")
   }
 

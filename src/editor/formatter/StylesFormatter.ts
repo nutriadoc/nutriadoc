@@ -24,19 +24,20 @@ export default class StylesFormatter extends AbstractFormatter {
   ]
 
   format(format: Format, ..._: object[]) {
-
-
     if (!this.allowFormats.includes(format)) return
 
-    const range = this.quill.getSelection()
+    const range = this.quill.getSelection(true)
+    console.debug(range)
     if (range == null) return
 
     const level = formatToHeadingLevel(format)
 
     const title = titleAttributes.get(format)
     this.quill.format('header', level)
+    console.debug("format", { level, title })
 
     const [blot] = this.quill.getLine(range.index)
+    console.debug("blot", blot)
     if (title !== undefined)
       this.quill.formatText(blot.offset(), blot.length(), { title: level ?? undefined }, 'user')
 

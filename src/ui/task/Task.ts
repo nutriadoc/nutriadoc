@@ -54,6 +54,8 @@ export default class Task extends EventTarget implements ITask {
     for (let i = 0, length = this._tasks.length; i < length; i++) {
       const task = this._tasks[i]
 
+      // console.debug("Run task " + task.constructor.name)
+
       // TODO:
       task.addEventListener('progress', _ => {
 

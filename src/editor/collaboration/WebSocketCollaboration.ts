@@ -76,7 +76,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.provider.on('status', this.onConnected.bind(this))
     this.provider.on('connection-error', this.onConnectionError.bind(this))
 
-    this.binding = new QuillBinding(this.text, this.quill, awareness)
+    // this.binding = new QuillBinding(this.text, this.quill, awareness)
 
     return this.running.promise
 
@@ -84,6 +84,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
 
   protected applyInitializeContents() {
     const ob = (e: Y.YTextEvent) => {
+      console.debug("ob ", e)
       const empty = !e.delta.some(d => typeof d.insert === 'string' ? d.insert.trim() != "" : false)
       if (empty) {
         this.quill.updateContents(this.delta)

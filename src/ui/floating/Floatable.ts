@@ -153,7 +153,7 @@ export default class Floatable {
   }
 
   public onDocumentClick(event: MouseEvent) {
-    console.debug('on document click', this)
+    // console.debug('on document click', this)
 
     const target = event.target as HTMLElement
 
@@ -165,8 +165,6 @@ export default class Floatable {
       this._visible = false
       return
     }
-
-    console.debug('disable auto hide', this._disableAutoHide)
 
     if (this._disableAutoHide) return
 

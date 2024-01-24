@@ -7,14 +7,16 @@ export default class AssetsLoadTask extends Task {
 
   constructor(packageManager: PackageManager, option?: Option) {
     const assets = [
-      "quill/dist/quill.core.css",
-      "bootstrap-icons/font/bootstrap-icons.css",
-      "highlight.js/highlight.min.js",
-      "highlight.js/styles/github.css",
-    ].filter(path => option?.excludeCss?.includes(path) !== true)
+      { path: "quill/dist/quill.core.css" },
+      { path: "bootstrap-icons/font/bootstrap-icons.css" },
+      { path: "highlightjs/cdn-release@11.9.0/build/highlight.min.js", source: "gh" },
+      { path: "highlightjs/cdn-release@11.9.0/build/styles/github.css", source: "gh" },
+    ].filter(asset => option?.excludeCss?.includes(asset.path) !== true)
+
+    // console.debug("load assets", assets)
 
     super(
-      assets.map(path => new AssetLoadTask(packageManager, path))
+      assets.map(asset => new AssetLoadTask(packageManager, asset.path, asset.source))
     )
   }
 }

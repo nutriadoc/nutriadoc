@@ -126,6 +126,8 @@ export default class ToolbarAction {
       this.toolbar.dispatchEvent(new DocumentCommandEvent(cmd))
     }
 
+    console.debug("on menu item select", menuKey, item.key, item.value)
+
     switch (menuKey) {
       case "insert":
       case "header": {

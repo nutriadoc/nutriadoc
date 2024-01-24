@@ -17,4 +17,21 @@ export default class Load {
       document.head.appendChild(link)
     })
   }
+
+  static loadJS(url: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+
+      script.onload = () => {
+        resolve()
+      }
+
+      script.onerror = () => {
+        reject(new Error(`Failed to load JS: ${url}`))
+      }
+
+      document.head.appendChild(script)
+    })
+  }
 }

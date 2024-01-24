@@ -2,6 +2,7 @@ import Quill from "quill"
 import LanguageButton from "../../ui/code/LanguageButton.ts";
 import {div, style} from "../../ui/views.ts";
 import LanguageEvent from "../../ui/code/LanguageEvent.ts";
+import {getSupportedLanguages} from "../../core/dev/Language.ts";
 
 const BaseSyntax = Quill.import("modules/syntax")
 
@@ -28,12 +29,7 @@ export default class Syntax extends BaseSyntax {
     this.quill.on(Syntax.events.SCROLL_BLOT_MOUNT, (blot: any) => {
       if (blot.constructor.name !== "SyntaxCodeBlockContainer") return
 
-      this.languages = (document as any).hljs.listLanguages().reduce(
-        (memo: Record<string, unknown>, lang: any) => {
-          memo[lang] = true
-          return memo
-        },
-        {})
+      this.languages = getSupportedLanguages()
 
       this.blot = blot
       if (blot.uiNode == null) {

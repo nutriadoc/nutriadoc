@@ -63,16 +63,13 @@ export default class Formatter implements IFormatter {
 
   textChange(delta: any, oldDelta: any, source: Sources) {
     this.formatters.forEach(formatter => formatter.textChange(delta, oldDelta, source))
-
-    const range = this.quill.getSelection()
-    if (range == null) return
-    this.select(range, range, source)
   }
 
   select(range: RangeStatic, _oldRange: RangeStatic, _source: Sources) {
+    // console.debug("select", range)
     if (range == null) return
     const format = this.quill.getFormat(range)
-    // console.debug("on select", range, format)
+
     this.formatters.forEach(formatter => formatter.select(format))
   }
 

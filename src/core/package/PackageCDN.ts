@@ -8,5 +8,5 @@ export default abstract class PackageCDN {
     this.url = url
   }
 
-  abstract getUrl(path: string, pkg?: Package): string
+  abstract getUrl(path: string, pkg?: Package, source?: string): string
 }

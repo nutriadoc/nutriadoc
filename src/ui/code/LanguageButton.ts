@@ -10,6 +10,7 @@ import MenuEvent from "../menu/events/MenuEvent.ts";
 import LanguageEvent from "./LanguageEvent.ts";
 import IView from "../IView.ts";
 import View from "../View.ts";
+import {getAllLanguages} from "../../core/dev/Language.ts";
 
 interface Language {
 
@@ -27,12 +28,7 @@ export default class LanguageButton extends ActivationView {
 
   protected label: IView = View.new("span", text("Language"))
 
-  protected allLanguages: Language[] = (document as any).hljs
-    .listLanguages()
-    .map((lang: any) => {
-    const ext = (document as any).hljs.getLanguage(lang)
-    return { value: lang, name: ext?.name ?? ""}
-  })
+  protected allLanguages: Language[] = getAllLanguages()
 
   protected allLanguageItems: DefaultMenuItem[] = this.allLanguages.map(lang =>
     new DefaultMenuItem(lang.value, lang.name)

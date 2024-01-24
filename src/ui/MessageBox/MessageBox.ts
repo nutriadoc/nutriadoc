@@ -8,7 +8,7 @@ import SimpleMessageBox from "./Simple/SimpleMessageBox.ts";
 import MessageView from "./MessageView.ts";
 import SummaryMessageView from "./SummaryMessageView.ts";
 import Floatable from "../floating/Floatable.ts";
-import Position from "../floating/Position.ts";
+// import Position from "../floating/Position.ts";
 import IView from "../IView.ts";
 
 export default class MessageBox extends View {
@@ -29,11 +29,11 @@ export default class MessageBox extends View {
 
   protected components: Map<MessageBoxMode, MessageBoxComponent> = new Map<MessageBoxMode, MessageBoxComponent>();
 
-  protected floatable: Floatable
+  protected floatable!: Floatable
 
-  protected where: IView
+  protected where!: IView
 
-  public constructor(where: IView, mode?: MessageBoxMode, summary?: SummaryMessageView) {
+  public constructor(_where: IView, mode?: MessageBoxMode, summary?: SummaryMessageView) {
     super(undefined, className("ntr-message-box", "ntr-box", "hidden"))
 
 
@@ -48,18 +48,18 @@ export default class MessageBox extends View {
     this.components.set(MessageBoxMode.Detail, this.detail)
     this.components.set(MessageBoxMode.Simple, this.simple)
 
-    this.components.forEach(component => { this.addElement(component)})
+    // this.components.forEach(component => { this.addElement(component)})
 
-    this.where = where
-    this.floatable = new Floatable(this, Position.BottomCenter, "element")
-    this.floatable.dismissWhenBlur = false
-    this.floatable.hidden()
+    // this.where = where
+    // this.floatable = new Floatable(this, Position.BottomCenter, "element")
+    // this.floatable.dismissWhenBlur = false
+    // this.floatable.hidden()
 
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.floatable.visible(this.where.element)
-    }, 500)
+    }, 500)*/
 
-    this.setMode(mode)
+    // this.setMode(mode)
   }
 
   public setMode(mode: MessageBoxMode) {

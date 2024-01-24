@@ -206,6 +206,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   protected onQuillTextChange(delta: Delta, oldContents: Delta, _: Sources): void {
+    // console.debug("on text change", delta.ops)
     const lastChild = this._quill.root.lastChild
     if (lastChild?.textContent != "") {
       this._quill.insertText(this._quill.getLength(), "\n", "silent")

@@ -55,6 +55,7 @@ export default abstract class Document extends AbstractDocument {
   protected _yText: Y.Text = this._ydoc.getText("quill")
 
   protected constructor(services: ServiceCollection, option?: Option) {
+
     super(option, undefined, className("nutria"))
     Document._documents.set(this.element, this)
 
@@ -66,7 +67,7 @@ export default abstract class Document extends AbstractDocument {
 
     this.package.register(
       { name: "quill", version: "2.0.0-beta.0", },
-      { name: "highlight.js", version: "11.9.0", },
+      { name: "highlightjs", version: "11.9.0", },
       { name: "bootstrap-icons", version: "1.11.2", },
     )
 
@@ -81,6 +82,8 @@ export default abstract class Document extends AbstractDocument {
       this._services.inlineToolbar(this.inlineContainer),
       // this.lineToolbar,
     ])
+
+    this.services.formatter().toolbars = this.toolbars.toolbars
 
     this.editor.addEventListener("selection-change", this.editorSelectionChangeHandler)
 
@@ -121,7 +124,7 @@ export default abstract class Document extends AbstractDocument {
   }
 
   protected loadContent(option?: Option): Task {
-    const collaboration = this.createCollaboration(option?.collaboration)
+    const collaboration = this.services.collaboration(this)
     return new ContentLoaderTask(
       option,
       this._editor,

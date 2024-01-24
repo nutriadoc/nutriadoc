@@ -7,13 +7,16 @@ export default class AssetLoadTask extends Task {
 
   protected path: string
 
-  constructor(packageManager: PackageManager, path: string) {
+  protected source?: string
+
+  constructor(packageManager: PackageManager, path: string, source?: string) {
     super()
     this.package = packageManager
     this.path = path
+    this.source = source
   }
   protected async run(): Promise<void> {
 
-    await this.package.load(this.path)
+    await this.package.load(this.path, this.source)
   }
 }

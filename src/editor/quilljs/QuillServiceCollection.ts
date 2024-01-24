@@ -2,18 +2,26 @@ import ServiceCollection from "../../document/ServiceCollection.ts";
 import IFormatter from "../formatter/IFormatter.ts";
 import Formatter from "../formatter/Formatter.ts";
 import Quill from "quill";
-import Option from "../Option.ts";
+import Option, {NutriaApiHost} from "../Option.ts";
 import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
 import IView from "../../ui/IView.ts";
 import InlineToolbar from "../../ui/toolbar/inline/InlineToolbar.ts";
 import QuillInlineToolbar from "./QuillInlineToolbar.ts";
+import Collaboration from "../collaboration/Collaboration.ts";
+import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
+import {getCollaborationOption} from "../collaboration/CollaborationOption.ts";
+import QuillDocument from "./QuillDocument.ts";
+import Document from "../../document/Document.ts";
+import hljs from "highlight.js";
 
 export default class QuillServiceCollection extends ServiceCollection {
 
   protected _quill!: Quill
 
   protected option?: Option
+
+  protected _formatter!: IFormatter
 
   constructor(option?: Option) {
     super()
@@ -29,7 +37,16 @@ export default class QuillServiceCollection extends ServiceCollection {
   }
 
   formatter(): IFormatter {
-    return new Formatter(this.quill(), this.editor())
+    if (this._formatter) return this._formatter
+    this._formatter = new Formatter(this.quill(), this.editor())
+    return this._formatter
+  }
+
+  collaboration(doc: Document): Collaboration {
+    return new WebsocketCollaboration(
+      doc as QuillDocument,
+      getCollaborationOption(NutriaApiHost, this.option?.collaboration),
+    )
   }
 
   inlineToolbar(container: IView): InlineToolbar {
@@ -47,7 +64,7 @@ export default class QuillServiceCollection extends ServiceCollection {
           syntax: {
             hljs: {
               highlight(language: string, text: string) {
-                return (document as any).hljs.highlight(text, {language})
+                return hljs?.highlight(text, {language})
               }
             }
           }

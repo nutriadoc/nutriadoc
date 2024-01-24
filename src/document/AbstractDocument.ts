@@ -1,5 +1,4 @@
 import View from "../ui/View.ts";
-import Collaboration from "../editor/collaboration/Collaboration.ts";
 import Option from "../editor/Option.ts";
 import DocumentMutation from "../editor/DocumentMutation.ts";
 import IUnit from "../ui/view/unit/IUnit.ts";
@@ -8,7 +7,6 @@ import Toolbar from "../ui/toolbar/main/Toolbar.ts";
 import DocumentCommandEvent from "./commands/DocumentCommandEvent.ts";
 import MessageBox from "../ui/MessageBox/MessageBox.ts";
 // import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
-import { CollaborationOption } from "../editor/collaboration/CollaborationOption.ts";
 
 export default abstract class AbstractDocument extends View {
 
@@ -39,9 +37,6 @@ export default abstract class AbstractDocument extends View {
 
   protected onNodeInserted(_: Node) {
   }
-
-  abstract createCollaboration(option?: CollaborationOption): Collaboration
-
 
   abstract onTextChange(mutation: DocumentMutation, old: DocumentMutation): void
 

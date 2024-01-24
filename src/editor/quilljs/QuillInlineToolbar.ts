@@ -15,7 +15,7 @@ export default class QuillInlineToolbar extends InlineToolbar {
   constructor(quill: Quill, container: IView, editor: Editor) {
     super(container, editor)
     this.quill = quill
-    this.quill.root.addEventListener("blur", this.onQuillBlur.bind(this))
+    // this.quill.root.addEventListener("blur", this.onQuillBlur.bind(this))
   }
 
   getSelectionNode(range: Range): Node | undefined {
@@ -29,9 +29,9 @@ export default class QuillInlineToolbar extends InlineToolbar {
     return leaf.domNode
   }
 
-  onQuillBlur() {
-    console.debug('on quill blur')
-  }
+  // onQuillBlur() {
+  //   console.debug('on quill blur')
+  // }
 
   isLink(): boolean {
     return this.leaf.parent.statics.blotName.toLowerCase() === "link"

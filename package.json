@@ -1,6 +1,6 @@
 {
   "name": "nutria",
-  "version": "0.0.18",
+  "version": "0.0.20",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -43,7 +43,7 @@
     "storybook": "7.6.6",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.8",
+    "vite": "^5",
     "highlight.js": "^11.9.0",
     "@types/mime": "^3.0.4"
   },

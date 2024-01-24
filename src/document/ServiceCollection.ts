@@ -16,6 +16,8 @@ import MessageBoxMode from "../ui/MessageBox/MessageBoxMode.ts";
 import UserBehavior from "../editor/behavior/UserBehavior.ts";
 import DefaultUserPressBehavior from "../editor/behavior/DefaultUserPressBehavior.ts";
 import Toolbars from "../ui/toolbar/main/Toolbars.ts";
+import Collaboration from "../editor/collaboration/Collaboration.ts";
+import Document from "./Document.ts";
 
 export default class ServiceCollection {
 
@@ -25,11 +27,10 @@ export default class ServiceCollection {
 
   protected _documentService: DocumentService = new DefaultDocumentService()
 
-  protected _mainToolbar: Toolbar
+  protected _mainToolbar!: Toolbar
 
   constructor() {
     this._mediaService = new S3UploadService('https://' + NutriaApiHost)
-    this._mainToolbar = Toolbar.simple(this.formatter())
   }
 
   mediaService(): UploadService {
@@ -37,6 +38,8 @@ export default class ServiceCollection {
   }
 
   mainToolbar(): Toolbar {
+    if (this._mainToolbar) return this._mainToolbar
+    this._mainToolbar = Toolbar.simple(this.formatter())
     return this._mainToolbar
   }
 
@@ -54,6 +57,10 @@ export default class ServiceCollection {
 
   documentService(): DocumentService {
     return this._documentService
+  }
+
+  collaboration(_: Document): Collaboration {
+    throw new Error("Method not implemented.")
   }
 
   mediaUploadBehavior(): UserAttachmentBehavior {

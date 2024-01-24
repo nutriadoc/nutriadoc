@@ -17,7 +17,7 @@ const meta = {
     const root = document.createElement("div")
     root.innerHTML = `<p>${Math.random()}</p><br />`
     root.className = "root"
-    const doc = create(
+    create(
       root,
       {
         key: args.key,
