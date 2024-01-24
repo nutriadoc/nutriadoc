@@ -1,6 +1,6 @@
-import AttachmentEmbed from "./attachment/AttachmentEmbed.ts";
+import MediaAttachmentEmbed from "./attachment/MediaAttachmentEmbed.ts";
 
-export default class ImageEmbed extends AttachmentEmbed {
+export default class ImageEmbed extends MediaAttachmentEmbed {
 
   static blotName = 'image'
 
@@ -17,7 +17,7 @@ export default class ImageEmbed extends AttachmentEmbed {
     return (this.domNode as HTMLElement).querySelector("img") as HTMLElement
   }
 
-  getPlayer(element: HTMLElement): HTMLElement {
+  static getPlayer(element: HTMLElement): HTMLElement {
     return element.querySelector("img") as HTMLElement
   }
 }

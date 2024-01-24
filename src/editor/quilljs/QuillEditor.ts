@@ -181,10 +181,10 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   }
 
-  formatText(index: number, length: number, format: any): void
-  formatText(index: number, length: number, format: string, value: any): void
-  formatText(index: number, length: number, format: string | any, value?: any): void  {
-    this._quill.formatText(index, length, format, value)
+  formatText(index: number, length: number, format: any): any
+  formatText(index: number, length: number, format: string, value: any): any
+  formatText(index: number, length: number, format: string | any, value?: any): any  {
+    return this._quill.formatText(index, length, format, value)
   }
 
   removeFormat(index: number, length: number): void {
@@ -206,6 +206,10 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   protected onQuillTextChange(delta: Delta, oldContents: Delta, _: Sources): void {
+    const lastChild = this._quill.root.lastChild
+    if (lastChild.textContent != "")
+      this._quill.insertText(this._quill.getLength(), "\n", "silent")
+
     this.onTextChange(
       new QuillDocumentMutation(delta),
       new QuillDocumentMutation(oldContents)

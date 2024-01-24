@@ -1,8 +1,8 @@
-import KeyFile from "../../core/file/KeyFile"
-import Format from "../formatter/Format"
-import Command from "./Command"
+import Command from "../Command.ts";
+import KeyFile from "../../../core/file/KeyFile.ts";
+import Format from "../../formatter/Format.ts";
 
-export default class AttachmentCommand extends Command {
+export default abstract class AbstractAttachmentCommand extends Command {
 
   protected _source: KeyFile
 

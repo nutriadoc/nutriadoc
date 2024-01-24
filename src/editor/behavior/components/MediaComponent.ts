@@ -6,12 +6,14 @@ import MediaUploader from "../../../ui/media/MediaUploader"
 import Resizable from "../../../ui/resizer/Resizable"
 import ResizeEvent from "../../../ui/resizer/ResizeEvent"
 import QuillDocument from "../../quilljs/QuillDocument"
+import View from "../../../ui/View.ts";
+import {div, style} from "../../../ui/views.ts";
 
 export default class MediaComponent {
 
   protected blot: any
 
-  protected resizer!: Resizable
+  protected resizer!: View
 
   protected resizeHandler = this.onResize.bind(this)
 
@@ -23,16 +25,40 @@ export default class MediaComponent {
   }
 
   protected setupResizer() {
+
     let target!: HTMLElement
-    if (this.blot.statics.blotName == 'image') {
+    if (this.blot.name == 'image') {
       target = this.createImage()
-    } else if (this.blot.statics.blotName == 'video') {
+    } else if (this.blot.name == 'video') {
       target = this.createVideo()
+    } else {
+      this.resizer = this.createAttachment()
+      return
     }
 
-    const view = Resizable.loadResizer(target, this.blot.domNode)
-    this.resizer = view
+    this.resizer = Resizable.loadResizer(target, this.blot.domNode)
     this.resizer.addEventListener('resize', this.resizeHandler)
+  }
+
+  protected createAttachment(): View {
+    this.blot.node.style.position = "relative"
+
+    const styles = style({
+      position: "absolute",
+      bottom: "-5px",
+      left: 0,
+      right: 0,
+      top: 0,
+      width: this.blot.node.offsetWidth
+    })
+
+    const view = div(
+      styles,
+    ) as View
+
+    view.addTo(this.blot.node)
+
+    return view
   }
 
   protected createImage() {
@@ -93,11 +119,12 @@ export default class MediaComponent {
     )
 
     await uploader.start()
+    if (this.blot.name == 'attachment') this.resizer.remove()
 
     this.document.data?.addAttachment(uploader.attachment)
 
     this.blot.format("src", uploader.attachment.url.read)
-    this.blot.format("id", uploader.attachment.id)
+    this.blot.format("attachment", uploader.attachment.id)
   }
 
   resizeByBlot(_: string, __: string) {
@@ -113,10 +140,10 @@ export default class MediaComponent {
   }
 
   protected get document(): Document {
-    return QuillDocument.getDocumentByScroll(this.blot.scroll)
+    return QuillDocument.getDocumentByNode(this.blot.node)
   }
 
   protected get src(): string {
-    return this.blot.domNode.getAttribute("src")
+    return this.blot.src
   }
 }

@@ -14,12 +14,14 @@ import Attributor from "../formats/Attributor.ts";
 import QuillCursors from "quill-cursors";
 import QuillUploader from "./QuillUploader.ts";
 import VideoEmbed from "../formats/attachment/VideoEmbed.ts";
+import Attachment from "../formats/attachment/Attachment.ts";
 
 export default class QuillModule {
   static registerModules() {
     Quill.register({
       "attributors/class/font": FontFamilyClass,
       "attributors/style/font": FontFamily,
+      "attributors/style/attachment": Attachment,
     },true)
 
     Quill.register({
@@ -37,6 +39,7 @@ export default class QuillModule {
       "formats/resize": new Resize('resize', 'resize', {}),
       "formats/html": HTMLEmbed,
       "formats/readonly": new Attributor('readonly', 'readonly'),
+      "formats/attachment": Attachment,
 
       "modules/syntax": Syntax,
       "modules/uploader": QuillUploader,

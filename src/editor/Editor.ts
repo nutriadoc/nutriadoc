@@ -46,9 +46,9 @@ export default interface Editor extends IView {
 
   insertText(index: number, text: string, formats?: any, value?: any): any
 
-  formatText(index: number, length: number, format: any): void
-  formatText(index: number, length: number, format: string, value: any): void
-  formatText(index: number, length: number, format: string | any, value?: any): void
+  formatText(index: number, length: number, format: any): any
+  formatText(index: number, length: number, format: string, value: any): any
+  formatText(index: number, length: number, format: string | any, value?: any): any
 
   removeFormat(index: number, length: number): void
 

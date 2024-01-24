@@ -49,8 +49,11 @@ export default abstract class Document extends AbstractDocument {
 
   protected editorResizeObserver: ResizeObserver = new ResizeObserver(this.onEditorResize.bind(this))
 
+  static _documents: WeakMap<any, Document> = new Map()
+
   protected constructor(services: ServiceCollection, option?: Option) {
     super(option, undefined, className("nutria"))
+    Document._documents.set(this.element, this)
 
     this._services = services
 
@@ -170,7 +173,7 @@ export default abstract class Document extends AbstractDocument {
 
   onTextChange(mutation: DocumentMutation, old: DocumentMutation) {
     const cmd = new TypingCommand(mutation, old)
-    console.debug(cmd)
+
     this._behavior.execute(cmd)
   }
 
@@ -294,5 +297,26 @@ export default abstract class Document extends AbstractDocument {
     return this._services
   }
 
+  static getDocumentByScroll(scroll: any): Document {
+    const document = this._documents.get(scroll)
+    if (!document) throw new Error("Document not found")
 
+    return document
+  }
+
+  static getDocumentByNode(node: Node): Document {
+    let doc = Document._documents.get(node)
+
+    if (!doc) {
+      for (;;) {
+        if (!node.parentElement) break
+        doc = Document._documents.get(node.parentElement)
+        if (doc) break
+        node = node.parentElement
+      }
+    }
+
+    if (!doc) throw new Error("Document not found")
+    return doc
+  }
 }

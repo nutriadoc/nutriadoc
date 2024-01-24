@@ -5,8 +5,9 @@ import MessageBox from "../../../ui/MessageBox/MessageBox.ts"
 import Editor from "../../Editor.ts"
 import FileInput from "../../../ui/upload/FileInput.ts"
 import KeyFile from "../../../core/file/KeyFile.ts"
-import AttachmentFactory from "../../commands/AttachmentFactory.ts"
+import AttachmentFactory from "../../commands/attachment/AttachmentFactory.ts"
 import DocumentCommandType from "../../../document/commands/DocumentCommandType.ts";
+import AttachmentCommand from "../../commands/attachment/AttachmentCommand.ts";
 
 export default class DefaultUserAttachmentBehavior implements UserAttachmentBehavior {
 
@@ -32,7 +33,7 @@ export default class DefaultUserAttachmentBehavior implements UserAttachmentBeha
     const selected = this.editor.getSelection()
 
     const onChange = (_: Event) => {
-      this.uploadImages(FileInput.shared.files, selected.index, type).then(_ => {})
+      this.uploadFiles(FileInput.shared.files, selected.index, type).then(_ => {})
     }
 
     FileInput.shared.addEventListener(
@@ -46,11 +47,11 @@ export default class DefaultUserAttachmentBehavior implements UserAttachmentBeha
     FileInput.shared.openSelect(type)
   }
 
-  async uploadAnImage(file: File, editorIndex: number, type: DocumentCommandType): Promise<void> {
-    await this.uploadImages([file], editorIndex, type)
+  async uploadAnFile(file: File, editorIndex: number, type?: DocumentCommandType): Promise<void> {
+    await this.uploadFiles([file], editorIndex, type)
   }
 
-  async uploadImages(files: File[], editorIndex: number, type: DocumentCommandType): Promise<void> {
+  async uploadFiles(files: File[], editorIndex: number, type?: DocumentCommandType): Promise<void> {
     // let messageView = Optional.empty<MessageView>()
 
     const factory = new AttachmentFactory()
@@ -58,7 +59,14 @@ export default class DefaultUserAttachmentBehavior implements UserAttachmentBeha
       const file = KeyFile.create(files[i])
 
       const command = factory.create(file, type)
-      this.editor.insertEmbed(editorIndex, command)
+
+      if (command instanceof AttachmentCommand) {
+
+        const length = file.file.name.length
+        this.editor.insertLink({ index: editorIndex, length}, { "url": command.value, "text": file.file.name })
+        this.editor.formatText(editorIndex, length, { "attachment": command.value })
+      } else
+        this.editor.insertEmbed(editorIndex, command)
 
       // const mv = UploadMessageView.createUploadMessageView(file)
       // if (i === 0)

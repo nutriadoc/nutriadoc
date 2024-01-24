@@ -6,9 +6,9 @@ export default interface UserAttachmentBehavior {
 
   selectFile(type: DocumentCommandType): void
 
-  uploadAnImage(file: File, editorIndex: number, type: DocumentCommandType): Promise<void>
+  uploadAnFile(file: File, editorIndex: number, type?: DocumentCommandType): Promise<void>
 
-  uploadImages(file: File[], editorIndex: number, type: DocumentCommandType): Promise<void>
+  uploadFiles(file: File[], editorIndex: number, type?: DocumentCommandType): Promise<void>
 
   feedbackToUserAboutUploads(keys: string[]): void
 

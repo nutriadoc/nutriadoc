@@ -1,6 +1,6 @@
-import AttachmentEmbed from "./AttachmentEmbed"
+import MediaAttachmentEmbed from "./MediaAttachmentEmbed.ts"
 
-export default class VideoEmbed extends AttachmentEmbed {
+export default class VideoEmbed extends MediaAttachmentEmbed {
   
   static blotName = 'video'
 

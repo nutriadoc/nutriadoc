@@ -10,7 +10,7 @@ export default class QuillUploader extends Uploader {
       .getDocumentByScroll(this.quill.scroll)
       .behavior
       .upload
-      .uploadImages(
+      .uploadFiles(
         this.toFileArray(files),
         range.index
       )

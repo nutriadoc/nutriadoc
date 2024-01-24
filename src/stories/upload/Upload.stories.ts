@@ -16,7 +16,7 @@ const meta = {
     const root = create()
 
     root.addEventListener('ready', async () => {
-      await root.behavior.upload.uploadImages(args.files, 0).then(() => {})
+      await root.behavior.upload.uploadFiles(args.files, 0).then(() => {})
       console.debug(root.editor.contents)
     })
 
@@ -59,3 +59,10 @@ export const UploadVideo: Story ={
   }
 }
 
+export const UploadAttachment: Story = {
+  args: {
+    files: [
+      new File(['test'],  'test.txt', { type: "text/plain" })
+    ]
+  }
+}

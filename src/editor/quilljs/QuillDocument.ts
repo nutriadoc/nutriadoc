@@ -9,15 +9,14 @@ import QuillServiceCollection from "./QuillServiceCollection.ts";
 
 export default class QuillDocument extends Document {
 
-  static _documents: WeakMap<any, Document> = new Map()
-
   public constructor(option?: Option) {
     const services = new QuillServiceCollection(option)
     super(services, option)
 
     const quillEditor = this.editor as QuillEditor
     const scroll = quillEditor.quill.scroll
-    QuillDocument._documents.set(scroll, this)
+    Document._documents.set(scroll, this)
+
   }
 
   protected setupLoadEvent() {
@@ -49,12 +48,7 @@ export default class QuillDocument extends Document {
     return collaboration
   }
 
-  static getDocumentByScroll(scroll: any): Document {
-    const document = this._documents.get(scroll)
-    if (!document) throw new Error("Document not found")
 
-    return document
-  }
 
   protected get quill(): Quill {
     return (this._editor as QuillEditor).quill

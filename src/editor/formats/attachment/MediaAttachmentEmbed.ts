@@ -3,7 +3,7 @@ import MediaComponent from "../../behavior/components/MediaComponent";
 
 const Image = Quill.import("formats/image")
 
-export default abstract class AttachmentEmbed extends Image {
+export default abstract class MediaAttachmentEmbed extends Image {
 
   static tagName = 'div'
 
@@ -28,10 +28,8 @@ export default abstract class AttachmentEmbed extends Image {
     if (name == 'width') width = value
     if (name == 'height') height = value
 
-    let attribute: string = name
-
     try {
-      this.player.setAttribute(attribute, value)
+      this.player.setAttribute(name, value)
 
       this.media.resizeByBlot(width, height)
 
@@ -39,7 +37,21 @@ export default abstract class AttachmentEmbed extends Image {
       console.warn("Parse the value of Resize failed", value)
     }
 
+    if (name == "attachment") return
+
     return super.format(name, value);
+  }
+
+  get src(): string {
+    return this.domNode.getAttribute("src")!
+  }
+
+  get name(): string {
+    return this.statics.blotName
+  }
+
+  get node(): Node {
+    return this.scroll
   }
 
   abstract get player(): HTMLElement
@@ -49,7 +61,7 @@ export default abstract class AttachmentEmbed extends Image {
   }
 
   static formats(domNode: Element): any {
-    return ["width", "height", "src", "id"]
+    return ["width", "height", "src", "attachment"]
       .reduce(
         (formats: Record<string, string | null>, attribute) => {
           if (domNode.hasAttribute(attribute)) {
