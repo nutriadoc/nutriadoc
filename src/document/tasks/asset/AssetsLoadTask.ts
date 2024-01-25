@@ -7,6 +7,7 @@ export default class AssetsLoadTask extends Task {
 
   constructor(packageManager: PackageManager, option?: Option) {
     const assets = [
+      { path: "nutria/dist/style.css" },
       { path: "quill/dist/quill.core.css" },
       { path: "bootstrap-icons/font/bootstrap-icons.css" },
       { path: "highlightjs/cdn-release@11.9.0/build/highlight.min.js", source: "gh" },

@@ -23,6 +23,7 @@ import ServiceCollection from "./ServiceCollection.ts";
 import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
 import NutriaDocument from "./service/model/NutriaDocument.ts";
 import * as Y from "yjs"
+import pkg from "../../package.json"
 
 export default abstract class Document extends AbstractDocument {
 
@@ -66,6 +67,7 @@ export default abstract class Document extends AbstractDocument {
     this._services = services
 
     this.package.register(
+      { name: "nutria", version: pkg.version },
       { name: "quill", version: "2.0.0-beta.0", },
       { name: "highlightjs", version: "11.9.0", },
       { name: "bootstrap-icons", version: "1.11.2", },

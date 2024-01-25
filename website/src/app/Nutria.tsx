@@ -22,7 +22,7 @@ function loadCSS(url: string): Promise<void> {
 
 export async function SetupNutria(url: string, html: string) {
 
-  await loadCSS(`${url}/style.css`)
+  // await loadCSS(`${url}/style.css`)
 
   const nutria = (window as any)['Nutria']
   const doc = nutria.create(
@@ -49,7 +49,7 @@ export interface NutriaProps {
 
 export default async function Nutria(props: NutriaProps) {
   const debug: boolean = false
-  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.18/dist"
+  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.21/dist"
   if (debug) {
     nutriaUrl = "http://localhost:4173"
   }
