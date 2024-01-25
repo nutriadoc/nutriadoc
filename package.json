@@ -54,6 +54,7 @@
     "mime": "^4",
     "quill": "2.0.0-dev.4",
     "quill-cursors": "^4.0.2",
+    "y-indexeddb": "^9.0.12",
     "y-quill": "^0.1.5",
     "y-websocket": "^1.5.1",
     "yjs": "^13.6.10"
