@@ -2,6 +2,7 @@ import Task from "../../ui/task/Task.ts";
 import Option from "../../editor/Option.ts";
 import Editor from "../../editor/Editor.ts";
 import Document from "../Document.ts";
+import QuillEditor from "../../editor/quilljs/QuillEditor.ts";
 
 export default class EditorLoadContentTask extends Task {
 
@@ -20,10 +21,18 @@ export default class EditorLoadContentTask extends Task {
 
   protected async run(): Promise<void> {
 
+    this.loadFromDelta()
     this.loadFromInnerHtml()
     this.loadFromHtml()
 
     return Promise.resolve()
+  }
+
+  protected loadFromDelta() {
+    const quill = (this.editor as QuillEditor).quill
+
+      if (this.editor.isEmpty)
+        quill.setContents(this.option?.delta)
   }
 
   protected loadFromInnerHtml() {

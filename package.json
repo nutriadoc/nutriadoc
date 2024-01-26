@@ -1,6 +1,6 @@
 {
   "name": "nutria",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/nutriadoc.umd.cjs",
-  "module": "./dist/nutriadoc.js",
+  "main": "./dist/nutria.umd.js",
+  "module": "./dist/nutria.es.js",
   "exports": {
     ".": {
       "import": "./dist/nutriadoc.js",

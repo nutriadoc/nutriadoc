@@ -11,6 +11,7 @@ import QuillDocumentMutation from "./QuillDocumentMutation.ts"
 import Range from "../Range.ts";
 import {Link} from "../../core";
 import {a, className, href, style, target} from "../../ui/views.ts";
+import QuillPatch from "./QuillPatch.ts";
 
 QuillModule.registerModules()
 
@@ -207,6 +208,9 @@ export default class QuillEditor extends AbstractEditor implements Editor {
 
   protected onQuillTextChange(delta: Delta, oldContents: Delta, _: Sources): void {
     // console.debug("on text change", delta.ops)
+
+    // TODO: QuillPatch.patch(this._quill, delta)
+
     const lastChild = this._quill.root.lastChild
     if (lastChild?.textContent != "") {
       this._quill.insertText(this._quill.getLength(), "\n", "silent")

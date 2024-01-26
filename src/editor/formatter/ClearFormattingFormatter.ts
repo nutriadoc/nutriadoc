@@ -6,6 +6,7 @@ export default class ClearFormattingFormatter extends AbstractFormatter {
   format(format: Format, ..._: any[]): void {
     if (format !== Format.ClearFormatting) return
 
+    // TODO: Clear the line formatting
     const range = this.quill.getSelection()
     if (!range) return
 

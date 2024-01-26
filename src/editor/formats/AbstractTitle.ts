@@ -33,7 +33,6 @@ export default abstract class AbstractTitle extends Block {
    * @param domNode
    */
   static formats(domNode: HTMLElement): any {
-
     const blotName = this.blotName.toLowerCase()
     if (domNode.classList.contains(blotName)) {
       return this.level

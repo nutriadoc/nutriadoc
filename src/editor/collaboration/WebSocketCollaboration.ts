@@ -48,7 +48,10 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.option = option
     this.documentService = doc.services.documentService()
 
-    this.delta = this.quill.getContents()
+    this.delta = this.delta = this.quill.getContents()
+    if (!!this.document.option) {
+      this.document.option.delta = this.delta
+    }
   }
 
   protected async run(): Promise<void> {

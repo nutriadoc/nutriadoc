@@ -116,6 +116,7 @@ export default abstract class Document extends AbstractDocument {
 
       this._status = DocumentStatus.Ready
       this.dispatchEvent(new ReadyEvent())
+
     }
 
     _init().then(() => {})
@@ -308,6 +309,10 @@ export default abstract class Document extends AbstractDocument {
 
   public get yText(): Y.Text {
     return this._yText
+  }
+
+  get option(): Option | undefined {
+    return this._option
   }
 
   static getDocumentByScroll(scroll: any): Document {

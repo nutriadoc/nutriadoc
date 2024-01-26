@@ -1,7 +1,7 @@
 import ServiceCollection from "../../document/ServiceCollection.ts";
 import IFormatter from "../formatter/IFormatter.ts";
 import Formatter from "../formatter/Formatter.ts";
-import Quill from "quill";
+import Quill, {RangeStatic} from "quill";
 import Option, {NutriaApiHost} from "../Option.ts";
 import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
@@ -13,6 +13,7 @@ import WebsocketCollaboration from "../collaboration/WebSocketCollaboration.ts";
 import {getCollaborationOption} from "../collaboration/CollaborationOption.ts";
 import QuillDocument from "./QuillDocument.ts";
 import Document from "../../document/Document.ts";
+import Delta from "quill-delta";
 // import hljs from "highlight.js";
 
 export default class QuillServiceCollection extends ServiceCollection {
@@ -60,6 +61,24 @@ export default class QuillServiceCollection extends ServiceCollection {
       this.editor().element,
       {
         modules: {
+          keyboard: {
+            bindings: {
+              // TODO:
+/*              'header enter': {
+                key: 'Enter',
+                handler: (range: RangeStatic, context: any) => {
+                  // this._quill.insertText(range.index + 1, '\n', Quill.sources.SILENT)
+                  const delta = new Delta()
+                    .retain(range.index + 1 )
+                    .insert('\n', { header: false})
+                  console.debug('handler', {context, delta})
+
+                  this._quill.updateContents(delta)
+                  this._quill.setSelection(range.index + 1, 0, Quill.sources.SILENT)
+                }
+              }*/
+            },
+          },
           cursors: true,
           syntax: {
             hljs: {

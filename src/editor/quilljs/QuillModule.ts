@@ -29,8 +29,9 @@ export default class QuillModule {
     }, true)
 
     Quill.register({
-      "formats/title": Title,
-      "formats/subtitle": Subtitle,
+      // TODO:
+/*      "formats/title": Title,
+      "formats/subtitle": Subtitle,*/
       "formats/font-size": FontSize,
       "formats/linespacing": new LineSpacing('linespacing', 'linespacing', { /*scope: Scope.INLINE*/ }),
       "formats/inline-toolbar": InlineToolbarBlock,
