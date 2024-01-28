@@ -57,6 +57,14 @@ describe("Bind", () => {
     expect(name).toBe('CJ')
   })
 
+  it("indexOf", () => {
+    const person = bind({
+      name: 'CJ',
+      age: 39
+    } as Person)
+    expect(person.name.indexOf("C")).toBe(0)
+  })
+
   it("Dispatch value change", () => {
     const person = bind({
       name: 'CJ',

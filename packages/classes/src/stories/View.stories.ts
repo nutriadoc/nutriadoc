@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import {div, input, value} from "../ui";
+import {div, input, onChange, text, value} from "../ui";
 import {bind} from "../core";
 
 interface Model {
@@ -12,17 +12,20 @@ const meta = {
   render: () => {
 
     const model: Model = bind({
-      name: 'CJ'
+      name: ''
     })
 
     bind(model, (_: any, key: string | number | symbol, newValue: any, oldValue: any) => {
       console.log(key, newValue, oldValue)
     })
 
-    model.name = 'CJ2'
-
     return div(
-      input(value(model.name))
+      input(value(model.name),
+        onChange((e: Event) => {
+          model.name = (e.target as HTMLInputElement).value
+        })
+      ),
+      div(text(model.name))
     ).render() as Node
   },
   argTypes: {},

@@ -59,6 +59,7 @@ export default class View extends EventTarget implements IView, EventTarget {
   }
 
   public addClass(...classes: string[]) {
+    if (classes.length === 0) return
     this._element.classList.add(...classes)
   }
 
@@ -263,7 +264,7 @@ export default class View extends EventTarget implements IView, EventTarget {
   protected assignAttribute(unit: IUnit) {
     if (!(unit instanceof Attribute)) return
 
-    if (unit instanceof ClassName) {
+    if (unit instanceof ClassName && unit.classes.length > 0) {
       this._element.classList.add(...unit.classes)
 
     } else if (unit instanceof Property) {
@@ -274,9 +275,9 @@ export default class View extends EventTarget implements IView, EventTarget {
       this._element.setAttribute(unit.key, unit.value)
     }
 
+    // if (unit.key == "value") debugger
     if (isBinding(unit.value)) {
       bind(unit.value, (___: any, _: string | number | symbol, newValue: any, __: any) => {
-        debugger
         this._element.setAttribute(unit.key, newValue)
       })
     }
@@ -287,6 +288,12 @@ export default class View extends EventTarget implements IView, EventTarget {
   protected assignContent(content: Content) {
     if (content instanceof TextContent) {
       this.element.textContent = content.text
+
+      if (isBinding(content.text)) {
+        bind(content.text, (___: any, _: string | number | symbol, newValue: any, __: any) => {
+          this.element.textContent = newValue
+        })
+      }
     }
   }
 

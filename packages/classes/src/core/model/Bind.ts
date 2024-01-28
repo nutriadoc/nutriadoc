@@ -95,7 +95,9 @@ function _bind(parent: object | undefined, target: any, property?: any/*, aProxy
         const binding = getBinding(proxy)
 
         if (typeof binding?.target?.[key] === 'function') {
-          return () => ((binding?.target?.[key] as any)?.())
+          return function() {
+            return (target[key] as any)!.apply(target, arguments)
+          }
         }
         return value
       },

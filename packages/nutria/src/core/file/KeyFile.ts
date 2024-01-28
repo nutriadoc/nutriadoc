@@ -1,5 +1,4 @@
-import Key from "../Key.ts"
-import KeyPool from "../KeyPool.ts"
+import { KeyPool, Key } from "@nutriadoc/classes"
 import mime from "mime"
 
 export default class KeyFile {

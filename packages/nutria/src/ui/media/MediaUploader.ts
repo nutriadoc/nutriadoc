@@ -1,6 +1,6 @@
 import { View } from "@nutriadoc/classes";
 import NutriaDocument from "../../document/service/model/NutriaDocument.ts";
-import { KeyFile } from "@nutriadoc/classes";
+import { KeyFile} from "../../core"
 import ProgressIndicator from "../progress_indicator/ProgressIndicator.ts";
 import TaskProgressEvent from "../task/TaskProgressEvent.ts";
 import DocumentService from "../../document/service/DocumentService.ts";

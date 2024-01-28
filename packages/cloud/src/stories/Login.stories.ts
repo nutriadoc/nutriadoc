@@ -1,7 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Login from "../login";
-import {div, a, href, text, onClick, View} from "@nutriadoc/classes";
-
+import Login from "../login"
+import {div, a, href, text, onClick, View} from "@nutriadoc/classes"
 
 const meta = {
   title: 'LoginStory',

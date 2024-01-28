@@ -4,7 +4,7 @@ import axios, {AxiosInstance} from "axios";
 import {NutriaApiHost} from "../../editor/Option.ts";
 import User from "./model/User.ts";
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
-import { KeyFile } from "@nutriadoc/classes";
+import { KeyFile} from "../../core";
 import CreateMediaTask from "./tasks/CreateMediaTask.ts";
 import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts";
 

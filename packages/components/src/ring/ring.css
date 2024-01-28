@@ -1,0 +1,30 @@
+:root {
+  --ring-size: 30px;
+  --ring-color: rgb(156 163 175);
+}
+
+.ring {
+  width: var(--ring-size);
+  height: var(--ring-size);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ring .infinite {
+  animation: rotate 1.35s linear infinite;
+  transform-origin: 50% 50%;
+}
+
+.ring .circle {
+  transition: 1.35s stroke-dashoffset ;
+  transform: rotate(-90deg);
+
+  transform-origin: 50% 50%;
+}

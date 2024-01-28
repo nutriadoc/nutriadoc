@@ -1,6 +1,6 @@
 import NutriaDocument from "./model/NutriaDocument.ts";
 import User from "./model/User.ts";
-import { KeyFile } from "@nutriadoc/classes";
+import { KeyFile} from "../../core"
 import CreateMediaTask from "./tasks/CreateMediaTask.ts";
 
 export default interface DocumentService {
