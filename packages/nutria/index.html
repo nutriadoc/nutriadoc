@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        #editor { height: 100vh; }
+    </style>
+</head>
+<body>
+<div id="editor"></div>
+<script>
+  let ws = "wss://i.nutria-doc.com/ws"
+  let host = "https://i.nutria-doc.com"
+  const debug = 0
+
+  if (debug == 1) {
+    ws = "ws://localhost:8080/ws"
+    host = "http://localhost:8080"
+  }
+
+  async function main() {
+    const path = window.location.pathname.substring(1)
+    // const url = "https://cdn.jsdelivr.net/npm/nutria@0.0.20/dist/nutria.es.js"
+    const url = 'http://localhost:8080/dist/nutria.es.js'
+    import(url)
+      .then(({create}) => {
+        debugger
+        create(
+          document.querySelector("#editor"),
+          {
+            workspace: "c08e611e-7d3d-4b6d-b324-b202c59d895d",
+            key: path,
+            excludeCss: [
+              // 'quill/dist/quill.core.css'
+            ],
+            height: "auto",
+          }
+        )
+      })
+  }
+  main()
+</script>
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+@import "./variables.scss";
+@import "./form.scss";
+
+.ntr-floating {
+  position: absolute;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+  background-color: white;
+  padding: 8px 0;
+  border-radius: 4px;
+  visibility: hidden;
+
+  max-height: 70%;
+  overflow-y: auto;
+}
+
+.floating-hidden {
+  width: 0;
+  height: 0;
+}
