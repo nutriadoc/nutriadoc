@@ -83,7 +83,11 @@ export default class Floatable {
         break
       }
       case Position.BottomLeft:
+      case Position.LeftBottom:
       default: {
+        if ((rect.x + selfRect.width) > container.offsetWidth) {
+          return container.offsetWidth - selfRect.width - this.spacing
+        }
         x = rect.x
       }
     }

@@ -1,6 +1,6 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import Login from "../login"
-import {div, a, href, text, onClick, View} from "@nutriadoc/classes"
+import {div, a, href, text, onClick, View, style} from "@nutriadoc/classes"
 
 const meta = {
   title: 'LoginStory',
@@ -8,7 +8,8 @@ const meta = {
   render: () => {
 
     const login = new Login()
-    const link: View = a(href("#"),
+    const link: View = a(
+      href("#"),
       text("Login"),
       onClick((e: Event) => {
         e.preventDefault()
@@ -21,6 +22,11 @@ const meta = {
     }, 100);
 
     return div(
+      style({
+        display: "flex",
+        justifyContent: "right",
+        flex: 1,
+      }),
       link,
       login
     ).render() as Node
