@@ -4,7 +4,8 @@ import MediaUploader from "../../../ui/media/MediaUploader"
 import Resizable from "../../../ui/resizer/Resizable"
 import ResizeEvent from "../../../ui/resizer/ResizeEvent"
 import QuillDocument from "../../quilljs/QuillDocument"
-import { div, style, View, KeyPool, KeyFile } from "@nutriadoc/classes";
+import { div, style, View, KeyPool } from "@nutriadoc/classes";
+import { KeyFile } from "@/core"
 
 export default class MediaComponent {
 

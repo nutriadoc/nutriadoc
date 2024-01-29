@@ -1,6 +1,7 @@
 import UploadService from "./service/UploadService.ts"
-import { Optional, KeyFile } from "@nutriadoc/classes"
+import { Optional } from "@nutriadoc/classes"
 import Task from "../task/Task.ts"
+import { KeyFile } from "@/core"
 
 export default class S3UploadService implements UploadService {
 

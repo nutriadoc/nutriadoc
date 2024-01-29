@@ -1,6 +1,6 @@
 import Task from "../../../ui/task/Task.ts";
 import NutriaDocument from "../model/NutriaDocument.ts";
-import { KeyFile} from "../../core"
+import { KeyFile} from "@/core"
 import {NutriaApiHost} from "../../../editor/Option.ts";
 import Attachment from "../model/Attachment.ts";
 import attachmentAssembler from "../assembler/AttachmentAssembler.ts";

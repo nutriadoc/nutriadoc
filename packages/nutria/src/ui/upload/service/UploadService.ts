@@ -1,5 +1,6 @@
 import Task from "../../task/Task.ts";
-import { Optional, KeyFile } from "@nutriadoc/classes"
+import { Optional } from "@nutriadoc/classes"
+import { KeyFile } from "@/core"
 
 export default interface UploadService {
 

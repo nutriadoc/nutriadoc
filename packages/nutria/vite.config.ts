@@ -1,5 +1,8 @@
+/// <reference types="vite/client" />
+
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import { fileURLToPath, URL } from "url"
 
 export default defineConfig({
   build: {
@@ -10,7 +13,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
-      name: '@nutriadoc/nutriadoc',
+      name: 'nutria',
       // the proper extensions will be added
       fileName: (format) => `nutria.${format}.js`,
       formats: ['umd', 'es']
@@ -33,4 +36,9 @@ export default defineConfig({
     },
   },
   assetsInclude: ['/sb-preview/runtime.js'],
+  resolve: {
+    alias: [
+      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }
+    ]
+  }
 })

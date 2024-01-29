@@ -1,7 +1,8 @@
 import UploadService from "./service/UploadService.ts";
 import Task from "../task/Task.ts";
 import UploadTask from "./UploadTask.ts";
-import { Optional, KeyFile } from "@nutriadoc/classes"
+import { Optional } from "@nutriadoc/classes"
+import { KeyFile } from "@/core"
 
 export default class MockUploadService implements UploadService {
 

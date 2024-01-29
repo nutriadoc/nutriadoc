@@ -4,7 +4,7 @@ import UploadService from "../../../ui/upload/service/UploadService.ts"
 import MessageBox from "../../../ui/MessageBox/MessageBox.ts"
 import Editor from "../../Editor.ts"
 import FileInput from "../../../ui/upload/FileInput.ts"
-import { KeyFile} from "../../core"
+import { KeyFile } from "@/core"
 import AttachmentFactory from "../../commands/attachment/AttachmentFactory.ts"
 import DocumentCommandType from "../../../document/commands/DocumentCommandType.ts";
 import AttachmentCommand from "../../commands/attachment/AttachmentCommand.ts";

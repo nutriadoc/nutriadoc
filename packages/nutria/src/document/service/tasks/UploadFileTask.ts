@@ -1,6 +1,6 @@
 import Task from "../../../ui/task/Task.ts";
 import SignFileTask from "./SignFileTask.ts";
-import { KeyFile} from "../../core"
+import { KeyFile } from "@/core"
 import mime from "mime"
 import axios from "axios";
 

@@ -3,7 +3,8 @@ import Message from "../MessageBox/Message.ts";
 import UploadService from "./service/UploadService.ts";
 import MockUploadService from "./MockUploadService.ts";
 import { default as DefaultAvatar } from "./DefaultAvatar.base64?raw"
-import {className, div, image, onClick, source, text, KeyFile, IView} from "@nutriadoc/classes"
+import {className, div, image, onClick, source, text, IView} from "@nutriadoc/classes"
+import { KeyFile } from "@/core"
 import Progress from "./Progress.ts";
 import i18n from "../../i18n/index.ts";
 import TaskProgressEvent from "../task/TaskProgressEvent.ts";

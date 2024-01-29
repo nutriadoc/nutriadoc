@@ -1,4 +1,4 @@
-import { KeyFile } from "@nutriadoc/classes"
+import { KeyFile } from "@/core"
 import Format from "../../formatter/Format"
 import AbstractAttachmentCommand from "./AbstractAttachmentCommand.ts"
 import ImageCommand from "./ImageCommand"

@@ -1,5 +1,5 @@
 import Command from "../Command.ts";
-import { KeyFile } from "@nutriadoc/classes"
+import { KeyFile } from "@/core"
 import Format from "../../formatter/Format.ts";
 
 export default abstract class AbstractAttachmentCommand extends Command {
