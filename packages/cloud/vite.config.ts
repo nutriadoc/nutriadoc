@@ -6,6 +6,7 @@ export default defineConfig({
     sourcemap: true,
     minify: true,
     cssMinify: true,
+    cssCodeSplit: false,
 
     lib: {
       // Could also be a dictionary or array of multiple entry points
@@ -13,7 +14,7 @@ export default defineConfig({
       name: '@nutriadoc/cloud',
       // the proper extensions will be added
       fileName: (format, entryName) => `${entryName}.${format}.js`,
-      formats: ['es']
+      formats: ['es',]
     },
     rollupOptions: {
       input: {
@@ -25,11 +26,11 @@ export default defineConfig({
       output: {
         inlineDynamicImports: false,
         // assetFileNames: '[name].[ext]',
-        assetFileNames: (assetInfo) => {
+/*        assetFileNames: (assetInfo) => {
           console.debug(assetInfo)
           debugger
           return assetInfo.name
-        }
+        }*/
       },
       plugins: [
       ],
