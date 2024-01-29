@@ -1,6 +1,14 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+// const path = require('path')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+// const webpack = require('webpack')
+
+import path from 'path'
+import HtmlWebpackPlugin from "html-webpack-plugin"
+import { CleanWebpackPlugin} from "clean-webpack-plugin"
+
+const __filename = import.meta.url.split(":")[1]
+const __dirname = path.dirname(__filename)
 
 function devServer() {
   return {
@@ -10,7 +18,7 @@ function devServer() {
       // libraryTarget: 'module'
     },
     experiments: {
-      // outputModule: true
+      outputModule: true
     },
     optimization: {
       usedExports: false,
@@ -60,8 +68,8 @@ function create(target, config = {}) {
   return {
     entry: {
       ring: './src/ring/index.ts',
+      main: './src/index.ts'
     },
-    // entry: "./src/ring/index.ts",
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: `[name].${target}.js`,
@@ -73,9 +81,9 @@ function create(target, config = {}) {
     },
     optimization: {
       usedExports: false,
-      /*splitChunks: {
+      splitChunks: {
         chunks: 'all',
-      },*/
+      },
     },
     resolve: {
       extensions: ['.ts', '.js'],
@@ -98,12 +106,12 @@ function create(target, config = {}) {
     },
     devtool: 'source-map',
     plugins: [
-      new CleanWebpackPlugin(),
+      // new CleanWebpackPlugin(),
     ],
     ...config
   }
 }
 
-module.exports = [
+export default [
   create('esm')
 ]

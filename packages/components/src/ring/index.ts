@@ -7,7 +7,7 @@ export default class Ring {
 
   protected circle: SVGCircleElement
 
-  protected container: HTMLElement
+  protected _container: HTMLElement
 
   protected size: number
 
@@ -27,7 +27,7 @@ export default class Ring {
     this.setupContainer(option.container)
 
     this.svg.append(this.circle)
-    this.container.append(this.svg)
+    this._container.append(this.svg)
 
     this.progress = 10
   }
@@ -65,7 +65,7 @@ export default class Ring {
     }
 
     container.style.setProperty("--ring-size", `${this.size}px`)
-    this.container = container
+    this._container = container
   }
 
   protected get circumference() {
@@ -91,5 +91,9 @@ export default class Ring {
 
   get progress() {
     return this._progress
+  }
+
+  get container() {
+    return this._container
   }
 }

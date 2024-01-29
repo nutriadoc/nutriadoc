@@ -1,0 +1,33 @@
+:root {
+  --primary-button-background-color: #2383E2;
+  --primary-button-hover-background-color: #217ED9;
+}
+
+.button {
+  display: flex;
+  gap: 5px;
+
+
+  align-items: center;
+  justify-items: center;
+
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  outline: none;
+  line-height: 1.5;
+  cursor: pointer;
+
+  > div {
+    height: var(--ring-size);
+  }
+}
+
+.primary-button {
+  background-color: var(--primary-button-background-color);
+  color: #fff;
+}
+
+.primary-button:hover {
+  background-color: var(--primary-button-hover-background-color);
+}
