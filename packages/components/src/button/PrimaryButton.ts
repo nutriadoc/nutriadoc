@@ -1,8 +1,9 @@
 import {Button} from "./index"
 import {className, IUnit} from "@nutriadoc/classes"
+import {ButtonProps} from "./Button";
 
 export default class PrimaryButton extends Button {
-  constructor(...units: IUnit[]) {
-    super(...units, className("primary-button"));
+  constructor(props?: ButtonProps, ...units: IUnit[]) {
+    super(props, ...units, className("primary-button"));
   }
 }

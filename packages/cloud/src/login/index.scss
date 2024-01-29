@@ -1,5 +1,15 @@
 .login {
-  width: 300px;
+  display: flex;
+  flex-direction: column;
 
+  gap: 20px;
+  width: 300px;
   padding: 20px;
+
+  .actions {
+    display: flex;
+    flex: 1;
+
+    justify-content: right;
+  }
 }

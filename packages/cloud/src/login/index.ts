@@ -11,8 +11,12 @@ import {
   _for,
   value,
   onClick,
-  bind, onChange, type, on,
+  bind,
+  onChange,
+  type,
+  on,
 } from "@nutriadoc/classes"
+import {PrimaryButton} from "@nutriadoc/components"
 import "../index.scss"
 
 interface LoginModelBiding {
@@ -41,6 +45,8 @@ export default class Login extends Floating {
   protected passwordBlurHandler = this.onPasswordBlur.bind(this)
 
   protected passwordChangeHandler = this.onPasswordChange.bind(this)
+
+  protected loginHandler = this.onLogin.bind(this)
 
   constructor() {
     super(Position.BottomLeft,)
@@ -89,11 +95,13 @@ export default class Login extends Floating {
       ),
       div(
         className("actions"),
-        div(
-          className("button"),
+        new PrimaryButton(
+          {
+            loading: false,
+          },
           text("Login"),
-          onClick(() => { this.onLogin() })
-        )
+          onClick(this.loginHandler)
+        ),
       )
     )
   }
@@ -135,6 +143,14 @@ export default class Login extends Floating {
   }
 
   protected onLogin() {
+
+    // TODO: fix this find
+    const primaryButton = this.findAll(className("actions"))[0]?.children[0] as PrimaryButton
+    primaryButton.isLoading = true
+
+    setTimeout(() => {
+      primaryButton.isLoading = false
+    }, 1000)
     if (!this.validateTheEmail() || !this.validateThePassword()) return false
 
     this.hidden()

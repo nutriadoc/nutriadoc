@@ -37,8 +37,8 @@ export default class Button extends View {
           borderWidth: 2,
         })
         this.ring.infinite = true
-        this.element.insertBefore(this.ring.container, this.element.firstChild)
       }
+      this.element.insertBefore(this.ring.container, this.element.firstChild)
     } else {
       this.ring?.container.remove()
     }
