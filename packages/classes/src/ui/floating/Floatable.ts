@@ -51,10 +51,12 @@ export default class Floatable {
     const selfRect = this._view.element.getBoundingClientRect()
     const rect = relativeRect ?? bodyRect
 
-    // if (this._relativeTo == "element") {
-      rect.y = this._relative?.offsetTop ?? 0
-      rect.x = this._relative?.offsetLeft ?? 0
-    // }
+    rect.y = this._relative?.offsetTop ?? 0
+    rect.x = this._relative?.offsetLeft ?? 0
+
+    if (container != this._relative?.parentElement) {
+      // rect.x = this.ancestorsOffsetLeft
+    }
 
     switch (this._position) {
       case Position.BottomCenter:
@@ -94,8 +96,6 @@ export default class Floatable {
 
     return x
   }
-
-
 
   public get y(): number {
     let y = 0
@@ -147,6 +147,29 @@ export default class Floatable {
     return y
   }
 
+  get ancestorsOffsetTop(): number {
+    return this.getOffsetAncestors.reduce((acc, element) => {
+      acc += element.offsetTop
+      return acc
+    }, 0)
+  }
+
+  get ancestorsOffsetLeft(): number {
+    return this.getOffsetAncestors.reduce((acc, element) => {
+      acc += element.offsetLeft
+      return acc
+    }, 0)
+  }
+
+  get getOffsetAncestors() {
+    const ancestors = []
+    let element = this._relative?.offsetParent as HTMLElement | undefined
+    for (; !!element;) {
+      ancestors.push(element)
+      element = element?.offsetParent as HTMLElement ?? undefined
+    }
+    return ancestors
+  }
 
   protected setupDismiss() {
     if (this.attachedEvent) return

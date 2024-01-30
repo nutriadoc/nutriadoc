@@ -1,0 +1,18 @@
+:root {
+  --input-border-color: #EDEDED;
+  --input-border-color-focus: #2383E2;
+}
+
+.input {
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  outline: none;
+  line-height: 150%;
+
+  border: 1px solid var(--input-border-color);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2px var(--input-border-color-focus);
+}

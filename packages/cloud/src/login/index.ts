@@ -1,7 +1,1 @@
-import { default as Login } from "./Login"
-
-if (!window.cloud) {
-  window.cloud = {
-    Login: Login
-  }
-}
+export { default as Login } from "./Login"

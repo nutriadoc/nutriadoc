@@ -16,7 +16,7 @@ export default class Button extends View {
     super(
       document.createElement("button"),
       ...units,
-      className("nutria", "button")
+      className("button")
     )
     this.isLoading = props.loading
   }

@@ -2,7 +2,6 @@ import {
   Floating,
   Position,
   className,
-  input,
   placeholder,
   div,
   label,
@@ -16,7 +15,7 @@ import {
   type,
   on,
 } from "@nutriadoc/classes"
-import {PrimaryButton} from "@nutriadoc/components"
+import {Input, PrimaryButton} from "@nutriadoc/components"
 import "../index.scss"
 
 interface LoginModelBiding {
@@ -63,25 +62,35 @@ export default class Login extends Floating {
     this.assignUnits(
       className("login"),
       div(
-        label(text("Email"), _for("email")),
-        input(
+        className("flex", "flex-col"),
+        label(
+          className("label"),
+          text("Email"),
+          _for("email")
+        ),
+        new Input(
           name("email"),
-          className("input"),
+          className("input", "flex", "flex-1"),
           placeholder("Please enter your email"),
           value(model.email),
           onChange(this.emailChangeHandler),
           on('blur', this.emailBlurHandler),
         ),
         div(
-          className("message"),
+          className("form-text"),
           text(model.emailValidationMessage)
         )
       ),
       div(
-        label(text("Password"), _for("password")),
-        input(
+        className("flex", "flex-col"),
+        label(
+          text("Password"),
+          _for("password"),
+          className("label"),
+        ),
+        new Input(
           name("password"),
-          className("input"),
+          className("input", "flex", "flex-1"),
           type("password"),
           placeholder("Please enter your password"),
           value(model.password),
@@ -89,7 +98,7 @@ export default class Login extends Floating {
           on('blur', this.passwordBlurHandler),
         ),
         div(
-          className("message"),
+          className("form-text"),
           text(model.passwordValidationMessage)
         )
       ),
@@ -156,3 +165,4 @@ export default class Login extends Floating {
     this.hidden()
   }
 }
+

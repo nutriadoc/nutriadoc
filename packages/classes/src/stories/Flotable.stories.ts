@@ -13,7 +13,7 @@ const meta = {
     ).assignUnits(style({ width: "300px", backgroundColor: "#EFEFEF"})) as FloatingComponent
 
     setTimeout(() => {
-      floating.visible(login as View)
+      floating.visible(document.body)
     }, 1000)
     return div(
       div(
@@ -24,7 +24,6 @@ const meta = {
         }),
         floating,
         login,
-
       )
     ).render() as Node
   },

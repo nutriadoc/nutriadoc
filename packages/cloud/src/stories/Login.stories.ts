@@ -1,5 +1,5 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import Login from "../login"
+import { Login } from "../login"
 import {div, a, href, text, onClick, View, style} from "@nutriadoc/classes"
 
 const meta = {
