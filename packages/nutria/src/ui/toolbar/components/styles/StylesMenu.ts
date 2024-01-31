@@ -6,7 +6,7 @@ import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 
 export default class StylesMenu extends Menu {
 
-  public constructor(relativePosition: Position) {
+  public constructor(_: any, relativePosition: Position) {
     super("header", relativePosition, StylesMenu.items())
     this._element.classList.add("insert-menu")
   }

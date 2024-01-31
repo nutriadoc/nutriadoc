@@ -1,4 +1,4 @@
-import {className, contentEditable, IView, View, Floating, Position} from "@nutriadoc/classes";
+import {className, contentEditable, IView, View, FloatingView, Position} from "@nutriadoc/classes";
 import IToolbar from "../IToolbar.ts";
 import Menu from "../../menu/Menu.ts";
 import Range from "../../../editor/Range.ts";
@@ -6,7 +6,7 @@ import LinkInlineToolbar from "./link/LinkInlineToolbar.ts";
 import ToolbarItem from "../main/items/ToolbarItem.ts";
 import Editor from "../../../editor/Editor.ts";
 
-export default class InlineToolbar extends Floating implements IView, IToolbar {
+export default class InlineToolbar extends FloatingView implements IView, IToolbar {
   class = 'inline-toolbar'
 
   protected current?: IView

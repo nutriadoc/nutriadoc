@@ -1,7 +1,7 @@
-import { IView, View, Floating, Position } from "@nutriadoc/classes"
+import { IView, View, FloatingView, Position } from "@nutriadoc/classes"
 import TooltipTextContent from "./TooltipTextContent.ts";
 
-export default class Tooltip extends Floating {
+export default class Tooltip extends FloatingView {
 
   protected text: string | undefined = undefined
 

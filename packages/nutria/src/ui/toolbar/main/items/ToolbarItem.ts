@@ -3,7 +3,7 @@ import ToolbarItemButton from "./ToolbarItemButton.ts";
 import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
 import ActivationView from "./ActivationView.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts";
-import {Measurable} from "@nutriadoc/classes"
+import {className, Measurable} from "@nutriadoc/classes"
 
 const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
 const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
@@ -41,11 +41,8 @@ export default class ToolbarItem extends ActivationView implements Measurable {
     enabled?: boolean,
     toggle?: boolean) {
 
-    const element = document.createElement("div")
-    element.classList.add("item")
-    if (toggle === true)
-      element.setAttribute("data-toggle", "")
-    super(element, ACTIVE_BACKGROUND_COLOR)
+    super(document.createElement("div"), ACTIVE_BACKGROUND_COLOR)
+    this.assignContent(className("item"))
 
     this._key = key
     this._text = text

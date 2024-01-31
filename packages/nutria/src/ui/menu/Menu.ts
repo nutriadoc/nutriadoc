@@ -1,14 +1,14 @@
 import MenuItemEvent from "./events/MenuItemEvent.ts"
 import MenuEvent from "./events/MenuEvent.ts"
 import MenuItem from "./MenuItem.ts"
-import {className, Floating, Position} from "@nutriadoc/classes"
+import {className, FloatingView, Position} from "@nutriadoc/classes"
 
-export default class Menu extends Floating {
+export default class Menu extends FloatingView {
 
   protected items: MenuItem[] = []
 
   public constructor(key: string, relativePosition: Position, items: MenuItem[]) {
-    super(relativePosition, [], "viewport",)
+    super(relativePosition)
     this.assignUnits(className("ntr-menu"))
     this.key = key
     this.items = items

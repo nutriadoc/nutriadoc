@@ -48,6 +48,7 @@ export default class View extends EventTarget implements IView, EventTarget {
     View.views.set(this.id.toString(), this)
     View.nodes.set(this._element, this)
 
+
     this.initialize()
   }
 
@@ -94,16 +95,23 @@ export default class View extends EventTarget implements IView, EventTarget {
     }
   }
 
+  add(view: IView): void
+  add(view: IView[]): void
   add(view: View[]): void
   add(view: View): void
-  add(view: View | View[]): void {
-
+  add(view: View | View[] | IView | IView[]): void {
     if (view instanceof View) {
       this._children.push(view)
       this._element.append(view._element)
+      view._parent = this
+      view.added()
     } else if (Array.isArray(view)) {
       view.forEach(v => this.add(v))
     }
+  }
+
+  added(): void {
+
   }
 
   public addElement(element: IView | IView[]) {
@@ -112,7 +120,7 @@ export default class View extends EventTarget implements IView, EventTarget {
     } else {
       this._children.push(element)
       try {
-        // element.parent = this
+        element.parent = this
         this.addNode(element.render())
       } catch (e) {
         console.error(e)
@@ -264,9 +272,10 @@ export default class View extends EventTarget implements IView, EventTarget {
   protected assignAttribute(unit: IUnit) {
     if (!(unit instanceof Attribute)) return
 
-    if (unit instanceof ClassName && unit.classes.length > 0) {
-      this._element.classList.add(...unit.classes)
+    if (unit instanceof ClassName) {
+      if (unit.classes.length == 0) return
 
+      this._element.classList.add(...unit.classes)
     } else if (unit instanceof Property) {
       const v: any = {}
       v[unit.key] = unit.value
@@ -275,7 +284,6 @@ export default class View extends EventTarget implements IView, EventTarget {
       this._element.setAttribute(unit.key, unit.value)
     }
 
-    // if (unit.key == "value") debugger
     if (isBinding(unit.value)) {
       bind(unit.value, (___: any, _: string | number | symbol, newValue: any, __: any) => {
         this._element.setAttribute(unit.key, newValue)

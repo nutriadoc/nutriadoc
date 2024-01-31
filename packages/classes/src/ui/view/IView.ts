@@ -28,8 +28,12 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
 
   addElement(element: IView | IView[]): void
 
+  add(view: IView): void
+  add(view: IView[]): void
   add(view: View[]): void
   add(view: View): void
+
+  added(): void
 
   addTo(parent: HTMLElement): void
 

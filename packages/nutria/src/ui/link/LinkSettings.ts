@@ -16,7 +16,7 @@ import {
   style,
   text,
   value,
-  Floating,
+  FloatingView,
   Link,
   Position,
   View
@@ -25,7 +25,7 @@ import LinkEvent from "../toolbar/inline/link/LinkEvent.ts";
 import Editor from "../../editor/Editor.ts";
 import Range from "../../editor/Range.ts";
 
-export default class LinkSettings extends Floating {
+export default class LinkSettings extends FloatingView {
 
   public _url: string = ""
 

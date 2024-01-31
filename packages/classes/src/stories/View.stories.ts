@@ -1,9 +1,17 @@
 import type {StoryObj, Meta} from '@storybook/html'
-import {div, input, onChange, text, value} from "../ui";
+import {div, input, IUnit, onChange, text, value, View} from "../ui";
 import {bind} from "../core";
 
 interface Model {
   name: string
+}
+
+class Container extends View {
+  constructor(...units: IUnit[]) {
+    const element = document.createElement('div')
+    element.classList.add('container')
+    super(element, ...units)
+  }
 }
 
 const meta = {
@@ -19,7 +27,7 @@ const meta = {
       console.log(key, newValue, oldValue)
     })
 
-    return div(
+    return new Container(
       input(value(model.name),
         onChange((e: Event) => {
           model.name = (e.target as HTMLInputElement).value

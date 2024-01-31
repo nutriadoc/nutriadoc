@@ -1,4 +1,4 @@
-import { View } from "@nutriadoc/classes"
+import {className, View} from "@nutriadoc/classes"
 import ToolbarAccordionLayout from "./ToolbarAccordionLayout.ts"
 import ToolbarItem from "./items/ToolbarItem.ts"
 import InsertMenu from "../components/insert/InsertMenu.ts"
@@ -44,9 +44,7 @@ export default class Toolbar extends View implements IToolbar {
   ]
 
   public constructor(layout: ToolbarAccordionLayout[]) {
-    const element = document.createElement("div")
-    element.classList.add("ntr-main-toolbar")
-    super(element)
+    super(document.createElement("div"), className("ntr-main-toolbar"))
 
     this._layouts = layout
     this._tooltip = new Tooltip("")
