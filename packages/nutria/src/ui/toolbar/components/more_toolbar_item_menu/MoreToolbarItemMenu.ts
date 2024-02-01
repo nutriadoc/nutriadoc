@@ -16,7 +16,7 @@ export default class MoreToolbarItemMenu extends Menu {
     this.toolbar = toolbar
 
     this.assignUnits(
-      className("toolbar-more-menu"),
+      className("toolbar-more-menu", "ntr-main-toolbar"),
       style({
         paddingLeft: "10px",
         paddingRight: "10px",
@@ -26,8 +26,7 @@ export default class MoreToolbarItemMenu extends Menu {
   }
 
   visible(relative?: HTMLElement | View | undefined, _?: View) {
-    relative = this.floatable.relative!
-
+    relative = this.floating.relative!
     this.removeAllChild()
 
     const view = View.find(relative as Node)
@@ -42,12 +41,30 @@ export default class MoreToolbarItemMenu extends Menu {
       collapses = [
         new Layout(Direction.Horizontal)
       ]
-      c.forEach(item => {item.render()})
+      c.forEach(item => { item.render(); collapses[0].addItem(item) })
       collapses[0].add(c)
-
     }
 
     this.add(collapses)
+
+    let width = document.body.offsetWidth
+    let maxWidthOfLayout = 0
+
+    collapses.forEach(collapse => {
+      if (collapse instanceof Layout) {
+        if (collapse.width > maxWidthOfLayout) {
+          maxWidthOfLayout = collapse.width
+        }
+      }
+    })
+
+    if (maxWidthOfLayout < width) {
+      width = maxWidthOfLayout
+    } else {
+      width = width - 40
+    }
+
+    this.element.style.width = `${width}px`
 
     super.visible(relative, this.toolbar)
   }

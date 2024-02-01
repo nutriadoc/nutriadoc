@@ -39,7 +39,7 @@ export default class LanguageButton extends ActivationView {
     super(undefined)
     this.menu = new Menu(
       "languages",
-      Position.LeftBottom,
+      Position.BottomLeft,
       [
         this.search,
         ...this.allLanguageItems

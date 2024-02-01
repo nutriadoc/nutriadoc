@@ -2,13 +2,14 @@ import Position from "../../../../../../classes/src/ui/floating/Position.ts";
 import DefaultMenuItem from "../../../menu/DefaultMenuItem.ts";
 import Fonts from "../../../../editor/font/DefaultFonts.ts";
 import Menu from "../../../menu/Menu.ts";
+import {View} from "@nutriadoc/classes";
 
 export default class FontMenu extends Menu {
 
   protected family: Map<string, string> = new Map()
 
-  public constructor(relativePosition: Position) {
-    super('fontFamily', relativePosition, FontMenu.items())
+  public constructor(_: View) {
+    super('fontFamily', Position.BottomLeft, FontMenu.items())
 
     Fonts.forEach(font => {
       this.family.set(font.name, font.family)

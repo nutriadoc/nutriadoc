@@ -24,7 +24,7 @@ export default class Floating {
 
   public _disableAutoHide = false
 
-  boundary: Size = { width: window.innerWidth, height: window.innerHeight }
+  get boundary(): Size { return { width: document.body.offsetWidth, height: document.body.scrollHeight } }
 
   protected static root: View = this.createRoot()
 
@@ -66,10 +66,17 @@ export default class Floating {
     let x = 0
 
     switch (this._position) {
+      case Position.BottomCenter:
+      case Position.TopCenter:
       case Position.Center: {
-        x = x - (this.boundary.width - self.width) / 2
+        if (self.width > relative.width) {
+          x = relative.x - (self.width - relative.width) / 2
+        } else {
+          x = relative.x + (relative.width - self.width) / 2
+        }
         break
       }
+      case Position.BottomRight:
       case Position.RightTop: {
         x = relative.x + relative.width
         break
@@ -78,17 +85,13 @@ export default class Floating {
         x = relative.x
         break
       }
-      case Position.BottomRight: {
-        x = relative.x + relative.width
-        break
-      }
       default: {
         throw new Error("Not implemented")
       }
     }
 
     if (x < 0) x = 0
-    if (x + self.width > this.boundary.width) x = relative.x - self.width
+    if (x + self.width > this.boundary.width) x = this.boundary.width - self.width - 10
 
     return x
   }
@@ -96,21 +99,24 @@ export default class Floating {
   public get y(): number {
     let y = 0
 
-    const rect = this._relative!.getBoundingClientRect()
-    const selfRect = this._view.element.getBoundingClientRect()
+    const relative = this._relative!.getBoundingClientRect()
+    const self = this._view.element.getBoundingClientRect()
+
+    relative.y = this.ancestorsOffsetTop
 
     switch (this._position) {
       case Position.Center: {
-        y = (this.boundary.height - selfRect.height) / 2
+        y = (this.boundary.height - self.height) / 2
         break
       }
       case Position.RightTop: {
-        y = rect.y
+        y = relative.y
         break
       }
+      case Position.BottomCenter:
       case Position.BottomRight:
       case Position.BottomLeft: {
-        y = rect.y + rect.height
+        y = relative.y + relative.height
         break
       }
       default: {
@@ -119,7 +125,7 @@ export default class Floating {
     }
 
     if (y < 0) y = 0
-    if (selfRect.height + y > this.boundary.height) y = rect.y + rect.height - selfRect.height
+    if (self.height + y > this.boundary.height) y = this.boundary.height - self.height - 10
     return y
   }
 
@@ -176,8 +182,6 @@ export default class Floating {
   }
 
   public onDocumentClick(event: MouseEvent) {
-    // console.debug('on document click', this)
-
     const target = event.target as HTMLElement
 
     if (this._view.element.contains(target)) {
@@ -198,7 +202,6 @@ export default class Floating {
   }
 
   public disableAutoHide() {
-    console.debug("disable auto hide")
     document.removeEventListener('click', this.documentClickHandler)
   }
 
@@ -217,7 +220,13 @@ export default class Floating {
   public pin() {
     if (!this._visible) return
 
-    this._view.element.style.left = `${this.x}px`
+    let x = this.x
+    if (x < 10) {
+      x = 10
+      this._view.element.style.right = `${10}px`
+    }
+
+    this._view.element.style.left = `${x}px`
     this._view.element.style.top = `${this.y}px`
     this._view.element.style.position = "absolute"
     this._view.element.style.zIndex = (Floating._zIndex ++).toString()

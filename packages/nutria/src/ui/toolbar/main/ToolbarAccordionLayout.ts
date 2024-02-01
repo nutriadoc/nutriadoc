@@ -4,11 +4,9 @@ import { IView, View, Measurable, Direction, className, IUnit } from "@nutriadoc
 import Layout from "./Layout.ts"
 
 
-export default class ToolbarAccordionLayout extends Layout implements Measurable {
+export default class ToolbarAccordionLayout extends Layout {
 
   protected _children: IView[] = []
-
-  protected _items: Measurable[] = []
 
   protected _allItems: Measurable[] = []
 
@@ -26,7 +24,8 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
     this._allItems = [...children]
     this._items = children
     this._items.forEach(item => {
-      const view = item as unknown as IView
+      const view = item as unknown as ToolbarItem
+      view.layout = this
       view.parent = this
     })
 
@@ -98,25 +97,22 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
 
 
   public layout(limitWidth: number) {
-
     this._collapsed = []
-
-    this.sortItems()
     const sort = this.sortedItems
 
-    this.visibleItems()
+    this.initializeAllToolbarItems()
 
     for (let i = 0; i < 99; i++) {
       const width = this.width
-
       if (width < limitWidth) break
 
       const item = sort.pop()
       if (!item) break
 
-      const layout = item.parent as unknown as ToolbarAccordionLayout
+      const layout = item.layout as unknown as ToolbarAccordionLayout
 
-      if (layout.collapse(item)) {
+      // Layout not have collapse method
+      if (layout.collapse?.(item)) {
         layout.visibleMore()
       }
     }
@@ -128,15 +124,16 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
   protected mergeMultipleMore() {
 
     const set = new Set(this.findDescendants(view => view instanceof ToolbarItem && view.key == "more"))
-    const items = Array.from(set) as ToolbarItem[]
+    const moreItems = Array.from(set) as ToolbarItem[]
 
     if (set.size <= 1) return
 
-    const removing = items.filter(
-      item => (item.parent as ToolbarAccordionLayout).allItemsAreCollapsed
-    )
+    // const removing = moreItems.filter(
+    //   item => (item.parent as ToolbarAccordionLayout).allItemsAreCollapsed
+    // )
+    const removing = [...moreItems]
 
-    const final = items.filter(i => !removing.some(item => i == item)).pop()
+    const final = removing.pop() // moreItems.filter(i => !removing.some(item => i == item)).pop()
     if (!final) return
 
     const layout = final.parent as ToolbarAccordionLayout
@@ -146,6 +143,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
         const l = new Layout(Direction.Horizontal)
         layout._collapsed.forEach(c => {
           l.add(c as View)
+          l._items.push(c as unknown as Measurable)
           c.render()
         })
         return l
@@ -160,7 +158,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
   }
 
   reloadItems() {
-    // this.removeAllChild()
+    this.removeAllChild()
 
     this._allItems.forEach(item => (item as unknown as IView).remove())
 
@@ -171,18 +169,19 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
       .map(item => item as unknown as ToolbarAccordionLayout)
       .forEach(layout => (layout as unknown as ToolbarAccordionLayout).reloadItems())
 
-    const items = this._items.map(item => item as unknown as IView)
+    let items = this._items.map(item => item as unknown as IView)
 
     // TODO: render method should refactor
     this.addElement(items)
     items.forEach(item => { this.element.append(item.element) })
+    items.forEach(item => item.parent = this)
     this._children = items
   }
 
   /**
    * make sure all items are visible
    */
-  visibleItems() {
+  initializeAllToolbarItems() {
 
     this.removeAllChild()
     this._collapsed = []
@@ -192,29 +191,20 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
 
     // make the sub layout visible
     this._items
-      .filter(item => item instanceof ToolbarAccordionLayout)
+      .filter(item => item as unknown instanceof ToolbarAccordionLayout)
       .map(item => item as ToolbarAccordionLayout)
-      .forEach(item => item.visibleItems())
+      .forEach(item => item.initializeAllToolbarItems())
   }
 
   visibleMore() {
     if (this._items.some(item => item === this.more)) return
-
     this._items.push(this.more)
-
   }
 
   get width(): number {
-    if (this.allItemsAreCollapsed) return 0
+    if (this.allItemsAreCollapsed) return 28
 
-    return this
-      ._items
-      .reduce(
-        (total, node) => total + node.width,
-        0
-      )
-      +
-      this._items.length * 4
+    return super.width
   }
 
   get height(): number {
@@ -253,7 +243,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
         factory.lineSpacing(),
         factory.quote(),
         factory.codeBlock(),
-        factory.separator(),
+        // factory.separator(),
         // factory.hightBlock(),
         // factory.more(),
         // factory.search(),
@@ -290,10 +280,10 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
       ]
     )
 
-    const complexityLayout = new ToolbarAccordionLayout(
-      [factory.switchComplexity()],
-      'simple-layout-right'
-    )
+    // const complexityLayout = new ToolbarAccordionLayout(
+    //   [factory.switchComplexity()],
+    //   'simple-layout-right'
+    // )
 
     const layout2 = new ToolbarAccordionLayout(
       [
@@ -308,7 +298,7 @@ export default class ToolbarAccordionLayout extends Layout implements Measurable
     return new ToolbarAccordionLayout(
       [
         layout2,
-        complexityLayout
+        // complexityLayout
       ],
       className("layout-root")
     )

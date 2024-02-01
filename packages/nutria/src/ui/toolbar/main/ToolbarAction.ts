@@ -21,6 +21,8 @@ export default class ToolbarAction {
 
   protected assembler: CommandAssembler = new CommandAssembler()
 
+  protected toolbarMoreItemClickHandler = this.onToolbarMoreItemClick.bind(this)
+
   constructor(toolbar: Toolbar, formatter: IFormatter) {
     this.toolbar = toolbar
     this.formatter = formatter
@@ -40,7 +42,8 @@ export default class ToolbarAction {
     }))
 
     more.forEach(item => {
-      item.addEventListener("click", this.onToolbarMoreItemClick.bind(this))
+      item.removeEventListener("click", this.toolbarMoreItemClickHandler)
+      item.addEventListener("click", this.toolbarMoreItemClickHandler)
     })
   }
 

@@ -51,6 +51,14 @@ export default class Toolbar extends View implements IToolbar {
 
     this.setupMenus()
     this.setupMonitorToolbarSizeChange()
+
+
+    window.addEventListener('resize', this.onWindowResize.bind(this))
+  }
+
+  onWindowResize() {
+    this.layout.layout(this.element.offsetWidth)
+    this.dispatchEvent(new ToolbarSizeChangeEvent())
   }
 
   onEditorSelectionChange(_: Range): void {
@@ -65,21 +73,13 @@ export default class Toolbar extends View implements IToolbar {
             const element = node as HTMLElement
             if (!element.classList.contains("layout")) return
 
-            this.monitorToolbarSizeChange(element)
+            this.onWindowResize()
 
           }))
     })
     observer.observe(this._element, {
       childList: true,
     })
-  }
-
-  protected monitorToolbarSizeChange(element: HTMLElement) {
-    const observer = new ResizeObserver(_ => {
-      this.layout.layout(element.offsetWidth)
-      this.dispatchEvent(new ToolbarSizeChangeEvent())
-    })
-    observer.observe(element)
   }
 
   public openMenu(key: string, element: HTMLElement) {
@@ -110,9 +110,7 @@ export default class Toolbar extends View implements IToolbar {
 
   protected setupMenus() {
     this._menus = this.menuClasses.map(menuClass => {
-      const menu = new menuClass(this)
-      this.addElement(menu)
-      return menu
+      return new menuClass(this)
     })
   }
 

@@ -3,7 +3,8 @@ import ToolbarItemButton from "./ToolbarItemButton.ts";
 import ToolbarItemExpandButton from "./ToolbarItemExpandButton.ts";
 import ActivationView from "./ActivationView.ts";
 import IToolbarItemIcon from "./IToolbarItemIcon.ts";
-import {className, Measurable} from "@nutriadoc/classes"
+import {Measurable} from "@nutriadoc/classes"
+import Layout from "@/ui/toolbar/main/Layout.ts";
 
 const ACTIVE_BACKGROUND_COLOR = "#F2F4F5"
 const ACTIVE_BACKGROUND_COLOR2 = "#E7EBED"
@@ -32,6 +33,8 @@ export default class ToolbarItem extends ActivationView implements Measurable {
 
   public fixed: boolean = false
 
+  public layout!: Layout
+
 
   public constructor(
     key: string,
@@ -41,8 +44,9 @@ export default class ToolbarItem extends ActivationView implements Measurable {
     enabled?: boolean,
     toggle?: boolean) {
 
-    super(document.createElement("div"), ACTIVE_BACKGROUND_COLOR)
-    this.assignContent(className("item"))
+    const element = document.createElement("div")
+    element.classList.add("item")
+    super(element, ACTIVE_BACKGROUND_COLOR)
 
     this._key = key
     this._text = text
@@ -63,7 +67,6 @@ export default class ToolbarItem extends ActivationView implements Measurable {
   }
 
   protected setupEvents2() {
-
     this.button.element.addEventListener("click", this.onClick.bind(this))
     if (this._canExpand)
       this.expandButton.element.addEventListener("click", this.onExpandClick.bind(this))
@@ -71,7 +74,6 @@ export default class ToolbarItem extends ActivationView implements Measurable {
 
   protected onClick() {
     if (!this.isEnabled) return
-
     this.dispatchEvent(new ToolbarItemEvent("click", this))
   }
 

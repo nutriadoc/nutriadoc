@@ -1,5 +1,5 @@
 import type {Meta, StoryObj} from '@storybook/html'
-import {div, FloatingView as FloatingComponent, Position, style, text, View} from "../ui";
+import {div, FloatingView as FloatingComponent, onClick, Position, style, text, View} from "../ui";
 
 
 interface FloatableArgs {
@@ -17,12 +17,12 @@ const meta: Meta<FloatableArgs> = {
   title: 'Floating/BottomLeft',
   tags: ['autodocs'],
   render: (args) => {
-    const login = div(text("Login"))
+    const login = div(text("Login"), onClick(() => { floating.visible(login as View) }))
 
     const floating = new FloatingComponent(
       args.position,
       [div(text("float"))]
-    ).assignUnits(style({ width: "300px", backgroundColor: "#EFEFEF"})) as FloatingComponent
+    ).assignUnits(style({ width: "300px", height: "300px", backgroundColor: "#EFEFEF"})) as FloatingComponent
 
     setTimeout(() => {
       floating.visible(login as View)
@@ -31,12 +31,17 @@ const meta: Meta<FloatableArgs> = {
     const container = div(
       style({
         display: "flex",
+        flexDirection: "column",
         flex: 1,
-        height: "100%",
+        overflow: "scroll",
         justifyContent: args.relativePositionX,
         alignItems: args.relativePositionY,
       }),
+      div(style({
+        height: "1300px",
+      })),
       div(
+        style({ height: "500px"}),
         div(
           style({
             position: "relative",
