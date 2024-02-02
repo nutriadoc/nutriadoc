@@ -1,5 +1,6 @@
 import Nutria from './Nutria'
 import Features from "@/app/Features";
+import Pricing from "@/app/Pricing";
 
 export default async function Home() {
   const html = await loadReadme()
@@ -35,6 +36,9 @@ export default async function Home() {
       </div>
       <div className="bg-slate-50">
         <Features />
+      </div>
+      <div className={"lg:pt-20 px-5 lg:py-20 py-10"}>
+        <Pricing />
       </div>
     </>
   )
