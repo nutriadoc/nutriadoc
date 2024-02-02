@@ -4,11 +4,10 @@ import Image from 'next/image'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
-
-
-import './globals.css'
 import LoginButton from "@/app/components/login/LoginButton";
 import Script from "next/script";
+
+import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,7 +27,7 @@ export default function RootLayout({
         <link rel={"stylesheet"} href={"http://localhost:4173/style.css"} />
       </head>
       <body className={inter.className}>
-      <Script src={"http://localhost:4173/login.es.js"} type={"module"}></Script>
+        <Script src={"http://localhost:4173/login.es.js"} type={"module"}></Script>
         <nav className="container p-4 border-b border-gray-200">
           <div className="flex">
             <div className="flex flex-1 gap-4">

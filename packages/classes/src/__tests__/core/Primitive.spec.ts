@@ -1,5 +1,3 @@
-import {expect} from "@storybook/test";
-
 describe("Primitive", () => {
   it("string", () => {
     const name = new String("CJ")

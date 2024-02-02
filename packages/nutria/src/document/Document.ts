@@ -59,10 +59,6 @@ export default abstract class Document extends AbstractDocument {
     super(option, undefined, className("nutria"))
     Document._documents.set(this.element, this)
 
-    this._yText.observe((event) => {
-      console.debug(event)
-    })
-
     this._services = services
 
     this.package.register(
