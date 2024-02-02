@@ -1,4 +1,5 @@
 import Nutria from './Nutria'
+import Features from "@/app/Features";
 
 export default async function Home() {
   const html = await loadReadme()
@@ -23,16 +24,17 @@ export default async function Home() {
         {/*</div>*/}
       </div>
       <div className="container main lg pt-20 px-5">
-        
         <div
           id="container"
           className={"prose"}
           // dangerouslySetInnerHTML={{__html: html}}
         >
         </div>
-
-
         <Nutria html={html} />
+
+      </div>
+      <div className="bg-slate-50">
+        <Features />
       </div>
     </>
   )

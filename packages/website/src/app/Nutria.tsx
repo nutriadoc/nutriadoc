@@ -40,8 +40,8 @@ export interface NutriaProps {
 }
 
 export default function Nutria(props: NutriaProps) {
-  const debug: boolean = true
-  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.24/dist"
+  const debug: boolean = false
+  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.26/dist"
   if (debug) {
     nutriaUrl = "http://localhost:4173/"
   }

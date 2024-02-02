@@ -23,11 +23,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel={"stylesheet"} href={"http://localhost:4173/style.css"} />
-      </head>
+      {/*<head>*/}
+      {/*  <link rel={"stylesheet"} href={"http://localhost:4173/style.css"} />*/}
+      {/*</head>*/}
       <body className={inter.className}>
-        <Script src={"http://localhost:4173/login.es.js"} type={"module"}></Script>
+        {/*<Script src={"http://localhost:4173/login.es.js"} type={"module"}></Script>*/}
         <nav className="container p-4 border-b border-gray-200">
           <div className="flex">
             <div className="flex flex-1 gap-4">
@@ -41,7 +41,7 @@ export default function RootLayout({
               <span>Nutria</span>
             </div>
             <div className="flex gap-2">
-              <LoginButton />
+              {/*<LoginButton />*/}
               <a href="https://github.com/nutriadoc/nutriadoc">
                 <Image
                   src="/assets/github.svg"
