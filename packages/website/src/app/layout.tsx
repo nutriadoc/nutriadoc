@@ -4,8 +4,6 @@ import Image from 'next/image'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
-import LoginButton from "@/app/components/login/LoginButton";
-import Script from "next/script";
 
 import './globals.css'
 
@@ -15,7 +13,12 @@ export const metadata: Metadata = {
   title: 'Nutria',
   description: 'Nutria is a feature-rich rich text editor designed to provide a comprehensive set of tools for text formatting, inserting images, videos, and attachments. It offers collaborative editing and communication features, making it a versatile platform for various use cases.',
 }
-
+const imports = {
+  "imports": {
+    "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.2/dist/classes.es.js",
+    "@nutriadoc/components": "http://localhost:4173/main.es.js",
+  }
+}
 export default function RootLayout({
   children,
 }: {
@@ -23,17 +26,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/*<head>*/}
-      {/*  <link rel={"stylesheet"} href={"http://localhost:4173/style.css"} />*/}
-      {/*</head>*/}
-      <body className={inter.className}>
-        {/*<Script src={"http://localhost:4173/login.es.js"} type={"module"}></Script>*/}
-        <nav className="container p-4 border-b border-gray-200">
-          <div className="flex">
-            <div className="flex flex-1 gap-4">
-              <Image
-                className="logo"
-                src="/assets/logo.png"
+    <head>
+      <script type="importmap" dangerouslySetInnerHTML={{__html: JSON.stringify(imports)}}></script>
+      <script src={"http://localhost:4173/landing_page.es.js"} type="module" defer></script>
+      <script
+        dangerouslySetInnerHTML={{__html: `
+window['components'] = import("@nutriadoc/components")
+`}}
+        type="module"
+        defer
+      ></script>
+    </head>
+    <body className={inter.className}>
+    <nav className="container p-4 border-b border-gray-200">
+      <div className="flex">
+        <div className="flex flex-1 gap-4">
+          <Image
+            className="logo"
+            src="/assets/logo.png"
                 alt="nutria logo"
                 width={20}
                 height={20}

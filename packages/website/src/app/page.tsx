@@ -1,6 +1,12 @@
 import Nutria from './Nutria'
 import Features from "@/app/Features";
 import Pricing from "@/app/Pricing";
+import WantList from "@/app/WantList";
+import {Suspense} from "react";
+
+// import dynamic from 'next/dynamic'
+// const WantList = dynamic(() => import('@/app/WantList'), { ssr: false })
+
 
 export default async function Home() {
   const html = await loadReadme()
@@ -11,11 +17,12 @@ export default async function Home() {
         <h2>Nutria is a a free rich editor and open source WYSIWYG.</h2>
         <h2>Use Nutria to help you build an useful editor, where text doesn&apos;t get lost, documents can be edited collaboratively, and the toolbar is like Office Word.</h2>
       </div>
-      <div className="container xl md:w-3/6 xl:w-2/6 px-10 flex flex-col gap-2">
+      <div className="container xl md:w-3/6 xl:w-2/6 px-10 grid sm:gird-cols-1 lg:grid-cols-2 gap-4">
         <div className="text-slate-400">
           This project is still under development, you can add it to your wishlist, and we will soon notify you when it is officially available for use.
           {/*<a className="text-slate-800 mx-1" href="https://github.com/nutriadoc/nutriadoc">https://github.com/nutriadoc/nutriadoc</a>.*/}
         </div>
+        <WantList />
         {/*<div className="flex flex-col gap-2">*/}
         {/*  <input*/}
         {/*    className='rounded-lg border border-gray-500 p-2'*/}

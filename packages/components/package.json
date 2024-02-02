@@ -23,8 +23,9 @@
     "registry": "https://registry.npmjs.com/"
   },
   "scripts": {
-    "dev": "webpack serve --mode development",
+    "dev": "vite dev",
     "build": "vite build",
+    "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

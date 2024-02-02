@@ -4,10 +4,10 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
 
   build: {
-    cssCodeSplit: false,
+    cssCodeSplit: true,
     sourcemap: true,
-    minify: true,
-    cssMinify: true,
+    minify: false,
+    cssMinify: false,
 
     lib: {
       // Could also be a dictionary or array of multiple entry points
@@ -15,12 +15,13 @@ export default defineConfig({
       name: '@nutriadoc/components',
       // the proper extensions will be added
       fileName: (format) => `[name].${format}.js`,
-      formats: ['es', /*'umd'*/]
+      formats: ['es', /*'umd'*/],
     },
     rollupOptions: {
       input: {
         ring: resolve(__dirname, 'src/ring/index.ts'),
         main: resolve(__dirname, 'src/index.ts'),
+        landing_page: resolve(__dirname, 'src/landing_page/index.ts'),
       },
       external: [
         '@nutriadoc/classes'
@@ -28,7 +29,9 @@ export default defineConfig({
       output: {
         globals: {
         },
-        inlineDynamicImports: false,
+        // inlineDynamicImports: false,
+
+        // manualChunks: {},
       },
       plugins: [
         dts()
