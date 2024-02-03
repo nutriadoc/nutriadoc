@@ -1,0 +1,19 @@
+.field-message {
+  width: fit-content;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px
+}
+
+.field-message-error,
+.field-message-warning,
+.field-message-success {
+  color: white;
+}
+
+.field-message-success {
+  background-color: #198754;
+}
+
+.field-message-error {
+  background-color: #DC3545;
+}
