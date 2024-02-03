@@ -363,6 +363,12 @@ export default class View extends EventTarget implements IView, EventTarget {
     this.element.classList.remove(...name)
   }
 
+  removeAllClass() {
+    this.element.className = ""
+    const className = this.attributes.get('class') as ClassName | undefined
+    className?.removeAll()
+  }
+
   getAttribute(key: string): string | undefined {
     return this._attributes.get(key)?.value
   }

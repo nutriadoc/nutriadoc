@@ -49,6 +49,8 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
 
   removeClass(...classes: string[]): void
 
+  removeAllClass(): void
+
   get element(): HTMLElement
 
   get children(): IView[]

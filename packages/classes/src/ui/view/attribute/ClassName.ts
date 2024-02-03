@@ -31,6 +31,10 @@ export default class ClassName extends Attribute {
     this._classes = this.classes.filter(c => !name.includes(c))
   }
 
+  public removeAll() {
+    this._classes = []
+  }
+
   public static merge(className: ClassName[]): ClassName {
     return new ClassName([... new Set(className.map(x => x.classes).flatMap(x => x))])
   }

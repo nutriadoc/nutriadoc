@@ -21,7 +21,6 @@ export default defineConfig({
       input: {
         ring: resolve(__dirname, 'src/ring/index.ts'),
         main: resolve(__dirname, 'src/index.ts'),
-        landing_page: resolve(__dirname, 'src/landing_page/index.ts'),
       },
       external: [
         '@nutriadoc/classes'

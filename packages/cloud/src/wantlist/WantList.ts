@@ -1,19 +1,20 @@
 import {
+  bind,
   className,
   div,
+  id,
+  on,
+  onChange,
+  onClick,
   placeholder,
+  Rules,
   style,
   text,
   type,
   value,
-  View,
-  bind,
-  on,
-  onClick,
-  onChange, id,
-  Rules
+  View
 } from "@nutriadoc/classes"
-import { Input, PrimaryButton } from "@nutriadoc/components"
+import {FieldMessage, FieldMessageLevel, Input, PrimaryButton} from "@nutriadoc/components"
 
 import "@nutriadoc/components/dist/style.css"
 
@@ -40,7 +41,7 @@ export default class WantList extends View {
       className("flex", "flex-1", "gap-4"),
       div(
         id("email-field"),
-        className("flex", "flex-col", "flex-1"),
+        className("flex", "flex-col", "flex-1", "gap-2"),
         new Input(
           id("email"),
           className("flex", "flex-1"),
@@ -57,7 +58,9 @@ export default class WantList extends View {
           }),
           on('blur', () => this.validate())
         ),
-        div(
+        new FieldMessage(
+          FieldMessageLevel.Info,
+          id("fieldMessage"),
           className("error-message"),
           text(model.errorMessage)
         )
@@ -77,13 +80,20 @@ export default class WantList extends View {
 
   validate() {
     const email = this.find(id("email-field"))?.find(id("email"))
+    const fieldMessage = this.find(id("email-field"))?.find(id("fieldMessage")) as FieldMessage
 
     if (!Rules.email(this.model.email)) {
       this.model.errorMessage = "Please enter your email"
       email?.addClass('validation-faild')
+      fieldMessage.level = FieldMessageLevel.Error
+
+      return false
     } else {
-      this.model.errorMessage = ""
+      this.model.errorMessage = "Your email is valid!"
       email?.removeClass('validation-faild')
+      fieldMessage.level = FieldMessageLevel.Success
+
+      return true
     }
   }
 
