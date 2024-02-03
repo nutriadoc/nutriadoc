@@ -17,6 +17,7 @@ import {
 import {FieldMessage, FieldMessageLevel, Input, PrimaryButton} from "@nutriadoc/components"
 
 import "@nutriadoc/components/dist/style.css"
+import Service from "./Service.ts";
 
 interface Subscribe {
 
@@ -29,9 +30,11 @@ export default class WantList extends View {
 
   model: Subscribe
 
+  service: Service = new Service()
+
   constructor() {
     const model: Subscribe = bind({
-      email: "",
+      email: "cj@iuantu.com",
       errorMessage: ""
     })
 
@@ -66,8 +69,10 @@ export default class WantList extends View {
         )
       ),
       div(
+        id("action"),
         new PrimaryButton(
           {},
+          id("add"),
           className("primary-button"),
           text("Subscribe"),
           onClick(() => this.onSubscribe())
@@ -78,26 +83,47 @@ export default class WantList extends View {
     this.model = model
   }
 
+  protected get fieldMessage() {
+    return this.find(id("email-field"))?.find(id("fieldMessage")) as FieldMessage
+  }
+
   validate() {
     const email = this.find(id("email-field"))?.find(id("email"))
-    const fieldMessage = this.find(id("email-field"))?.find(id("fieldMessage")) as FieldMessage
 
-    if (!Rules.email(this.model.email)) {
+    if (!Rules.email(this.model.email.toString())) {
       this.model.errorMessage = "Please enter your email"
       email?.addClass('validation-faild')
-      fieldMessage.level = FieldMessageLevel.Error
+      this.fieldMessage.level = FieldMessageLevel.Error
 
       return false
     } else {
       this.model.errorMessage = "Your email is valid!"
       email?.removeClass('validation-faild')
-      fieldMessage.level = FieldMessageLevel.Success
+      this.fieldMessage.level = FieldMessageLevel.Success
 
       return true
     }
   }
 
-  onSubscribe() {
+  async onSubscribe() {
+    if (!this.validate()) {
+      return
+    }
 
+    const button = this.find(id("action"))?.find(id("add")) as PrimaryButton
+    if (button.isLoading) return
+
+    button.isLoading = true
+
+    try {
+      await this.service.add(this.model.email.toString())
+      this.fieldMessage.level = FieldMessageLevel.Success
+      this.model.errorMessage = "Email added to want list!"
+    } catch (e) {
+      this.model.errorMessage = "Failed to add email to want list, the email is already added?"
+      this.fieldMessage.level = FieldMessageLevel.Error
+    }
+
+    button.isLoading = false
   }
 }
