@@ -2,8 +2,8 @@ import type { StoryObj, Meta } from '@storybook/html';
 import {placeholder} from "@nutriadoc/classes";
 import Input from "../input/Input";
 
-interface ButtonProps {
-
+interface InputArgs {
+  validationField: boolean
 }
 
 const meta = {
@@ -11,12 +11,20 @@ const meta = {
   tags: ['autodocs'],
   render: (args) => {
     const button = new Input(placeholder("Placeholder"))
+    if (args.validationField) {
+      button.addClass("validation-faild")
+    }
     return button.render() as Node
-  }
-} satisfies Meta<ButtonProps>;
+  },
+  argTypes: {
+    validationField: {
+      control:  'boolean'
+    },
+  },
+} satisfies Meta<InputArgs>;
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj<InputArgs>;
 
 export const Primary: Story = {
   args: {

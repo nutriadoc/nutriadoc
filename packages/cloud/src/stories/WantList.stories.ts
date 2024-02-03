@@ -1,13 +1,13 @@
 import type { StoryObj, Meta } from '@storybook/html';
 import {className, Load, placeholder} from "@nutriadoc/classes";
-import { WantList as WantListComponent  } from "../../landing_page"
+import { WantList as WantListComponent  } from "../wantlist"
 
 interface ButtonProps {
 
 }
 
 const meta = {
-  title: 'LandingPage/WantList',
+  title: 'WantList',
   tags: ['autodocs'],
   render: (args) => {
     (async () => {

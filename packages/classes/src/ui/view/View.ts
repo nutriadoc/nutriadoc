@@ -59,15 +59,6 @@ export default class View extends EventTarget implements IView, EventTarget {
     this.assignUnits(new Attribute("data-view-id", this.id.toString()))
   }
 
-  public addClass(...classes: string[]) {
-    if (classes.length === 0) return
-    this._element.classList.add(...classes)
-  }
-
-  public removeClass(...classes: string[]) {
-    this._element.classList.remove(...classes)
-  }
-
   public hide(): void {
     // this._element.classList.remove('visible')
     this._element.classList.add('hidden')
@@ -353,6 +344,27 @@ export default class View extends EventTarget implements IView, EventTarget {
   set parent(value: IView) {
     this._parent = value
 
+  }
+
+  addClass(...name: string[]): void {
+    const className = this.attributes.get('class') as ClassName | undefined
+    if (!className)
+      this.assignUnits(new ClassName(name))
+    else
+      className?.add(...name)
+
+    this.element.classList.add(...name)
+  }
+
+  removeClass(...name: string[]): void {
+    const className = this.attributes.get('class') as ClassName | undefined
+    className?.remove(...name)
+
+    this.element.classList.remove(...name)
+  }
+
+  getAttribute(key: string): string | undefined {
+    return this._attributes.get(key)?.value
   }
 
   static new<T extends View>(tag?: string, ...units: IUnit[]): View {

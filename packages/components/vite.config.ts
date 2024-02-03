@@ -4,7 +4,7 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
 
   build: {
-    cssCodeSplit: true,
+    cssCodeSplit: false,
     sourcemap: true,
     minify: false,
     cssMinify: false,

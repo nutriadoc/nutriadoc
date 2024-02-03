@@ -65,4 +65,6 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
   remove(): void
 
   removeAllChild(): void
+
+  getAttribute(key: string): string | undefined
 }

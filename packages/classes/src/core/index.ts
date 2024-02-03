@@ -12,3 +12,4 @@ export type { default as Link } from "./net/web/Link.ts"
 export * from './file'
 export { default as Optional } from "./util/Optional"
 export * from './package'
+export * from './validator'

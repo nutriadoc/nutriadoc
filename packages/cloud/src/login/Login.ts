@@ -13,7 +13,7 @@ import {
   bind,
   onChange,
   type,
-  on,
+  on, id,
 } from "@nutriadoc/classes"
 import {Input, PrimaryButton} from "@nutriadoc/components"
 import "../index.scss"
@@ -48,7 +48,7 @@ export default class Login extends Floating {
   protected loginHandler = this.onLogin.bind(this)
 
   constructor() {
-    super(Position.BottomLeft,)
+    super(Position.BottomLeft)
 
     const model = this.model = bind<LoginModelBiding>({
       email: "",
@@ -62,6 +62,7 @@ export default class Login extends Floating {
     this.assignUnits(
       className("login"),
       div(
+        id("email-field"),
         className("flex", "flex-col"),
         label(
           className("label"),
@@ -69,6 +70,7 @@ export default class Login extends Floating {
           _for("email")
         ),
         new Input(
+          id("email"),
           name("email"),
           className("input", "flex", "flex-1"),
           placeholder("Please enter your email"),
@@ -132,6 +134,9 @@ export default class Login extends Floating {
   }
 
   protected validateTheEmail() {
+    const input = this.find(id("email-field")).find("email")
+    debugger
+
     if (this.model.email == "" || this.model.email.indexOf("@") == -1) {
       this.model.emailValidationMessage = "Please enter your email, it is required"
       return false

@@ -1,6 +1,7 @@
 :root {
   --input-border-color: #EDEDED;
   --input-border-color-focus: #2383E2;
+  --validation-faild-color: #E04E5C;
 }
 
 .input {
@@ -15,4 +16,8 @@
 
 .input:focus {
   box-shadow: 0 0 0 2px var(--input-border-color-focus);
+}
+
+.validation-faild {
+  box-shadow: 0 0 0 2px var(--validation-faild-color);
 }

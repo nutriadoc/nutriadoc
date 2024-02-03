@@ -2,7 +2,10 @@ import type {StoryObj, Meta} from '@storybook/html'
 import { Login } from "../login"
 import {div, a, href, text, onClick, View, style} from "@nutriadoc/classes"
 
-const meta = {
+interface LoginArgs {
+}
+
+const meta: Meta<LoginArgs> = {
   title: 'LoginStory',
   tags: [],
   render: () => {
@@ -31,11 +34,17 @@ const meta = {
       login
     ).render() as Node
   },
-  argTypes: {},
-} satisfies Meta;
+  argTypes: {
+    validationField: {
+      control: {
+        type: 'boolean',
+      },
+    },
+  },
+}
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<LoginArgs>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const LoginStory: Story = {

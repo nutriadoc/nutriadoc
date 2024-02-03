@@ -55,8 +55,8 @@ export function type(value: string): Attribute {
   return new Attribute("type", value)
 }
 
-export function id(_id: string): Attribute {
-  return new Attribute("id", _id)
+export function id(id: string): Attribute {
+  return new Attribute("id", id)
 }
 
 export function _for(value: string): Attribute {
