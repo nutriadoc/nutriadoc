@@ -25,6 +25,8 @@ export default class EditorLoadContentTask extends Task {
     this.loadFromInnerHtml()
     this.loadFromHtml()
 
+    // console.debug("did load content")
+
     return Promise.resolve()
   }
 

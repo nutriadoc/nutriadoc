@@ -105,12 +105,12 @@ export default abstract class Document extends AbstractDocument {
       const loadTask = new NutriaLoadTask(this.package, loadContent, this._option)
       await loadTask.start()
 
+      this._status = DocumentStatus.Ready
+      this.dispatchEvent(new ReadyEvent())
+
       this.addElement(this.mainToolbar)
       this.addElement(this.inlineContainer)
       this.attachEditor()
-
-      this._status = DocumentStatus.Ready
-      this.dispatchEvent(new ReadyEvent())
 
     }
 

@@ -3,7 +3,7 @@
   --ring-color: rgb(156 163 175);
 }
 
-.ring {
+.ring-progress {
   width: var(--ring-size);
   height: var(--ring-size);
 }
@@ -17,12 +17,12 @@
   }
 }
 
-.ring .infinite {
+.ring-progress .infinite {
   animation: rotate 1.35s linear infinite;
   transform-origin: 50% 50%;
 }
 
-.ring .circle {
+.ring-progress .circle {
   transition: 1.35s stroke-dashoffset ;
   transform: rotate(-90deg);
 

@@ -18,5 +18,7 @@ export default class AssetLoadTask extends Task {
   protected async run(): Promise<void> {
 
     await this.package.load(this.path, this.source)
+
+    // console.debug("did load " + this.path)
   }
 }
