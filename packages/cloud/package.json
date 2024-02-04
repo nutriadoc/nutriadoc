@@ -1,6 +1,6 @@
 {
   "name": "@nutriadoc/cloud",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,6 +13,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.com/"
+  },
   "dependencies": {
     "@nutriadoc/classes": "workspace:*",
     "@nutriadoc/components": "workspace:*"

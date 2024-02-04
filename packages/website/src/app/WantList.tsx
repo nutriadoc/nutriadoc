@@ -1,41 +1,34 @@
 'use client'
 
-import {useCallback, useEffect, useLayoutEffect, useRef} from "react";
+import {useLayoutEffect} from "react";
 
+
+/**
+ * renders the want list, and adds it to the page
+ *
+ * @constructor
+ */
 export default function WantList() {
 
-  const ref = useRef<HTMLDivElement>(null)
-
   useLayoutEffect(() => {
-    console.debug("on load")
-    if (!ref.current) return
-    if (ref.current.children.length > 0) return
+    const container = document.querySelector(".subscribe-container")
+    if (!container) return
+    if (document.getElementById("want-list-script")) return
 
-    (async () => {
-      const component = await window['components']
-      console.debug(component)
-      new component.WantList().addTo(ref.current)
-    })()
-
-    // window.wantList.addTo(ref.current)
-  }, [])
-
-  const onLoad = useCallback(() => {
-
-  }, [])
+    const script = document.createElement("script")
+    script.id = "want-list-script"
+    script.type = 'module'
+    script.innerText  = `
+  import { WantList } from "@nutriadoc/cloud";
+  var container = document.querySelector('.subscribe-container');
+  new WantList().addTo(container)
+ `
+    container.appendChild(script)
+  }, []);
 
   return (
-    <div className={""}>
-      <div ref={ref} className={"subscribe-container"} />
-      <script
-        type={"module"}
-        dangerouslySetInnerHTML={{__html: `
-const components = await import("@nutriadoc/components")
-console.debug("hello components", components)
-// import { WantList } from "@nutriadoc/components"
-// window.wantList = () => new WantList()`
-}}>
-      </script>
-    </div>
+    <>
+      <div className={"subscribe-container"}></div>
+    </>
   )
 }

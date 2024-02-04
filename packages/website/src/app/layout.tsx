@@ -15,8 +15,9 @@ export const metadata: Metadata = {
 }
 const imports = {
   "imports": {
-    "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.2/dist/classes.es.js",
-    "@nutriadoc/components": "http://localhost:4173/main.es.js",
+    "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.4/dist/classes.es.js",
+    "@nutriadoc/components": "https://cdn.jsdelivr.net/npm/@nutriadoc/components@0.0.4/dist/main.es.js",
+    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.5/dist/index.es.js",
   }
 }
 export default function RootLayout({
@@ -28,14 +29,6 @@ export default function RootLayout({
     <html lang="en">
     <head>
       <script type="importmap" dangerouslySetInnerHTML={{__html: JSON.stringify(imports)}}></script>
-      <script src={"http://localhost:4173/landing_page.es.js"} type="module" defer></script>
-      <script
-        dangerouslySetInnerHTML={{__html: `
-window['components'] = import("@nutriadoc/components")
-`}}
-        type="module"
-        defer
-      ></script>
     </head>
     <body className={inter.className}>
     <nav className="container p-4 border-b border-gray-200">

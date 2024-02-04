@@ -1,35 +1,27 @@
 import Nutria from './Nutria'
-import Features from "@/app/Features";
-import Pricing from "@/app/Pricing";
+import Features from "@/app/Features"
+import Pricing from "@/app/Pricing"
 import WantList from "@/app/WantList";
-import {Suspense} from "react";
-
-// import dynamic from 'next/dynamic'
-// const WantList = dynamic(() => import('@/app/WantList'), { ssr: false })
-
 
 export default async function Home() {
   const html = await loadReadme()
+
   return (
     <>
-      <div className="container xl text-left px-10 py-20 md:w-3/6 xl:w-2/6 flex flex-col gap-4">
-        <h1 className="text-2xl font-bold">Collaborate, Offline, Toolbar</h1>
-        <h2>Nutria is a a free rich editor and open source WYSIWYG.</h2>
-        <h2>Use Nutria to help you build an useful editor, where text doesn&apos;t get lost, documents can be edited collaboratively, and the toolbar is like Office Word.</h2>
-      </div>
-      <div className="container xl md:w-3/6 xl:w-2/6 px-10 grid sm:gird-cols-1 lg:grid-cols-2 gap-4">
-        <div className="text-slate-400">
-          This project is still under development, you can add it to your wishlist, and we will soon notify you when it is officially available for use.
-          {/*<a className="text-slate-800 mx-1" href="https://github.com/nutriadoc/nutriadoc">https://github.com/nutriadoc/nutriadoc</a>.*/}
+      <div className={"container grid lg:grid-cols-3 lg:grid-flow-row sm:grid-cols-1 lg:py-40 lg:px-40 p-5"}>
+        {/* px-10 py-20 md:w-3/6 xl:w-2/6 */}
+        <div className="text-left flex flex-col gap-4 col-span-2 lg:px-10 py-10">
+          <h1 className="text-5xl font-bold">Collaborate, Offline, Toolbar</h1>
+          <h2 className={"text-xl"}>Nutria is a a free rich editor and open source WYSIWYG.</h2>
+          <h2 className={"text-xl"}>Use Nutria to help you build an useful editor, where text doesn&apos;t get lost, documents can be edited collaboratively, and the toolbar is like Office Word.</h2>
         </div>
-        <WantList />
-        {/*<div className="flex flex-col gap-2">*/}
-        {/*  <input*/}
-        {/*    className='rounded-lg border border-gray-500 p-2'*/}
-        {/*    placeholder='input your email'*/}
-        {/*  />*/}
-        {/*  <button className="rounded-lg bg-gray-700 text-white p-2">Subscribe</button>*/}
-        {/*</div>*/}
+        <div className="flex flex-col gap-5">
+          <div className="text-slate-400">
+            This project is still under development, you can add it to your wishlist, and we will soon notify you when it
+            is officially available for use.
+          </div>
+          <WantList />
+        </div>
       </div>
       <div className="container main lg pt-20 px-5">
         <div

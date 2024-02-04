@@ -9,31 +9,16 @@ export default defineConfig({
     cssCodeSplit: false,
 
     lib: {
-      // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
       name: '@nutriadoc/cloud',
-      // the proper extensions will be added
       fileName: (format, entryName) => `${entryName}.${format}.js`,
-      formats: ['es',]
+      formats: ['es']
     },
     rollupOptions: {
-      input: {
-        login: resolve(__dirname, 'src/login/index.ts'),
-        console: resolve(__dirname, 'src/console/index.ts'),
-      },
-      external: [
-      ],
       output: {
         inlineDynamicImports: false,
-        // assetFileNames: '[name].[ext]',
-/*        assetFileNames: (assetInfo) => {
-          console.debug(assetInfo)
-          debugger
-          return assetInfo.name
-        }*/
       },
-      plugins: [
-      ],
+      external: [ '@nutriadoc/classes', '@nutriadoc/components' ]
     },
   },
   assetsInclude: ['/sb-preview/runtime.js'],
