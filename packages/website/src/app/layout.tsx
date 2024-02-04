@@ -17,7 +17,7 @@ const imports = {
   "imports": {
     "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.4/dist/classes.es.js",
     "@nutriadoc/components": "https://cdn.jsdelivr.net/npm/@nutriadoc/components@0.0.5/dist/main.es.js",
-    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.6/dist/index.es.js",
+    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.7/dist/index.es.js",
   }
 }
 export default function RootLayout({
@@ -38,38 +38,38 @@ manager.load("@nutriadoc/components/dist/style.css")
 `}}></script>
     </head>
     <body className={inter.className}>
-    <nav className="container p-4 border-b border-gray-200">
-      <div className="flex">
-        <div className="flex flex-1 gap-4">
-          <Image
-            className="logo"
-            src="/assets/logo.png"
-                alt="nutria logo"
+      <nav className="container p-4 border-b border-gray-200">
+        <div className="flex">
+          <div className="flex flex-1 gap-4">
+            <Image
+              className="logo"
+              src="/assets/logo.png"
+              alt="nutria logo"
+              width={20}
+              height={20}
+            />
+            <span>Nutria</span>
+          </div>
+          <div className="flex gap-2">
+            {/*<LoginButton />*/}
+            <a href="https://github.com/nutriadoc/nutriadoc">
+              <Image
+                src="/assets/github.svg"
+                alt="nutria project on github"
                 width={20}
                 height={20}
               />
-              <span>Nutria</span>
-            </div>
-            <div className="flex gap-2">
-              {/*<LoginButton />*/}
-              <a href="https://github.com/nutriadoc/nutriadoc">
-                <Image
-                  src="/assets/github.svg"
-                  alt="nutria project on github"
-                  width={20}
-                  height={20}
-                />
-              </a>
-            </div>
+            </a>
           </div>
-        </nav>
-        
-        {children}
-        <Analytics />
-        <SpeedInsights />
-        <GoogleAnalytics gaId="G-8DHWBN6DWH" />
+        </div>
+      </nav>
 
-      </body>
-    </html>
+      {children}
+      <Analytics />
+      <SpeedInsights />
+      <GoogleAnalytics gaId="G-8DHWBN6DWH" />
+
+    </body>
+  </html>
   )
 }
