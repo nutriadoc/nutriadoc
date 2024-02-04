@@ -14,10 +14,10 @@ import {
   value,
   View
 } from "@nutriadoc/classes"
-import {FieldMessage, FieldMessageLevel, Input, PrimaryButton} from "@nutriadoc/components"
+import {FieldMessage, Input, PrimaryButton} from "@nutriadoc/components"
+import Service from "./Service.ts"
 
 import "@nutriadoc/components/dist/style.css"
-import Service from "./Service.ts";
 
 interface Subscribe {
 
@@ -34,14 +34,14 @@ export default class WantList extends View {
 
   constructor() {
     const model: Subscribe = bind({
-      email: "cj@iuantu.com",
+      email: "",
       errorMessage: ""
     })
 
     super(
       undefined,
       id("wantlist"),
-      className("flex", "flex-1", "gap-4"),
+      className("flex", "flex-col", "flex-1", "gap-4"),
       div(
         id("email-field"),
         className("flex", "flex-col", "flex-1", "gap-2"),
@@ -61,12 +61,12 @@ export default class WantList extends View {
           }),
           on('blur', () => this.validate())
         ),
-        new FieldMessage(
-          FieldMessageLevel.Info,
-          id("fieldMessage"),
-          className("error-message"),
-          text(model.errorMessage)
-        )
+        // new FieldMessage(
+        //   FieldMessageLevel.Info,
+        //   id("fieldMessage"),
+        //   className("error-message"),
+        //   text(model.errorMessage)
+        // )
       ),
       div(
         id("action"),
@@ -74,7 +74,7 @@ export default class WantList extends View {
           {},
           id("add"),
           className("primary-button"),
-          text("Subscribe"),
+          text("Add to want list"),
           onClick(() => this.onSubscribe())
         )
       )
@@ -93,13 +93,13 @@ export default class WantList extends View {
     if (!Rules.email(this.model.email.toString())) {
       this.model.errorMessage = "Please enter your email"
       email?.addClass('validation-faild')
-      this.fieldMessage.level = FieldMessageLevel.Error
+      // this.fieldMessage.level = FieldMessageLevel.Error
 
       return false
     } else {
       this.model.errorMessage = "Your email is valid!"
       email?.removeClass('validation-faild')
-      this.fieldMessage.level = FieldMessageLevel.Success
+      // this.fieldMessage.level = FieldMessageLevel.Success
 
       return true
     }
@@ -117,11 +117,11 @@ export default class WantList extends View {
 
     try {
       await this.service.add(this.model.email.toString())
-      this.fieldMessage.level = FieldMessageLevel.Success
+      // this.fieldMessage.level = FieldMessageLevel.Success
       this.model.errorMessage = "Email added to want list!"
     } catch (e) {
       this.model.errorMessage = "Failed to add email to want list, the email is already added?"
-      this.fieldMessage.level = FieldMessageLevel.Error
+      // this.fieldMessage.level = FieldMessageLevel.Error
     }
 
     button.isLoading = false

@@ -1,5 +1,5 @@
 import {
-  Floating,
+  FloatingView,
   Position,
   className,
   placeholder,
@@ -33,7 +33,7 @@ interface LoginModelBiding {
   passwordValidationMessage: string
 }
 
-export default class Login extends Floating {
+export default class Login extends FloatingView {
 
   protected model: LoginModelBiding
 

@@ -17,7 +17,7 @@ const imports = {
   "imports": {
     "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.4/dist/classes.es.js",
     "@nutriadoc/components": "https://cdn.jsdelivr.net/npm/@nutriadoc/components@0.0.4/dist/main.es.js",
-    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.5/dist/index.es.js",
+    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.6/dist/index.es.js",
   }
 }
 export default function RootLayout({
@@ -29,6 +29,12 @@ export default function RootLayout({
     <html lang="en">
     <head>
       <script type="importmap" dangerouslySetInnerHTML={{__html: JSON.stringify(imports)}}></script>
+      <script type={"module"} defer={true} dangerouslySetInnerHTML={{__html: `
+import { PackageManager } from '@nutriadoc/classes'
+const manager = new PackageManager()
+manager.register({ name: "@nutriadoc/components", version: "0.0.4"})
+manager.load("/@nutriadoc/components/dist/style.css")
+`}}></script>
     </head>
     <body className={inter.className}>
     <nav className="container p-4 border-b border-gray-200">

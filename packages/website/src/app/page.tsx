@@ -26,7 +26,7 @@ export default async function Home() {
       <div className="container main lg pt-20 px-5">
         <div
           id="container"
-          className={"prose"}
+          className={"prose flex justify-center align-middle"}
           // dangerouslySetInnerHTML={{__html: html}}
         >
         </div>
