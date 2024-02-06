@@ -1,9 +1,11 @@
-import Container from "./Container";
+import RouterContainer from "./RouterContainer";
 import {IUnit} from "@nutriadoc/classes";
 
 export * from './decorators'
-export { default as Container } from "./Container"
+export * from "./demo"
 
-export function container(...units: IUnit[]) {
-  return new Container(undefined, ...units)
+export { default as Container } from "./RouterContainer"
+
+export function routerContainer(...units: IUnit[]) {
+  return new RouterContainer(undefined, ...units)
 }

@@ -111,9 +111,6 @@ importers:
       '@nutriadoc/components':
         specifier: workspace:*
         version: link:../components
-      path-to-regexp:
-        specifier: ^6.2.1
-        version: 6.2.1
     devDependencies:
       '@storybook/addon-essentials':
         specifier: 7.6.6
@@ -139,9 +136,6 @@ importers:
       '@types/jest':
         specifier: ^29.5.11
         version: 29.5.11
-      '@types/path-to-regexp':
-        specifier: ^1.7.0
-        version: 1.7.0
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@18.19.9)
@@ -12682,6 +12676,7 @@ packages:
 
   /path-to-regexp@6.2.1:
     resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
+    dev: true
 
   /path-type@3.0.0:
     resolution: {integrity: sha512-T2ZUsdZFHgA3u4e5PfPbjd7HDDpxPnQb5jN0SrDsjNSuVXHJqtwTnWqG0B1jZrgmJ/7lj1EmVIByWt1gxGkWvg==}

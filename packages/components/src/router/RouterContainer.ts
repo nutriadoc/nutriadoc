@@ -1,4 +1,4 @@
-import {IUnit, View} from "@nutriadoc/classes"
+import {View} from "@nutriadoc/classes"
 import RouterListener from "./RouterListener"
 import Router from "./Router"
 import Route from "./Route"
@@ -6,7 +6,7 @@ import Cargo from "./Cargo";
 
 type ViewType = typeof View
 
-export default class Container extends View implements RouterListener<typeof View> {
+export default class RouterContainer extends View implements RouterListener<typeof View> {
 
   protected _router: Router<ViewType>
 
