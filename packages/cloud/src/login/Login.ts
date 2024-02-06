@@ -134,8 +134,7 @@ export default class Login extends FloatingView {
   }
 
   protected validateTheEmail() {
-    const input = this.find(id("email-field")).find("email")
-    debugger
+    const input = this.find(id("email-field"))?.find("email")
 
     if (this.model.email == "" || this.model.email.indexOf("@") == -1) {
       this.model.emailValidationMessage = "Please enter your email, it is required"
