@@ -14,3 +14,5 @@ export { default as Optional } from "./util/Optional"
 export * from './package'
 export * from './validator'
 export * from './model'
+export * from './task'
+export * from './net'

@@ -1,8 +1,6 @@
-import Task from "../../../ui/task/Task.ts";
 import SignFileTask from "./SignFileTask.ts";
-import { KeyFile } from "@/core"
-import mime from "mime"
 import axios from "axios";
+import {KeyFile, Mime, Task} from "@nutriadoc/classes";
 
 export default class UploadFileTask extends Task {
 
@@ -18,7 +16,7 @@ export default class UploadFileTask extends Task {
     const parent = this._parent
 
     const sign = parent.find<SignFileTask>("SignFileTask")
-    const type = mime.getType(this.file.file.type)!
+    const type = Mime.getType(this.file.file.type)
     const instance = axios.create()
 
     await instance.put(sign!.attachment.url.write, this.file.file, {

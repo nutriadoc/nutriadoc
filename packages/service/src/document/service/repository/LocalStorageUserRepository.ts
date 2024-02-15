@@ -1,7 +1,6 @@
 import UserRepository from "./UserRepository.ts";
 import User from "../model/User.ts";
 import { Random } from "@nutriadoc/classes"
-import {randomColor} from "../../../ui/color_picker/Colors.ts";
 
 export default class LocalStorageUserRepository implements UserRepository {
   getUser(): Promise<User> {
@@ -10,7 +9,7 @@ export default class LocalStorageUserRepository implements UserRepository {
     if (item == null) {
       user = {
         name: `User ${Random.getRandomNumber(1, 100000)}`,
-        color: randomColor()
+        color: "",
       }
     } else {
       user = JSON.parse(item)

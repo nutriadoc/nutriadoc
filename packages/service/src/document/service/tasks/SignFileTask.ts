@@ -1,9 +1,7 @@
-import Task from "../../../ui/task/Task.ts";
 import NutriaDocument from "../model/NutriaDocument.ts";
-import { KeyFile} from "@/core"
-import {NutriaApiHost} from "../../../editor/Option.ts";
 import Attachment from "../model/Attachment.ts";
-import attachmentAssembler from "../assembler/AttachmentAssembler.ts";
+import AttachmentAssembler from "../assembler/AttachmentAssembler.ts";
+import {KeyFile, Task} from "@nutriadoc/classes";
 
 export default class SignFileTask extends Task {
 
@@ -37,7 +35,7 @@ export default class SignFileTask extends Task {
     })
     
     const json = await response.json()
-    const assembler = new attachmentAssembler()
+    const assembler = new AttachmentAssembler()
     this._attachment = assembler.fromDTO(json)
 
     return Promise.resolve()

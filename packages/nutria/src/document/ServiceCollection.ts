@@ -6,8 +6,6 @@ import { IView } from "@nutriadoc/classes";
 import UploadService from "../ui/upload/service/UploadService.ts";
 import S3UploadService from "../ui/upload/S3UploadService.ts";
 import {NutriaApiHost} from "../editor/Option.ts";
-import DocumentService from "./service/DocumentService.ts";
-import DefaultDocumentService from "./service/DefaultDocumentService.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import UserAttachmentBehavior from "../editor/behavior/upload/UserAttachmentBehavior.ts";
 import DefaultUserAttachmentBehavior from "../editor/behavior/upload/DefaultUserAttachmentBehavior.ts";
@@ -18,6 +16,7 @@ import DefaultUserPressBehavior from "../editor/behavior/DefaultUserPressBehavio
 import Toolbars from "../ui/toolbar/main/Toolbars.ts";
 import Collaboration from "../editor/collaboration/Collaboration.ts";
 import Document from "./Document.ts";
+import {DocumentService, DefaultDocumentService} from "@nutriadoc/service";
 
 export default class ServiceCollection {
 
@@ -25,7 +24,7 @@ export default class ServiceCollection {
 
   protected _mediaService: UploadService
 
-  protected _documentService: DocumentService = new DefaultDocumentService()
+  protected _documentService: DocumentService = new DefaultDocumentService(NutriaApiHost)
 
   protected _mainToolbar!: Toolbar
 

@@ -1,10 +1,10 @@
 import Document from "../../../document/Document"
-import NutriaDocument from "../../../document/service/model/NutriaDocument"
 import MediaUploader from "../../../ui/media/MediaUploader"
 import Resizable from "../../../ui/resizer/Resizable"
 import ResizeEvent from "../../../ui/resizer/ResizeEvent"
 import QuillDocument from "../../quilljs/QuillDocument"
 import { div, style, View, KeyPool } from "@nutriadoc/classes";
+import { NutriaDocument } from "@nutriadoc/service"
 import { KeyFile } from "@/core"
 
 export default class MediaComponent {

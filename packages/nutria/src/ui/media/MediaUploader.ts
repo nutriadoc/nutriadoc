@@ -1,10 +1,8 @@
 import { View } from "@nutriadoc/classes";
-import NutriaDocument from "../../document/service/model/NutriaDocument.ts";
 import { KeyFile} from "../../core"
 import ProgressIndicator from "../progress_indicator/ProgressIndicator.ts";
 import TaskProgressEvent from "../task/TaskProgressEvent.ts";
-import DocumentService from "../../document/service/DocumentService.ts";
-import Attachment from "../../document/service/model/Attachment.ts";
+import {Attachment, DocumentService, NutriaDocument} from "@nutriadoc/service";
 
 export default class MediaUploader  {
 

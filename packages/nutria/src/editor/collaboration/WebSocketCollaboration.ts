@@ -8,11 +8,12 @@ import Task from "../../ui/task/Task.ts";
 import DocumentLoadTask from "../../document/tasks/DocumentLoadTask.ts";
 import OpenPromise from "../../ui/task/OpenPromise.ts";
 import QuillCursors from "quill-cursors";
-import DocumentService from "../../document/service/DocumentService.ts";
 import QuillDocument from "../quilljs/QuillDocument.ts";
 import QuillEditor from "../quilljs/QuillEditor.ts";
 import Document from "../../document/Document.ts";
 import Delta from "quill-delta";
+import {randomColor} from "@/ui/color_picker/Colors.ts";
+import {DocumentService} from "@nutriadoc/service";
 
 Quill.register('modules/cursors', QuillCursors)
 
@@ -73,6 +74,7 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     )
 
     const user = await this.documentService.getUser()
+    user.color = randomColor()
 
     const awareness = this.provider.awareness
 

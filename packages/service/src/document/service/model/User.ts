@@ -1,4 +1,3 @@
-import {randomColor} from "../../../ui/color_picker/Colors.ts";
 
 export default class User {
 
@@ -8,6 +7,6 @@ export default class User {
 
   constructor(name: string, color?: string) {
     this.name = name
-    this.color = color ?? randomColor()
+    this.color = color ?? "black"
   }
 }

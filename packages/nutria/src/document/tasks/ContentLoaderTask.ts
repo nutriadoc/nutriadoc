@@ -1,11 +1,11 @@
 import Task from "../../ui/task/Task.ts";
 import Option from "../../editor/Option.ts";
-import DocumentService from "../service/DocumentService.ts";
 import ITask from "../../ui/task/ITask.ts";
 import DocumentLoadTask from "./DocumentLoadTask.ts";
 import EditorLoadContentTask from "./EditorLoadContentTask.ts";
 import Editor from "../../editor/Editor.ts";
 import Document from "../Document.ts";
+import {DocumentService} from "@nutriadoc/service";
 
 export default class ContentLoaderTask extends Task {
 

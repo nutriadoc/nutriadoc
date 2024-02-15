@@ -1,9 +1,7 @@
-import Task from "../../../ui/task/Task.ts"
 import SignFileTask from "./SignFileTask.ts";
 import UploadFileTask from "./UploadFileTask.ts";
 import NutriaDocument from "../model/NutriaDocument.ts";
-import TaskProgressEvent from "../../../ui/task/TaskProgressEvent.ts";
-import {KeyFile} from "../../../core";
+import {Task, TaskProgressEvent, KeyFile} from "@nutriadoc/classes";
 
 export default class CreateMediaTask extends Task {
 

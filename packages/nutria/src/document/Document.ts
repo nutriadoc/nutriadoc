@@ -19,11 +19,10 @@ import EditorSelectionChangeEvent from "../editor/events/EditorSelectionChangeEv
 import Toolbars from "../ui/toolbar/main/Toolbars.ts";
 import ServiceCollection from "./ServiceCollection.ts";
 import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
-import NutriaDocument from "./service/model/NutriaDocument.ts";
 import * as Y from "yjs"
 import pkg from "../../package.json"
 import DocumentMutationEvent from "@/document/events/DocumentMutationEvent.ts";
-import {NutriaDocumentAssembler} from "@/document/service";
+import {NutriaDocumentAssembler, NutriaDocument} from "@nutriadoc/service";
 
 export default abstract class Document extends AbstractDocument {
 

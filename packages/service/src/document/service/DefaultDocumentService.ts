@@ -1,12 +1,11 @@
 import DocumentService from "./DocumentService.ts";
 import NutriaDocument from "./model/NutriaDocument.ts";
 import axios, {AxiosInstance} from "axios";
-import {NutriaApiHost} from "@/editor/Option.ts";
 import User from "./model/User.ts";
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
-import { KeyFile} from "../../core";
 import CreateMediaTask from "./tasks/CreateMediaTask.ts";
 import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts";
+import {KeyFile} from "@nutriadoc/classes";
 
 export default class DefaultDocumentService implements DocumentService {
 
@@ -14,9 +13,9 @@ export default class DefaultDocumentService implements DocumentService {
 
   protected userRepository: LocalStorageUserRepository = new LocalStorageUserRepository()
 
-  public constructor() {
+  public constructor(baseUrl: string) {
     this.axios = axios.create({
-      baseURL: `https://${NutriaApiHost}`
+      baseURL: `https://${baseUrl}`
     })
   }
 

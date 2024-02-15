@@ -1,6 +1,6 @@
-import NutriaDocument from "../model/NutriaDocument"
 import AttachmentAssembler from "./AttachmentAssembler"
-import {DocumentNotFoundException} from "@/document";
+import {DocumentNotFoundException} from "../model";
+import NutriaDocument from "../model/NutriaDocument.ts";
 
 export default class NutriaDocumentAssembler {
 
