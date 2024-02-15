@@ -16,6 +16,30 @@ export function div(..._params: IUnit[]): IView {
   return View.new('div').assignUnits(..._params)
 }
 
+export function table(...params: IUnit[]): IView {
+  return View.new('table').assignUnits(...params)
+}
+
+export function tbody(...params: IUnit[]): IView {
+  return View.new('tbody').assignUnits(...params)
+}
+
+export function tr(...params: IUnit[]): IView {
+  return View.new('tr').assignUnits(...params)
+}
+
+export function td(...params: IUnit[]): IView {
+  return View.new('td').assignUnits(...params)
+}
+
+export function th(...params: IUnit[]): IView {
+  return View.new('th').assignUnits(...params)
+}
+
+export function thead(...params: IUnit[]): IView {
+  return View.new('thead').assignUnits(...params)
+}
+
 export function span(...units: IUnit[]): IView {
   return View.new("span").assignUnits(...units)
 }

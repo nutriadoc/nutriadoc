@@ -1,5 +1,5 @@
 export { default as PackageManager } from "./PackageManager.ts"
-export { default as PackageCDN } from "./PackageCDN.ts"
+export { default as PackageCDN } from "./sources/PackageCDN.ts"
 export type { default as Package } from "./Package.ts"
-export { default as JsDelivrCDN } from "./JsDelivrCDN.ts"
 export { default as Load } from "./Load"
+export * from "./sources"

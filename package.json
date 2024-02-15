@@ -7,7 +7,8 @@
     "publish": false
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "http-server -p 3080"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "http-server": "^14.1.1",
     "lerna": "^6.6.1"
   }
 }

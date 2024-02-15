@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { GoogleAnalytics } from '@next/third-parties/google'
+import ClientScript from "@/app/ClientScript"
 
 import './globals.css'
 
@@ -13,13 +14,8 @@ export const metadata: Metadata = {
   title: 'Nutria',
   description: 'Nutria is a feature-rich rich text editor designed to provide a comprehensive set of tools for text formatting, inserting images, videos, and attachments. It offers collaborative editing and communication features, making it a versatile platform for various use cases.',
 }
-const imports = {
-  "imports": {
-    "@nutriadoc/classes": "https://cdn.jsdelivr.net/npm/@nutriadoc/classes@0.0.4/dist/classes.es.js",
-    "@nutriadoc/components": "https://cdn.jsdelivr.net/npm/@nutriadoc/components@0.0.5/dist/main.es.js",
-    "@nutriadoc/cloud": "https://cdn.jsdelivr.net/npm/@nutriadoc/cloud@0.0.7/dist/index.es.js",
-  }
-}
+
+
 export default function RootLayout({
   children,
 }: {
@@ -28,14 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
     <head>
-      <script type="importmap" dangerouslySetInnerHTML={{__html: JSON.stringify(imports)}}></script>
-      <script type={"module"} defer={true} dangerouslySetInnerHTML={{__html: `
-import { PackageManager } from '@nutriadoc/classes'
-import { Ring } from '@nutriadoc/components'
-const manager = new PackageManager()
-manager.register({ name: "@nutriadoc/components", version: "0.0.5"})
-manager.load("@nutriadoc/components/dist/style.css")
-`}}></script>
+      <ClientScript />
     </head>
     <body className={inter.className}>
       <nav className="container p-4 border-b border-gray-200">

@@ -1,18 +1,13 @@
 'use client'
 
 import {useLayoutEffect} from "react"
+import {PackageManager} from "@nutriadoc/classes";
 
-// TODO: 设置文档内容前的事件通知
 export interface NutriaProps {
   html: string
 }
 
 export default function Nutria(props: NutriaProps) {
-  const debug: boolean = false
-  let nutriaUrl = "https://cdn.jsdelivr.net/npm/nutria@0.0.27/dist"
-  if (debug) {
-    nutriaUrl = "http://localhost:4173"
-  }
 
   useLayoutEffect(() => {
     const container = document.getElementById("container")!
@@ -44,7 +39,7 @@ if (!window['Nutria']) {
     document.body.appendChild(script)
 
     const nutriaScript = document.createElement("script")
-    nutriaScript.src = `${nutriaUrl}/nutria.umd.js`
+    nutriaScript.src = PackageManager.shared.getUmdUrl()
     nutriaScript.defer = true
     nutriaScript.id = "nutria-umd"
 

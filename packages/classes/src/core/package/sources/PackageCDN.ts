@@ -1,4 +1,4 @@
-import Package from "./Package.ts";
+import Package from "../Package.ts";
 
 export default abstract class PackageCDN {
 

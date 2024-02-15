@@ -1,5 +1,5 @@
-import Package from "./Package.ts";
-import PackageCDN from "./PackageCDN.ts";
+import {PackageCDN} from "./index.ts";
+import {Package} from "../index.ts";
 
 export default class JsDelivrCDN extends PackageCDN {
 

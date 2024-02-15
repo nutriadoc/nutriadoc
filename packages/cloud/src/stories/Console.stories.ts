@@ -1,23 +1,15 @@
-import type { StoryObj, Meta } from '@storybook/html';
-import Console from "../console/Console.ts";
-
-interface ConsoleProps {
-
-}
+import type { StoryObj, Meta } from '@storybook/html'
+import ConsoleComponent from "../console/Console.ts"
 
 const meta = {
   title: 'Console',
   tags: ['autodocs'],
-  render: (args) => {
-    return new Console().render() as Node
+  render: () => {
+    return new ConsoleComponent().render() as Node
   }
-} satisfies Meta<ConsoleProps>;
+} satisfies Meta
 
 export default meta;
-type Story = StoryObj<ConsoleProps>;
+type Story = StoryObj
 
-export const ConsoleStory: Story = {
-  args: {
-
-  },
-}
+export const Console: Story = { }
