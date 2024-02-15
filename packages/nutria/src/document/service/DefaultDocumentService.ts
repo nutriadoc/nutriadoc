@@ -1,7 +1,7 @@
 import DocumentService from "./DocumentService.ts";
 import NutriaDocument from "./model/NutriaDocument.ts";
 import axios, {AxiosInstance} from "axios";
-import {NutriaApiHost} from "../../editor/Option.ts";
+import {NutriaApiHost} from "@/editor/Option.ts";
 import User from "./model/User.ts";
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
 import { KeyFile} from "../../core";
@@ -20,6 +20,13 @@ export default class DefaultDocumentService implements DocumentService {
     })
   }
 
+  async findDocument(id: string): Promise<NutriaDocument> {
+    const response = await this.axios.get(`/document/${id}`)
+    const json = response.data
+    const assembler = new NutriaDocumentAssembler()
+    return assembler.fromDTO(id, json)
+  }
+
   async findOrCreateDocument(key?: string, workspace?: string): Promise<NutriaDocument> {
     
     const response = await this.axios.post("/document", {
@@ -29,9 +36,7 @@ export default class DefaultDocumentService implements DocumentService {
 
     const json = response.data
     const assembler = new NutriaDocumentAssembler()
-    const doc = assembler.fromDTO(json)
-
-    return doc
+    return assembler.fromDTO(key ?? "", json)
   }
 
   createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask {

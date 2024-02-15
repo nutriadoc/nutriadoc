@@ -12,7 +12,7 @@ export default class Options {
 
   protected loadByContainer() {
     const container = this._option.container?.element
-    if (!container) throw new Error("Container not found")
+    if (!container) return
 
     this._option.containerHTML = container.innerHTML
     container.innerHTML = ""

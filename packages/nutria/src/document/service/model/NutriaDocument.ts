@@ -8,6 +8,8 @@ export default class NutriaDocument {
 
   attachments: Attachment[] = []
 
+  deltas: any[] = []
+
   constructor(id: string, createdAt: Date) {
     this.id = id
     this.createdAt = createdAt

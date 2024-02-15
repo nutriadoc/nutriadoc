@@ -41,6 +41,8 @@ export default interface IView extends IUnit, EventTarget, IDisposable  {
 
   render(): Node | Node[]
 
+  renderNode(): Node
+
   hide(): void
 
   visible(): void

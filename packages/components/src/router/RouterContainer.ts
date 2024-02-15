@@ -42,6 +42,8 @@ export default class RouterContainer extends View implements RouterListener<type
     this.actions.set(cargo, view)
 
     this.add(view)
+
+    console.debug('appearing', {cargo, view})
   }
 
   pop(removing: Cargo<ViewType>, current: Cargo<ViewType>): void {

@@ -5,7 +5,10 @@ const meta = {
   title: 'Console',
   tags: ['autodocs'],
   render: () => {
-    return new ConsoleComponent().render() as Node
+    const console = new ConsoleComponent()
+    console.history.push("/console/documents")
+    console.history.push("/console/document/new")
+    return console.renderNode()
   }
 } satisfies Meta
 

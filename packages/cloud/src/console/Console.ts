@@ -6,6 +6,7 @@ import DocumentList from "./document/list/DocumentList.ts"
 import { History } from 'history'
 
 import "./index.scss"
+import DocumentEdit from "./document/edit/DocumentEdit.ts";
 
 export default class Console extends View {
 
@@ -22,13 +23,18 @@ export default class Console extends View {
       routerContainer(
         Dashboard,
         DocumentList,
+        DocumentEdit,
         id("routerContainer"),
-        className("console-router", "flex", "flex-col")
+        className("console-router", "flex", "flex-col", "flex-1")
       )
     )
 
     this.nav = nav
     nav.element.addEventListener("click", this.navItemClickHandler)
+  }
+
+  render(): Node | Node[] {
+    return super.render();
   }
 
   get routerContainer() {
@@ -43,6 +49,7 @@ export default class Console extends View {
     const { id } = event.target as HTMLElement
 
     if (id == 'documents') {
+      console.debug("push to /console/documents")
       this.history.push("/console/documents")
     }
 

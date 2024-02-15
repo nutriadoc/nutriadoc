@@ -7,10 +7,10 @@ import Options from "./document/Options.ts"
 import "./index.scss"
 // console.debug("current version " + pkg.version)
 
-export function create(element?: string | Element | IView | View | undefined, option?: Option): Document {
-  if (element === undefined) return new QuillDocument(option)
+type ContainerElement = string | Element | IView | View | undefined
 
-  let container: IView
+function initializeElement(element: ContainerElement, option: Option) {
+  let view: IView | undefined
 
   if (typeof element === 'string') {
     const dom = document.querySelector(element)
@@ -19,20 +19,23 @@ export function create(element?: string | Element | IView | View | undefined, op
   }
 
   if (element instanceof HTMLElement)
-    container = new View(element)
+    view = new View(element)
   else if (element instanceof View)
-    container = element
+    view = element
 
-  if (!option) {
-    option = {
-    }
-  }
+  option.container = view
 
-  option.container = container!
+  return view
+}
+
+export function create(element?: ContainerElement, option?: Option): Document {
+  option = option ?? {}
+  let view = initializeElement(element, option)
   option = Options.setup(option)
 
   const doc = new QuillDocument(option)
-  container!.addElement(doc)
+  if (view) view.add(doc)
+
   return doc
 }
 
@@ -47,3 +50,6 @@ if (window) {
     Document,
   }
 }
+
+export * from './editor'
+export * from './document'

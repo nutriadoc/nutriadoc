@@ -1,7 +1,6 @@
 import Option from "../editor/Option.ts";
 import { className, style, PackageManager } from "@nutriadoc/classes";
 import AbstractDocument from "./AbstractDocument.ts";
-import DocumentMutation from "../editor/DocumentMutation.ts";
 import UserBehavior from "../editor/behavior/UserBehavior.ts";
 import DocumentCommandEvent from "./commands/DocumentCommandEvent.ts";
 import TypingCommand from "./commands/TypingCommand.ts";
@@ -23,6 +22,8 @@ import ShortcutKeyBinding from "../editor/shortcut_key/ShortcutKeyBinding.ts";
 import NutriaDocument from "./service/model/NutriaDocument.ts";
 import * as Y from "yjs"
 import pkg from "../../package.json"
+import DocumentMutationEvent from "@/document/events/DocumentMutationEvent.ts";
+import {NutriaDocumentAssembler} from "@/document/service";
 
 export default abstract class Document extends AbstractDocument {
 
@@ -54,7 +55,7 @@ export default abstract class Document extends AbstractDocument {
 
   protected _yText: Y.Text = this._ydoc.getText("quill")
 
-  protected constructor(services: ServiceCollection, option?: Option) {
+  protected constructor(services: ServiceCollection, option: Option) {
 
     super(option, undefined, className("nutria"))
     Document._documents.set(this.element, this)
@@ -121,7 +122,7 @@ export default abstract class Document extends AbstractDocument {
     this.addElement(this._editor)
   }
 
-  protected loadContent(option?: Option): Task {
+  protected loadContent(option: Option): Task {
     const collaboration = this.services.collaboration(this)
     return new ContentLoaderTask(
       option,
@@ -168,10 +169,13 @@ export default abstract class Document extends AbstractDocument {
     return this._editor.getHtml()
   }
 
-  onTextChange(mutation: DocumentMutation, old: DocumentMutation) {
+  onTextChange(event: DocumentMutationEvent) {
+    const { mutation, old } = event
     const cmd = new TypingCommand(mutation, old)
 
     this._behavior.execute(cmd)
+
+    this.option?.textChange?.(new DocumentMutationEvent(mutation, old))
   }
 
   protected onCommand(event: DocumentCommandEvent) {
@@ -196,6 +200,8 @@ export default abstract class Document extends AbstractDocument {
     const observer = new ResizeObserver(_ => {
       this.setupHeight()
     })
+    if (!this._element.parentElement) return
+
     observer.observe(this._element.parentElement!)
   }
 
@@ -288,6 +294,24 @@ export default abstract class Document extends AbstractDocument {
 
   public set data(value: NutriaDocument | undefined) {
     this._data = value
+  }
+
+  public setDocument(value: any) {
+    const assembler = new NutriaDocumentAssembler()
+    if (!('id' in value)) {
+      throw new Error("Document format is invalid")
+    }
+    this._data = assembler.fromDTO(value.id, value)
+
+    // TODO: Move to system behavior
+    this.openCollaboration().then(() => {})
+  }
+
+  async openCollaboration() {
+    const collaborationTask = this.services.collaboration(this)
+
+    // TODO: Make the editor status to be loading
+    await collaborationTask.start()
   }
 
   public get services(): ServiceCollection {

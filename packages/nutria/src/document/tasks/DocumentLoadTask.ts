@@ -9,13 +9,13 @@ export default class DocumentLoadTask extends Task {
 
   protected service: DocumentService
 
-  protected option?: Option
+  protected option: Option
 
   protected _data?: NutriaDocument
 
   protected document: Document
 
-  public constructor(doc: Document, service: DocumentService, option?: Option) {
+  public constructor(doc: Document, service: DocumentService, option: Option) {
     super()
 
     this.document = doc
@@ -24,7 +24,11 @@ export default class DocumentLoadTask extends Task {
   }
 
   protected async run(): Promise<void> {
-    this._data = await this.service.findOrCreateDocument(this.option?.key, this.option?.workspace)
+    if (!!this.option.documentId)
+      this._data = await this.service.findDocument(this.option.documentId)
+    else
+      this._data = await this.service.findOrCreateDocument(this.option.key)
+
     this.document.data = this._data
 
     // TODO: The indexeddb persistence a full database of yjs, but we only need one document.

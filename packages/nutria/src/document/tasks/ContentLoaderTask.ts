@@ -12,17 +12,25 @@ export default class ContentLoaderTask extends Task {
   protected document: Document
 
   public constructor(
-    option: Option | undefined,
+    option: Option,
     editor: Editor,
     doc: Document,
     service: DocumentService,
     collaboration: ITask) {
 
-    super([
-      new DocumentLoadTask(doc, service, option),
-      collaboration,
-      new EditorLoadContentTask(editor, doc, option)
-    ])
+    const enableCollaboration = !!option.documentId || !!option.key
+    let tasks: Task[] = []
+    if (enableCollaboration) {
+      tasks = [
+        new DocumentLoadTask(doc, service, option),
+        collaboration as Task,
+        new EditorLoadContentTask(editor, doc, option)
+      ]
+    } else {
+      tasks = [new EditorLoadContentTask(editor, doc, option)]
+    }
+
+    super(tasks)
 
     this.document = doc
   }

@@ -1,5 +1,6 @@
 import { IView } from "@nutriadoc/classes"
 import { CollaborationOption } from "./collaboration/CollaborationOption.ts"
+import { TextChangeHandler } from "@/editor/events/TextChangeHandler.ts";
 
 export const NutriaApiHost: string = "i.nutria-doc.com"
 export default interface Option {
@@ -12,6 +13,10 @@ export default interface Option {
 
   html?: string
 
+  documentId?: string
+
+  authorization?: string
+
   key?: string
 
   height?: number | string
@@ -23,4 +28,6 @@ export default interface Option {
   delta?: any
 
   excludeCss?: string[]
+
+  textChange?: TextChangeHandler
 }

@@ -1,16 +1,26 @@
-import {className, id, table, tbody, td, text, th, thead, tr, View} from "@nutriadoc/classes";
-import {route} from "@nutriadoc/components";
+import {a, className, div, href, id, table, tbody, td, text, th, thead, tr} from "@nutriadoc/classes";
+import {push, route, RouteView} from "@nutriadoc/components";
 import ConsoleService from "../../service/ConsoleService.ts";
 
 @route("/console/documents")
-export default class DocumentList extends View {
+export default class DocumentList extends RouteView {
 
   protected service: ConsoleService = new ConsoleService()
 
   constructor() {
-    super(
-      undefined,
-      text("Document list"),
+    super()
+  }
+
+  render(): Node | Node[] {
+    this.assignUnits(
+      div(
+        text("Document list"),
+        a(
+          push("/console/document/new", this),
+          href("/console/document/new"),
+          text("New document")
+        )
+      ),
       table(
         id("document-list"),
         className("document-list"),
@@ -29,6 +39,8 @@ export default class DocumentList extends View {
     )
 
     this.renderList().then(() => {})
+
+    return super.render();
   }
 
   async renderList() {

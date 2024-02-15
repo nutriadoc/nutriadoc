@@ -3,8 +3,10 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from "url"
+import dtsPlugin from "vite-plugin-dts";
 
 export default defineConfig({
+  plugins: [dtsPlugin()],
   build: {
     sourcemap: true,
     minify: true,

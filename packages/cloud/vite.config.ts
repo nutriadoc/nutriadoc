@@ -18,7 +18,11 @@ export default defineConfig({
       output: {
         inlineDynamicImports: false,
       },
-      external: [ '@nutriadoc/classes', '@nutriadoc/components' ]
+      external: [
+        '@nutriadoc/classes',
+        '@nutriadoc/components',
+        'nutria',
+      ]
     },
   },
   assetsInclude: ['/sb-preview/runtime.js'],

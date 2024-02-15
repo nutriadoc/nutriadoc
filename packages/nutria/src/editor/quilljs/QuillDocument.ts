@@ -6,7 +6,7 @@ import QuillServiceCollection from "./QuillServiceCollection.ts";
 
 export default class QuillDocument extends Document {
 
-  public constructor(option?: Option) {
+  public constructor(option: Option) {
     const services = new QuillServiceCollection(option)
     super(services, option)
 

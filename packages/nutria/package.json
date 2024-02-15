@@ -9,6 +9,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -16,8 +17,8 @@
   "module": "./dist/nutria.es.js",
   "exports": {
     ".": {
-      "import": "./dist/nutriadoc.js",
-      "require": "./dist/nutriadoc.umd.cjs"
+      "import": "./dist/nutria.es.js",
+      "require": "./dist/nutria.umd.js"
     }
   },
   "publishConfig": {
@@ -45,7 +46,8 @@
     "storybook": "7.6.6",
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2",
-    "vite": "^5"
+    "vite": "^5",
+    "vite-plugin-dts": "^3.7"
   },
   "dependencies": {
     "@nutriadoc/classes": "workspace:*",

@@ -71,19 +71,10 @@ export default class View extends EventTarget implements IView, EventTarget {
 
   public addNode(node: Node | Node[]): void {
     if (node instanceof Node) {
-      this._element.append(node)
-    } else {
-      const nodes = node as Node[]
-      // nodes.forEach(this._element.appendChild)
-
-      nodes.forEach(node => {
-        try {
-          this._element.append(node)
-        } catch(e) {
-          console.error(e)
-        }
-      })
-    }
+      if (!node.parentNode)
+        this._element.append(node)
+    } else
+      node.forEach(this.addNode)
   }
 
   add(view: IView): void
@@ -93,7 +84,7 @@ export default class View extends EventTarget implements IView, EventTarget {
   add(view: View | View[] | IView | IView[]): void {
     if (view instanceof View) {
       this._children.push(view)
-      this._element.append(view._element)
+      this.addNode(view.render())
       view._parent = this
       view.added()
     } else if (Array.isArray(view)) {
@@ -110,12 +101,8 @@ export default class View extends EventTarget implements IView, EventTarget {
       element.forEach(ele => this.addElement(ele))
     } else {
       this._children.push(element)
-      try {
-        element.parent = this
-        this.addNode(element.render())
-      } catch (e) {
-        console.error(e)
-      }
+      element.parent = this
+      this.addNode(element.render())
     }
   }
 
@@ -205,6 +192,8 @@ export default class View extends EventTarget implements IView, EventTarget {
 
 
   render(): Node | Node[] {
+    if (this._rendered) return this._element
+
     if (this.key != '') {
       this._element.setAttribute('data-key', this.key)
     }
@@ -212,16 +201,25 @@ export default class View extends EventTarget implements IView, EventTarget {
     if (this.className) {
       let className: string[]
       className = this.className.split(" ")
-
-      // if (Array.isArray(this.className)) {
-      //   this._element.classList.add(...this.className)
-      // } else {
       className.forEach(name => this._element.classList.add(name))
-        // this._element.classList.add(className)
-      // }
     }
 
+    this.children
+      .map(child => child.render())
+      .forEach(nodes => this.addNode(nodes))
+
+    this._rendered = true
+
     return this._element
+  }
+
+  renderNode() {
+    const node = this.render()
+    if (Array.isArray(node))
+      if (node.length > 1) throw new Error("Node is an array of nodes")
+      else return node[0]
+    else
+      return node
   }
 
   public assignUnits(...units: IUnit[]): IView {
@@ -239,14 +237,18 @@ export default class View extends EventTarget implements IView, EventTarget {
       .concat(className)
 
     units
+      .filter(unit => !!unit)
       .forEach(unit => {
 
       this._units.add(unit)
 
       this.assignAttribute(unit)
 
-      if (unit instanceof View)
-        this.addElement(unit)
+      // replace 'render' in unit of instanceof View
+      // if (Object.keys(unit).includes('render'))
+      if (unit instanceof View || Object.keys(unit).includes('_rendered')) {
+        this.addElement(unit as View)
+      }
 
       this.assignContent(unit)
 

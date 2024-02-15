@@ -22,6 +22,7 @@ export default class Router<T> {
   }
 
   onHistoryListen({action, location}: {action: Action, location: Location}) {
+    console.debug('on history listen', {action ,location})
     switch (action) {
       case Action.Replace:
       case Action.Push: {
