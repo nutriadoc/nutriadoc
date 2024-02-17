@@ -86,6 +86,16 @@ export default class QuillServiceCollection extends ServiceCollection {
                 return window.hljs?.highlight(text, {language})
               }
             }
+          },
+          uploader: {
+            mimetypes: {
+              includes(type: string) {
+                debugger
+              }
+            },
+            handler(range, files) {
+              debugger
+            }
           }
         },
       }

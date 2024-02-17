@@ -43,7 +43,7 @@ export default class QuillModule {
       "formats/attachment": Attachment,
 
       "modules/syntax": Syntax,
-      "modules/uploader": QuillUploader,
+      // "modules/uploader": QuillUploader,
 
     }, true)
 
