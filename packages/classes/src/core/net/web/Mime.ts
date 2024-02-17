@@ -1,6 +1,10 @@
 
 export default class Mime {
 
+  static imageTypes: string[] = [ "jpg", "jpeg", "png", "gif", "svg", "webp", "tiff", "tif", "bmp" ]
+
+  static videoTypes: string[] = [ "mp4", "m4v", "webm", "ogv", "ogg", "aiv", "mov", "wmv", "flv" ]
+
   static implementation: Mime
 
   static shared: Mime = new Mime()
