@@ -7,9 +7,8 @@ export default class PostList extends View {
 
   history: History = {} as any
 
-  constructor() {
-    super(
-      undefined,
+  render(): Node | Node[] {
+    this.assignUnits(
       div(
         a(
           href("#"),
@@ -18,5 +17,6 @@ export default class PostList extends View {
         )
       )
     )
+    return super.render();
   }
 }

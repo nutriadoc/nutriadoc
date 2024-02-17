@@ -111,8 +111,8 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     // console.debug('status', status)
 
     if (status == 'connected') {
-      this.quill.updateContents(this.delta)
-      this.quill.setSelection(this.quill.getLength() + 1, 0, 'silent')
+      // this.quill.updateContents(this.delta)
+      // this.quill.setSelection(this.quill.getLength() + 1, 0, 'silent')
       this.success()
     }
   }

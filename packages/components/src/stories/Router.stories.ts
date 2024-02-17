@@ -7,7 +7,7 @@ interface RouterProps {
 
 const meta = {
   title: 'Router',
-  tags: ['autodocs'],
+  tags: [],
   render: (args) => {
     return new Main().render() as Node
   }

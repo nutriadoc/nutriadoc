@@ -7,7 +7,6 @@ import {ApiServer} from "../../../config/Server.ts"
 
 import "@nutriadoc/classes/dist/style.css"
 import "../../index.scss"
-import RouteParameters from "@nutriadoc/components/dist/router/RouteParameters.ts";
 
 interface DocumentState {
   id: string
@@ -29,7 +28,7 @@ export default class DocumentEdit extends RouteView {
 
   nutria: Document
 
-  parameters: RouteParameters = {} as any
+  parameters: any = {} as any
 
   protected titleChangeHandler = this.onTitleChange.bind(this)
 
@@ -58,9 +57,14 @@ export default class DocumentEdit extends RouteView {
 
   render(): Node | Node[] {
 
+    this.state.id = this.parameters.get("id")
+
+    this.removeAllChild()
+
     this.nutria = create(
       undefined,
       {
+        documentId: this.state.id,
         textChange: this.onTextChange.bind(this)
       }
     )
@@ -105,10 +109,8 @@ export default class DocumentEdit extends RouteView {
       )
     )
 
-    const docId = this.parameters.get("id")
-
-    if (!!docId) {
-      this.documentService.findDocument(docId).then(document => {
+    if (!!this.state.id) {
+      this.documentService.findDocument(this.state.id).then(document => {
 
       })
     }
@@ -148,7 +150,7 @@ export default class DocumentEdit extends RouteView {
       return
     }
 
-    await this.createOrUpdateDocument(isIdEmpty)
+    this.createOrUpdateDocument(isIdEmpty)
   }
 
   async createOrUpdateDocument(isIdEmpty: boolean) {
@@ -170,7 +172,7 @@ export default class DocumentEdit extends RouteView {
       title: this.state.title,
     })
 
-    this.nutria.setDocument(this.state.document)
+    // this.nutria.setDocument(this.state.document)
     this.state.id = this.state.document.id
     this.documentCreating = false
   }
@@ -181,6 +183,7 @@ export default class DocumentEdit extends RouteView {
       key: this.state.key,
       title: this.state.title,
     })
+
     this.state.id = this.state.document.id
   }
 

@@ -15,6 +15,9 @@ export default class DocumentList extends RouteView {
   }
 
   render(): Node | Node[] {
+    if (this._rendered) return this.element as Node
+    this._rendered = true
+
     this.assignUnits(
       div(
         text("Document list"),
@@ -43,12 +46,12 @@ export default class DocumentList extends RouteView {
 
     this.renderList().then(() => {})
 
-    return super.render();
+    return this.element as Node
   }
 
   async renderList() {
     const documents = await this.service.findDocuments(this.page)
-    console.debug('documents', documents)
+
     const views = documents.data.map(document => {
       return tr(
         td(
