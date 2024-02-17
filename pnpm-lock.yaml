@@ -388,6 +388,13 @@ importers:
         version: 3.7.2(typescript@5.3.3)(vite@5.0.12)
 
   packages/quill-attachment:
+    dependencies:
+      '@nutriadoc/classes':
+        specifier: workspace:*
+        version: link:../classes
+      '@nutriadoc/components':
+        specifier: workspace:*
+        version: link:../components
     devDependencies:
       '@storybook/addon-essentials':
         specifier: 7.6.6

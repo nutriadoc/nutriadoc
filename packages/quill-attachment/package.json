@@ -36,5 +36,9 @@
     "typescript": "^5.2.2",
     "vite": "^5",
     "vite-plugin-dts": "^3.7"
+  },
+  "dependencies": {
+    "@nutriadoc/classes": "workspace:*",
+    "@nutriadoc/components": "workspace:*"
   }
 }

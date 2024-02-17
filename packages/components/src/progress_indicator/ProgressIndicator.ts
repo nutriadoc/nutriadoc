@@ -12,6 +12,7 @@ export default class ProgressIndicator extends View {
         backgroundColor: "rgb(0, 120, 212)",
         width: "1%",
         position: "absolute",
+        left: "0px",
         bottom: "0px"
       })
     )
