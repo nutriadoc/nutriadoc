@@ -13,10 +13,14 @@ import {
   bind,
   onChange,
   type,
-  on, id,
+  on, id, style,
 } from "@nutriadoc/classes"
 import {Input, PrimaryButton} from "@nutriadoc/components"
+import {UserService, DefaultUserService} from "@nutriadoc/service"
+import {ApiServer} from "../config/Server.ts"
+
 import "../index.scss"
+
 
 interface LoginModelBiding {
 
@@ -47,6 +51,8 @@ export default class Login extends FloatingView {
 
   protected loginHandler = this.onLogin.bind(this)
 
+  protected service: UserService = new DefaultUserService(ApiServer)
+
   constructor() {
     super(Position.BottomLeft)
 
@@ -61,6 +67,9 @@ export default class Login extends FloatingView {
 
     this.assignUnits(
       className("login"),
+      style({
+        padding: '20px'
+      }),
       div(
         id("email-field"),
         className("flex", "flex-col"),
@@ -155,18 +164,27 @@ export default class Login extends FloatingView {
     }
   }
 
-  protected onLogin() {
+  protected async onLogin(): Promise<void> {
 
     // TODO: fix this find
     const primaryButton = this.findAll(className("actions"))[0]?.children[0] as PrimaryButton
     primaryButton.isLoading = true
 
-    setTimeout(() => {
-      primaryButton.isLoading = false
-    }, 1000)
+
     if (!this.validateTheEmail() || !this.validateThePassword()) return false
 
-    this.hidden()
+    const email = this.model.email.toString()
+    const password = this.model.password.toString()
+
+    try {
+      this.service.login(email, password)
+    } catch (e) {
+
+    }
+
+    primaryButton.isLoading = false
+
+    // this.hidden()
   }
 }
 

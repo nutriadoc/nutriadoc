@@ -22,16 +22,18 @@ const meta: Meta<LoginArgs> = {
 
     setTimeout(() => {
       link.element.click()
-    }, 100);
+    }, 1000);
+
+    (document.querySelector("#storybook-root") as HTMLElement).style.height = "600px"
 
     return div(
       style({
         display: "flex",
         justifyContent: "right",
         flex: 1,
+        position: "relative",
       }),
       link,
-      login
     ).render() as Node
   },
   argTypes: {

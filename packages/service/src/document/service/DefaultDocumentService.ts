@@ -1,26 +1,19 @@
-import DocumentService from "./DocumentService.ts";
-import NutriaDocument from "./model/NutriaDocument.ts";
-import axios, {AxiosInstance} from "axios";
-import User from "./model/User.ts";
-import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts";
-import CreateMediaTask from "./tasks/CreateMediaTask.ts";
-import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts";
-import {KeyFile} from "@nutriadoc/classes";
-import { CreateDocumentCommand, ChangeDocumentCommand } from "./index.ts";
-import DocumentListItem from "./model/DocumentListItem.ts";
-import Pagination from "./model/Pagination.ts";
+import DocumentService from "./DocumentService.ts"
+import NutriaDocument from "./model/NutriaDocument.ts"
+import User from "./model/User.ts"
+import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts"
+import CreateMediaTask from "./tasks/CreateMediaTask.ts"
+import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts"
+import {KeyFile} from "@nutriadoc/classes"
+import { CreateDocumentCommand, ChangeDocumentCommand } from "./index.ts"
+import DocumentListItem from "./model/DocumentListItem.ts"
+import Pagination from "./model/Pagination.ts"
+import BaseService from "../../service/BaseService.ts"
 
-export default class DefaultDocumentService implements DocumentService {
-
-  protected axios: AxiosInstance
+export default class DefaultDocumentService extends BaseService implements DocumentService {
 
   protected userRepository: LocalStorageUserRepository = new LocalStorageUserRepository()
 
-  public constructor(baseUrl: string) {
-    this.axios = axios.create({
-      baseURL: `https://${baseUrl}`
-    })
-  }
 
   async createDocument(cmd: CreateDocumentCommand): Promise<NutriaDocument> {
     const response = await this.axios.post("/document", cmd)
@@ -28,7 +21,7 @@ export default class DefaultDocumentService implements DocumentService {
     return assembler.fromDTO("", response.data)
   }
   async changeDocument(cmd: ChangeDocumentCommand): Promise<NutriaDocument> {
-    const response = await this.axios.put(`/document/${cmd.id}`, cmd)
+    const response = await this.axios.put(`/document`, cmd)
     const assembler = new NutriaDocumentAssembler()
     return assembler.fromDTO(cmd.id, response.data)
   }

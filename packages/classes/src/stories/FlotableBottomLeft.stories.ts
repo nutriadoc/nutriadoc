@@ -26,7 +26,7 @@ const meta: Meta<FloatableArgs> = {
 
     setTimeout(() => {
       floating.visible(login as View)
-    }, 100)
+    }, 1000)
 
     const container = div(
       style({
@@ -37,9 +37,9 @@ const meta: Meta<FloatableArgs> = {
         justifyContent: args.relativePositionX,
         alignItems: args.relativePositionY,
       }),
-      div(style({
-        height: "1300px",
-      })),
+      // div(style({
+      //   height: "1300px",
+      // })),
       div(
         style({ height: "500px"}),
         div(

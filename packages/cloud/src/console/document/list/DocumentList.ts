@@ -15,7 +15,10 @@ export default class DocumentList extends RouteView {
   }
 
   render(): Node | Node[] {
-    if (this._rendered) return this.element as Node
+    if (this._rendered) {
+      this.renderList()
+      return this.element as Node
+    }
     this._rendered = true
 
     this.assignUnits(

@@ -51,8 +51,6 @@ export default class DocumentEdit extends RouteView {
       key: "",
       document: undefined,
     }
-
-    console.debug(this.parameters)
   }
 
   render(): Node | Node[] {
@@ -111,23 +109,27 @@ export default class DocumentEdit extends RouteView {
 
     if (!!this.state.id) {
       this.documentService.findDocument(this.state.id).then(document => {
+        this.state.key = document.key || ''
+        this.state.title = document.title || ''
 
+        this.keyField.setAttribute("value", document.key || '')
+        this.titleField.setAttribute("value", document.title || '')
       })
     }
 
     return super.render();
   }
 
-  async onTitleChange(event: Event) {
-    this.state.title = (event.target as HTMLInputElement).value
+  async onTitleChange() {
+    this.state.title = this.titleField.value
     await this.onModelChanged()
   }
 
   onTitleBlur(_: Event) {
   }
 
-  async onKeyChange(event: Event) {
-    this.state.key = (event.target as HTMLInputElement).value
+  async onKeyChange() {
+    this.state.key = this.keyField.value
     await this.onModelChanged()
   }
 
@@ -193,5 +195,13 @@ export default class DocumentEdit extends RouteView {
 
   get fields() {
     return this.find(id("fields"))!
+  }
+
+  get keyField() {
+    return this.fields.find(id("key-field"))!.find(id("key"))!.element as HTMLInputElement
+  }
+
+  get titleField() {
+    return this.fields.find(id("title-field"))!.find(id("title"))!.element as HTMLInputElement
   }
 }
