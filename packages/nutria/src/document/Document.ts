@@ -295,18 +295,27 @@ export default abstract class Document extends AbstractDocument {
     this._data = value
   }
 
-  public setDocument(value: any) {
-    const assembler = new NutriaDocumentAssembler()
-    if (!('id' in value)) {
-      throw new Error("Document format is invalid")
+  public setDocument(value: NutriaDocument): void
+  public setDocument(value: any): void
+  public setDocument(value: any | NutriaDocument): void {
+    if (value instanceof NutriaDocument) {
+      const assembler = new NutriaDocumentAssembler()
+      if (!('id' in value)) {
+        throw new Error("Document format is invalid")
+      }
+      this._data = assembler.fromDTO(value.id, value)
+    } else {
+      this._data = value
     }
-    this._data = assembler.fromDTO(value.id, value)
 
-    // TODO: Move to system behavior
+    console.debug("set document", this._data)
+
+    // TODO: Move to the system behavior
     this.openCollaboration().then(() => {})
   }
 
   async openCollaboration() {
+    console.debug("open the collaboration")
     const collaborationTask = this.services.collaboration(this)
 
     // TODO: Make the editor status to be loading

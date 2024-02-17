@@ -7,7 +7,7 @@ const meta = {
   render: () => {
     const console = new ConsoleComponent()
     console.history.push("/console/documents")
-    console.history.push("/console/document/new")
+    // console.history.push("/console/document/new")
     return console.renderNode()
   }
 } satisfies Meta

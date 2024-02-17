@@ -57,4 +57,6 @@ export default interface Editor extends IView {
   focus(): void
 
   get isEmpty(): boolean
+
+  suppressTextChangeEvent(): void
 }

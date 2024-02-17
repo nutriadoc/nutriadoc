@@ -59,19 +59,17 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     this.applyInitializeContents()
 
     const docTask = this._parent?.find<DocumentLoadTask>(DocumentLoadTask.name)
-    if (!docTask) return Promise.resolve()
+    let doc = this.document.data ?? docTask?.data
+    if (!doc) return Promise.resolve()
 
-    if (undefined == docTask.data) {
-      this.success()
-      return Promise.resolve()
-    }
 
     this.provider = new WebsocketProvider(
       this.option.ws,
       // 'ws://127.0.0.1:123',
-      docTask.data!.id,
+      doc.id,
       this.ydoc
     )
+
 
     const user = await this.documentService.getUser()
     user.color = randomColor()
@@ -113,9 +111,10 @@ export default class WebsocketCollaboration extends Task implements Collaboratio
     // console.debug('status', status)
 
     if (status == 'connected') {
+      this.quill.updateContents(this.delta)
+      this.quill.setSelection(this.quill.getLength() + 1, 0, 'silent')
       this.success()
     }
-
   }
 
   protected onConnectionError(e: any) {

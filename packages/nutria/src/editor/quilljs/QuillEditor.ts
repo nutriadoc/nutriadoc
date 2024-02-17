@@ -206,7 +206,7 @@ export default class QuillEditor extends AbstractEditor implements Editor {
   }
 
   protected onQuillTextChange(delta: Delta, oldContents: Delta, _: Sources): void {
-    // console.debug("on text change", delta.ops)
+    console.debug("on text change", delta.ops)
 
     // TODO: QuillPatch.patch(this._quill, delta)
 

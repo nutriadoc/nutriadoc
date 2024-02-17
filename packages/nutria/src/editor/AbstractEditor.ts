@@ -11,6 +11,8 @@ export default abstract class AbstractEditor extends View {
 
   protected _height: number = 0
 
+  protected isSuppressTextChangeEvent: boolean = false
+
   protected constructor() {
     super()
   }
@@ -32,6 +34,8 @@ export default abstract class AbstractEditor extends View {
   }
 
   protected onTextChange(mutation: DocumentMutation, old: DocumentMutation): void {
+    if (this.isSuppressTextChangeEvent) return
+
     this.dispatchEvent(new DocumentMutationEvent(mutation, old))
   }
 
@@ -62,5 +66,9 @@ export default abstract class AbstractEditor extends View {
 
   setHtml(html: string): void {
     this._html = html
+  }
+
+  suppressTextChangeEvent(): void {
+    this.isSuppressTextChangeEvent = true
   }
 }

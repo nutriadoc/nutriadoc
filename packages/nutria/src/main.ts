@@ -1,30 +1,52 @@
-// import Quill from 'quill'
-// import 'quill/dist/quill.core.css'
+import { View, IView } from "@nutriadoc/classes"
+import Option from "./editor/Option.ts"
+import Document from "./document/Document.ts"
+import QuillDocument from "./editor/quilljs/QuillDocument.ts"
+import Options from "./document/Options.ts"
 
-// import { QuillBinding } from 'y-quill'
-// import * as Y from "yjs"
-// import { WebsocketProvider} from "y-websocket"
+import "./index.scss"
+// console.debug("current version " + pkg.version)
 
-// var editor = new Quill('#app', {
-//   modules: { toolbar: '#toolbar' },
-//   theme: 'snow',
-// });
+type ContainerElement = string | Element | IView | View | undefined
 
-// const ydoc = new Y.Doc()
-// const text = ydoc.getText("quill")
-// const binding = new QuillBinding(text, editor)
-// const websocket = new WebsocketProvider("ws://localhost:1234", "quill-demo", ydoc)
+function initializeElement(element: ContainerElement, option: Option) {
+  let view: IView | undefined
 
-// import MainToolbar from './toolbar/main/MainToolbar'
-// import 'bootstrap-icons/font/bootstrap-icons.css'
+  if (typeof element === 'string') {
+    const dom = document.querySelector(element)
+    if (!dom) throw new Error(`Element ${element} not found`)
+    element = dom
+  }
 
-// const app = document.getElementById("app")
-// var toolbar = MainToolbar.simple()
-// app?.appendChild(toolbar.render() as Node)
-//
-// const insert = toolbar.findItem("insert")!
-// const helloworld = document.createElement("div")
-// helloworld.innerHTML = "Hello World"
-// const menu = new Floating(insert.element, Position.BottomLeft, [new AbstractElement(helloworld)])
-// toolbar.addElement(menu)
-// toolbar.active("insert")
+  if (element instanceof HTMLElement)
+    view = new View(element)
+  else if (element instanceof View)
+    view = element
+
+  option.container = view
+
+  return view
+}
+
+export function create(element?: ContainerElement, option?: Option): Document {
+  option = option ?? {}
+  let view = initializeElement(element, option)
+  option = Options.setup(option)
+
+  const doc = new QuillDocument(option)
+  if (view) view.add(doc)
+
+  return doc
+}
+
+export interface Nutria {
+  create: typeof create
+  Document: typeof Document
+}
+
+if (window) {
+  window.Nutria = {
+    create,
+    Document,
+  }
+}

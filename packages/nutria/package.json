@@ -1,7 +1,6 @@
 {
   "name": "nutria",
   "version": "0.0.27",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -9,7 +8,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "types": "dist/index.d.ts",
+  "types": "dist/nutria/src/index.d.ts",
   "files": [
     "dist"
   ],

@@ -1,11 +1,14 @@
 import {a, className, div, href, id, table, tbody, td, text, th, thead, tr} from "@nutriadoc/classes";
 import {push, route, RouteView} from "@nutriadoc/components";
-import ConsoleService from "../../service/ConsoleService.ts";
+import {DefaultDocumentService} from "@nutriadoc/service";
+import {ApiServer} from "../../../config/Server.ts";
 
 @route("/console/documents")
 export default class DocumentList extends RouteView {
 
-  protected service: ConsoleService = new ConsoleService()
+  protected service = new DefaultDocumentService(ApiServer)
+
+  protected page: number = 1
 
   constructor() {
     super()
@@ -44,13 +47,26 @@ export default class DocumentList extends RouteView {
   }
 
   async renderList() {
-    const documents = await this.service.fetchDocuments()
-    const views = documents.map(document => {
+    const documents = await this.service.findDocuments(this.page)
+    console.debug('documents', documents)
+    const views = documents.data.map(document => {
       return tr(
-        td(text(document.id)),
-        td(text(document.title)),
-        td(text(document.createdAt)),
-        td(text(document.updatedAt)),
+        td(
+          a(
+            text(document.id),
+            href(`/console/document/edit/${document.id}`),
+            push(`/console/document/edit/${document.id}`, this)
+          )
+        ),
+        td(
+          a(
+            text(document.title || "Untitled"),
+            href(`/console/document/edit/${document.id}`),
+            push(`/console/document/edit/${document.id}`, this)
+          )
+        ),
+        td(text(document.createdAt.toString())),
+        td(text(document.updatedAt.toString())),
       )
     })
 

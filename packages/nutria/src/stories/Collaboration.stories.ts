@@ -1,23 +1,26 @@
 import type {StoryObj, Meta} from '@storybook/html'
 import {create} from "../index"
-// import QuillEditor from "../editor/quilljs/QuillEditor.ts";
+import {button, div, onClick, text, View} from "@nutriadoc/classes";
+import {DefaultDocumentService} from "@nutriadoc/service";
 
 interface CollaborationArgs {
 
   key?: string
 
   workspace?: string
+
+  id?: string
 }
 
-const meta = {
+const meta: Meta<CollaborationArgs> = {
   title: 'Editor/Collaboration',
-  tags: [],
+  tags: ['autodocs'],
   render: (args) => {
 
     const root = document.createElement("div")
     root.innerHTML = `<p>${Math.random()}</p><br />`
     root.className = "root"
-    create(
+    const doc = create(
       root,
       {
         key: args.key,
@@ -26,11 +29,33 @@ const meta = {
     )
     // const quill = (doc.editor as QuillEditor).quill
     // quill.insertText(0, "Hello World")
+    const service = new DefaultDocumentService("i.nutria-doc.com")
+    return div(
+      button(
+        text("Open collaboration"),
+        onClick(async () => {
 
-    return root
+          const document = await service.findDocument("a684ec0e-e654-46b8-9bdd-a2b10441abea")
+          doc.setDocument(document)
+        })
+      ),
+      button(
+        text("Create new document"),
+        onClick(async () => {
+          const document = await service.findOrCreateDocument()
+          doc.setDocument(document)
+        })
+      ),
+      new View(root)
+    ).renderNode()
   },
-  argTypes: {},
-} satisfies Meta<CollaborationArgs>;
+  argTypes: {
+
+    id: {
+      control: 'text',
+    },
+  },
+};
 
 export default meta;
 type Story = StoryObj<CollaborationArgs>;
