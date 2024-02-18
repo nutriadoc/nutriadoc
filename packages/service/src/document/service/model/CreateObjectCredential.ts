@@ -1,4 +1,4 @@
-export default interface Credential {
+export default interface CreateObjectCredential {
 
   endpoint: string
 

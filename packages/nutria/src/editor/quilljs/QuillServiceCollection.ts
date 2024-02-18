@@ -2,7 +2,7 @@ import ServiceCollection from "../../document/ServiceCollection.ts";
 import IFormatter from "../formatter/IFormatter.ts";
 import Formatter from "../formatter/Formatter.ts";
 import Quill from "quill";
-import Option, {NutriaApiHost} from "../Option.ts";
+import Option from "../Option.ts";
 import Editor from "../Editor.ts";
 import QuillEditor from "./QuillEditor.ts";
 import { IView } from "@nutriadoc/classes";
@@ -45,7 +45,7 @@ export default class QuillServiceCollection extends ServiceCollection {
   collaboration(doc: Document): Collaboration {
     return new WebsocketCollaboration(
       doc as QuillDocument,
-      getCollaborationOption(NutriaApiHost, this.option?.collaboration),
+      getCollaborationOption(this.option?.collaboration),
     )
   }
 
@@ -88,14 +88,14 @@ export default class QuillServiceCollection extends ServiceCollection {
             }
           },
           uploader: {
-            mimetypes: {
-              includes(type: string) {
-                debugger
-              }
-            },
-            handler(range, files) {
-              debugger
-            }
+            // mimetypes: {
+            //   includes(type: string) {
+            //     debugger
+            //   }
+            // },
+            // handler(range, files) {
+            //   debugger
+            // }
           }
         },
       }

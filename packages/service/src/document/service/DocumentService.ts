@@ -1,10 +1,11 @@
 import NutriaDocument from "./model/NutriaDocument.ts";
 import User from "./model/User.ts";
-import CreateMediaTask from "./tasks/CreateMediaTask.ts";
+import CreateAttachmentTask from "./tasks/CreateAttachmentTask.ts";
 import {KeyFile} from "@nutriadoc/classes";
 import {ChangeDocumentCommand, CreateDocumentCommand} from "./commands";
 import Pagination from "./model/Pagination.ts";
 import DocumentListItem from "./model/DocumentListItem.ts";
+import {Attachment} from "./model";
 
 export default interface DocumentService {
 
@@ -14,11 +15,13 @@ export default interface DocumentService {
 
   findOrCreateDocument(key?: string, workspace?: string): Promise<NutriaDocument>
 
+  createObjectCredential(document: NutriaDocument, file: KeyFile): Promise<Attachment>
+
   createDocument(cmd: CreateDocumentCommand): Promise<NutriaDocument>
 
   changeDocument(cmd: ChangeDocumentCommand): Promise<NutriaDocument>
 
-  createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask
+  createAttachment(document: NutriaDocument, file: KeyFile): CreateAttachmentTask
 
   getUser(): Promise<User>
 }

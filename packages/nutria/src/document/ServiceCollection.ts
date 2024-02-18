@@ -3,7 +3,7 @@ import Toolbar from "../ui/toolbar/main/Toolbar.ts";
 import IFormatter from "../editor/formatter/IFormatter.ts";
 import Editor from "../editor/Editor.ts";
 import { IView } from "@nutriadoc/classes";
-import {NutriaApiHost} from "../editor/Option.ts";
+import {ApiUrl, NutriaApiHost} from "../editor/Option.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import UserAttachmentBehavior from "../editor/behavior/upload/UserAttachmentBehavior.ts";
 import DefaultUserAttachmentBehavior from "../editor/behavior/upload/DefaultUserAttachmentBehavior.ts";
@@ -20,7 +20,7 @@ export default class ServiceCollection {
 
   protected _editor!: Editor
 
-  protected _documentService: DocumentService = new DefaultDocumentService(NutriaApiHost)
+  protected _documentService: DocumentService = new DefaultDocumentService(ApiUrl)
 
   protected _mainToolbar!: Toolbar
 

@@ -1,7 +1,6 @@
-import { View } from "@nutriadoc/classes";
+import {TaskProgressEvent, View} from "@nutriadoc/classes";
 import { KeyFile} from "../../core"
 import { ProgressIndicator } from "@nutriadoc/components";
-import TaskProgressEvent from "../task/TaskProgressEvent.ts";
 import {Attachment, DocumentService, NutriaDocument} from "@nutriadoc/service";
 
 export default class MediaUploader  {
@@ -32,12 +31,12 @@ export default class MediaUploader  {
 
     const progressHandler = this.onProgress.bind(this)
 
-    const task = this.documentService.createMedia(this.data, this.file)
+    const task = this.documentService.createAttachment(this.data, this.file)
     task.addEventListener('progress', progressHandler)
 
     await task.start()
 
-    this._attachment = task.signTask.attachment!
+    this._attachment = task.createObjectCredentialTask.attachment!
 
     task.removeEventListener('progress', progressHandler)
     this.indicator.remove()

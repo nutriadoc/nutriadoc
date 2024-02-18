@@ -2,13 +2,14 @@ import DocumentService from "./DocumentService.ts"
 import NutriaDocument from "./model/NutriaDocument.ts"
 import User from "./model/User.ts"
 import LocalStorageUserRepository from "./repository/LocalStorageUserRepository.ts"
-import CreateMediaTask from "./tasks/CreateMediaTask.ts"
+import CreateAttachmentTask from "./tasks/CreateAttachmentTask.ts"
 import NutriaDocumentAssembler from "./assembler/NutriaDocumentAssembler.ts"
 import {KeyFile} from "@nutriadoc/classes"
-import { CreateDocumentCommand, ChangeDocumentCommand } from "./index.ts"
+import {CreateDocumentCommand, ChangeDocumentCommand, Attachment} from "./index.ts"
 import DocumentListItem from "./model/DocumentListItem.ts"
 import Pagination from "./model/Pagination.ts"
 import BaseService from "../../service/BaseService.ts"
+import AttachmentAssembler from "./assembler/AttachmentAssembler.ts";
 
 export default class DefaultDocumentService extends BaseService implements DocumentService {
 
@@ -51,8 +52,21 @@ export default class DefaultDocumentService extends BaseService implements Docum
     return assembler.fromDTO(key ?? "", json)
   }
 
-  createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask {
-    return new CreateMediaTask(this.baseUrl, document, file)
+  createAttachment(document: NutriaDocument, file: KeyFile): CreateAttachmentTask {
+    return new CreateAttachmentTask(this, document, file)
+  }
+
+  async createObjectCredential(document: NutriaDocument, file: KeyFile): Promise<Attachment> {
+    const data = {
+      key: file.file.name,
+      size: file.file.size,
+      documentId: document.id,
+    }
+
+    const response = await this.axios.post(`/document/file/sign`, data)
+
+    const assembler = new AttachmentAssembler()
+    return assembler.fromDTO(response.data)
   }
 
   getUser(): Promise<User> {

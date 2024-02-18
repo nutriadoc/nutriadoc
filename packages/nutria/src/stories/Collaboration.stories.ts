@@ -29,7 +29,7 @@ const meta: Meta<CollaborationArgs> = {
     )
     // const quill = (doc.editor as QuillEditor).quill
     // quill.insertText(0, "Hello World")
-    const service = new DefaultDocumentService("i.nutria-doc.com")
+    const service = new DefaultDocumentService("https://i.nutria-doc.com")
     return div(
       button(
         text("Open collaboration"),

@@ -1,5 +1,4 @@
-import SignaturedUrl from "./SignaturedUrl"
-import Credentials from "./Credentials.ts";
+import CreateObjectCredential from "./CreateObjectCredential.ts";
 
 export default class Attachment {
 
@@ -13,18 +12,18 @@ export default class Attachment {
 
   protected _createdAt: Date
 
-  protected _url?: SignaturedUrl
+  protected _readUrl: string
 
-  protected _credentials: Credentials
+  protected _createObjectCredential: CreateObjectCredential
 
-  constructor(id: string, key: string, size: number, type: string, createdAt: Date, url: SignaturedUrl | undefined, credentials: Credentials) {
+  constructor(id: string, key: string, size: number, type: string, createdAt: Date, readUrl: string, createObjectCredential: CreateObjectCredential) {
     this._id = id
     this._key = key
     this._size = size
     this._type = type
     this._createdAt = createdAt
-    this._url = url
-    this._credentials = credentials
+    this._readUrl = readUrl
+    this._createObjectCredential = createObjectCredential
   }
 
   get id(): string {
@@ -47,11 +46,11 @@ export default class Attachment {
     return this._createdAt
   }
 
-  get url(): SignaturedUrl | undefined {
-    return this._url
+  get readUrl(): string {
+    return this._readUrl
   }
 
-  get credentials(): Credentials {
-    return this._credentials
+  get createObjectCredential(): CreateObjectCredential {
+    return this._createObjectCredential
   }
 }

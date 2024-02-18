@@ -121,7 +121,7 @@ export default class MediaComponent {
 
     this.document.data?.addAttachment(uploader.attachment)
 
-    this.blot.format("src", uploader.attachment.url.read)
+    this.blot.format("src", uploader.attachment.readUrl)
     this.blot.format("attachment", uploader.attachment.id)
   }
 

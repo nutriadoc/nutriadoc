@@ -1,8 +1,7 @@
 import Attachment from "../model/Attachment";
 import ImageAttachment from "../model/ImageAttachment";
-import SignaturedUrl from "../model/SignaturedUrl";
 import VideoAttachment from "../model/VideoAttachment";
-import Credentials from "../model/Credentials.ts";
+import CreateObjectCredential from "../model/CreateObjectCredential.ts";
 
 export default class AttachmentAssembler {
   
@@ -31,8 +30,8 @@ export default class AttachmentAssembler {
       dto.size,
       dto.type,
       new Date(dto.createdAt),
-      dto.url as SignaturedUrl,
-      dto.credentials as Credentials
+      dto.readUrl as string,
+      dto.createObjectCredential as CreateObjectCredential
     )
 
     return attachment

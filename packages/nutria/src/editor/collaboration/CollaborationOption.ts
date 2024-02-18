@@ -1,6 +1,7 @@
+import {NutriaApiHost} from "@/editor/Option.ts"
 
-export function getCollaborationOption(nutriaApiHost: string, option?: CollaborationOption): CollaborationOption {
-  if (undefined == option) return { ws: `wss://${nutriaApiHost}/ws` }
+export function getCollaborationOption(option?: CollaborationOption): CollaborationOption {
+  if (undefined == option) return { ws: `wss://${NutriaApiHost}/ws` }
   return option
 }
 

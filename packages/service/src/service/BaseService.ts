@@ -12,7 +12,7 @@ export default abstract class BaseService {
     const token = localStorage.getItem("token")
 
     const config: CreateAxiosDefaults = {
-      baseURL: `http://${baseUrl}`
+      baseURL: `${baseUrl}`
     }
     if (!!token)
       config.headers = {

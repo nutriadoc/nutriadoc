@@ -1,8 +1,8 @@
 import axios from "axios"
-import {KeyFile, Mime, Task} from "@nutriadoc/classes"
-import SignFileTask from "./SignFileTask.ts";
+import {KeyFile, Task} from "@nutriadoc/classes"
+import CreateObjectCredentialTask from "./CreateObjectCredentialTask.ts";
 
-export default class UploadFileTask extends Task {
+export default class UploadObjectTask extends Task {
 
   protected file: KeyFile
 
@@ -12,14 +12,13 @@ export default class UploadFileTask extends Task {
   }
 
   protected async run(): Promise<void> {
-    const sign: SignFileTask = this.parent.children[0]
-    const type = Mime.shared.getType(this.file.file.type)
+    const credentialTask = this.parent!.children[0] as CreateObjectCredentialTask
+
     const instance = axios.create()
 
-    const credential = sign.attachment.credentials.write!
+    const credential = credentialTask.attachment.createObjectCredential
 
     const form = new FormData()
-
     form.append("key", credential.key)
     form.append("policy", credential.policy)
     form.append("Signature", credential.signature)
