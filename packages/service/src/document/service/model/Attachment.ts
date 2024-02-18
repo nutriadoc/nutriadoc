@@ -1,4 +1,5 @@
 import SignaturedUrl from "./SignaturedUrl"
+import Credentials from "./Credentials.ts";
 
 export default class Attachment {
 
@@ -12,16 +13,18 @@ export default class Attachment {
 
   protected _createdAt: Date
 
-  protected _url: SignaturedUrl
+  protected _url?: SignaturedUrl
 
+  protected _credentials: Credentials
 
-  constructor(id: string, key: string, size: number, type: string, createdAt: Date, url: SignaturedUrl) {
+  constructor(id: string, key: string, size: number, type: string, createdAt: Date, url: SignaturedUrl | undefined, credentials: Credentials) {
     this._id = id
     this._key = key
     this._size = size
     this._type = type
     this._createdAt = createdAt
     this._url = url
+    this._credentials = credentials
   }
 
   get id(): string {
@@ -44,8 +47,11 @@ export default class Attachment {
     return this._createdAt
   }
 
-  get url(): SignaturedUrl {
+  get url(): SignaturedUrl | undefined {
     return this._url
   }
 
+  get credentials(): Credentials {
+    return this._credentials
+  }
 }

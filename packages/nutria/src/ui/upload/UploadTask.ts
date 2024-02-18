@@ -1,5 +1,6 @@
-import Task from "../task/Task.ts"
 // import DataStore from "../../core/data/DataStore.ts";
+
+import {Task} from "@nutriadoc/classes";
 
 export default class UploadTask extends Task {
 

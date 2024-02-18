@@ -7,4 +7,6 @@ export default interface ITask extends EventTarget {
   get parent(): ITask | undefined
 
   set parent(parent: ITask)
+
+  get children(): ITask[]
 }

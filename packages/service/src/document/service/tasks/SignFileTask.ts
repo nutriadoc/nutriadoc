@@ -11,28 +11,31 @@ export default class SignFileTask extends Task {
 
   protected _attachment!: Attachment
 
-  constructor(document: NutriaDocument, file: KeyFile) {
+  protected apiServer: string
+
+  constructor(apiServer: string, document: NutriaDocument, file: KeyFile) {
     super()
+    this.apiServer = apiServer
     this.document = document
     this.file = file
   }
 
   protected async run(): Promise<void> {
 
-    const baseUrl = NutriaApiHost
     const data = {
       key: this.file.file.name,
       size: this.file.file.size,
       documentId: this.document.id,
     }
 
-    const response = await fetch(`https://${baseUrl}/document/file/sign`, {
+    const response = await fetch(`http://${this.apiServer}/document/file/sign`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
     })
+
     
     const json = await response.json()
     const assembler = new AttachmentAssembler()

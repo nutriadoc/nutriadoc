@@ -1,8 +1,8 @@
-import Task from "../../ui/task/Task.ts";
 import Option from "../../editor/Option.ts";
 import Editor from "../../editor/Editor.ts";
 import Document from "../Document.ts";
 import QuillEditor from "../../editor/quilljs/QuillEditor.ts";
+import {Task} from "@nutriadoc/classes";
 
 export default class EditorLoadContentTask extends Task {
 

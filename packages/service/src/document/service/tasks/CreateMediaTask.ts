@@ -9,9 +9,9 @@ export default class CreateMediaTask extends Task {
 
   protected _signTask: SignFileTask
 
-  constructor(document: NutriaDocument, file: KeyFile) {
+  constructor(apiServer: string, document: NutriaDocument, file: KeyFile) {
     const uploadTask = new UploadFileTask(file)
-    const signTask = new SignFileTask(document, file)
+    const signTask = new SignFileTask(apiServer, document, file)
 
     super([
       signTask,

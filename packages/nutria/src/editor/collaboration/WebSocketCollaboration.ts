@@ -4,9 +4,7 @@ import { WebsocketProvider} from "y-websocket"
 import Quill from "quill"
 import Collaboration from "./Collaboration.ts"
 import {CollaborationOption} from "./CollaborationOption.ts"
-import Task from "../../ui/task/Task.ts";
 import DocumentLoadTask from "../../document/tasks/DocumentLoadTask.ts";
-import OpenPromise from "../../ui/task/OpenPromise.ts";
 import QuillCursors from "quill-cursors";
 import QuillDocument from "../quilljs/QuillDocument.ts";
 import QuillEditor from "../quilljs/QuillEditor.ts";
@@ -14,6 +12,7 @@ import Document from "../../document/Document.ts";
 import Delta from "quill-delta";
 import {randomColor} from "@/ui/color_picker/Colors.ts";
 import {DocumentService} from "@nutriadoc/service";
+import {Task, OpenPromise} from "@nutriadoc/classes";
 
 Quill.register('modules/cursors', QuillCursors)
 

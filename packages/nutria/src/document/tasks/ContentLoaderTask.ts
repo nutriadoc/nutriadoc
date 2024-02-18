@@ -1,11 +1,10 @@
-import Task from "../../ui/task/Task.ts";
 import Option from "../../editor/Option.ts";
-import ITask from "../../ui/task/ITask.ts";
 import DocumentLoadTask from "./DocumentLoadTask.ts";
 import EditorLoadContentTask from "./EditorLoadContentTask.ts";
 import Editor from "../../editor/Editor.ts";
 import Document from "../Document.ts";
 import {DocumentService} from "@nutriadoc/service";
+import {ITask, Task} from "@nutriadoc/classes";
 
 export default class ContentLoaderTask extends Task {
 
@@ -18,7 +17,7 @@ export default class ContentLoaderTask extends Task {
     service: DocumentService,
     collaboration: ITask) {
 
-    const enableCollaboration = !!option.documentId || !!option.key
+    const enableCollaboration = (!!option.documentId || !!option.key) || !!option.autoCreateDocument
     let tasks: Task[] = []
     if (enableCollaboration) {
       tasks = [

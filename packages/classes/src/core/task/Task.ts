@@ -109,6 +109,10 @@ export default class Task extends EventTarget implements ITask {
     return this._tasks.find(t => t.constructor.name === type) as T
   }
 
+  get children(): ITask[] {
+    return this._tasks
+  }
+
   static new(callback: Function, tasks: ITask[] = []): Task {
     const task = new Task(tasks)
     task.run = async () => { callback() }

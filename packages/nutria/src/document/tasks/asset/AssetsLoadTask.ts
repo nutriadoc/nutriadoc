@@ -1,5 +1,4 @@
-import Task from "../../../ui/task/Task.ts"
-import { PackageManager } from "@nutriadoc/classes"
+import {PackageManager, Task} from "@nutriadoc/classes"
 import Option from "../../../editor/Option.ts";
 import AssetLoadTask from "./AssetLoadTask.ts";
 

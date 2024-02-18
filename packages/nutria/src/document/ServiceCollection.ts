@@ -3,8 +3,6 @@ import Toolbar from "../ui/toolbar/main/Toolbar.ts";
 import IFormatter from "../editor/formatter/IFormatter.ts";
 import Editor from "../editor/Editor.ts";
 import { IView } from "@nutriadoc/classes";
-import UploadService from "../ui/upload/service/UploadService.ts";
-import S3UploadService from "../ui/upload/S3UploadService.ts";
 import {NutriaApiHost} from "../editor/Option.ts";
 import MockUploadService from "../ui/upload/MockUploadService.ts";
 import UserAttachmentBehavior from "../editor/behavior/upload/UserAttachmentBehavior.ts";
@@ -22,19 +20,10 @@ export default class ServiceCollection {
 
   protected _editor!: Editor
 
-  protected _mediaService: UploadService
-
   protected _documentService: DocumentService = new DefaultDocumentService(NutriaApiHost)
 
   protected _mainToolbar!: Toolbar
 
-  constructor() {
-    this._mediaService = new S3UploadService('https://' + NutriaApiHost)
-  }
-
-  mediaService(): UploadService {
-    return this._mediaService
-  }
 
   mainToolbar(): Toolbar {
     if (this._mainToolbar) return this._mainToolbar

@@ -52,7 +52,7 @@ export default class DefaultDocumentService extends BaseService implements Docum
   }
 
   createMedia(document: NutriaDocument, file: KeyFile): CreateMediaTask {
-    return new CreateMediaTask(document, file)
+    return new CreateMediaTask(this.baseUrl, document, file)
   }
 
   getUser(): Promise<User> {

@@ -1,6 +1,6 @@
+import axios from "axios"
+import {KeyFile, Mime, Task} from "@nutriadoc/classes"
 import SignFileTask from "./SignFileTask.ts";
-import axios from "axios";
-import {KeyFile, Mime, Task} from "@nutriadoc/classes";
 
 export default class UploadFileTask extends Task {
 
@@ -12,17 +12,23 @@ export default class UploadFileTask extends Task {
   }
 
   protected async run(): Promise<void> {
-    if (!this._parent) return
-    const parent = this._parent
-
-    const sign = parent.find<SignFileTask>("SignFileTask")
-    const type = Mime.getType(this.file.file.type)
+    const sign: SignFileTask = this.parent.children[0]
+    const type = Mime.shared.getType(this.file.file.type)
     const instance = axios.create()
 
-    await instance.put(sign!.attachment.url.write, this.file.file, {
-      headers: {
-        "Content-Type": type,
-      },
+    const credential = sign.attachment.credentials.write!
+
+    const form = new FormData()
+
+    form.append("key", credential.key)
+    form.append("policy", credential.policy)
+    form.append("Signature", credential.signature)
+    form.append("OSSAccessKeyId", credential.accessKey)
+    form.append("x-oss-object-acl", "public-read")
+    form.append("file", this.file.file)
+
+
+    await instance.postForm(credential.endpoint, form, {
       onUploadProgress: (progressEvent) => {
         this.progress(progressEvent.loaded, progressEvent.total ?? 0)
       }

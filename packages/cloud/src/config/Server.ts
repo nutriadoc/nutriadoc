@@ -1,1 +1,1 @@
-export const ApiServer: string = "i.nutria-doc.com"
+export const ApiServer: string = "127.0.0.1:5001"

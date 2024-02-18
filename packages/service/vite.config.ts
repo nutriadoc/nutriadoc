@@ -21,6 +21,7 @@ export default defineConfig({
       // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: [
+        '@nutriadoc/classes'
       ],
       output: {
         // Provide global variables to use in the UMD build

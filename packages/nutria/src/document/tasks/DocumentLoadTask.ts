@@ -1,9 +1,8 @@
-import Task from "../../ui/task/Task.ts";
-import DocumentService from "../service/DocumentService.ts";
 import Option from "../../editor/Option.ts";
-import NutriaDocument from "../service/model/NutriaDocument.ts";
 import Document from "../Document.ts";
 import {IndexeddbPersistence} from "y-indexeddb";
+import {Task} from "@nutriadoc/classes";
+import {DocumentService, NutriaDocument} from "@nutriadoc/service";
 
 export default class DocumentLoadTask extends Task {
 

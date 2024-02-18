@@ -13,7 +13,7 @@ const meta = {
   tags: [],
   render: (args: UploadArgs) => {
   
-    const root = create()
+    const root = create(undefined, { autoCreateDocument: true })
 
     root.addEventListener('ready', async () => {
       await root.behavior.upload.uploadFiles(args.files, 0).then(() => {})

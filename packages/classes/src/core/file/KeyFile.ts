@@ -36,7 +36,7 @@ export default class KeyFile {
   }
 
   get type(): string {
-    const mimeType = Mime.getType(this.file.name)
+    const mimeType = Mime.shared.getType(this.file.name)
     const [type] = mimeType?.split("/") ?? "attachment"
     
     return type == "video" ? 
