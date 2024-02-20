@@ -23,7 +23,8 @@ export default defineConfig({
         main: resolve(__dirname, 'src/index.ts'),
       },
       external: [
-        '@nutriadoc/classes'
+        '@nutriadoc/classes',
+        // 'history'
       ],
       output: {
         globals: {
@@ -38,4 +39,7 @@ export default defineConfig({
     },
   },
   assetsInclude: ['/sb-preview/runtime.js'],
+  define: {
+    'process.env': {}
+  }
 })

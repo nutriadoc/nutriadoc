@@ -1,11 +1,10 @@
 import Document from "../../../document/Document"
 import MediaUploader from "../../../ui/media/MediaUploader"
-import Resizable from "../../../ui/resizer/Resizable"
-import ResizeEvent from "../../../ui/resizer/ResizeEvent"
 import QuillDocument from "../../quilljs/QuillDocument"
 import { div, style, View, KeyPool } from "@nutriadoc/classes";
 import { NutriaDocument } from "@nutriadoc/service"
 import { KeyFile } from "@/core"
+import {ResizeEvent, Resizer} from "@nutriadoc/components";
 
 export default class MediaComponent {
 
@@ -34,7 +33,7 @@ export default class MediaComponent {
       return
     }
 
-    this.resizer = Resizable.loadResizer(target, this.blot.domNode)
+    this.resizer = Resizer.from(target, this.blot.domNode)
     this.resizer.addEventListener('resize', this.resizeHandler)
   }
 

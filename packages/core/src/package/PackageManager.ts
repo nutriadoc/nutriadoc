@@ -6,7 +6,9 @@ export default class PackageManager {
 
   protected packages: Package[] = []
 
-  protected cdn: PackageCDN = new JsDelivrCDN()
+  protected devSource: PackageCDN = new JsDelivrCDN()
+
+  protected source: PackageCDN = new JsDelivrCDN()
 
   static _shared: PackageManager
 
@@ -17,7 +19,7 @@ export default class PackageManager {
 
   constructor(source?: PackageCDN) {
     if (!!source) {
-      this.cdn = source
+      this.devSource = source
     }
   }
 
@@ -28,14 +30,28 @@ export default class PackageManager {
   }
 
   devMode() {
-    this.cdn = new DevSource()
+    this.devSource = new DevSource()
   }
 
   productionMode() {
-    this.cdn = new JsDelivrCDN()
+    this.devSource = new JsDelivrCDN()
   }
 
   dumpImportMap(): any {
+    const imports = {} as any
+    this.packages.forEach(pkg => {
+      const source = pkg.debuggable === false ? this.source : this.devSource
+      imports[pkg.name] = source.getUrl(pkg.module || pkg.main || "", pkg)
+    })
+    return {imports}
+  }
+
+  loadImportMapScript() {
+    const script = document.createElement("script")
+    script.type = "importmap"
+    script.id = "importmap"
+    script.innerHTML = JSON.stringify(this.dumpImportMap())
+    document.head.appendChild(script)
 
   }
 
@@ -46,11 +62,11 @@ export default class PackageManager {
   async load(path: string, source?: string): Promise<void> {
     const pkg = this.packages.find(pkg => pkg.name === path.split('/')[0])
     if (path.endsWith(".css")) {
-      const url = this.cdn.getUrl(path, pkg, source)
+      const url = this.devSource.getUrl(path, pkg, source)
       await Load.loadCSS(url)
     }
     else if (path.endsWith(".js")) {
-      const url = this.cdn.getUrl(path, pkg, source)
+      const url = this.devSource.getUrl(path, pkg, source)
       await Load.loadJS(url)
     }
   }
@@ -58,7 +74,7 @@ export default class PackageManager {
   getUrl(path: string, source?: string): string {
     const pkg = this.getPackage(path)
     if (!pkg) throw new Error("Cannot find the " + path)
-    return this.cdn.getUrl(path, pkg, source)
+    return this.devSource.getUrl(path, pkg, source)
   }
 
   getPackage(path: string): Package | undefined {
@@ -70,6 +86,6 @@ export default class PackageManager {
     if (!pkg?.main) {
       throw new Error("")
     }
-    return this.cdn.getUrl(pkg.main, pkg)
+    return this.devSource.getUrl(pkg.main, pkg)
   }
 }

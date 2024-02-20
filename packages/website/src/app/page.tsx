@@ -4,7 +4,7 @@ import Pricing from "@/app/Pricing"
 import WantList from "@/app/WantList";
 
 export default async function Home() {
-  const html = await loadReadme()
+  // const html = await loadReadme()
 
   return (
     <>
@@ -30,7 +30,7 @@ export default async function Home() {
           // dangerouslySetInnerHTML={{__html: html}}
         >
         </div>
-        <Nutria html={html} />
+        <Nutria html={""} />
 
       </div>
       <div className="bg-slate-50">

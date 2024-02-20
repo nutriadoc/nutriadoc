@@ -4,12 +4,13 @@ import {Package} from "../index.ts";
 export default class JsDelivrCDN extends PackageCDN {
 
   constructor() {
-    super("https://cdn.jsdelivr.net");
+    super("https://cdn.jsdelivr.net/npm")
+    // super("https://esm.run")
   }
 
   getUrl(path: string, pkg?: Package, source?: string): string {
     source = source || "npm"
-    const url = [this.url, "/", source, "/"]
+    const url = [this.url, "/",]
     if (!pkg) {
       url.push(path)
     } else {

@@ -4,7 +4,7 @@ import {Package} from "../index.ts"
 export default class DevSource extends PackageCDN {
 
   constructor() {
-    super("http://localhost:3000");
+    super("http://localhost:3080");
   }
 
   getUrl(path: string, pkg?: Package, _?: string): string {

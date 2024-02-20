@@ -1,8 +1,14 @@
-import {PackageManager} from "@nutriadoc/classes"
+import {PackageManager, Package} from "@nutriadoc/core"
 
-const pkg = PackageManager.shared
+// const pkg = PackageManager.shared
+//
+// const isDev = true
+//
+// let packages = [] as Package[]
 
-pkg.register([
+
+let packages =  [
+
   {
     name: '@nutriadoc/classes',
     version: '0.0.4',
@@ -23,21 +29,42 @@ pkg.register([
     version: '0.0.27',
     module: '/dist/nutria.es.js',
     main: '/dist/nutria.umd.js',
+  },
+  {
+    name: 'history',
+    version: '5.3.0',
+    module: '/index.js',
+    debuggable: false,
   }
-])
+] as Package[]
 
-pkg.isDevMode()
+PackageManager.shared.register(...packages)
+PackageManager.shared.devMode()
 
 export default function ClientScript() {
+  const importMap = JSON.stringify(PackageManager.shared.dumpImportMap(), undefined, 4)
+
   return (
     <>
-      <script type="importmap" dangerouslySetInnerHTML={{__html: JSON.stringify(pkg.dumpImportMap())}}></script>
-      <script type={"module"} defer={true} dangerouslySetInnerHTML={{
-        __html: `
+      {/*      <script id={"load"} type={"module"} defer={true} dangerouslySetInnerHTML={{*/}
+      {/*        __html: `*/}
+      {/*import { PackageManager } from 'http://localhost:3080/packages/core/dist/index.es.js'*/}
+
+      {/*PackageManager.shared.devMode()*/}
+      {/*PackageManager.shared.register(...JSON.parse('${JSON.stringify(packages)}'))*/}
+      {/*try {*/}
+      {/*PackageManager.shared.loadImportMapScript()*/}
+      {/*} catch (error) { debugger }*/}
+      {/*`*/}
+      {/*      }}></script>*/}
+
+
+      <script id={"im"} type="importmap" dangerouslySetInnerHTML={{__html: importMap}}></script>
+      <script id={"load"} type={"module"} defer={true}
+              dangerouslySetInnerHTML={{__html: `
 import { PackageManager } from '@nutriadoc/classes'
-PackageManager.shared.load("@nutriadoc/components/dist/style.css")
-`
-      }}></script>
+PackageManager.shared.register(...JSON.parse('${JSON.stringify(packages)}'))
+`}}></script>
     </>
   )
 }

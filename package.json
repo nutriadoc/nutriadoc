@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "http-server -p 3080"
+    "run": "http-server -p 3080 --cors -c-1"
   },
   "keywords": [],
   "author": "",

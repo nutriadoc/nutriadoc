@@ -11,7 +11,7 @@ export * from "./Time"
 export type { default as Link } from "./net/web/Link.ts"
 export * from './file'
 export { default as Optional } from "./util/Optional"
-export * from './package'
+export * from '@nutriadoc/core'
 export * from './validator'
 export * from './model'
 export * from './task'

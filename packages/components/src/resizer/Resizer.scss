@@ -1,0 +1,65 @@
+:root {
+  --resizer-border-size: 3px;
+  --resizer-handle-size: 8px;
+  --resizer-handle-color: hsl(218,81.8%,56.9%);
+  --resizer-handle-offset: calc(0px - var(--resizer-border-size) - var(--resizer-handle-size) / 2 + 1px);
+}
+
+.resizable {
+  user-select: none;
+  display: inline-block;
+  margin: 0 4px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  img {
+    user-select: none;
+  }
+
+  .border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    border: var(--resizer-border-size) solid var(--resizer-handle-color);
+
+    .handle {
+      position: absolute;
+      width: var(--resizer-handle-size);
+      height: var(--resizer-handle-size);
+      background-color: var(--resizer-handle-color);
+      border: 1px solid white;
+
+      pointer-events: all;
+    }
+
+    .handle-top-left {
+      top: var(--resizer-handle-offset);
+      left: var(--resizer-handle-offset);
+      cursor: nw-resize;
+    }
+
+    .handle-top-right {
+      top: var(--resizer-handle-offset);
+      right: var(--resizer-handle-offset);
+      cursor: ne-resize;
+    }
+
+    .handle-bottom-left {
+      bottom: var(--resizer-handle-offset);
+      left: var(--resizer-handle-offset);
+      cursor: sw-resize;
+    }
+
+    .handle-bottom-right {
+      bottom: var(--resizer-handle-offset);
+      right: var(--resizer-handle-offset);
+      cursor: se-resize;
+    }
+  }
+
+
+}

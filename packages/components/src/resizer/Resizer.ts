@@ -1,7 +1,8 @@
-import { View, className, Direction, Bounding, Point, Size } from "@nutriadoc/classes"
-import ResizeEvent from "./ResizeEvent.ts"
+import {View, className, Direction, Bounding, Point, Size, div} from "@nutriadoc/classes"
+import ResizeEvent from "./ResizeEvent"
+import "./Resizer.scss"
 
-export default class Resizable extends View {
+export default class Resizer extends View {
 
   protected _target: HTMLElement
 
@@ -17,6 +18,8 @@ export default class Resizable extends View {
 
   protected onMouseUpHandler: any = {}
 
+  protected clickHandler = this.onClick.bind(this)
+
   protected clicked?: Point
 
   protected originalSize?: Size
@@ -31,6 +34,10 @@ export default class Resizable extends View {
 
   public queue: Size[] = []
 
+  protected border: HTMLElement
+
+  protected isActive: boolean = false
+
   constructor(target: HTMLElement, element?: HTMLDivElement) {
     element = element ?? document.createElement("div")
     super(element)
@@ -39,38 +46,19 @@ export default class Resizable extends View {
     this.assignUnits(className("resizable"))
 
     this._target = target
-    this.setupTarget(target)
+
+    this.addNode(this._target)
 
     this.onMouseMoveHandler = this.onMouseMove.bind(this)
     this.onMouseDownHandler = this.onMouseDown.bind(this)
     this.onMouseUpHandler = this.onMouseUp.bind(this)
 
-    this.verticalEdgeLine = this.createVerticalEdgeLine()
-    this.horizontalEdgeLine = this.createHorizontalEdgeLine()
+    this.border = this.setupBorder() as HTMLElement
 
     this.setupStyles()
     this.hidden()
 
     this.setupEvents()
-  }
-
-  protected setupTarget(target: HTMLElement) {
-    if (target instanceof HTMLImageElement)
-      this._target.addEventListener('load', this.onImageLoad.bind(this), { once: true})
-    else if (target instanceof HTMLVideoElement)
-      this._target.addEventListener('loadedmetadata', this.onVideoLoad.bind(this), { once: true})
-    this.addNode(this._target)
-  }
-
-  protected onImageLoad(e: Event) {
-    const { width, height} = e.target as HTMLImageElement
-    this.onElementLoad(width, height)
-    
-  }
-
-  protected onVideoLoad(e: Event) {
-    const { videoWidth, videoHeight } = e.target as HTMLVideoElement
-    this.onElementLoad(videoWidth, videoHeight)
   }
 
   protected onElementLoad(width: number, height: number) {
@@ -94,12 +82,22 @@ export default class Resizable extends View {
     this.element.addEventListener("mouseenter", this.onMouseEnter.bind(this))
     this.element.addEventListener("mouseleave", this.onMouseLeave.bind(this))
     this.element.addEventListener("mousedown", this.onMouseDownHandler)
+    this.element.addEventListener("click", this.clickHandler)
 
     document.addEventListener("mouseup", this.onMouseUpHandler)
   }
 
+  protected onClick() {
+    this.isActive = true
+
+    this.visible()
+  }
+
   protected onMouseDown(e: MouseEvent) {
     const rect = this.element.getBoundingClientRect()
+
+    this.onElementLoad(rect.width, rect.height)
+
     const mouse: Point = {
       x: e.clientX - rect.left,
       y: e.clientY - rect.top,
@@ -198,58 +196,42 @@ export default class Resizable extends View {
   }
 
   protected onMouseLeave() {
+    if (this.isActive) return
     this.hidden()
   }
 
   public visible() {
-    this.element.append(this.verticalEdgeLine)
-    this.element.append(this.horizontalEdgeLine)
+    this.element.append(this.border)
   }
 
   public hidden() {
     if (this.resizing) return
 
-    this.verticalEdgeLine.remove()
-    this.horizontalEdgeLine.remove()
+    this.border.remove()
   }
 
-  protected createVerticalEdgeLine(): HTMLElement {
-    const element = document.createElement("div")
-    element.style.position = "absolute"
-    element.style.width = "4px"
-    element.style.right = "0"
-    element.style.bottom = "0px"
-    element.style.top = "0"
-    element.style.cursor = "ew-resize"
-    element.style.backgroundColor = "rgba(0, 0, 0, 0.3)"
-    element.style.borderRadius = "4px"
+  protected setupBorder() {
+    const border = div(className("border"))
+    const element = border.renderNode()
+
+
+    border.add(div(className("handle", "handle-top-left")))
+    border.add(div(className("handle", "handle-top-right")))
+    border.add(div(className("handle", "handle-bottom-left")))
+    border.add(div(className("handle", "handle-bottom-right")))
 
     return element
   }
 
-  protected createHorizontalEdgeLine(): HTMLElement {
-    const element = document.createElement("div")
-
-    element.style.position = "absolute"
-    element.style.height = "4px"
-    element.style.bottom = "0"
-    element.style.left = "0"
-    element.style.right = "0"
-    element.style.cursor = "ns-resize"
-    element.style.backgroundColor = "rgba(0, 0, 0, 0.3)"
-    element.style.borderRadius = "4px"
-
-    return element
-  }
 
   public get target(): Node {
     return this._target
   }
 
 
-  static loadResizer(target: HTMLElement, element?: Node) {
+  static from(target: HTMLElement, element?: Node) {
 
-    return new Resizable(target, element as HTMLDivElement)
+    return new Resizer(target, element as HTMLDivElement)
   }
 
 }

@@ -7,4 +7,6 @@ export default interface Package {
   main?: string
 
   module?: string
+
+  debuggable?: boolean
 }

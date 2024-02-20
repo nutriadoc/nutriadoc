@@ -13,6 +13,9 @@ importers:
 
   packages/classes:
     dependencies:
+      '@nutriadoc/core':
+        specifier: workspace:*
+        version: link:../core
       axios:
         specifier: ^1.6.5
         version: 1.6.6
@@ -256,6 +259,42 @@ importers:
       webpack-dev-server:
         specifier: ^4.15.1
         version: 4.15.1(webpack-cli@5.1.4)(webpack@5.90.0)
+
+  packages/core:
+    devDependencies:
+      '@jest/globals':
+        specifier: ^29.7.0
+        version: 29.7.0
+      '@testing-library/jest-dom':
+        specifier: ^6.4.1
+        version: 6.4.1(@jest/globals@29.7.0)(@types/jest@29.5.11)(jest@29.7.0)
+      '@types/jest':
+        specifier: ^29.5.11
+        version: 29.5.11
+      '@types/node':
+        specifier: '18'
+        version: 18.19.9
+      jest:
+        specifier: ^29.7.0
+        version: 29.7.0(@types/node@18.19.9)
+      jest-environment-jsdom:
+        specifier: ^29.7.0
+        version: 29.7.0
+      ts-jest:
+        specifier: ^29.1.1
+        version: 29.1.2(jest@29.7.0)(typescript@5.3.3)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.3.3
+      vite:
+        specifier: ^5
+        version: 5.0.12(@types/node@18.19.9)
+      vite-jest:
+        specifier: ^0.1.4
+        version: 0.1.4(jest@29.7.0)(vite@5.0.12)
+      vite-plugin-dts:
+        specifier: ^3.7
+        version: 3.7.2(@types/node@18.19.9)(typescript@5.3.3)(vite@5.0.12)
 
   packages/data:
     devDependencies:
@@ -572,9 +611,9 @@ importers:
       '@next/third-parties':
         specifier: ^14.1.0
         version: 14.1.0(next@14.0.4)(react@18.2.0)
-      '@nutriadoc/classes':
+      '@nutriadoc/core':
         specifier: workspace:*
-        version: link:../classes
+        version: link:../core
       '@vercel/analytics':
         specifier: ^1.1.1
         version: 1.1.2
@@ -16578,6 +16617,42 @@ packages:
       terser:
         optional: true
     dependencies:
+      esbuild: 0.19.12
+      postcss: 8.4.33
+      rollup: 4.9.6
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
+  /vite@5.0.12(@types/node@18.19.9):
+    resolution: {integrity: sha512-4hsnEkG3q0N4Tzf1+t6NdN9dg/L3BM+q8SWgbSPnJvrgH2kgdyzfVJwbR1ic69/4uMJJ/3dqDZZE5/WwqW8U1w==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 18.19.9
       esbuild: 0.19.12
       postcss: 8.4.33
       rollup: 4.9.6
