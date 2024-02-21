@@ -143,8 +143,6 @@ export default class Login extends FloatingView {
   }
 
   protected validateTheEmail() {
-    const input = this.find(id("email-field"))?.find("email")
-
     if (this.model.email == "" || this.model.email.indexOf("@") == -1) {
       this.model.emailValidationMessage = "Please enter your email, it is required"
       return false
@@ -171,7 +169,7 @@ export default class Login extends FloatingView {
     primaryButton.isLoading = true
 
 
-    if (!this.validateTheEmail() || !this.validateThePassword()) return false
+    if (!this.validateTheEmail() || !this.validateThePassword()) return
 
     const email = this.model.email.toString()
     const password = this.model.password.toString()

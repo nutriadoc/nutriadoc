@@ -1,9 +1,13 @@
-import { Login } from "../"
+import { Login, Console } from "../"
 
 declare global {
   interface Window {
     cloud: {
-      Login: Login
+      Login: typeof Login,
+      Console: typeof Console
     }
   }
+
 }
+
+var cloud = window.cloud

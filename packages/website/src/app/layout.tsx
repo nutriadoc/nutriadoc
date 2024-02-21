@@ -7,6 +7,8 @@ import { GoogleAnalytics } from '@next/third-parties/google'
 import ClientScript from "@/app/ClientScript"
 
 import './globals.css'
+import Link from "next/link";
+import LoginButton from "@/app/components/login/LoginButton";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,17 +32,19 @@ export default function RootLayout({
       <nav className="container p-4 border-b border-gray-200">
         <div className="flex">
           <div className="flex flex-1 gap-4">
-            <Image
-              className="logo"
-              src="/assets/logo.png"
-              alt="nutria logo"
-              width={20}
-              height={20}
-            />
-            <span>Nutria</span>
+            <Link  className="flex flex-1 gap-4" href={"https://nutria-d.com"}>
+              <Image
+                className="logo"
+                src="/assets/logo.png"
+                alt="nutria logo"
+                width={20}
+                height={20}
+              />
+              <span>Nutria</span>
+            </Link>
           </div>
           <div className="flex gap-2">
-            {/*<LoginButton />*/}
+            <LoginButton />
             <a href="https://github.com/nutriadoc/nutriadoc">
               <Image
                 src="/assets/github.svg"
@@ -57,7 +61,6 @@ export default function RootLayout({
       <Analytics />
       <SpeedInsights />
       <GoogleAnalytics gaId="G-8DHWBN6DWH" />
-
     </body>
   </html>
   )

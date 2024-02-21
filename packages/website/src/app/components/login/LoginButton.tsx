@@ -1,14 +1,23 @@
 'use client'
+
 import Link from "next/link"
-import {useCallback, useEffect, useRef} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 let login: any | undefined = undefined
 
 export default function LoginButton() {
+
+
   const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const isDeveloper = window?.localStorage?.getItem("developer")
+    setVisible(true)
+  })
 
   const onClick = useCallback(() => {
-    const Login = (window as any).cloud.Login
+    const Login = cloud.Login
 
     if (login === undefined) {
       login = new Login()
@@ -20,13 +29,17 @@ export default function LoginButton() {
   }, [])
 
   return (
-    <div
-      ref={ref}
-      style={{
-        position: "relative"
-      }}
-    >
-      <Link style={{position: "relative"}} href={"#"} onClick={onClick}>Login</Link>
-    </div>
+    <>
+      {visible &&
+      <div
+        ref={ref}
+        style={{
+          position: "relative"
+        }}
+      >
+        <Link style={{position: "relative"}} href={"#"} onClick={onClick}>Login</Link>
+      </div>
+        }
+    </>
   )
 }

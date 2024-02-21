@@ -12,6 +12,8 @@
     "build-storybook": "storybook build",
     "jwt": "node bin/jwt.js"
   },
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -43,6 +45,7 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.2.2",
     "vite": "^5",
-    "nutria": "workspace:*"
+    "nutria": "workspace:*",
+    "vite-plugin-dts": "^3.7"
   }
 }

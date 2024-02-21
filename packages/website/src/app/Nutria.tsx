@@ -36,7 +36,7 @@ import { PackageManager } from "@nutriadoc/classes"
 PackageManager.shared.devMode()
 
 const nutriaScript = document.createElement("script")
-console.debug(PackageManager)
+
 nutriaScript.src = PackageManager.shared.getUmdUrl("nutria")
 nutriaScript.defer = true
 nutriaScript.id = "nutria-umd"
@@ -47,7 +47,6 @@ nutriaScript.onload = () => {
 
   const nutria = window['Nutria']
   const doc = nutria.create(container, { key: 'demo-3' })
-  console.debug('on load')
 
   doc.addEventListener("ready", async () => {
 

@@ -46,25 +46,25 @@ export default function ClientScript() {
 
   return (
     <>
-      {/*      <script id={"load"} type={"module"} defer={true} dangerouslySetInnerHTML={{*/}
-      {/*        __html: `*/}
-      {/*import { PackageManager } from 'http://localhost:3080/packages/core/dist/index.es.js'*/}
-
-      {/*PackageManager.shared.devMode()*/}
-      {/*PackageManager.shared.register(...JSON.parse('${JSON.stringify(packages)}'))*/}
-      {/*try {*/}
-      {/*PackageManager.shared.loadImportMapScript()*/}
-      {/*} catch (error) { debugger }*/}
-      {/*`*/}
-      {/*      }}></script>*/}
-
-
-      <script id={"im"} type="importmap" dangerouslySetInnerHTML={{__html: importMap}}></script>
-      <script id={"load"} type={"module"} defer={true}
-              dangerouslySetInnerHTML={{__html: `
+      <script type="importmap" dangerouslySetInnerHTML={{__html: importMap}}></script>
+      <script
+        type={"module"}
+        defer={true}
+        dangerouslySetInnerHTML={{
+          __html: `
 import { PackageManager } from '@nutriadoc/classes'
 PackageManager.shared.register(...JSON.parse('${JSON.stringify(packages)}'))
-`}}></script>
+`
+        }}></script>
+      <script
+        type="module"
+        dangerouslySetInnerHTML={{ __html: `
+import * as CloudModule from '@nutriadoc/cloud'
+console.debug("cloud", CloudModule)
+var cloud = CloudModule
+        `}}>
+
+      </script>
     </>
   )
 }

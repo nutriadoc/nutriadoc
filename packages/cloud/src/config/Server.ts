@@ -1,1 +1,5 @@
-export const ApiServer: string = "127.0.0.1:5001"
+export let ApiServer: string = "https://i.nutria-doc.com"
+
+export function setApiServer(server: string) {
+  ApiServer = server
+}

@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import dtsPlugin from "vite-plugin-dts";
 
 export default defineConfig({
   build: {
@@ -26,4 +27,5 @@ export default defineConfig({
     },
   },
   assetsInclude: ['/sb-preview/runtime.js'],
+  plugins: [ dtsPlugin() ]
 })
